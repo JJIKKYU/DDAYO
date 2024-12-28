@@ -8,7 +8,23 @@
         // Customize the product types for specific package product
         // Default is .staticFramework
         // productTypes: ["Alamofire": .framework,]
-        productTypes: [:]
+        productTypes: [
+            "Alamofire": .framework,
+            "DeviceKit": .framework,
+            "SwiftCollections": .framework,
+            "SwiftUIIntrospect": .framework,
+            "ComposableArchitecture": .framework,
+            "ComposableUserNotifications": .framework,
+            "CustomKeyboardKit": .framework,
+            "Dependencies": .framework,
+            "OrderedCollections": .framework,
+            "Perception": .framework,
+            "CombineSchedulers": .framework,
+            "XCTestDynamicOverlay": .framework,
+            "ConcurrencyExtras": .framework,
+            "IssueReporting": .framework,
+            "PerceptionCore": .framework
+        ]
     )
 #endif
 

@@ -16,10 +16,12 @@ let project = Project(
                     ],
                 ]
             ),
-            sources: ["DDAYO/Sources/**"],
-            resources: ["DDAYO/Resources/**"],
+            sources: ["./Sources/**"],
+            resources: ["./Resources/**"],
             dependencies: [
-                .external(name: "ComposableArchitecture"),
+                .external(name: "ComposableArchitecture", condition: nil),
+
+                .project(target: "FeatureQuiz", path: "../Feature/FeatureQuiz", status: .required, condition: nil)
             ],
             settings: .settings(
                 base: [
@@ -33,7 +35,7 @@ let project = Project(
             product: .unitTests,
             bundleId: "com.jjikkyu.DDAYOTests",
             infoPlist: .default,
-            sources: ["DDAYO/Tests/**"],
+            sources: ["./Tests/**"],
             resources: [],
             dependencies: [.target(name: "DDAYO")]
         ),
