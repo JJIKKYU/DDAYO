@@ -1,4 +1,4 @@
-import ProjectDescription
+@preconcurrency import ProjectDescription
 
 let project = Project(
     name: "DDAYO",
@@ -7,7 +7,7 @@ let project = Project(
             name: "DDAYO",
             destinations: .iOS,
             product: .app,
-            bundleId: "io.tuist.DDAYO",
+            bundleId: "com.jjikkyu.DDAYO",
             infoPlist: .extendingDefault(
                 with: [
                     "UILaunchScreen": [
@@ -18,13 +18,20 @@ let project = Project(
             ),
             sources: ["DDAYO/Sources/**"],
             resources: ["DDAYO/Resources/**"],
-            dependencies: []
+            dependencies: [
+                .external(name: "ComposableArchitecture"),
+            ],
+            settings: .settings(
+                base: [
+                    "DEVELOPMENT_TEAM": "V237TD2AXA"
+                ]
+            )
         ),
         .target(
             name: "DDAYOTests",
             destinations: .iOS,
             product: .unitTests,
-            bundleId: "io.tuist.DDAYOTests",
+            bundleId: "com.jjikkyu.DDAYOTests",
             infoPlist: .default,
             sources: ["DDAYO/Tests/**"],
             resources: [],

@@ -1,4 +1,4 @@
-import ProjectDescription
+@preconcurrency import ProjectDescription
 
 let tuist = Tuist(
 //    Create an account with "tuist auth" and a project with "tuist project create"
