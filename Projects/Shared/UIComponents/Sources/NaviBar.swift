@@ -7,51 +7,95 @@
 
 import SwiftUI
 
-public struct NaviBar: View {
-    public let title: String
-    public let onBack: () -> Void
+public enum NaviBarType {
+    case main    // (타이틀만, 왼쪽 정렬)
+    case quiz    // (백버튼 + 타이틀 + 닫기 버튼)
+    case search  // (검색 필드 + 닫기 버튼)
+}
 
-    public init(title: String, onBack: @escaping () -> Void) {
+public struct NaviBar: View {
+    public let type: NaviBarType
+    public let title: String
+    public var leading1: (() -> Void)? = nil
+    public var leading2: (() -> Void)? = nil
+    public var trailing1: (() -> Void)? = nil
+    public var trailing2: (() -> Void)? = nil
+
+    @Environment(\.presentationMode) var presentationMode
+
+    public init(
+        type: NaviBarType,
+        title: String,
+        leading1: (() -> Void)? = nil,
+        leading2: (() -> Void)? = nil,
+        trailing1: (() -> Void)? = nil,
+        trailing2: (() -> Void)? = nil
+    ) {
+        self.type = type
         self.title = title
-        self.onBack = onBack
+        self.leading1 = leading1
+        self.leading2 = leading2
+        self.trailing1 = trailing1
+        self.trailing2 = trailing2
     }
 
     public var body: some View {
         HStack {
-            Button(action: onBack) {
-                Image(systemName: "chevron.left")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 16, height: 16)
-                    .foregroundColor(.black)
+            navBarContent
+        }
+        .padding()
+    }
+
+    @ViewBuilder
+    private var navBarContent: some View {
+        switch type {
+        case .main:
+            // ✅ 메인: 타이틀만 왼쪽 정렬
+            Text(title)
+                .font(.headline)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+        case .quiz:
+            // ✅ 퀴즈: (백버튼) (타이틀) (닫기 버튼)
+            if let leading1 = leading1 {
+                Button(action: leading1) {
+                    Image(systemName: "chevron.left")
+                        .foregroundColor(.black)
+                }
             }
 
             Spacer()
 
             Text(title)
-                .font(.system(size: 18, weight: .medium))
-                .foregroundColor(.black)
+                .font(.headline)
 
             Spacer()
 
-            Rectangle()
-                .fill(Color.clear)
-                .frame(width: 16, height: 16)
-        }
-        .padding(.horizontal, 16)
-        .frame(height: 44)
-        .background(.white)
-    }
-}
-
-struct NaviBar_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            NaviBar(title: "실기 과목별로 풀기") {
-                print("뒤로 가기 버튼 클릭됨")
+            if let trailing1 = trailing1 {
+                Button(action: trailing1) {
+                    Image(systemName: "xmark")
+                        .foregroundColor(.black)
+                }
             }
-            Spacer()
+
+        case .search:
+            // ✅ 검색: (돋보기 아이콘) (텍스트 필드) (닫기 버튼)
+            if let leading1 = leading1 {
+                Button(action: leading1) {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.black)
+                }
+            }
+
+            TextField("검색어 입력", text: .constant(""))
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+
+            if let trailing1 = trailing1 {
+                Button(action: trailing1) {
+                    Image(systemName: "xmark")
+                        .foregroundColor(.black)
+                }
+            }
         }
-        .previewLayout(.sizeThatFits) // 적절한 크기로 미리보기
     }
 }

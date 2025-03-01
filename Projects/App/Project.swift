@@ -24,9 +24,11 @@ let project = Project(
 
                 // Feature
                 .project(target: "FeatureQuiz", path: "../Feature/FeatureQuiz", status: .required, condition: nil),
+                .project(target: "FeatureStudy", path: "../Feature/FeatureStudy", status: .required, condition: nil),
 
                 // Shared
-                .project(target: "UIComponents", path: "../Shared/UIComponents", status: .required, condition: nil)
+                .project(target: "UIComponents", path: "../Shared/UIComponents", status: .required, condition: nil),
+                .project(target: "Model", path: "../Shared/Model", status: .required, condition: nil)
             ],
             settings: .settings(
                 base: [

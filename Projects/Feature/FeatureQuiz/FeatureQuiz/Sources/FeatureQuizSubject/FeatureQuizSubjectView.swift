@@ -19,9 +19,9 @@ public struct FeatureQuizSubjectView: View {
     public var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             VStack {
-                NaviBar(title: "실기 과목별로 풀기") {
+                NaviBar(type: .quiz, title: "실기 과목별로 풀기", leading1: {
                     print("뒤로가기 버튼 클릭됨")
-                }
+                })
 
                 ScrollView {
                     if let sections = viewStore.subjectList[viewStore.selectedSujbect] {

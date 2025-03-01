@@ -1,14 +1,14 @@
 @preconcurrency import ProjectDescription
 
 let project = Project(
-    name: "FeatureQuiz",
+    name: "FeatureStudy",
     targets: [
         // Framework
         .target(
-            name: "FeatureQuiz",
+            name: "FeatureStudy",
             destinations: .iOS,
             product: .framework,
-            bundleId: "com.jjikktu.FeatureQuiz",
+            bundleId: "com.jjikktu.FeatureStudy",
             infoPlist: .extendingDefault(
                 with: [
                     "UILaunchScreen": [
@@ -17,8 +17,8 @@ let project = Project(
                     ],
                 ]
             ),
-            sources: ["FeatureQuiz/Sources/**"],
-            resources: ["FeatureQuiz/Resources/**"],
+            sources: ["FeatureStudy/Sources/**"],
+            resources: ["FeatureStudy/Resources/**"],
             dependencies: [
                 .external(name: "ComposableArchitecture", condition: nil),
 
@@ -34,14 +34,14 @@ let project = Project(
         ),
         // UnitTests
         .target(
-            name: "FeatureQuizTests",
+            name: "FeatureStudyTests",
             destinations: .iOS,
             product: .unitTests,
-            bundleId: "com.jjikktu.FeatureQuizTests",
+            bundleId: "com.jjikktu.FeatureStudyTests",
             infoPlist: .default,
-            sources: ["FeatureQuiz/Tests/**"],
+            sources: ["FeatureStudy/Tests/**"],
             resources: [],
-            dependencies: [.target(name: "FeatureQuiz")]
+            dependencies: [.target(name: "FeatureStudy")]
         ),
     ]
 )
