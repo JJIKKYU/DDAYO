@@ -1,10 +1,27 @@
 import SwiftUI
+import FirebaseCore
+import ComposableArchitecture
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+  func application(_ application: UIApplication,
+                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    FirebaseApp.configure()
+
+    return true
+  }
+}
 
 @main
 struct DDAYOApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+
+    let tabViewStore: StoreOf<RootFeature> = .init(initialState: RootFeature.State()) {
+        RootFeature()
+    }
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainTabView(store: tabViewStore)
         }
     }
 }

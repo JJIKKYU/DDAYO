@@ -21,6 +21,9 @@ let project = Project(
             resources: ["FeatureQuiz/Resources/**"],
             dependencies: [
                 .external(name: "ComposableArchitecture", condition: nil),
+
+                // Shared
+                .project(target: "UIComponents", path: "../../Shared/UIComponents", status: .required, condition: nil)
             ],
             settings: .settings(
                 base: [
