@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Model
 
 @Reducer
 public struct FeatureQuizPlayReducer {
@@ -14,17 +15,32 @@ public struct FeatureQuizPlayReducer {
 
     @ObservableState
     public struct State: Equatable, Hashable {
-        public init() {}
+        public init(selectedSubject: QuizSubject? = nil) {
+            self.selectedSubject = selectedSubject
+        }
+
+        private let selectedSubject: QuizSubject?
     }
 
     public enum Action {
-        case test
+        case onAppear
+
+        case pressedBackBtn
+        case pressedCloseBtn
     }
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .test:
+            case .onAppear:
+                return .none
+
+            case .pressedBackBtn:
+                print("FeatureQuizPlayReducer :: pressedBackBtn!")
+                return .none
+
+            case .pressedCloseBtn:
+                print("FeatureQuizPlayReducer :: pressedCloseBtn!")
                 return .none
             }
         }

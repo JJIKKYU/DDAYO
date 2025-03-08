@@ -20,7 +20,7 @@ public struct FeatureQuizSubjectView: View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             VStack {
                 NaviBar(type: .quiz, title: "실기 과목별로 풀기", leading1: {
-                    print("뒤로가기 버튼 클릭됨")
+                    viewStore.send(.pressedBackBtn)
                 })
 
                 ScrollView {
@@ -29,6 +29,7 @@ public struct FeatureQuizSubjectView: View {
                             let section = sections[index]
                             QuizButton(title: sections[index].rawValue) {
                                 print("button 터치!")
+                                viewStore.send(.navigateToQuizPlay(sections[index]))
                             }
                             .padding(.horizontal, 20)
                         }

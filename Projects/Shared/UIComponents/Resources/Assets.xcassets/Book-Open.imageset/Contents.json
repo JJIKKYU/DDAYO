@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "Book-Open.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

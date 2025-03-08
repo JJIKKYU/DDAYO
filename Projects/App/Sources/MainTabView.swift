@@ -52,17 +52,14 @@ public struct MainTabView: View {
             .font(.headline)
         } destination: { store in
             switch store.case {
-            case .featureQuiz(let featureQuizStore):
-                FeatureQuizView(store: featureQuizStore)
-
-            case .secondFeatureQuiz(let secondFeatureQuizStore):
-                SecondFeatureQuizView(store: secondFeatureQuizStore)
-
             case .featureQuizMain(let store):
                 FeatureQuizMainView(store: store)
 
             case .featureQuizSubject(let store):
                 FeatureQuizSubjectView(store: store)
+
+            case .featureQuizPlay(let store):
+                FeatureQuizPlayView(store: store)
 
             case .featureStudyMain(let store):
                 FeatureStudyMainView(store: store)

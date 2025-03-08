@@ -44,14 +44,21 @@ public struct FeatureQuizSubjectReducer {
 
     public enum Action: Equatable {
         case onAppear
-        // TODO: 필요한 액션 추가
+
+        case pressedBackBtn
+        case navigateToQuizPlay(QuizSubject)
     }
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                // TODO: 초기 로직 추가
+                return .none
+
+            case .pressedBackBtn:
+                return .none
+
+            case .navigateToQuizPlay:
                 return .none
             }
         }

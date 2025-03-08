@@ -48,11 +48,12 @@ public struct RootRoutingReducer: Reducer {
 
     @Reducer
     public enum Path {
-        case featureQuiz(FeatureQuiz)
-        case secondFeatureQuiz(SecondFeatureQuiz)
+        /// FeatureQuiz
         case featureQuizMain(FeatureQuizMainReducer)
         case featureQuizSubject(FeatureQuizSubjectReducer)
+        case featureQuizPlay(FeatureQuizPlayReducer)
 
+        /// FeatureStudy
         case featureStudyMain(FeatureStudyMainReducer)
     }
 }

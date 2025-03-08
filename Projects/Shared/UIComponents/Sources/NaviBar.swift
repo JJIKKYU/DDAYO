@@ -10,6 +10,7 @@ import SwiftUI
 public enum NaviBarType {
     case main    // (타이틀만, 왼쪽 정렬)
     case quiz    // (백버튼 + 타이틀 + 닫기 버튼)
+    case quizPlay// (백버튼 + 타이틀 + 닫기 버튼)
     case search  // (검색 필드 + 닫기 버튼)
     case study   // (타이틀, 검색버튼)
 }
@@ -56,7 +57,7 @@ public struct NaviBar: View {
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-        case .quiz:
+        case .quiz, .quizPlay:
             // ✅ 퀴즈: (백버튼) (타이틀) (닫기 버튼)
             if let leading1 = leading1 {
                 Button(action: leading1) {

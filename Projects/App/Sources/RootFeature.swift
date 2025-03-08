@@ -16,7 +16,6 @@ public struct RootFeature {
         var routing = RootRoutingReducer.State()
 
         /// FeatureQuiz
-        var featureQuiz = FeatureQuiz.State()
         var featureQuizMain = FeatureQuizMainReducer.State()
         var featureQuizSubject = FeatureQuizSubjectReducer.State()
         var featureQuizPlay = FeatureQuizPlayReducer.State()
@@ -31,7 +30,6 @@ public struct RootFeature {
         case path(StackActionOf<Path>)
 
         /// FeatureQuiz
-        case featureQuiz(FeatureQuiz.Action)
         case featureQuizMain(FeatureQuizMainReducer.Action)
         case featureQuizSubject(FeatureQuizSubjectReducer.Action)
         case featureQuizPlay(FeatureQuizPlayReducer.Action)
@@ -44,18 +42,45 @@ public struct RootFeature {
         CombineReducers {
             Reduce { state, action in
                 switch action {
-                case .featureQuiz(.navigateToSecondFeatureQuiz):
-                    state.routing.path.append(.secondFeatureQuiz(SecondFeatureQuiz.State()))
-                    return .none
-
-                case .featureQuiz(let action):
-                    switch action {
-                    case .navigateToQuizSubject:
-                        return .none
-
-                    case .decrementButtonTapped, .incrementButtonTapped, .navigateToSecondFeatureQuiz, .navigateToQuizMain:
+                case .routing(.path(let stackAction)):
+                    guard case .element(_, let action) = stackAction else {
                         return .none
                     }
+
+                    switch action {
+                    case .featureQuizPlay(let playAction):
+                        switch playAction {
+                        case .pressedBackBtn:
+                            return .send(.routing(.pop))
+
+                        default:
+                            break
+                        }
+
+                    case .featureQuizSubject(let subjectAction):
+                        switch subjectAction {
+                        case .navigateToQuizPlay(let subject):
+                            state.routing.path.append(.featureQuizPlay(FeatureQuizPlayReducer.State(selectedSubject: subject)))
+
+                        case .pressedBackBtn:
+                            return .send(.routing(.pop))
+
+                        default:
+                            break
+                        }
+
+                    default:
+                        break
+                    }
+
+                    print("stackAction = \(stackAction)")
+
+                case .featureQuizSubject(let action):
+                    print("action = \(action)")
+                    if case .navigateToQuizPlay(let subject) = action {
+                        state.routing.path.append(.featureQuizPlay(FeatureQuizPlayReducer.State(selectedSubject: subject)))
+                    }
+                    return .none
 
                 case .featureQuizMain(let action):
                     switch action {
@@ -67,19 +92,26 @@ public struct RootFeature {
                         return .none
                     }
 
-                case .featureQuiz(.navigateToQuizMain):
-                    return .none
+                case .featureQuizPlay(let action):
+                    switch action {
+                    case .pressedBackBtn:
+                        return .send(.routing(.pop))
+
+                    default:
+                        return .none
+                    }
 
                 default:
                     return .none
                 }
+
+                return .none
             }
 
             // ✅ 내비게이션 관련 로직을 제거하고, RoutingReducer로 위임
             Scope(state: \.routing, action: \.routing) { RootRoutingReducer() }
 
             /// FeatureQuiz
-            Scope(state: \.featureQuiz, action: \.featureQuiz) { FeatureQuiz() }
             Scope(state: \.featureQuizMain, action: \.featureQuizMain) { FeatureQuizMainReducer() }
             Scope(state: \.featureQuizSubject, action: \.featureQuizSubject) { FeatureQuizSubjectReducer() }
             Scope(state: \.featureQuizPlay, action: \.featureQuizPlay) { FeatureQuizPlayReducer() }
@@ -90,7 +122,5 @@ public struct RootFeature {
     }
 
     @Reducer
-    public enum Path {
-        case featureQuiz(FeatureQuiz)
-    }
+    public enum Path { }
 }
