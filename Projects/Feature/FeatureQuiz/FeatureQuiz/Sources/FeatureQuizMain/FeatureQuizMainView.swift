@@ -6,7 +6,9 @@
 //
 
 import ComposableArchitecture
+import Model
 import SwiftUI
+import UIComponents
 
 public struct FeatureQuizMainView: View {
     public let store: StoreOf<FeatureQuizMainReducer>
@@ -84,61 +86,6 @@ public struct FeatureQuizMainView: View {
     }
 }
 
-// MARK: - 문제 섹션 뷰
-struct ExamSectionView: View {
-    let title: String
-    let subtitle: String
-    let buttons: [String]
-    let onTap: () -> Void
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text(title)
-                .font(.headline)
-                .bold()
-            Text(subtitle)
-                .font(.subheadline)
-                .foregroundColor(.gray)
-
-            ForEach(buttons, id: \.self) { buttonTitle in
-                QuizButton(title: buttonTitle, onTap: onTap)
-            }
-        }
-        .padding(.init(top: 0, leading: 20, bottom: 0, trailing: 20))
-    }
-}
-
-struct QuizButton: View {
-    let title: String
-    let onTap: () -> Void
-
-    var body: some View {
-        Button(action: onTap) {
-            HStack {
-                Text(title)
-                    .foregroundColor(.black)
-                Spacer()
-            }
-            .padding()
-            .cornerRadius(10)
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.white)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.gray, lineWidth: 1)
-            )
-        }
-    }
-}
-
-// MARK: - 필기/실기 구분 Enum
-enum Tab: Hashable {
-    case 필기
-    case 실기
-}
-
 struct FeatureQuizMainView_Previews: PreviewProvider {
     static var previews: some View {
         FeatureQuizMainView(
@@ -150,7 +97,6 @@ struct FeatureQuizMainView_Previews: PreviewProvider {
     }
 }
 
-// ✅ 뷰의 중앙 위치를 감지하는 PreferenceKey 정의
 struct TabScrollPreferenceKey: PreferenceKey {
     static var defaultValue: CGFloat = 0
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {

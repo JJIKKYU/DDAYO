@@ -12,7 +12,9 @@ let project = Project(
             infoPlist: .default,
             sources: ["./Sources/**"],
             resources: ["./Resources/**"],
-            dependencies: [],
+            dependencies: [
+                .project(target: "Model", path: "../Model", status: .required, condition: nil)
+            ],
             settings: .settings(
                 base: [
                     "DEVELOPMENT_TEAM": "V237TD2AXA"

@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import FeatureQuiz
+import FeatureStudy
 
 @Reducer
 public struct RootRoutingReducer: Reducer {
@@ -51,5 +52,7 @@ public struct RootRoutingReducer: Reducer {
         case secondFeatureQuiz(SecondFeatureQuiz)
         case featureQuizMain(FeatureQuizMainReducer)
         case featureQuizSubject(FeatureQuizSubjectReducer)
+
+        case featureStudyMain(FeatureStudyMainReducer)
     }
 }

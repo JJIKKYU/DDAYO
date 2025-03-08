@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Model
 
 @Reducer
 public struct FeatureQuizSubjectReducer {
@@ -17,30 +18,26 @@ public struct FeatureQuizSubjectReducer {
         }
 
         public var selectedSujbect: QuizTab = .필기
-        public var subjectList: [QuizTab: [String]] = [
+        public var subjectList: [QuizTab: [QuizSubject]] = [
             .필기: [
-                "소프트웨어 설계",
-                "소프트웨어 개발",
-                "데이터베이스 구축",
-                "프로그래밍 언어 활용",
-                "정보시스템 구축 관리",
-                "소프트웨어 설계",
-                "소프트웨어 개발",
-                "데이터베이스 구축",
-                "프로그래밍 언어 활용",
-                "정보시스템 구축 관리",
-                "소프트웨어 설계",
-                "소프트웨어 개발",
-                "데이터베이스 구축",
-                "프로그래밍 언어 활용",
-                "정보시스템 구축 관리",
+                .softwareDesign,
+                .softwareDevelopment,
+                .databaseConstruction,
+                .programmingLanguage,
+                .informationSystemManagement
             ],
             .실기: [
-                "소프트웨어 설계",
-                "소프트웨어 개발",
-                "데이터베이스 구축",
-                "프로그래밍 언어 활용",
-                "정보시스템 구축 관리",
+                .requirementsAnalysis,
+                .dataInputOutput,
+                .integrationImplementation,
+                .serverProgramming,
+                .interfaceImplementation,
+                .screenDesign,
+                .applicationTesting,
+                .sqlApplication,
+                .softwareSecurity,
+                .basicApplicationTech,
+                .softwarePackaging
             ]
         ]
     }

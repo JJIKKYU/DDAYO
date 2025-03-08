@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import FeatureQuiz
+import FeatureStudy
 import SwiftUI
 
 public struct MainTabView: View {
@@ -17,17 +18,10 @@ public struct MainTabView: View {
     public var body: some View {
         NavigationStack(path: $store.scope(state: \.routing.path, action: \.routing.path)) {
             TabView {
-                Text("The First Tab")
-                    .tabItem {
-                        Image(systemName: "1.square.fill")
-                        Text("학습하기")
-                    }
-                    .tag(1)
-
-                FeatureQuizView(
+                FeatureQuizMainView(
                     store: store.scope(
-                        state: \.featureQuiz,
-                        action: \.featureQuiz
+                        state: \.featureQuizMain,
+                        action: \.featureQuizMain
                     )
                 )
                 .tabItem {
@@ -36,13 +30,20 @@ public struct MainTabView: View {
                 }
                 .tag(1)
 
-                FeatureQuizMainView(
+                FeatureStudyMainView(
                     store: store.scope(
-                        state: \.featureQuizMain,
-                        action: \.featureQuizMain
+                        state: \.featureStudyMain,
+                        action: \.featureStudyMain
                     )
                 )
                 .tabItem {
+                    Image(systemName: "2.square.fill")
+                    Text("개념학습")
+                }
+                .tag(2)
+
+                Text("The First Tab")
+                    .tabItem {
                         Image(systemName: "3.square.fill")
                         Text("북마크")
                     }
@@ -62,6 +63,9 @@ public struct MainTabView: View {
 
             case .featureQuizSubject(let store):
                 FeatureQuizSubjectView(store: store)
+
+            case .featureStudyMain(let store):
+                FeatureStudyMainView(store: store)
             }
         }
     }

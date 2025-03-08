@@ -27,7 +27,7 @@ public struct FeatureQuizSubjectView: View {
                     if let sections = viewStore.subjectList[viewStore.selectedSujbect] {
                         ForEach(sections.indices, id: \.self) { index in
                             let section = sections[index]
-                            QuizButton(title: sections[index]) {
+                            QuizButton(title: sections[index].rawValue) {
                                 print("button 터치!")
                             }
                             .padding(.horizontal, 20)

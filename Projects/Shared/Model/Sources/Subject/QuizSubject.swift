@@ -1,0 +1,28 @@
+//
+//  QuizSubject.swift
+//  Model
+//
+//  Created by 정진균 on 3/8/25.
+//
+
+public enum QuizSubject: String, CaseIterable {
+    // 필기 과목
+    case softwareDesign = "소프트웨어 설계"
+    case softwareDevelopment = "소프트웨어 개발"
+    case databaseConstruction = "데이터베이스 구축"
+    case programmingLanguage = "프로그래밍 언어 활용"
+    case informationSystemManagement = "정보시스템 구축 관리"
+
+    // 실기 과목
+    case requirementsAnalysis = "요구사항 확인"
+    case dataInputOutput = "데이터 입출력 구현"
+    case integrationImplementation = "통합 구현"
+    case serverProgramming = "서버프로그램 구현"
+    case interfaceImplementation = "인터페이스 구현"
+    case screenDesign = "화면 설계"
+    case applicationTesting = "애플리케이션테스트 관리"
+    case sqlApplication = "SQL 응용"
+    case softwareSecurity = "소프트웨어 개발 보안 구축"
+    case basicApplicationTech = "응용SW기초 기술 활용"
+    case softwarePackaging = "제품소프트웨어 패키징"
+}

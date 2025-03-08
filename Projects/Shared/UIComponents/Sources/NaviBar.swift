@@ -11,6 +11,7 @@ public enum NaviBarType {
     case main    // (타이틀만, 왼쪽 정렬)
     case quiz    // (백버튼 + 타이틀 + 닫기 버튼)
     case search  // (검색 필드 + 닫기 버튼)
+    case study   // (타이틀, 검색버튼)
 }
 
 public struct NaviBar: View {
@@ -93,6 +94,20 @@ public struct NaviBar: View {
             if let trailing1 = trailing1 {
                 Button(action: trailing1) {
                     Image(systemName: "xmark")
+                        .foregroundColor(.black)
+                }
+            }
+
+        case .study:
+            Text(title)
+                .font(.headline)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            Spacer()
+
+            if let trailing1 {
+                Button(action: trailing1) {
+                    Image(systemName: "magnifyingglass")
                         .foregroundColor(.black)
                 }
             }
