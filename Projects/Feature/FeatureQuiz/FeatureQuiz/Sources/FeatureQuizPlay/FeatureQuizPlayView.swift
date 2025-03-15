@@ -90,6 +90,14 @@ public struct FeatureQuizPlayView: View {
                         viewStore.send(.confirmAnswer)
                     }
                 )
+
+                // ✅ 팝업 뷰 바인딩 추가
+                QuizPopupView(isPresented: viewStore.binding(
+                    get: \ .isPopupPresented,
+                    send: { $0 ? .showPopup : .hidePopup }
+                ),solvedQuizCnt: 20, allQuizCnt: 30, correctQuizCnt: 7)
+                .opacity(viewStore.isPopupPresented ? 1 : 0)
+                .animation(.easeInOut(duration: 0.5), value: viewStore.isPopupPresented)
             }
             .background(Color.Background._1)
             .onAppear {

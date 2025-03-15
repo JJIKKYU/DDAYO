@@ -16,6 +16,7 @@ public struct FeatureQuizPlayReducer {
     @ObservableState
     public struct State: Equatable, Hashable {
         var isSheetPresented: Bool = false
+        var isPopupPresented: Bool = false // quiz 종료 뷰 표시 여부
         var answers: [QuizAnswer] = [
             .init(number: 0, title: "선택지 내용 1선택지 내용 1선택지 내용 1선택지 내용 1선택지 내용 1선택지 내용 1선택지 내용 1선택지 내용 1선택지 내용 1선택지 내용 1"),
             .init(number: 1, title: "선택지 내용 2"),
@@ -43,6 +44,9 @@ public struct FeatureQuizPlayReducer {
 
         case pressedBackBtn
         case pressedCloseBtn
+
+        case showPopup            // 팝업 표시
+        case hidePopup            // 팝업 숨기기
     }
 
     public var body: some ReducerOf<Self> {
@@ -93,7 +97,7 @@ public struct FeatureQuizPlayReducer {
                 }
 
             case .loadNextQuestion:
-                print("FeatureQuizPlayReducer :: loadNextQuestion")
+                print("FeatureQuizPlayReducer :: loa뵤dNextQuestion")
                 return .none
 
             case .changeStep(let newStep):
@@ -106,6 +110,16 @@ public struct FeatureQuizPlayReducer {
 
             case .pressedCloseBtn:
                 print("FeatureQuizPlayReducer :: pressedCloseBtn!")
+                state.isSheetPresented = false
+                state.isPopupPresented = true
+                return .none
+
+            case .showPopup:
+                state.isPopupPresented = true
+                return .none
+
+            case .hidePopup:
+                state.isPopupPresented = false
                 return .none
             }
         }
