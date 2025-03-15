@@ -49,12 +49,13 @@ public struct RootFeature {
 
                     switch action {
                     case .featureQuizPlay(let playAction):
+                        print("playAction! = \(playAction)")
                         switch playAction {
                         case .pressedBackBtn:
                             return .send(.routing(.pop))
 
                         default:
-                            break
+                            return .none
                         }
 
                     case .featureQuizSubject(let subjectAction):

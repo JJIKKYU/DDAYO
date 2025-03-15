@@ -27,9 +27,9 @@ public struct FeatureQuizSubjectView: View {
                     if let sections = viewStore.subjectList[viewStore.selectedSujbect] {
                         ForEach(sections.indices, id: \.self) { index in
                             let section = sections[index]
-                            QuizButton(title: sections[index].rawValue) {
+                            QuizButton(title: section.rawValue) {
                                 print("button 터치!")
-                                viewStore.send(.navigateToQuizPlay(sections[index]))
+                                viewStore.send(.navigateToQuizPlay(section))
                             }
                             .padding(.horizontal, 20)
                         }
@@ -38,7 +38,7 @@ public struct FeatureQuizSubjectView: View {
 
                 Spacer()
             }
-            .background(Color(uiColor: .lightGray.withAlphaComponent(0.2)))
+            .background(Color.Background._2)
             .onAppear {
                 viewStore.send(.onAppear)
             }

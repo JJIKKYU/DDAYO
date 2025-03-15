@@ -24,14 +24,13 @@ public struct FeatureStudyMainView: View {
                 })
                 ScrollView {
                     HStack {
-                        Text("최근 본123123123")
-                            .font(.headline)
+                        Text("최근 본")
+                            .foregroundStyle(Color.Grayscale._800)
+                            .font(.system(size: 20, weight: .bold))
                             .padding(.horizontal, 20)
-                            .background(.blue)
 
                         Spacer()
                     }
-                    .background(.red)
 
                     ConceptListCell(concept: store.concepts.first!, type: .continueLearning)
                         .padding(.horizontal, 20)
@@ -39,13 +38,13 @@ public struct FeatureStudyMainView: View {
 
                     HStack {
                         Text("모든 개념")
-                            .font(.headline)
+                            .foregroundStyle(Color.Grayscale._800)
+                            .font(.system(size: 20, weight: .bold))
                             .padding(.horizontal, 20)
-                            .background(.blue)
 
                         Spacer()
                     }
-                    .background(.red)
+                    .padding(.top, 15)
 
                     Button(viewStore.selectedSortOption ?? "오름차순") {
                         viewStore.send(.showSheet(true))
@@ -79,6 +78,7 @@ public struct FeatureStudyMainView: View {
                 }
             }
         }
+        .background(Color.Background._2)
     }
 }
 

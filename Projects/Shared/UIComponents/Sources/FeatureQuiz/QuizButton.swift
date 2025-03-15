@@ -20,18 +20,19 @@ public struct QuizButton: View {
         Button(action: onTap) {
             HStack {
                 Text(title)
-                    .foregroundColor(.black)
+                    .foregroundColor(Color.Grayscale._800)
+                    .font(.system(size: 18, weight: .medium))
                 Spacer()
             }
             .padding()
             .cornerRadius(10)
             .background(
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.white)
+                    .fill(Color.Grayscale.white)
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.gray, lineWidth: 1)
+                    .stroke(Color.Grayscale._100, lineWidth: 1)
             )
         }
     }

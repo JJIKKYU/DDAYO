@@ -38,17 +38,17 @@ public struct FeatureQuizPlayView: View {
                     ScrollView {
                         VStack(alignment: .leading, spacing: 16) {
                             Text("UML에서 활용되는 다이어그램 중, 시스템의 동작을 표현하는 행위(Behavioral) 다이어그램에 해당하지 않는 것은?UML에서 활용되는 다이어그램 중, 시스템의 동작을 표현하는 행위(Behavioral) 다이어그램에 해당하지 않는 것은?UML에서 활용되는 다이어그램 중, 시스템의 동작을 표현하는 행위(Behavioral) 다이어그램에 해당하지 않는 것은?UML에서 활용되는 다이어그램 중, 시스템의 동작을 표현하는 행위(Behavioral) 다이어그램에 해당하지 않는 것은?UML에서 활용되는 다이어그램 중, 시스템의 동작을 표현하는 행위(Behavioral) 다이어그램에 해당하지 않는 것은?UML에서 활용되는 다이어그램 중, 시스템의 동작을 표현하는 행위(Behavioral) 다이어그램에 해당하지 않는 것은?UML에서 활용되는 다이어그램 중, 시스템의 동작을 표현하는 행위(Behavioral) 다이어그램에 해당하지 않는 것은?UML에서 활용되는 다이어그램 중, 시스템의 동작을 표현하는 행위(Behavioral) 다이어그램에 해당하지 않는 것은?")
-                                .font(.title3)
-                                .fontWeight(.bold)
-                                .foregroundColor(.black)
+                                .font(.system(size: 18, weight: .bold))
+                                .foregroundColor(.Grayscale._800)
+                                .lineSpacing(3.0)
                                 .multilineTextAlignment(.leading)
 
                             Text("1과목 소프트웨어 설계   2022년 2회 기출문제")
-                                .font(.footnote)
-                                .foregroundColor(.gray)
+                                .font(.system(size: 11, weight: .regular))
+                                .foregroundColor(.Grayscale._500)
 
                             RoundedRectangle(cornerRadius: 12)
-                                .fill(Color.gray.opacity(0.1))
+                                .fill(Color.Grayscale._50)
                                 .frame(height: 200)
                                 .overlay(
                                     VStack {
@@ -56,10 +56,11 @@ public struct FeatureQuizPlayView: View {
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: 40, height: 40)
-                                            .foregroundColor(.gray)
+                                            .foregroundStyle(Color.Grayscale._400)
+
                                         Text("이미지 영역입니다")
-                                            .font(.footnote)
-                                            .foregroundColor(.gray)
+                                            .font(.system(size: 13, weight: .regular))
+                                            .foregroundStyle(Color.Grayscale._400)
                                     }
                                 )
                         }
@@ -69,9 +70,28 @@ public struct FeatureQuizPlayView: View {
                 }
 
                 // ✅ ScrollView 위에 항상 떠 있는 버튼
-                QuizBottomBtnView()
+                QuizBottomBtnView(
+                    isSheetPresented: viewStore
+                        .binding(
+                            get: \.isSheetPresented,
+                            send: FeatureQuizPlayReducer.Action.toggleSheet
+                        ),
+                    answers: viewStore.answers,
+                    selectedIndex: viewStore.binding(
+                        get: \.selectedIndex,
+                        send: FeatureQuizPlayReducer.Action.selectedAnswer
+                    ),
+                    step: viewStore.binding(
+                        get: \.step,
+                        send: FeatureQuizPlayReducer.Action.changeStep
+                    ),
+                    isCorrect: viewStore.isCorrect,
+                    onConfirmAnswer: {
+                        viewStore.send(.confirmAnswer)
+                    }
+                )
             }
-            .background(Color(uiColor: .lightGray.withAlphaComponent(0.2)))
+            .background(Color.Background._1)
             .onAppear {
                 viewStore.send(.onAppear)
             }

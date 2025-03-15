@@ -5,21 +5,37 @@
 //  Created by 정진균 on 3/8/25.
 //
 
+import Model
 import SwiftUI
 
 public struct QuizBottomBtnView: View {
-    @State private var isSheetPresented = false  // ✅ Sheet 표시 여부 관리
+    @Binding private var isSheetPresented: Bool
+    let answers: [QuizAnswer]
+    @Binding var selectedIndex: Int?
+    @Binding var step: FeatureQuizPlayStep
+    let isCorrect: Bool?
+    let onConfirmAnswer: () -> Void
 
-    public init(isSheetPresented: Bool = false) {
-        self.isSheetPresented = isSheetPresented
+    public init(
+        isSheetPresented: Binding<Bool>,
+        answers: [QuizAnswer],
+        selectedIndex: Binding<Int?>,
+        step: Binding<FeatureQuizPlayStep>,
+        isCorrect: Bool?,
+        onConfirmAnswer: @escaping () -> Void
+    ) {
+        self._isSheetPresented = isSheetPresented
+        self.answers = answers
+        self._selectedIndex = selectedIndex
+        self._step = step
+        self.isCorrect = isCorrect
+        self.onConfirmAnswer = onConfirmAnswer
     }
 
     public var body: some View {
         ZStack(alignment: .bottom) {
-            // ✅ 메인 화면
             Color.clear.ignoresSafeArea()
 
-            // ✅ 하단 고정 버튼
             VStack {
                 Spacer()
 
@@ -36,7 +52,7 @@ public struct QuizBottomBtnView: View {
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.green)
+                            .background(Color.Green._500)
                             .cornerRadius(12)
                     }
                 }
@@ -50,87 +66,37 @@ public struct QuizBottomBtnView: View {
         }
         .ignoresSafeArea()
         .sheet(isPresented: $isSheetPresented) {
-            AnswerSheetView(isSheetPresented: $isSheetPresented)
-                .presentationDetents([.fraction(0.45), .medium, .large])
+            AnswerSheetView(
+                answers: self.answers,
+                isSheetPresented: $isSheetPresented,
+                selectedIndex: $selectedIndex,
+                step: $step,
+                isCorrect: isCorrect,
+                onConfirmAnswer: onConfirmAnswer
+            )
+            .presentationDetents([.fraction(0.45), .medium, .large])
         }
     }
 }
 
-// ✅ Sheet 내부 UI
-public struct AnswerSheetView: View {
-    @Binding var isSheetPresented: Bool
-    @State private var contentHeight: CGFloat = 0 // ✅ 콘텐츠 크기 저장
-
-    public init(isSheetPresented: Binding<Bool>) {
-        self._isSheetPresented = isSheetPresented
-    }
-
-    public var body: some View {
-        VStack {
-            Spacer()
-                .frame(height: 24)
-
-            VStack(spacing: 12) {
-                ForEach(0..<4, id: \.self) { _ in
-                    HStack {
-                        Text("선택지 내용")
-                            .font(.body)
-                            .foregroundColor(.black)
-                        Spacer()
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.gray.opacity(0.5))
-                    }
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(12)
-                }
-            }
-
-            Spacer()
-
-            Button(action: {
-                isSheetPresented = false  // ✅ Sheet 닫기
-            }) {
-                Text("정답 확인")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.green)
-                    .cornerRadius(12)
-            }
-        }
-        .padding(.horizontal, 20)
-        .background(Color.white.ignoresSafeArea())
-        .presentationDetents([.height(contentHeight + 100)]) // ✅ 콘텐츠 높이에 맞춰 동적 조절
-    }
-}
-
-// ✅ 미리보기
 struct QuizBottomSheetView_Previews: PreviewProvider {
     static var previews: some View {
-        QuizBottomBtnView()
-    }
-}
+        @Previewable @State var selectedIndex: Int? = nil
 
-// ✅ `AnswerSheetView`의 높이를 미리 측정하는 Extension
-extension View {
-    func getHeight(_ completion: @escaping (CGFloat) -> Void) -> some View {
-        background(
-            GeometryReader { geo in
-                Color.clear
-                    .preference(key: ViewHeightKey.self, value: geo.size.height)
+        QuizBottomBtnView(
+            isSheetPresented: .constant(true),
+            answers: [
+                .init(number: 0, title: "선택지 내용 1"),
+                .init(number: 1, title: "선택지 내용 2"),
+                .init(number: 2, title: "선택지 내용 3"),
+                .init(number: 3, title: "선택지 내용 4"),
+            ],
+            selectedIndex: $selectedIndex,
+            step: .constant(.confirmAnswers),
+            isCorrect: false,
+            onConfirmAnswer: {
+                print("onConfirm!")
             }
         )
-        .onPreferenceChange(ViewHeightKey.self, perform: completion)
-    }
-}
-
-// ✅ `PreferenceKey`를 사용하여 높이를 전달하는 구조체
-struct ViewHeightKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
     }
 }

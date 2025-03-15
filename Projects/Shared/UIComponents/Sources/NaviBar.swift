@@ -54,7 +54,8 @@ public struct NaviBar: View {
         case .main:
             // ✅ 메인: 타이틀만 왼쪽 정렬
             Text(title)
-                .font(.headline)
+                .font(.system(size: 16, weight: .medium))
+                .foregroundColor(.Grayscale._900)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
         case .quiz, .quizPlay:
@@ -62,21 +63,22 @@ public struct NaviBar: View {
             if let leading1 = leading1 {
                 Button(action: leading1) {
                     Image(systemName: "chevron.left")
-                        .foregroundColor(.black)
+                        .foregroundColor(.Grayscale._900)
                 }
             }
 
             Spacer()
 
             Text(title)
-                .font(.headline)
+                .font(.system(size: 16, weight: .medium))
+                .foregroundColor(.Grayscale._900)
 
             Spacer()
 
             if let trailing1 = trailing1 {
                 Button(action: trailing1) {
                     Image(systemName: "xmark")
-                        .foregroundColor(.black)
+                        .foregroundColor(.Grayscale._900)
                 }
             }
 
@@ -85,7 +87,7 @@ public struct NaviBar: View {
             if let leading1 = leading1 {
                 Button(action: leading1) {
                     Image(systemName: "magnifyingglass")
-                        .foregroundColor(.black)
+                        .foregroundColor(.Grayscale._900)
                 }
             }
 
@@ -95,13 +97,14 @@ public struct NaviBar: View {
             if let trailing1 = trailing1 {
                 Button(action: trailing1) {
                     Image(systemName: "xmark")
-                        .foregroundColor(.black)
+                        .foregroundColor(.Grayscale._900)
                 }
             }
 
         case .study:
             Text(title)
-                .font(.headline)
+                .font(.system(size: 24, weight: .bold))
+                .foregroundColor(.Grayscale._800)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             Spacer()
@@ -109,7 +112,9 @@ public struct NaviBar: View {
             if let trailing1 {
                 Button(action: trailing1) {
                     Image(systemName: "magnifyingglass")
-                        .foregroundColor(.black)
+                        .foregroundColor(.Grayscale._900)
+                        .scaledToFit()
+                        .frame(width: 28, height: 28)
                 }
             }
         }

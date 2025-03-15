@@ -1,0 +1,157 @@
+//
+//  AnswerSheetView.swift
+//  UIComponents
+//
+//  Created by 정진균 on 3/8/25.
+//
+
+import SwiftUI
+import Model
+
+public struct AnswerSheetView: View {
+    let answers: [QuizAnswer]
+    @Binding var isSheetPresented: Bool
+    @Binding var selectedIndex: Int?
+    @Binding var step: FeatureQuizPlayStep
+    let isCorrect: Bool?
+    let onConfirmAnswer: () -> Void
+
+    public init(
+        answers: [QuizAnswer],
+        isSheetPresented: Binding<Bool>,
+        selectedIndex: Binding<Int?>,
+        step: Binding<FeatureQuizPlayStep>,
+        isCorrect: Bool?,
+        onConfirmAnswer: @escaping () -> Void
+    ) {
+        self.answers = answers
+        self._isSheetPresented = isSheetPresented
+        self._selectedIndex = selectedIndex
+        self._step = step
+        self.isCorrect = isCorrect
+        self.onConfirmAnswer = onConfirmAnswer
+    }
+
+    public var body: some View {
+        VStack(alignment: .leading) {
+            Spacer()
+                .frame(height: 30)
+
+            switch step {
+            case .showAnswers:
+                VStack {
+                    VStack(spacing: 12) {
+                        ForEach(0..<answers.count, id: \.self) { index in
+                            AnswerBtnView(
+                                title: answers[index].title,
+                                isChecked: Binding(
+                                    get: { selectedIndex == index },  // ✅ 선택 여부 확인
+                                    set: { newValue in
+                                        if newValue { selectedIndex = index }  // ✅ 한 개만 선택되도록 업데이트
+                                    }
+                                )
+                            )
+                        }
+                    }
+
+                    Spacer()
+
+                    Button(action: {
+                        // isSheetPresented = false  // ✅ Sheet 닫기
+                        onConfirmAnswer()
+                    }) {
+                        Text("정답 확인")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.Green._500)
+                            .cornerRadius(12)
+                    }
+                }
+
+            case .confirmAnswers:
+                ScrollView {
+                    switch isCorrect {
+                    case true:
+                        AnswerBtnView(
+                            title: answers[selectedIndex ?? 0].title,
+                            isChecked: .constant(true),
+                            btnType: .correct
+                        )
+
+                    case false, .none, .some:
+                        AnswerBtnView(
+                            title: answers[selectedIndex ?? 0].title,
+                            isChecked: .constant(false),
+                            btnType: .incorrectWrongAnswer
+                        )
+                        AnswerBtnView(
+                            title: answers[selectedIndex ?? 0].title,
+                            isChecked: .constant(false),
+                            btnType: .incorrectCorrectAnswer
+                        )
+                    }
+
+                    Text((isCorrect ?? false) ? "정답이에요" : "오답이에요")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundStyle(Color.Grayscale._900)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.top, 20)
+
+                    Text(
+                        """
+                        해설내용을 적어줍니다 해설내용을 적어줍니다해설내용을 적어줍니다 해설내용을 적어줍니다해설내용을 적어줍니다 해설내용을 적어줍니다해설내용을 적어줍니다 해설내용을 적어줍니다해설내용을 적어줍니다내용을 적어줍니다해설내용을 적어줍니다내용을 적어줍니다해설내용을 적어줍니다.
+                        """.forceCharWrapping
+                    )
+                    .padding(.top, 10)
+                    .font(.system(size: 15, weight: .regular))
+                    .foregroundStyle(Color.Grayscale._700)
+                    .lineSpacing(5.0)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .padding(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+
+                Spacer()
+
+                Button(action: {
+                    // isSheetPresented = false  // ✅ Sheet 닫기
+                    onConfirmAnswer()
+                }) {
+                    Text("다음 문제")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(Color.Grayscale.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.Green._500)
+                        .cornerRadius(12)
+                }
+            }
+        }
+        .padding(.horizontal, 20)
+        .animation(.easeInOut(duration: 0.3), value: step)
+        .background(Color.Background._1.ignoresSafeArea())
+    }
+}
+
+#Preview {
+    @Previewable @State var isSheetPresented: Bool = false
+    @Previewable @State var selectedIndex: Int? = nil
+    let answers: [QuizAnswer] = [
+        .init(number: 0, title: "선택지 내용 0"),
+        .init(number: 1, title: "선택지 내용 1"),
+        .init(number: 2, title: "선택지 내용 2"),
+        .init(number: 3, title: "선택지 내용 3"),
+    ]
+
+    AnswerSheetView(
+        answers: answers,
+        isSheetPresented: $isSheetPresented,
+        selectedIndex: $selectedIndex,
+        step: .constant(.showAnswers),
+        isCorrect: true,
+        onConfirmAnswer: {
+            print("onConfirm!")
+        }
+    )
+}

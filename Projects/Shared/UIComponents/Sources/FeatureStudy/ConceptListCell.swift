@@ -25,49 +25,63 @@ public struct ConceptListCell: View {
             }) {
                 VStack(alignment: .leading, spacing: 0) {
                     HStack {
-                        Image(systemName: "bookmark") // 북마크 아이콘
-                            .foregroundColor(.gray)
                         Text(concept.title)
-                            .font(.system(size: 18, weight: .bold))
-                            .foregroundColor(.black)
+                            .font(.system(size: 18, weight: .medium))
+                            .foregroundColor(Color.Grayscale._900)
+
                         Spacer()
                     }
                     .padding(.bottom, 10)
 
                     Text(concept.description)
-                        .font(.system(size: 14))
-                        .foregroundColor(.gray)
-                        .lineLimit(2) // 최대 2줄까지만 표시
-                        .truncationMode(.tail) // 말줄임표 적용
+                        .font(.system(size: 14, weight: .regular))
+                        .foregroundColor(Color.Grayscale._900)
+                        .lineLimit(2)
+                        .truncationMode(.tail)
                         .lineSpacing(5)
                         .padding(.bottom, 14)
 
-                    switch type {
-                    case .regular:
-                        HStack {
-                            Image(systemName: "eye") // 조회수 아이콘
-                                .foregroundColor(.gray)
-                                .frame(width: 24, height: 24)
-
-                            Text("\(concept.views)회")
-                                .font(.system(size: 11))
-                                .foregroundColor(.gray)
-                            Spacer()
-                        }
-
-                    case .continueLearning:
+                    if type == .continueLearning {
                         ContinueLearningButton {
-                            print("버튼 누름!")
+                            print("이어서학습하기 버튼 누름!")
+                        }
+                        .padding(.bottom, 8)
+                    }
+
+                    HStack(alignment: .center, spacing: 0) {
+                        Image(systemName: "eye")
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(Color.Grayscale._300)
+                            .frame(width: 16, height: 16)
+                            .padding(.trailing, 2)
+
+                        Text("\(concept.views)")
+                            .font(.system(size: 11))
+                            .foregroundColor(Color.Grayscale._400)
+
+                        Spacer()
+
+                        Button {
+                            print("Bookmark!!")
+                        } label: {
+                            Image(.bookmark)
+                                .renderingMode(.template)
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundStyle(Color.Grayscale._300)
+                                .frame(width: 24, height: 24)
                         }
                     }
 
                 }
                 .padding()
-                .background(Color(.systemGray6)) // 카드 느낌의 배경
-                .cornerRadius(12) // 모서리 둥글게
-                .shadow(radius: 1) // 약간의 그림자 효과
+                .background(Color.Grayscale.white)
+                .cornerRadius(12)
+                .shadow(radius: 1)
             }
-            .buttonStyle(PlainButtonStyle()) // 버튼 효과 제거 (텍스트만 보이게)
+            .buttonStyle(PlainButtonStyle())
         }
 }
 

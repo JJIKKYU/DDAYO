@@ -33,7 +33,7 @@ public struct FeatureQuizMainView: View {
                         send: FeatureQuizMainReducer.Action.selectTab
                     )
                 )
-                .padding(.init(top: 0, leading: 20, bottom: 50, trailing: 20))
+                .padding(.init(top: 15, leading: 20, bottom: 50, trailing: 20))
 
                 TabView(
                     selection: viewStore.binding(
@@ -81,8 +81,8 @@ public struct FeatureQuizMainView: View {
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                     .animation(.easeInOut, value: viewStore.selectedTab)
             }
-            .border(.red, width: 1)
         }
+        .background(Color.Background._2)
     }
 }
 

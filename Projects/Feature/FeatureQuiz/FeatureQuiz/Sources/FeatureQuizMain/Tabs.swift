@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ComposableArchitecture
+import UIComponents
 
 struct Tab2 {
     var tab: QuizTab
@@ -28,8 +29,8 @@ struct Tabs: View {
                         selectedTab = tabs[row].tab
                     } label: {
                         Text(tabs[row].title)
-                            .font(Font.system(size: 18, weight: .semibold))
-                            .foregroundColor(Color.green)
+                            .font(Font.system(size: 24, weight: .bold))
+                            .foregroundColor(selectedTab == tabs[row].tab ? Color.Green._600 : Color.Grayscale._400)
                             .background(GeometryReader { geo in
                                 Color.clear
                                     .onAppear {
@@ -48,9 +49,9 @@ struct Tabs: View {
                 GeometryReader { geo in
                     if let selectedIndex = tabs.firstIndex(where: { $0.tab == selectedTab }), tabWidths.indices.contains(selectedIndex) {
                         Rectangle()
-                            .fill(Color.green)
-                            .frame(width: tabWidths[selectedIndex], height: 3) // ✅ 선택된 탭의 width 적용
-                            .offset(x: tabWidths.prefix(selectedIndex).reduce(0, +) + CGFloat(selectedIndex) * 10, y: 25) // ✅ 선택된 탭 위치로 이동
+                            .fill(Color.Green._600)
+                            .frame(width: tabWidths[selectedIndex], height: 3)
+                            .offset(x: tabWidths.prefix(selectedIndex).reduce(0, +) + CGFloat(selectedIndex) * 10, y: 37) // ✅ 선택된 탭 위치로 이동
                             .matchedGeometryEffect(id: "underline", in: animationNamespace)
                     }
                 },

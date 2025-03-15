@@ -23,11 +23,13 @@ public struct ExamSectionView: View {
     public var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(title)
-                .font(.headline)
+                .font(.system(size: 20))
                 .bold()
+                .foregroundStyle(Color.Grayscale._800)
+
             Text(subtitle)
-                .font(.subheadline)
-                .foregroundColor(.gray)
+                .font(.system(size: 13, weight: .medium))
+                .foregroundColor(Color.Grayscale._400)
 
             ForEach(buttons, id: \.self) { buttonTitle in
                 QuizButton(title: buttonTitle, onTap: onTap)
