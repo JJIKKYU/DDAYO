@@ -91,6 +91,7 @@ public struct AnswerBtnView: View {
         } label: {
             HStack {
                 Text(title)
+                    .multilineTextAlignment(.leading)
                     .font(.system(size: 15, weight: .medium))
                     .foregroundColor(textColor)
                     .padding(.vertical, 15)

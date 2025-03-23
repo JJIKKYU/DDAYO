@@ -42,12 +42,17 @@ public struct MainTabView: View {
                 }
                 .tag(2)
 
-                Text("The First Tab")
-                    .tabItem {
-                        Image(systemName: "3.square.fill")
-                        Text("북마크")
-                    }
-                    .tag(3)
+                FeatureStudyMainView(
+                    store: store.scope(
+                        state: \.featureStudyMain,
+                        action: \.featureStudyMain
+                    )
+                )
+                .tabItem {
+                    Image(systemName: "3.square.fill")
+                    Text("북마크")
+                }
+                .tag(3)
             }
             .font(.headline)
         } destination: { store in
