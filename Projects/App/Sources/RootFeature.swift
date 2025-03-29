@@ -8,6 +8,7 @@
 import ComposableArchitecture
 import FeatureQuiz
 import FeatureStudy
+import FeatureBookmark
 
 @Reducer
 public struct RootFeature {
@@ -22,6 +23,9 @@ public struct RootFeature {
 
         /// FeatureStudy
         var featureStudyMain = FeatureStudyMainReducer.State()
+
+        /// FeatureBookmark
+        var featureBookmarkMain = FeatureBookmarkMainReducer.State()
     }
 
     public enum Action {
@@ -36,6 +40,9 @@ public struct RootFeature {
 
         /// FeatureStudy
         case featureStudyMain(FeatureStudyMainReducer.Action)
+
+        /// FeatureBookmark
+        case featureBookmarkMain(FeatureBookmarkMainReducer.Action)
     }
 
     public var body: some ReducerOf<Self> {
@@ -65,16 +72,6 @@ public struct RootFeature {
 
                         case .pressedBackBtn:
                             return .send(.routing(.pop))
-
-                        default:
-                            break
-                        }
-
-                    case .featureStudyMain(let studyAction):
-                        switch studyAction {
-                        case .navigateToStudyDetail(let index):
-                            print("studyAction :: 받았다!")
-                            return .send(.routing(.showModal(.featureStudyDetail(.init()))))
 
                         default:
                             break
@@ -114,10 +111,12 @@ public struct RootFeature {
 
                 case .featureStudyMain(let action):
                     switch action {
-                    case .navigateToStudyDetail(let index):
-                        print("studyAction :: 받았다!2")
-                        return .send(.routing(.showModal(.featureStudyDetail(.init()))))
+                    default:
+                        return .none
+                    }
 
+                case .featureBookmarkMain(let action):
+                    switch action {
                     default:
                         return .none
                     }
@@ -139,6 +138,9 @@ public struct RootFeature {
 
             /// FeatureStudy
             Scope(state: \.featureStudyMain,action: \.featureStudyMain) { FeatureStudyMainReducer() }
+
+            /// FeatureBookmark
+            Scope(state: \.featureBookmarkMain, action: \.featureBookmarkMain) { FeatureBookmarkMainReducer() }
         }
     }
 

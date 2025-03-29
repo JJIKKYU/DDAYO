@@ -39,7 +39,6 @@ public struct FeatureStudyMainReducer {
 
         case selectSortOption(String?)
         case selectItem(Int)
-        case navigateToStudyDetail(Int)
         case presentDetail(PresentationAction<FeatureStudyDetailReducer.Action>)
         case test
     }
@@ -92,9 +91,6 @@ public struct FeatureStudyMainReducer {
                 return .none
 
             case .presentDetail(let action):
-                return .none
-
-            case .navigateToStudyDetail:
                 return .none
             }
         }

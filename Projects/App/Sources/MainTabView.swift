@@ -1,6 +1,7 @@
 import ComposableArchitecture
 import FeatureQuiz
 import FeatureStudy
+import FeatureBookmark
 import SwiftUI
 import UIComponents
 
@@ -47,10 +48,10 @@ public struct MainTabView: View {
                 }
                 .tag(2)
 
-                FeatureStudyMainView(
+                FeatureBookmarkMainView(
                     store: store.scope(
-                        state: \.featureStudyMain,
-                        action: \.featureStudyMain
+                        state: \.featureBookmarkMain,
+                        action: \.featureBookmarkMain
                     )
                 )
                 .tabItem {
@@ -76,6 +77,9 @@ public struct MainTabView: View {
 
             case .featureStudyMain(let store):
                 FeatureStudyMainView(store: store)
+
+            case .featureBookmarkMain(let store):
+                FeatureBookmarkMainView(store: store)
             }
         }
     }

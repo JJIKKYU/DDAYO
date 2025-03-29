@@ -8,12 +8,12 @@
 import ComposableArchitecture
 import FeatureQuiz
 import FeatureStudy
+import FeatureBookmark
 
 @Reducer
 public struct RootRoutingReducer: Reducer {
     public struct State {
         var path = StackState<Path.State>()  // 스택 상태 관리
-        @PresentationState var modal: Modal.State?
     }
 
     public enum Action {
@@ -21,10 +21,6 @@ public struct RootRoutingReducer: Reducer {
         case pop // 뒤로 가기
         case popToRoot // 루트로 이동
         case path(StackActionOf<Path>) // 내비게이션 StackAction
-
-        case present(PresentationAction<Modal.Action>) // 모달 액션
-        case showModal(Modal.State) // 모달 보여주기
-        case dismissModal
     }
 
     public var body: some ReducerOf<Self> {
@@ -46,23 +42,9 @@ public struct RootRoutingReducer: Reducer {
 
             case .path:
                 return .none
-
-            case .showModal(let modal):
-                state.modal = modal
-                return .none
-
-            case .present:
-                return .none
-
-            case .dismissModal:
-                state.modal = nil
-                return .none
             }
         }
         .forEach(\.path, action: \.path)  // StackState 처리
-        .ifLet(\.$modal, action: \.present) {
-            Modal()
-        }
     }
 
     @Reducer
@@ -74,22 +56,8 @@ public struct RootRoutingReducer: Reducer {
 
         /// FeatureStudy
         case featureStudyMain(FeatureStudyMainReducer)
-    }
-}
 
-@Reducer
-public struct Modal {
-    public enum State: Equatable {
-        case featureStudyDetail(FeatureStudyDetailReducer.State)
-    }
-
-    public enum Action: Equatable {
-        case featureStudyDetail(FeatureStudyDetailReducer.Action)
-    }
-
-    public var body: some ReducerOf<Self> {
-        Scope(state: /State.featureStudyDetail, action: /Action.featureStudyDetail) {
-            FeatureStudyDetailReducer()
-        }
+        /// Featurebookmark
+        case featureBookmarkMain(FeatureBookmarkMainReducer)
     }
 }
