@@ -55,7 +55,7 @@ public struct RootFeature {
                             return .send(.routing(.pop))
 
                         default:
-                            return .none
+                            break
                         }
 
                     case .featureQuizSubject(let subjectAction):
@@ -65,6 +65,16 @@ public struct RootFeature {
 
                         case .pressedBackBtn:
                             return .send(.routing(.pop))
+
+                        default:
+                            break
+                        }
+
+                    case .featureStudyMain(let studyAction):
+                        switch studyAction {
+                        case .navigateToStudyDetail(let index):
+                            print("studyAction :: 받았다!")
+                            return .send(.routing(.showModal(.featureStudyDetail(.init()))))
 
                         default:
                             break
@@ -97,6 +107,16 @@ public struct RootFeature {
                     switch action {
                     case .pressedBackBtn:
                         return .send(.routing(.pop))
+
+                    default:
+                        return .none
+                    }
+
+                case .featureStudyMain(let action):
+                    switch action {
+                    case .navigateToStudyDetail(let index):
+                        print("studyAction :: 받았다!2")
+                        return .send(.routing(.showModal(.featureStudyDetail(.init()))))
 
                     default:
                         return .none

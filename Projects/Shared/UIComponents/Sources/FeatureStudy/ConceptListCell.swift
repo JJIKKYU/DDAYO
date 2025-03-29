@@ -13,15 +13,22 @@ import Model
 public struct ConceptListCell: View {
     public let concept: ConceptItem
     public let type: ConceptListCellType
+    public let onTap: (() -> Void)
 
-    public init(concept: ConceptItem, type: ConceptListCellType) {
+    public init(
+        concept: ConceptItem,
+        type: ConceptListCellType,
+        onTap: @escaping (() -> Void)
+    ) {
         self.concept = concept
         self.type = type
+        self.onTap = onTap
     }
 
     public var body: some View {
             Button(action: {
                 print("Cell tapped")
+                onTap()
             }) {
                 VStack(alignment: .leading, spacing: 0) {
                     HStack {
@@ -49,7 +56,7 @@ public struct ConceptListCell: View {
                     }
 
                     HStack(alignment: .center, spacing: 0) {
-                        Image(systemName: "eye")
+                        Image(.eye)
                             .renderingMode(.template)
                             .resizable()
                             .scaledToFit()
@@ -95,8 +102,12 @@ struct ConceptListView_Previews: PreviewProvider {
         )
 
         VStack(alignment: .leading, spacing: 12) {
-            ConceptListCell(concept: concept, type: .regular)
-            ConceptListCell(concept: concept, type: .continueLearning)
+            ConceptListCell(concept: concept, type: .regular, onTap: {
+                print("!!")
+            })
+            ConceptListCell(concept: concept, type: .continueLearning, onTap: {
+                print("!!!")
+            })
         }
     }
 }

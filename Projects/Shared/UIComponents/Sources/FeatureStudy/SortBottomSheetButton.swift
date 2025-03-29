@@ -30,14 +30,16 @@ public struct SortBottomSheetButton: View {
         } label: {
             HStack {
                 if isPressed {
-                    Image(systemName: "checkmark")
-                        .foregroundColor(.green)
+                    Image(.check)
+                        .resizable()
+                        .renderingMode(.template)
+                        .foregroundStyle(Color.Green._500)
                         .frame(width: 20, height: 20)
                 }
 
                 Text(buttonTitle)
-                    .font(.system(size: 16))
-                    .bold(isPressed ? true : false)
+                    .font(.system(size: 16, weight: isPressed ? .semibold : .regular))
+                    .foregroundColor(isPressed ? Color.Grayscale._900 : Color.Grayscale._800)
 
                 Spacer()
             }

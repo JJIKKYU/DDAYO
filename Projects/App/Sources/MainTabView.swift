@@ -2,6 +2,7 @@ import ComposableArchitecture
 import FeatureQuiz
 import FeatureStudy
 import SwiftUI
+import UIComponents
 
 public struct MainTabView: View {
     @Bindable
@@ -25,7 +26,9 @@ public struct MainTabView: View {
                     )
                 )
                 .tabItem {
-                    Image(systemName: "1.square.fill")
+                    Image(uiImage: UIComponentsAsset.pen.image)
+                        .renderingMode(.template)
+                        .foregroundStyle(Color.Grayscale._400)
                     Text("문제풀기")
                 }
                 .tag(1)
@@ -37,7 +40,9 @@ public struct MainTabView: View {
                     )
                 )
                 .tabItem {
-                    Image(systemName: "2.square.fill")
+                    Image(uiImage: UIComponentsAsset.bookOpen.image)
+                        .renderingMode(.template)
+                        .foregroundStyle(Color.Grayscale._400)
                     Text("개념학습")
                 }
                 .tag(2)
@@ -49,11 +54,14 @@ public struct MainTabView: View {
                     )
                 )
                 .tabItem {
-                    Image(systemName: "3.square.fill")
+                    Image(uiImage: UIComponentsAsset.bookmark.image)
+                        .renderingMode(.template)
+                        .foregroundStyle(Color.Grayscale._400)
                     Text("북마크")
                 }
                 .tag(3)
             }
+            .tint(Color.Grayscale._800)
             .font(.headline)
         } destination: { store in
             switch store.case {

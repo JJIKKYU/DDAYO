@@ -32,9 +32,14 @@ public struct FeatureStudyMainView: View {
                         Spacer()
                     }
 
-                    ConceptListCell(concept: store.concepts.first!, type: .continueLearning)
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 8)
+                    ConceptListCell(
+                        concept: store.concepts.first!,
+                        type: .continueLearning,
+                        onTap: {
+                            print("계속 공부하자!")
+                    })
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 8)
 
                     HStack {
                         Text("모든 개념")
@@ -46,34 +51,51 @@ public struct FeatureStudyMainView: View {
                     }
                     .padding(.top, 15)
 
-                    Button(viewStore.selectedSortOption ?? "오름차순") {
-                        viewStore.send(.showSheet(true))
-                    }
-                    .sheet(
-                        isPresented: viewStore.binding(
-                            get: \.isSheetPresented,
-                            send: FeatureStudyMainReducer.Action.showSheet
-                        )
-                    ) {
-                        SortBottomSheetView(
-                            selectedOption: viewStore.binding(
-                                get: \.selectedSortOption,
-                                send: { FeatureStudyMainReducer.Action.selectSortOption($0) }
-                            ),
-                            isSheetPresented: viewStore.binding(
+                    HStack {
+                        SortingBtnView(title: viewStore.selectedSortOption ?? "A-Z순", onTap: {
+                            viewStore.send(.showSheet(true))
+                        })
+                        .sheet(
+                            isPresented: viewStore.binding(
                                 get: \.isSheetPresented,
-                                send: { FeatureStudyMainReducer.Action.showSheet($0) }
+                                send: FeatureStudyMainReducer.Action.showSheet
                             )
-                        )
-                        .presentationDetents(
-                            [.height(360)]
-                        )
+                        ) {
+                            SortBottomSheetView(
+                                selectedOption: viewStore.binding(
+                                    get: \.tempSortOption,
+                                    send: { FeatureStudyMainReducer.Action.selectSortOption($0) }
+                                ),
+                                isSheetPresented: viewStore.binding(
+                                    get: \.isSheetPresented,
+                                    send: { FeatureStudyMainReducer.Action.showSheet($0) }
+                                )
+                            )
+                            .presentationDetents(
+                                [.height(320)]
+                            )
+                        }
+
+                        Spacer()
                     }
+                    .padding(.horizontal, 20)
 
                     ForEach(store.concepts) { data in
-                        ConceptListCell(concept: data, type: .regular)
-                            .padding(.horizontal, 20)
-                            .padding(.bottom, 8)
+                        ConceptListCell(
+                            concept: data,
+                            type: .regular,
+                            onTap: {
+                                print("onTap!")
+                                viewStore.send(.selectItem(0))
+                            }
+                        )
+                        .fullScreenCover(
+                            store: store.scope(state: \.$detail, action: FeatureStudyMainReducer.Action.presentDetail)
+                        ) { detailStore in
+                            FeatureStudyDetailView(store: detailStore)
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 8)
                     }
                 }
             }
@@ -90,6 +112,6 @@ struct FeatureStudyMainView_Previews: PreviewProvider {
                 reducer: { FeatureStudyMainReducer() }
             )
         )
-        .previewLayout(.sizeThatFits) // 미리보기 레이아웃 설정
+        .previewLayout(.sizeThatFits)
     }
 }

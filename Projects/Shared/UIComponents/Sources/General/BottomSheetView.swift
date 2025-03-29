@@ -19,8 +19,8 @@ public struct BottomSheetView: View {
             Text("정렬")
                 .font(.headline)
 
-            Button("오름차순") { closeAction() }
-            Button("내림차순") { closeAction() }
+            Button("A-Z순") { closeAction() }
+            Button("Z-A순") { closeAction() }
             Button("적게 읽은 순") { closeAction() }
             Button("많이 읽은 순") { closeAction() }
 

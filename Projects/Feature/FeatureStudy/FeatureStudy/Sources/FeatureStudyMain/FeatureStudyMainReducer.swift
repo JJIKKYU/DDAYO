@@ -25,6 +25,10 @@ public struct FeatureStudyMainReducer {
         ]
         var isSheetPresented: Bool = false
         var selectedSortOption: String? = nil
+        // bottomSheet에서 선택한 값을 임시로 저장하고
+        // bottomSheet이 없어질때 반영하기 위해서 임시 저장
+        var tempSortOption: String? = nil
+        @Presents var detail: FeatureStudyDetailReducer.State?
 
         public init() {}
     }
@@ -32,7 +36,11 @@ public struct FeatureStudyMainReducer {
     public enum Action {
         case pressedSearchBtn
         case showSheet(Bool)
+
         case selectSortOption(String?)
+        case selectItem(Int)
+        case navigateToStudyDetail(Int)
+        case presentDetail(PresentationAction<FeatureStudyDetailReducer.Action>)
         case test
     }
 
@@ -49,23 +57,49 @@ public struct FeatureStudyMainReducer {
             case .showSheet(let isPresented):
                 state.isSheetPresented = isPresented
 
-                if isPresented == false {
+                // bottomSheet가 닫히는데 유저가 선택한 값이 있으면 반영
+                if isPresented == false,
+                   let tempSortOption = state.tempSortOption {
+
                     if state.selectedSortOption == "적게 읽은 순" {
                         state.concepts = state.concepts.sorted(by: { $0.views < $1.views })
                     } else if state.selectedSortOption == "많이 읽은 순" {
                         state.concepts = state.concepts.sorted(by: { $0.views > $1.views })
-                    } else if state.selectedSortOption == "오름차순" {
+                    } else if state.selectedSortOption == "A-Z순" {
                         state.concepts = state.concepts.sorted(by: { $0.title < $1.title })
-                    } else if state.selectedSortOption == "내림차순" {
+                    } else if state.selectedSortOption == "Z-A순" {
                         state.concepts = state.concepts.sorted(by: { $0.title > $1.title })
                     }
+
+                    state.selectedSortOption = tempSortOption
+                    state.tempSortOption = nil
                 }
                 return .none
 
             case let .selectSortOption(option):
-                state.selectedSortOption = option
+                state.tempSortOption = option
+                return .run { send in
+                    await send(.showSheet(false))
+                }
+
+            // index는 변경 필요
+            case .selectItem(let index):
+                state.detail = FeatureStudyDetailReducer.State.init()
+                return .none
+
+            case .presentDetail(.presented(.dismiss)):
+                state.detail = nil
+                return .none
+
+            case .presentDetail(let action):
+                return .none
+
+            case .navigateToStudyDetail:
                 return .none
             }
+        }
+        .ifLet(\.$detail, action: \.presentDetail) {
+            FeatureStudyDetailReducer()
         }
     }
 }

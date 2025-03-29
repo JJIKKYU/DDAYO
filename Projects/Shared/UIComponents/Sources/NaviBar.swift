@@ -8,11 +8,12 @@
 import SwiftUI
 
 public enum NaviBarType {
-    case main    // (타이틀만, 왼쪽 정렬)
-    case quiz    // (백버튼 + 타이틀 + 닫기 버튼)
-    case quizPlay// (백버튼 + 타이틀 + 닫기 버튼)
-    case search  // (검색 필드 + 닫기 버튼)
-    case study   // (타이틀, 검색버튼)
+    case main           // (타이틀만, 왼쪽 정렬)
+    case quiz           // (백버튼 + 타이틀 + 닫기 버튼)
+    case quizPlay       // (백버튼 + 타이틀 + 닫기 버튼)
+    case search         // (검색 필드 + 닫기 버튼)
+    case study          // (타이틀, 검색버튼)
+    case studyDetail    // (타이틀, 닫기 버튼)
 }
 
 public struct NaviBar: View {
@@ -115,6 +116,22 @@ public struct NaviBar: View {
                         .foregroundColor(.Grayscale._900)
                         .scaledToFit()
                         .frame(width: 28, height: 28)
+                }
+            }
+
+        case .studyDetail:
+            Spacer()
+
+            Text(title)
+                .font(.system(size: 16, weight: .medium))
+                .foregroundColor(.Grayscale._900)
+
+            Spacer()
+
+            if let trailing1 = trailing1 {
+                Button(action: trailing1) {
+                    Image(.close)
+                        .foregroundColor(.Grayscale._900)
                 }
             }
         }
