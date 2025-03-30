@@ -2,6 +2,7 @@ import ComposableArchitecture
 import FeatureQuiz
 import FeatureStudy
 import FeatureBookmark
+import FeatureSearch
 import SwiftUI
 import UIComponents
 
@@ -80,6 +81,9 @@ public struct MainTabView: View {
 
             case .featureBookmarkMain(let store):
                 FeatureBookmarkMainView(store: store)
+
+            case .featureSearchMain(let store):
+                FeatureSearchMainView(store: store)
             }
         }
     }

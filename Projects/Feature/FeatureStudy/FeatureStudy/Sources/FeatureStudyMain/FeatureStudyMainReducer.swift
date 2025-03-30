@@ -24,22 +24,25 @@ public struct FeatureStudyMainReducer {
             .init(title: "하. 개념학습 6", description: "안녕하세요 반갑습니다 안녕하세요 반갑습니다 안녕하세요 반갑습니다 안녕하세요 반갑습니다", views: 6),
         ]
         var isSheetPresented: Bool = false
-        var selectedSortOption: String? = nil
+        var selectedSortOption: SortOption? = .az
         // bottomSheet에서 선택한 값을 임시로 저장하고
         // bottomSheet이 없어질때 반영하기 위해서 임시 저장
-        var tempSortOption: String? = nil
+        var tempSortOption: SortOption? = .az
         @Presents var detail: FeatureStudyDetailReducer.State?
 
-        public init() {}
+        public init() {
+            
+        }
     }
 
     public enum Action {
         case pressedSearchBtn
         case showSheet(Bool)
 
-        case selectSortOption(String?)
+        case selectSortOption(SortOption?)
         case selectItem(Int)
         case presentDetail(PresentationAction<FeatureStudyDetailReducer.Action>)
+        case dismiss
         case test
     }
 
@@ -56,21 +59,23 @@ public struct FeatureStudyMainReducer {
             case .showSheet(let isPresented):
                 state.isSheetPresented = isPresented
 
-                // bottomSheet가 닫히는데 유저가 선택한 값이 있으면 반영
-                if isPresented == false,
-                   let tempSortOption = state.tempSortOption {
+                // bottomSheet가 닫히는 시점에만 반영
+                if !isPresented, let tempOption = state.tempSortOption {
+                    switch tempOption {
+                    case .leastViewed:
+                        state.concepts.sort { $0.views < $1.views }
 
-                    if state.selectedSortOption == "적게 읽은 순" {
-                        state.concepts = state.concepts.sorted(by: { $0.views < $1.views })
-                    } else if state.selectedSortOption == "많이 읽은 순" {
-                        state.concepts = state.concepts.sorted(by: { $0.views > $1.views })
-                    } else if state.selectedSortOption == "A-Z순" {
-                        state.concepts = state.concepts.sorted(by: { $0.title < $1.title })
-                    } else if state.selectedSortOption == "Z-A순" {
-                        state.concepts = state.concepts.sorted(by: { $0.title > $1.title })
+                    case .mostViewed:
+                        state.concepts.sort { $0.views > $1.views }
+
+                    case .az:
+                        state.concepts.sort { $0.title < $1.title }
+
+                    case .za:
+                        state.concepts.sort { $0.title > $1.title }
                     }
 
-                    state.selectedSortOption = tempSortOption
+                    state.selectedSortOption = tempOption
                     state.tempSortOption = nil
                 }
                 return .none
@@ -91,6 +96,10 @@ public struct FeatureStudyMainReducer {
                 return .none
 
             case .presentDetail(let action):
+                return .none
+
+            case .dismiss:
+                print("FeatureStudyMainReducer :: dismiss")
                 return .none
             }
         }

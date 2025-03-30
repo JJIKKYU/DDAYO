@@ -24,16 +24,16 @@ public struct FeatureQuizMainView: View {
             VStack(alignment: .leading) {
                 Tabs(
                     tabs: [
-                        .init(tab: .필기, title: "필기"),
-                        .init(tab: .실기, title: "실기")
+                        .필기, .실기
                     ],
                     animationNamespace: animationNamespace,
                     selectedTab: viewStore.binding(
                         get: \.selectedTab,
                         send: FeatureQuizMainReducer.Action.selectTab
-                    )
+                    ),
+                    onSelectSearch: { viewStore.send(.navigateToSearch) }
                 )
-                .padding(.init(top: 15, leading: 20, bottom: 50, trailing: 20))
+                .padding(.init(top: 15, leading: 20, bottom: 20, trailing: 20))
 
                 TabView(
                     selection: viewStore.binding(

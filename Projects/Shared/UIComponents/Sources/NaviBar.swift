@@ -46,7 +46,8 @@ public struct NaviBar: View {
         HStack {
             navBarContent
         }
-        .padding()
+        .padding(.horizontal, 20)
+        .padding(.top, 15)
     }
 
     @ViewBuilder
@@ -112,9 +113,10 @@ public struct NaviBar: View {
 
             if let trailing1 {
                 Button(action: trailing1) {
-                    Image(systemName: "magnifyingglass")
+                    Image(.search)
+                        .resizable()
                         .foregroundColor(.Grayscale._900)
-                        .scaledToFit()
+//                        .scaledToFit()
                         .frame(width: 28, height: 28)
                 }
             }

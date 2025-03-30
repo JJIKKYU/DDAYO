@@ -22,6 +22,9 @@ let project = Project(
             dependencies: [
                 .external(name: "ComposableArchitecture", condition: nil),
 
+                // Feature
+                .project(target: "FeatureSearch", path: "../../Feature/FeatureSearch", status: .required, condition: nil),
+
                 // Shared
                 .project(target: "UIComponents", path: "../../Shared/UIComponents", status: .required, condition: nil),
                 .project(target: "Model", path: "../../Shared/Model", status: .required, condition: nil),

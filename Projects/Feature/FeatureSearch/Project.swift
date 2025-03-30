@@ -1,14 +1,14 @@
 @preconcurrency import ProjectDescription
 
 let project = Project(
-    name: "FeatureQuiz",
+    name: "FeatureSearch",
     targets: [
         // Framework
         .target(
-            name: "FeatureQuiz",
+            name: "FeatureSearch",
             destinations: .iOS,
             product: .framework,
-            bundleId: "com.jjikktu.FeatureQuiz",
+            bundleId: "com.jjikktu.FeatureSearch",
             infoPlist: .extendingDefault(
                 with: [
                     "UILaunchScreen": [
@@ -17,13 +17,10 @@ let project = Project(
                     ],
                 ]
             ),
-            sources: ["FeatureQuiz/Sources/**"],
-            resources: ["FeatureQuiz/Resources/**"],
+            sources: ["FeatureSearch/Sources/**"],
+            resources: ["FeatureSearch/Resources/**"],
             dependencies: [
                 .external(name: "ComposableArchitecture", condition: nil),
-
-                // Feature
-                .project(target: "FeatureSearch", path: "../../Feature/FeatureSearch", status: .required, condition: nil),
 
                 // Shared
                 .project(target: "UIComponents", path: "../../Shared/UIComponents", status: .required, condition: nil),
@@ -37,14 +34,14 @@ let project = Project(
         ),
         // UnitTests
         .target(
-            name: "FeatureQuizTests",
+            name: "FeatureSearchTests",
             destinations: .iOS,
             product: .unitTests,
-            bundleId: "com.jjikktu.FeatureQuizTests",
+            bundleId: "com.jjikktu.FeatureSearchTests",
             infoPlist: .default,
-            sources: ["FeatureQuiz/Tests/**"],
+            sources: ["FeatureSearch/Tests/**"],
             resources: [],
-            dependencies: [.target(name: "FeatureQuiz")]
+            dependencies: [.target(name: "FeatureSearch")]
         ),
     ]
 )

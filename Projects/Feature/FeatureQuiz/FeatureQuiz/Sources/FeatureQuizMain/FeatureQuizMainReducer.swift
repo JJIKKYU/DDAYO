@@ -6,13 +6,7 @@
 //
 
 import ComposableArchitecture
-
-// MARK: - 필기, 실기 선택 상태 정의
-
-public enum QuizTab: Int, Equatable, CaseIterable {
-    case 필기 = 0
-    case 실기 = 1
-}
+import Model
 
 // MARK: - Reducer
 
@@ -28,12 +22,12 @@ public struct FeatureQuizMainReducer {
         var selectedTab: QuizTab = .필기
         var examSections: [QuizTab: [ExamSectionData]] = [
             .필기 : [
-                .init(title: "필기1 기출 문제", subtitle: "역대 시험에 출제된 문제들을 모았어요.", buttons: [.init(title: "랜덤 문제 풀기", action: .randomQuiz), .init(title: "과목별로 풀기", action: .subjectQuiz)]),
-                .init(title: "필기2 기출 문제", subtitle: "역대 시험에 출제된 문제들을 모았어요.", buttons: [.init(title: "랜덤 문제 풀기", action: .randomQuiz), .init(title: "과목별로 풀기", action: .subjectQuiz)]),
+                .init(title: "기출 문제", subtitle: "역대 시험에 출제된 문제들을 모았어요.", buttons: [.init(title: "랜덤 문제 풀기", action: .randomQuiz), .init(title: "과목별로 풀기", action: .subjectQuiz)]),
+                .init(title: "AI 예상 문제", subtitle: "시험 트렌드를 학습한 AI의 예상 문제를 풀어보세요!", buttons: [.init(title: "랜덤 문제 풀기", action: .randomQuiz), .init(title: "과목별로 풀기", action: .subjectQuiz)]),
             ],
             .실기 : [
-                .init(title: "실기1 기출 문제", subtitle: "역대 시험에 출제된 문제들을 모았어요.", buttons: [.init(title: "랜덤 문제 풀기", action: .randomQuiz), .init(title: "과목별로 풀기", action: .subjectQuiz)]),
-                .init(title: "실기2 기출 문제", subtitle: "역대 시험에 출제된 문제들을 모았어요.", buttons: [.init(title: "랜덤 문제 풀기", action: .randomQuiz), .init(title: "과목별로 풀기", action: .subjectQuiz)]),
+                .init(title: "기출 문제", subtitle: "역대 시험에 출제된 문제들을 모았어요.", buttons: [.init(title: "랜덤 문제 풀기", action: .randomQuiz), .init(title: "언어별로 풀기", action: .languagetQuiz), .init(title: "과목별로 풀기", action: .subjectQuiz)]),
+                .init(title: "AI 예상 문제", subtitle: "시험 트렌드를 학습한 AI의 예상 문제를 풀어보세요!", buttons: [.init(title: "랜덤 문제 풀기", action: .randomQuiz), .init(title: "언어별로 풀기", action: .languagetQuiz), .init(title: "과목별로 풀기", action: .subjectQuiz)]),
             ]
         ]
     }
@@ -43,6 +37,7 @@ public struct FeatureQuizMainReducer {
         case swipeTab(QuizTab)
 
         case navigateToQuizSubject(QuizTab)
+        case navigateToSearch
     }
 
     public var body: some ReducerOf<Self> {
@@ -59,6 +54,9 @@ public struct FeatureQuizMainReducer {
                 return .none
 
             case .navigateToQuizSubject:
+                return .none
+
+            case .navigateToSearch:
                 return .none
             }
         }
@@ -79,5 +77,6 @@ public struct ExamSectionButton: Equatable, Hashable {
 public enum ExamButtonAction: Equatable {
     case randomQuiz
     case subjectQuiz
+    case languagetQuiz
     case timeLimitMode
 }

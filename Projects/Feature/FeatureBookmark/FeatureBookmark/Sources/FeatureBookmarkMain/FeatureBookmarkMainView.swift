@@ -40,34 +40,41 @@ public struct FeatureBookmarkMainView: View {
                     )) {
                         VStack(spacing: 0) {
                             HStack(alignment: .center, spacing: 8) {
-                                BookmarkFilterBtnView(title: "모든 시험") {
+                                BookmarkFilterBtnView(examType: viewStore.questionFilter.examType) {
                                     print("tap filter btn!")
+                                    viewStore.send(.openFilter)
                                 }
 
-                                BookmarkFilterBtnView(title: "모든 유형") {
+                                BookmarkFilterBtnView(questionType: viewStore.questionFilter.questionType) {
                                     print("tap filter btn!")
+                                    viewStore.send(.openFilter)
                                 }
 
                                 Spacer()
 
-                                HStack(spacing: 4) {
-                                    Text("틀린 문제만")
-                                        .foregroundStyle(Color.Grayscale._900)
-                                        .font(.system(size: 14, weight: .medium))
+                                Button {
+                                    viewStore.send(.toggleWrongOnly)
+                                } label: {
+                                    HStack(spacing: 4) {
+                                        Text("틀린 문제만")
+                                            .foregroundStyle(Color.Grayscale._900)
+                                            .font(.system(size: 14, weight: .medium))
 
-                                    Image(uiImage: UIComponentsAsset.checkCircle.image)
-                                        .resizable()
-                                        .renderingMode(.template)
-                                        .frame(width: 16, height: 16)
-                                        .foregroundStyle(Color.Grayscale._300)
+                                        Image(uiImage: viewStore.showOnlyWrongAnswers ? UIComponentsAsset.checkCircleFilled.image : UIComponentsAsset.checkCircle.image)
+                                            .resizable()
+                                            .renderingMode(.template)
+                                            .frame(width: 16, height: 16)
+                                            .foregroundStyle(viewStore.showOnlyWrongAnswers ? Color.Green._600 : Color.Grayscale._300)
+                                    }
                                 }
+                                .buttonStyle(.plain)
                             }
                             .padding(.horizontal, 20)
                             .padding(.bottom, 8)
 
                             ScrollView {
                                 LazyVStack(spacing: 8) {
-                                    ForEach(viewStore.bookmarkItems) { item in
+                                    ForEach(viewStore.filteredBookmarkItems) { item in
                                         BookmarkCardView(
                                             category: item.category,
                                             title: item.title,
@@ -86,8 +93,8 @@ public struct FeatureBookmarkMainView: View {
 
                         VStack(alignment: .leading, spacing: 0) {
                             HStack(alignment: .center) {
-                                SortingBtnView(title: "A-Z순", onTap: {
-                                    // viewStore.send(.showSheet(true))
+                                SortingBtnView(title: viewStore.conceptSort.selectedOption?.displayName ?? SortOption.az.displayName, onTap: {
+                                    viewStore.send(.openSort)
                                 })
 
                                 Spacer()
@@ -116,6 +123,28 @@ public struct FeatureBookmarkMainView: View {
                     }
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                     .animation(.easeInOut, value: viewStore.selectedTab)
+            }
+            .sheet(
+                store: store.scope(state: \.$filter, action: FeatureBookmarkMainReducer.Action.filter)
+            ) { filterStore in
+                BookmarkFilterSheetView(store: filterStore)
+            }
+            .sheet(
+                store: store.scope(
+                    state: \.$conceptSortSheet,
+                    action: FeatureBookmarkMainReducer.Action.sort
+                )
+            ) { sheetStore in
+                WithViewStore(sheetStore, observe: { $0 }) { viewStore in
+                    SortBottomSheetView(
+                        selectedOption: viewStore.selectedOption,
+                        onSelect: { viewStore.send(.select($0)) },
+                        onClose: { viewStore.send(.dismiss) }
+                    )
+                    .presentationDetents(
+                        [.height(320)]
+                    )
+                }
             }
         }
         .background(Color.Background._2)

@@ -26,6 +26,7 @@ let project = Project(
                 .project(target: "FeatureQuiz", path: "../Feature/FeatureQuiz", status: .required, condition: nil),
                 .project(target: "FeatureStudy", path: "../Feature/FeatureStudy", status: .required, condition: nil),
                 .project(target: "FeatureBookmark", path: "../Feature/FeatureBookmark", status: .required, condition: nil),
+                .project(target: "FeatureSearch", path: "../Feature/FeatureSearch", status: .required, condition: nil),
 
                 // Shared
                 .project(target: "UIComponents", path: "../Shared/UIComponents", status: .required, condition: nil),

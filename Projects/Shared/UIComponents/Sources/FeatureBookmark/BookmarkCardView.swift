@@ -33,7 +33,9 @@ public struct BookmarkCardView: View {
 
                 Spacer()
 
-                AIBadgeView()
+                if tags.contains("AI 예상 문제") {
+                    AIBadgeView()
+                }
             }
 
             // 문제 제목
@@ -61,7 +63,7 @@ public struct BookmarkCardView: View {
                 }
                 .foregroundColor(.Grayscale._400)
 
-                ForEach(tags, id: \.self) { tag in
+                ForEach(tags.filter { $0 != "AI 예상 문제" }, id: \.self) { tag in
                     TagBadgeView(text: tag)
                 }
 

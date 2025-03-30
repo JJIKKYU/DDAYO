@@ -9,6 +9,7 @@ import ComposableArchitecture
 import FeatureQuiz
 import FeatureStudy
 import FeatureBookmark
+import FeatureSearch
 
 @Reducer
 public struct RootRoutingReducer: Reducer {
@@ -59,5 +60,8 @@ public struct RootRoutingReducer: Reducer {
 
         /// Featurebookmark
         case featureBookmarkMain(FeatureBookmarkMainReducer)
+
+        /// FeatureSearch
+        case featureSearchMain(FeatureSearchMainReducer)
     }
 }

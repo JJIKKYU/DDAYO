@@ -9,6 +9,7 @@ import ComposableArchitecture
 import FeatureQuiz
 import FeatureStudy
 import FeatureBookmark
+import FeatureSearch
 
 @Reducer
 public struct RootFeature {
@@ -26,6 +27,9 @@ public struct RootFeature {
 
         /// FeatureBookmark
         var featureBookmarkMain = FeatureBookmarkMainReducer.State()
+
+        /// FeatureSearch
+        var featureSearchMain = FeatureSearchMainReducer.State()
     }
 
     public enum Action {
@@ -43,6 +47,9 @@ public struct RootFeature {
 
         /// FeatureBookmark
         case featureBookmarkMain(FeatureBookmarkMainReducer.Action)
+
+        /// FeatureSearch
+        case featureSearchMain(FeatureSearchMainReducer.Action)
     }
 
     public var body: some ReducerOf<Self> {
@@ -96,6 +103,10 @@ public struct RootFeature {
                         state.routing.path.append(.featureQuizSubject(FeatureQuizSubjectReducer.State(selectedSujbect: quizTab)))
                         return .none
 
+                    case .navigateToSearch:
+                        state.routing.path.append(.featureSearchMain(.init(source: .study)))
+                        return .none
+
                     default:
                         return .none
                     }
@@ -141,6 +152,9 @@ public struct RootFeature {
 
             /// FeatureBookmark
             Scope(state: \.featureBookmarkMain, action: \.featureBookmarkMain) { FeatureBookmarkMainReducer() }
+
+            /// FeatureSearchMain
+            Scope(state: \.featureSearchMain, action: \.featureSearchMain, child: { FeatureSearchMainReducer() })
         }
     }
 

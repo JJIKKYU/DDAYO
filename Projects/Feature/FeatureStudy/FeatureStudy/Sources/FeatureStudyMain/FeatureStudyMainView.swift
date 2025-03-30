@@ -8,6 +8,7 @@
 import ComposableArchitecture
 import SwiftUI
 import UIComponents
+import Model
 
 public struct FeatureStudyMainView: View {
     public let store: StoreOf<FeatureStudyMainReducer>
@@ -52,7 +53,7 @@ public struct FeatureStudyMainView: View {
                     .padding(.top, 15)
 
                     HStack {
-                        SortingBtnView(title: viewStore.selectedSortOption ?? "A-Z순", onTap: {
+                        SortingBtnView(title: viewStore.selectedSortOption?.displayName ?? SortOption.az.displayName, onTap: {
                             viewStore.send(.showSheet(true))
                         })
                         .sheet(
@@ -62,14 +63,9 @@ public struct FeatureStudyMainView: View {
                             )
                         ) {
                             SortBottomSheetView(
-                                selectedOption: viewStore.binding(
-                                    get: \.tempSortOption,
-                                    send: { FeatureStudyMainReducer.Action.selectSortOption($0) }
-                                ),
-                                isSheetPresented: viewStore.binding(
-                                    get: \.isSheetPresented,
-                                    send: { FeatureStudyMainReducer.Action.showSheet($0) }
-                                )
+                                selectedOption: viewStore.selectedSortOption,
+                                onSelect: { viewStore.send(.selectSortOption($0)) },
+                                onClose: { viewStore.send(.dismiss) }
                             )
                             .presentationDetents(
                                 [.height(320)]

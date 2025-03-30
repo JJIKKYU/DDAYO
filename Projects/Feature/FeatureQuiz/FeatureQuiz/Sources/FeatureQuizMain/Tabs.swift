@@ -8,29 +8,26 @@
 import SwiftUI
 import ComposableArchitecture
 import UIComponents
-
-struct Tab2 {
-    var tab: QuizTab
-    var title: String
-}
+import Model
 
 struct Tabs: View {
-    var tabs: [Tab2]
+    var tabs: [QuizTab]
     let animationNamespace: Namespace.ID
 
     @Binding var selectedTab: QuizTab
     @State private var tabWidths: [CGFloat] = []
+    var onSelectSearch: (() -> Void)
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 10) {
                 ForEach(0 ..< tabs.count, id: \.self) { row in
                     Button {
-                        selectedTab = tabs[row].tab
+                        selectedTab = tabs[row]
                     } label: {
-                        Text(tabs[row].title)
+                        Text(tabs[row].getName())
                             .font(Font.system(size: 24, weight: .bold))
-                            .foregroundColor(selectedTab == tabs[row].tab ? Color.Green._600 : Color.Grayscale._400)
+                            .foregroundColor(selectedTab == tabs[row] ? Color.Green._600 : Color.Grayscale._400)
                             .background(GeometryReader { geo in
                                 Color.clear
                                     .onAppear {
@@ -44,10 +41,20 @@ struct Tabs: View {
                 }
 
                 Spacer()
+
+                Button {
+                    onSelectSearch()
+                } label: {
+                    Image(uiImage: UIComponentsAsset.search.image)
+                        .resizable()
+                        .frame(width: 28, height: 28)
+                        .foregroundStyle(Color.Grayscale._900)
+                }
+                .buttonStyle(.plain)
             }
             .overlay(
                 GeometryReader { geo in
-                    if let selectedIndex = tabs.firstIndex(where: { $0.tab == selectedTab }), tabWidths.indices.contains(selectedIndex) {
+                    if let selectedIndex = tabs.firstIndex(where: { $0 == selectedTab }), tabWidths.indices.contains(selectedIndex) {
                         Rectangle()
                             .fill(Color.Green._600)
                             .frame(width: tabWidths[selectedIndex], height: 3)
@@ -58,6 +65,8 @@ struct Tabs: View {
                 alignment: .bottomLeading
             )
         }
+        // .background(.red)
+        .padding(.all, 0)
         .animation(.easeInOut, value: selectedTab)
     }
 }
@@ -66,9 +75,10 @@ struct Tabs_Previews: PreviewProvider {
     @Namespace private static var animationNamespace // matchedGeometryEffect 사용
 
     static var previews: some View {
-        Tabs(tabs: [.init(tab: .필기, title: "필기"),
-                    .init(tab: .실기, title: "실기")],
+        Tabs(tabs: [.필기, .실기],
              animationNamespace: animationNamespace,
-             selectedTab: .constant(.필기))
+             selectedTab: .constant(.필기),
+             onSelectSearch: { print("onSelectSearch!") }
+        )
     }
 }
