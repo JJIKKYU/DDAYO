@@ -26,3 +26,31 @@ public enum QuizSubject: String, CaseIterable, Codable {
     case basicApplicationTech = "응용SW기초 기술 활용"
     case softwarePackaging = "제품소프트웨어 패키징"
 }
+
+public extension QuizSubject {
+    static var writtenCases: [QuizSubject] {
+        return [
+            .softwareDesign,
+            .softwareDevelopment,
+            .databaseConstruction,
+            .programmingLanguage,
+            .informationSystemManagement
+        ]
+    }
+
+    static var practicalCases: [QuizSubject] {
+        return [
+            .requirementsAnalysis,
+            .dataInputOutput,
+            .integrationImplementation,
+            .serverProgramming,
+            .interfaceImplementation,
+            .screenDesign,
+            .applicationTesting,
+            .sqlApplication,
+            .softwareSecurity,
+            .basicApplicationTech,
+            .softwarePackaging
+        ]
+    }
+}

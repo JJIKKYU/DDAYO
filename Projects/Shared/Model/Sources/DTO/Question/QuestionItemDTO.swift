@@ -22,6 +22,8 @@ public struct QuestionItemDTO: Decodable {
     public let answer: Int
     public let explanation: String
 
+    public var viewCount: Int?
+
     public init(
         id: String,
         title: RichContentDTO,
@@ -33,7 +35,8 @@ public struct QuestionItemDTO: Decodable {
         choice3: RichContentDTO,
         choice4: RichContentDTO,
         answer: Int,
-        explanation: String
+        explanation: String,
+        viewCount: Int?
     ) {
         self.id = id
         self.title = title
@@ -46,5 +49,6 @@ public struct QuestionItemDTO: Decodable {
         self.choice4 = choice4
         self.answer = answer
         self.explanation = explanation
+        self.viewCount = viewCount
     }
 }

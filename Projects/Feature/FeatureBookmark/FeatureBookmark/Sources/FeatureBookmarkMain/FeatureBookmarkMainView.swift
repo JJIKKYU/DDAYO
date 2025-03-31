@@ -146,6 +146,9 @@ public struct FeatureBookmarkMainView: View {
                     )
                 }
             }
+            .onAppear {
+                viewStore.send(.onAppear)
+            }
         }
         .background(Color.Background._2)
     }

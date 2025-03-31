@@ -26,6 +26,8 @@ public final class QuestionItem {
     public var answer: Int
     public var explanation: String
 
+    public var viewCount: Int
+
     public init(
         id: UUID = UUID(),
         title: RichContent,
@@ -37,7 +39,8 @@ public final class QuestionItem {
         choice3: RichContent,
         choice4: RichContent,
         answer: Int,
-        explanation: String
+        explanation: String,
+        viewCount: Int = 0
     ) {
         self.id = id
         self.title = title
@@ -50,6 +53,7 @@ public final class QuestionItem {
         self.choice4 = choice4
         self.answer = answer
         self.explanation = explanation
+        self.viewCount = viewCount
     }
 
     public var subject: QuizSubject {
