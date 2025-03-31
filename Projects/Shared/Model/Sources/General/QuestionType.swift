@@ -10,7 +10,7 @@ import Foundation
 public enum QuestionType: String, Equatable, CaseIterable, Codable {
     case all = "모든"
     case past = "기출"
-    case ai = "AI"
+    case ai = "ai"
 
     public var displayName: String {
         switch self {
