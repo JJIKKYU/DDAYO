@@ -1,19 +1,21 @@
 @preconcurrency import ProjectDescription
 
 let project = Project(
-    name: "UIComponents",
+    name: "CoreNetworking",
     targets: [
         // Framework
         .target(
-            name: "UIComponents",
+            name: "CoreNetworking",
             destinations: .iOS,
             product: .framework,
-            bundleId: "com.jjikktu.UIComponents",
+            bundleId: "com.jjikktu.CoreNetworking",
             infoPlist: .default,
             sources: ["./Sources/**"],
-            resources: ["./Resources/**"],
             dependencies: [
-                .project(target: "Model", path: "../Model", status: .required, condition: nil)
+                // .external(name: "FirebaseFirestore"),
+
+                // Shared
+                .project(target: "Model", path: "../../Shared/Model", status: .required, condition: nil)
             ],
             settings: .settings(
                 base: [

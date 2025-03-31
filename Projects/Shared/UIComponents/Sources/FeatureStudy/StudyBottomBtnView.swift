@@ -31,7 +31,7 @@ public struct StudyBottomBtnView: View {
                 Spacer()
 
                 HStack(spacing: 12) {
-                    RoundImageButton(image: .bookmark) {
+                    RoundImageButton(image: .bookmark, isBookmarked: .constant(false)) {
                         print("북마크 버튼 터치!")
                         bookmarkAction()
                     }

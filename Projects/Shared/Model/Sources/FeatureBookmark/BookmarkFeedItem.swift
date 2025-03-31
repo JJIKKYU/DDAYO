@@ -1,13 +1,13 @@
 //
-//  BookmarkItem.swift
+//  BookmarkFeedItem.swift
 //  Model
 //
-//  Created by 정진균 on 3/29/25.
+//  Created by JJIKKYU on 3/31/25.
 //
 
 import Foundation
 
-public struct BookmarkItem: Identifiable, Equatable, Hashable {
+public struct BookmarkFeedItem: Identifiable, Equatable, Hashable {
     public let id = UUID()
     public let category: String
     public let title: String

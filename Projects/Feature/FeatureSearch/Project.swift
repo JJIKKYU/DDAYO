@@ -25,6 +25,7 @@ let project = Project(
                 // Shared
                 .project(target: "UIComponents", path: "../../Shared/UIComponents", status: .required, condition: nil),
                 .project(target: "Model", path: "../../Shared/Model", status: .required, condition: nil),
+                .project(target: "DI", path: "../../Shared/DI", status: .required, condition: nil),
             ],
             settings: .settings(
                 base: [

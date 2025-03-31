@@ -11,7 +11,6 @@ let project = Project(
             bundleId: "com.jjikktu.Model",
             infoPlist: .default,
             sources: ["./Sources/**"],
-            resources: ["./Resources/**"],
             dependencies: [],
             settings: .settings(
                 base: [

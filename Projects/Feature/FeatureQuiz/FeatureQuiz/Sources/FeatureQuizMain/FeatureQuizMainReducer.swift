@@ -12,6 +12,7 @@ import Model
 
 @Reducer
 public struct FeatureQuizMainReducer {
+    @Dependency(\.modelContext) var modelContext
 
     public init() {}
 

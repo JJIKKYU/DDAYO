@@ -86,6 +86,9 @@ public struct MainTabView: View {
                 FeatureSearchMainView(store: store)
             }
         }
+        .onAppear {
+            store.send(.task)
+        }
     }
 }
 

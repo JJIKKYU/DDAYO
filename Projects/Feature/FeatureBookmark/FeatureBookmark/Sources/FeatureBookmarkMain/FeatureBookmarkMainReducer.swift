@@ -20,7 +20,7 @@ public struct FeatureBookmarkMainReducer {
 
         var selectedTab: BookmarkTabType = .문제
         var showOnlyWrongAnswers: Bool = false
-        let bookmarkItems: [BookmarkItem] = [
+        let bookmarkFeedItems: [BookmarkFeedItem] = [
             .init(category: "소프트웨어 개발 보안 구축", title: "UML에서 활용되는 다이어그램 중, 시스템의 동작을 표현하는 행위 다이어그램에 해당하지 않는 것은?", views: "99999+", tags: ["필기시험", "틀린 문제"], isBookmarked: true),
             .init(category: "데이터베이스", title: "정규화 과정 중 BCNF의 정의로 올바른 것은?", views: "8823", tags: ["필기시험", "기출 문제"], isBookmarked: true),
             .init(category: "운영체제", title: "프로세스와 스레드의 차이점에 대한 설명으로 옳은 것을 고르시오.", views: "4312", tags: ["틀린 문제", "AI 예상 문제"], isBookmarked: true),
@@ -68,8 +68,8 @@ public struct FeatureBookmarkMainReducer {
         @Presents var filter: QuestionFilterReducer.State?
         @Presents var conceptSortSheet: ConceptSortingReducer.State?
 
-        var filteredBookmarkItems: [BookmarkItem] {
-            bookmarkItems.filter { item in
+        var filteredBookmarkFeedItems: [BookmarkFeedItem] {
+            bookmarkFeedItems.filter { item in
                 let matchesWrongOnly = !showOnlyWrongAnswers || item.tags.contains("틀린 문제")
 
                 let matchesExamType: Bool = {

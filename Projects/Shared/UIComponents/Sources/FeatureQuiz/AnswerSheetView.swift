@@ -14,6 +14,7 @@ public struct AnswerSheetView: View {
     @Binding var selectedIndex: Int?
     @Binding var step: FeatureQuizPlayStep
     let isCorrect: Bool?
+    let question: QuestionItem?
     let onConfirmAnswer: () -> Void
 
     public init(
@@ -22,6 +23,7 @@ public struct AnswerSheetView: View {
         selectedIndex: Binding<Int?>,
         step: Binding<FeatureQuizPlayStep>,
         isCorrect: Bool?,
+        question: QuestionItem?,
         onConfirmAnswer: @escaping () -> Void
     ) {
         self.answers = answers
@@ -29,6 +31,7 @@ public struct AnswerSheetView: View {
         self._selectedIndex = selectedIndex
         self._step = step
         self.isCorrect = isCorrect
+        self.question = question
         self.onConfirmAnswer = onConfirmAnswer
     }
 
@@ -57,7 +60,6 @@ public struct AnswerSheetView: View {
                     Spacer()
 
                     Button(action: {
-                        // isSheetPresented = false  // ✅ Sheet 닫기
                         onConfirmAnswer()
                     }) {
                         Text("정답 확인")
@@ -72,50 +74,45 @@ public struct AnswerSheetView: View {
 
             case .confirmAnswers:
                 ScrollView {
-                    switch isCorrect {
-                    case true:
-                        AnswerBtnView(
-                            title: answers[selectedIndex ?? 0].title,
-                            isChecked: .constant(true),
-                            btnType: .correct
-                        )
+                    if let question, let selectedIndex {
+                        if isCorrect == true {
+                            AnswerBtnView(
+                                title: question.choices[selectedIndex],
+                                isChecked: .constant(true),
+                                btnType: .correct
+                            )
+                        } else {
+                            AnswerBtnView(
+                                title: question.choices[selectedIndex],
+                                isChecked: .constant(false),
+                                btnType: .incorrectWrongAnswer
+                            )
+                            AnswerBtnView(
+                                title: question.choices[question.answer - 1],
+                                isChecked: .constant(false),
+                                btnType: .incorrectCorrectAnswer
+                            )
+                        }
 
-                    case false, .none, .some:
-                        AnswerBtnView(
-                            title: answers[selectedIndex ?? 0].title,
-                            isChecked: .constant(false),
-                            btnType: .incorrectWrongAnswer
-                        )
-                        AnswerBtnView(
-                            title: answers[selectedIndex ?? 0].title,
-                            isChecked: .constant(false),
-                            btnType: .incorrectCorrectAnswer
-                        )
+                        Text(isCorrect == true ? "정답이에요" : "오답이에요")
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundStyle(Color.Grayscale._900)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, 20)
+
+                        Text(question.explanation.forceCharWrapping)
+                            .padding(.top, 10)
+                            .font(.system(size: 15, weight: .regular))
+                            .foregroundStyle(Color.Grayscale._700)
+                            .lineSpacing(5.0)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                     }
-
-                    Text((isCorrect ?? false) ? "정답이에요" : "오답이에요")
-                        .font(.system(size: 24, weight: .bold))
-                        .foregroundStyle(Color.Grayscale._900)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.top, 20)
-
-                    Text(
-                        """
-                        해설내용을 적어줍니다 해설내용을 적어줍니다해설내용을 적어줍니다 해설내용을 적어줍니다해설내용을 적어줍니다 해설내용을 적어줍니다해설내용을 적어줍니다 해설내용을 적어줍니다해설내용을 적어줍니다내용을 적어줍니다해설내용을 적어줍니다내용을 적어줍니다해설내용을 적어줍니다.
-                        """.forceCharWrapping
-                    )
-                    .padding(.top, 10)
-                    .font(.system(size: 15, weight: .regular))
-                    .foregroundStyle(Color.Grayscale._700)
-                    .lineSpacing(5.0)
-                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
 
                 Spacer()
 
                 Button(action: {
-                    // isSheetPresented = false  // ✅ Sheet 닫기
                     onConfirmAnswer()
                 }) {
                     Text("다음 문제")
@@ -150,6 +147,7 @@ public struct AnswerSheetView: View {
         selectedIndex: $selectedIndex,
         step: .constant(.showAnswers),
         isCorrect: true,
+        question: nil,
         onConfirmAnswer: {
             print("onConfirm!")
         }

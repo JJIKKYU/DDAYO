@@ -7,10 +7,10 @@
 
 import Foundation
 
-public enum QuestionType: String, Equatable, CaseIterable {
-    case all
-    case past
-    case predicted
+public enum QuestionType: String, Equatable, CaseIterable, Codable {
+    case all = "모든"
+    case past = "기출"
+    case predicted = "예상"
 
     public var displayName: String {
         switch self {

@@ -14,7 +14,10 @@ public struct QuizBottomBtnView: View {
     @Binding var selectedIndex: Int?
     @Binding var step: FeatureQuizPlayStep
     let isCorrect: Bool?
+    let question: QuestionItem?
+    @Binding var isBookmarked: Bool
     let onConfirmAnswer: () -> Void
+    let onSelectBookmark: () -> Void
 
     public init(
         isSheetPresented: Binding<Bool>,
@@ -22,14 +25,20 @@ public struct QuizBottomBtnView: View {
         selectedIndex: Binding<Int?>,
         step: Binding<FeatureQuizPlayStep>,
         isCorrect: Bool?,
-        onConfirmAnswer: @escaping () -> Void
+        question: QuestionItem?,
+        isBookmarked: Binding<Bool>,
+        onConfirmAnswer: @escaping () -> Void,
+        onSelectBookmark: @escaping () -> Void
     ) {
         self._isSheetPresented = isSheetPresented
         self.answers = answers
         self._selectedIndex = selectedIndex
         self._step = step
         self.isCorrect = isCorrect
+        self.question = question
+        self._isBookmarked = isBookmarked
         self.onConfirmAnswer = onConfirmAnswer
+        self.onSelectBookmark = onSelectBookmark
     }
 
     public var body: some View {
@@ -40,8 +49,8 @@ public struct QuizBottomBtnView: View {
                 Spacer()
 
                 HStack(spacing: 12) {
-                    RoundImageButton(image: .bookmark) {
-                        print("북마크 버튼 터치!")
+                    RoundImageButton(image: .bookmark, isBookmarked: $isBookmarked) {
+                        onSelectBookmark()
                     }
 
                     Button(action: {
@@ -72,6 +81,7 @@ public struct QuizBottomBtnView: View {
                 selectedIndex: $selectedIndex,
                 step: $step,
                 isCorrect: isCorrect,
+                question: question,
                 onConfirmAnswer: onConfirmAnswer
             )
             .presentationDetents([.fraction(0.45), .medium, .large])
@@ -82,6 +92,7 @@ public struct QuizBottomBtnView: View {
 struct QuizBottomSheetView_Previews: PreviewProvider {
     static var previews: some View {
         @Previewable @State var selectedIndex: Int? = nil
+        @Previewable @State var isBookmarked: Bool = false
 
         QuizBottomBtnView(
             isSheetPresented: .constant(true),
@@ -94,8 +105,13 @@ struct QuizBottomSheetView_Previews: PreviewProvider {
             selectedIndex: $selectedIndex,
             step: .constant(.confirmAnswers),
             isCorrect: false,
+            question: nil,
+            isBookmarked: $isBookmarked,
             onConfirmAnswer: {
                 print("onConfirm!")
+            },
+            onSelectBookmark: {
+                print("북마크 선택됨")
             }
         )
     }

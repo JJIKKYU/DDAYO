@@ -1,19 +1,18 @@
 @preconcurrency import ProjectDescription
 
 let project = Project(
-    name: "UIComponents",
+    name: "Service",
     targets: [
         // Framework
         .target(
-            name: "UIComponents",
+            name: "Service",
             destinations: .iOS,
             product: .framework,
-            bundleId: "com.jjikktu.UIComponents",
+            bundleId: "com.jjikktu.Service",
             infoPlist: .default,
             sources: ["./Sources/**"],
-            resources: ["./Resources/**"],
             dependencies: [
-                .project(target: "Model", path: "../Model", status: .required, condition: nil)
+                .external(name: "ComposableArchitecture", condition: nil)
             ],
             settings: .settings(
                 base: [

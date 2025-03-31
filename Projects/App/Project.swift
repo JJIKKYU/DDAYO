@@ -21,6 +21,7 @@ let project = Project(
             dependencies: [
                 .external(name: "ComposableArchitecture", condition: nil),
                 .external(name: "FirebaseAnalytics", condition: nil),
+                .external(name: "FirebaseFirestore", condition: nil),
 
                 // Feature
                 .project(target: "FeatureQuiz", path: "../Feature/FeatureQuiz", status: .required, condition: nil),
@@ -30,7 +31,12 @@ let project = Project(
 
                 // Shared
                 .project(target: "UIComponents", path: "../Shared/UIComponents", status: .required, condition: nil),
-                .project(target: "Model", path: "../Shared/Model", status: .required, condition: nil)
+                .project(target: "Model", path: "../Shared/Model", status: .required, condition: nil),
+                .project(target: "Service", path: "../Shared/Service", status: .required, condition: nil),
+                .project(target: "DI", path: "../Shared/DI", status: .required, condition: nil),
+
+                // Core
+                .project(target: "CoreNetworking", path: "../Core/CoreNetworking", status: .required, condition: nil),
             ],
             settings: .settings(
                 base: [

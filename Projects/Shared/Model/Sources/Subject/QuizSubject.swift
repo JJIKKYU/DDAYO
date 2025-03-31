@@ -5,7 +5,7 @@
 //  Created by 정진균 on 3/8/25.
 //
 
-public enum QuizSubject: String, CaseIterable {
+public enum QuizSubject: String, CaseIterable, Codable {
     // 필기 과목
     case softwareDesign = "소프트웨어 설계"
     case softwareDevelopment = "소프트웨어 개발"

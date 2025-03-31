@@ -1,6 +1,8 @@
 import SwiftUI
 import FirebaseCore
 import ComposableArchitecture
+import SwiftData
+import Model
 
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,
@@ -15,13 +17,20 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct DDAYOApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
-    let tabViewStore: StoreOf<RootFeature> = .init(initialState: RootFeature.State()) {
-        RootFeature()
-    }
+    @State private var modelContainer: ModelContainer = {
+        try! ModelContainer(for: QuestionItem.self, RichContent.self, ImageItem.self, BookmarkItem.self)
+    }()
 
     var body: some Scene {
         WindowGroup {
-            MainTabView(store: tabViewStore)
+            MainTabView(
+                store: Store(initialState: RootFeature.State()) {
+                    RootFeature()
+                } withDependencies: {
+                    $0.modelContext = modelContainer.mainContext  // SwiftData 주입
+                }
+            )
+            .modelContainer(modelContainer)  // SwiftUI에도 주입
         }
     }
 }

@@ -74,7 +74,7 @@ public struct FeatureBookmarkMainView: View {
 
                             ScrollView {
                                 LazyVStack(spacing: 8) {
-                                    ForEach(viewStore.filteredBookmarkItems) { item in
+                                    ForEach(viewStore.filteredBookmarkFeedItems) { item in
                                         BookmarkCardView(
                                             category: item.category,
                                             title: item.title,
