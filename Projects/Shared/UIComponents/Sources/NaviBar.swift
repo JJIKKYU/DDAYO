@@ -19,6 +19,7 @@ public enum NaviBarType {
 public struct NaviBar: View {
     public let type: NaviBarType
     public let title: String
+    public var leadingTitleImage: UIComponentsImages? = nil
     public var leading1: (() -> Void)? = nil
     public var leading2: (() -> Void)? = nil
     public var trailing1: (() -> Void)? = nil
@@ -29,6 +30,7 @@ public struct NaviBar: View {
     public init(
         type: NaviBarType,
         title: String,
+        leadingTitleImage: UIComponentsImages? = nil,
         leading1: (() -> Void)? = nil,
         leading2: (() -> Void)? = nil,
         trailing1: (() -> Void)? = nil,
@@ -36,6 +38,7 @@ public struct NaviBar: View {
     ) {
         self.type = type
         self.title = title
+        self.leadingTitleImage = leadingTitleImage
         self.leading1 = leading1
         self.leading2 = leading2
         self.trailing1 = trailing1
@@ -71,9 +74,18 @@ public struct NaviBar: View {
 
             Spacer()
 
-            Text(title)
-                .font(.system(size: 16, weight: .medium))
-                .foregroundColor(.Grayscale._900)
+            HStack(alignment: .center, spacing: 8) {
+                if let leadingTitleImage = leadingTitleImage {
+                    leadingTitleImage.swiftUIImage
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .scaledToFit()
+                }
+
+                Text(title)
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(.Grayscale._900)
+            }
 
             Spacer()
 

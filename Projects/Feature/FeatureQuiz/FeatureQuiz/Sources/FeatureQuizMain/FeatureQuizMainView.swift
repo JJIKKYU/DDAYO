@@ -47,9 +47,9 @@ public struct FeatureQuizMainView: View {
                                     ExamSectionView(
                                         title: section.title,
                                         subtitle: section.subtitle,
-                                        buttons: section.buttons.map ({ $0.title }),
-                                        onTap: {
-                                            viewStore.send(.navigateToQuizSubject(.필기))
+                                        buttons: section.buttons.map { button in
+                                            (title: button.title, action: { viewStore.send(.navigateToQuizSubject(.필기, section.questionType, button.option)) }
+                                            )
                                         }
                                     )
                                 }
@@ -66,9 +66,9 @@ public struct FeatureQuizMainView: View {
                                     ExamSectionView(
                                         title: section.title,
                                         subtitle: section.subtitle,
-                                        buttons: section.buttons.map ({ $0.title }),
-                                        onTap: {
-                                            viewStore.send(.navigateToQuizSubject(.실기))
+                                        buttons: section.buttons.map { button in
+                                            (title: button.title, action: { viewStore.send(.navigateToQuizSubject(.실기, section.questionType, button.option)) }
+                                            )
                                         }
                                     )
                                 }

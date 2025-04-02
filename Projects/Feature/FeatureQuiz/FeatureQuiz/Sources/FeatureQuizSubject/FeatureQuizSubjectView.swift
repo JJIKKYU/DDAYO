@@ -8,6 +8,7 @@
 import SwiftUI
 import ComposableArchitecture
 import UIComponents
+import Model
 
 public struct FeatureQuizSubjectView: View {
     public let store: StoreOf<FeatureQuizSubjectReducer>
@@ -19,8 +20,12 @@ public struct FeatureQuizSubjectView: View {
     public var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             VStack {
-                NaviBar(type: .quiz, title: "실기 과목별로 풀기", leading1: {
-                    viewStore.send(.pressedBackBtn)
+                NaviBar(
+                    type: .quiz,
+                    title: viewStore.navigationTitle,
+                    leadingTitleImage: viewStore.selectedQuestionType == .ai ? UIComponentsAsset.ai : nil,
+                    leading1: {
+                        viewStore.send(.pressedBackBtn)
                 })
 
                 ScrollView {

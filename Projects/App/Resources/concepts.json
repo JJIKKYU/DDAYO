@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "title": "SDLC 모델 프로세스",
+      "description": "요구사항 분석 → 설계 → 구현 → 테스트 → 유지보수의 5단계 개발 프로세스를 의미",
+      "mnemonics": ["요설구태유"],
+      "subject": "요구사항 확인",
+      "subjectId": 1,
+      "id": "563aa48a-7cbe-4e9c-93dd-4313dc88d356",
+      "views": 0
+    },
+    {
+      "title": "SDLC 모델 종류",
+      "description": "대표적인 SDLC 모델은 폭포수, 프로토타입, 나선형, 반복적 모델이 있다",
+      "mnemonics": ["폭프나반"],
+      "subject": "요구사항 확인",
+      "subjectId": 1,
+      "id": "a88e2c6a-1a0e-4513-9e20-7f23b5bc09c6",
+      "views": 0
+    },
+    {
+      "title": "폭포수 모델",
+      "description": "선형 순차적 모델로 각 단계를 마무리한 후 다음 단계로 진행하며, 요구사항 변경이 어렵다",
+      "mnemonics": [],
+      "subject": "요구사항 확인",
+      "subjectId": 1,
+      "id": "3718e59e-b468-4c24-b8e5-c7745be22d5e",
+      "views": 0
+    },
+    {
+      "title": "프로토타이핑 모델",
+      "description": "프로토타입을 기반으로 고객 피드백을 받아 점진적으로 개발하는 모델",
+      "mnemonics": [],
+      "subject": "요구사항 확인",
+      "subjectId": 1,
+      "id": "0c9e516d-1089-430a-806d-f30744274af3",
+      "views": 0
+    },
+    {
+      "title": "나선형 모델",
+      "description": "위험 분석을 통해 점진적으로 개발하는 모델, 계획 → 위험 분석 → 개발 → 고객 평가의 절차를 따른다",
+      "mnemonics": ["계위개고"],
+      "subject": "요구사항 확인",
+      "subjectId": 1,
+      "id": "109f1f9e-0790-4d27-80e6-24897bb91be2",
+      "views": 0
+    },
+    {
+      "title": "반복적 모델",
+      "description": "병렬 개발 또는 반복 개발을 통해 점차 완성도 높은 시스템을 만드는 모델",
+      "mnemonics": [],
+      "subject": "요구사항 확인",
+      "subjectId": 1,
+      "id": "46485131-8d95-4446-a2a5-78ea09ecced8",
+      "views": 0
+    },
+    {
+      "title": "소프트웨어 개발방법론",
+      "description": "소프트웨어 개발의 시작부터 끝까지의 전 과정을 형상화한 다양한 방법론이 존재",
+      "mnemonics": ["구정객컴애제"],
+      "subject": "요구사항 확인",
+      "subjectId": 1,
+      "id": "e8530ab4-1a34-493c-82ef-ffb544246a0c",
+      "views": 0
+    }
+  ]
+}

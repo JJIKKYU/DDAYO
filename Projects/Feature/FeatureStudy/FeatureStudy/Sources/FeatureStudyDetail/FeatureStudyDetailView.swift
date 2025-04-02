@@ -28,7 +28,7 @@ public struct FeatureStudyDetailView: View {
                 ScrollView {
                     VStack(alignment: .leading) {
                         HStack {
-                            Text("스키마")
+                            Text(viewStore.currentItem?.title ?? "")
                                 .font(.system(size: 24, weight: .bold))
                                 .foregroundStyle(Color.Grayscale._900)
 
@@ -53,7 +53,7 @@ public struct FeatureStudyDetailView: View {
                             )
                             .padding(.bottom, 16)
 
-                        Text("데이터베이스의 논리적 구조를 사용자가 이해하고, 원하는 데이터를 검색할 수 있도록 지원하는 데이터베이스의 구성 요소이다. 사용자는 이 구조를 통해 테이블, 뷰, 인덱스 등을 접근하거나 조작할 수 있다.")
+                        Text(viewStore.currentItem?.desc ?? "")
                             .font(.system(size: 15, weight: .regular))
                             .foregroundStyle(Color.Grayscale._700)
                             .lineSpacing(4)
@@ -80,9 +80,9 @@ public struct FeatureStudyDetailView: View {
                 }
 
                 StudyBottomBtnView(
-                    bookmarkAction: { print("북마크") },
-                    prevAction: { print("prev") },
-                    nextAction: { print("next") }
+                    bookmarkAction: { viewStore.send(.toggleBookmarkTapped) },
+                    prevAction: { viewStore.send(.goPrevious) },
+                    nextAction: { viewStore.send(.goNext) }
                 )
             }
         }
@@ -93,10 +93,14 @@ struct FeatureStudyDetailView_Previews: PreviewProvider {
     static var previews: some View {
         FeatureStudyDetailView(
             store: Store(
-                initialState: FeatureStudyDetailReducer.State(),
+                initialState: FeatureStudyDetailReducer.State(
+                    items: [],
+                    index: 0
+                ),
                 reducer: { FeatureStudyDetailReducer() }
             )
         )
         .previewLayout(.sizeThatFits)
     }
 }
+

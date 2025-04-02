@@ -40,7 +40,7 @@ public struct ConceptListCell: View {
                     }
                     .padding(.bottom, 10)
 
-                    Text(concept.description)
+                    Text(concept.desc)
                         .font(.system(size: 14, weight: .regular))
                         .foregroundColor(Color.Grayscale._900)
                         .lineLimit(2)
@@ -96,9 +96,12 @@ public struct ConceptListCell: View {
 struct ConceptListView_Previews: PreviewProvider {
     static var previews: some View {
         let concept: ConceptItem = .init(
-            title: "개념학습 1",
-            description: "이것은 첫 번째 개념입니다. 최대 두 줄까지 노출됩니다.줄까지 노출됩니다.줄까지 노출됩니다.줄까지 노출됩니다.줄까지 노출됩니다.줄까지 노출됩니다.줄까지 노출됩니다.줄까지 노출됩니다.줄까지 노출됩니다.",
-            views: 120
+            title: "개념 학습 1",
+            desc: "내용입니다.",
+            views: 0,
+            mnemonics: ["안녕하세요"],
+            subject: "주제입니다",
+            subjectId: 1
         )
 
         VStack(alignment: .leading, spacing: 12) {

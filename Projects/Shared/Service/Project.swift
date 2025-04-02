@@ -12,7 +12,9 @@ let project = Project(
             infoPlist: .default,
             sources: ["./Sources/**"],
             dependencies: [
-                .external(name: "ComposableArchitecture", condition: nil)
+                .external(name: "ComposableArchitecture", condition: nil),
+
+                .project(target: "Model", path: "../Model", status: .required, condition: nil)
             ],
             settings: .settings(
                 base: [

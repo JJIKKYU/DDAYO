@@ -34,7 +34,7 @@ public struct FeatureStudyMainView: View {
                     }
 
                     ConceptListCell(
-                        concept: store.concepts.first!,
+                        concept: .init(title: "", desc: "", views: 0, mnemonics: [""], subject: "", subjectId: 0),
                         type: .continueLearning,
                         onTap: {
                             print("계속 공부하자!")
@@ -76,24 +76,32 @@ public struct FeatureStudyMainView: View {
                     }
                     .padding(.horizontal, 20)
 
-                    ForEach(store.concepts) { data in
-                        ConceptListCell(
-                            concept: data,
-                            type: .regular,
-                            onTap: {
-                                print("onTap!")
-                                viewStore.send(.selectItem(0))
+                    LazyVStack {
+                        ForEach(store.concepts) { data in
+                            ConceptListCell(
+                                concept: data,
+                                type: .regular,
+                                onTap: {
+                                    print("onTap!")
+                                    viewStore.send(.selectItem(0))
+                                }
+                            )
+                            .fullScreenCover(
+                                store: store.scope(
+                                    state: \.$detail,
+                                    action: FeatureStudyMainReducer.Action.presentDetail
+                                )
+                            ) { detailStore in
+                                FeatureStudyDetailView(store: detailStore)
                             }
-                        )
-                        .fullScreenCover(
-                            store: store.scope(state: \.$detail, action: FeatureStudyMainReducer.Action.presentDetail)
-                        ) { detailStore in
-                            FeatureStudyDetailView(store: detailStore)
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 8)
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 8)
                     }
                 }
+            }
+            .onAppear {
+                viewStore.send(.onAppear)
             }
         }
         .background(Color.Background._2)

@@ -20,6 +20,7 @@ import DI
 public struct RootFeature {
     @Dependency(\.questionService) var questionService
     @Dependency(\.modelContext) var modelContext
+    @Dependency(\.conceptService) var conceptService
 
     @ObservableState
     public struct State {
@@ -71,6 +72,8 @@ public struct RootFeature {
                 switch action {
                 case .task:
                     return .run { send in
+                        let t = try? conceptService.loadConceptsAndSyncWithLocal(context: modelContext)
+
                         do {
                             let dtos = try await questionService.fetchQuestionsFromFirebase()
                             let models = dtos.compactMap { $0.toModel() }
@@ -148,8 +151,8 @@ public struct RootFeature {
 
                 case .featureQuizMain(let action):
                     switch action {
-                    case .navigateToQuizSubject(let quizTab):
-                        state.routing.path.append(.featureQuizSubject(FeatureQuizSubjectReducer.State(selectedSujbect: quizTab)))
+                    case .navigateToQuizSubject(let quizTab, let questionType, let quizStartOption):
+                        state.routing.path.append(.featureQuizSubject(FeatureQuizSubjectReducer.State(selectedSujbect: quizTab, selectedQuestionType: questionType, selectedStartOption: quizStartOption)))
                         return .none
 
                     case .navigateToSearch:

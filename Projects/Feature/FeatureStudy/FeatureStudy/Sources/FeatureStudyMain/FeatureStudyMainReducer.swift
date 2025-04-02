@@ -7,22 +7,19 @@
 
 import ComposableArchitecture
 import Model
+import SwiftData
+import DI
+import Service
 
 @Reducer
 public struct FeatureStudyMainReducer {
+    @Dependency(\.modelContext) var modelContext
 
     public init() {}
 
     @ObservableState
     public struct State: Equatable, Hashable {
-        var concepts: [ConceptItem] = [
-            .init(title: "가. 개념학습 1", description: "안녕하세요 반갑습니다 안녕하세요 반갑습니다 안녕하세요 반갑습니다 안녕하세요 반갑습니다", views: 1),
-            .init(title: "나. 개념학습 2", description: "안녕하세요 반갑습니다 안녕하세요 반갑습니다 안녕하세요 반갑습니다 안녕하세요 반갑습니다", views: 223),
-            .init(title: "다. 개념학습 3", description: "안녕하세요 반갑습니다 안녕하세요 반갑습니다 안녕하세요 반갑습니다 안녕하세요 반갑습니다", views: 3),
-            .init(title: "아. 개념학습 4", description: "안녕하세요 반갑습니다 안녕하세요 반갑습니다 안녕하세요 반갑습니다 안녕하세요 반갑습니다", views: 44),
-            .init(title: "카. 개념학습 5", description: "안녕하세요 반갑습니다 안녕하세요 반갑습니다 안녕하세요 반갑습니다 안녕하세요 반갑습니다", views: 51),
-            .init(title: "하. 개념학습 6", description: "안녕하세요 반갑습니다 안녕하세요 반갑습니다 안녕하세요 반갑습니다 안녕하세요 반갑습니다", views: 6),
-        ]
+        var concepts: [ConceptItem] = []
         var isSheetPresented: Bool = false
         var selectedSortOption: SortOption? = .az
         // bottomSheet에서 선택한 값을 임시로 저장하고
@@ -31,11 +28,12 @@ public struct FeatureStudyMainReducer {
         @Presents var detail: FeatureStudyDetailReducer.State?
 
         public init() {
-            
+
         }
     }
 
     public enum Action {
+        case onAppear
         case pressedSearchBtn
         case showSheet(Bool)
 
@@ -44,11 +42,23 @@ public struct FeatureStudyMainReducer {
         case presentDetail(PresentationAction<FeatureStudyDetailReducer.Action>)
         case dismiss
         case test
+        case loadConcepts([ConceptItem])
     }
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                return .run { [modelContext] send in
+                    do {
+                        let descriptor = FetchDescriptor<ConceptItem>()
+                        let items = try modelContext.fetch(descriptor)
+                        await send(.loadConcepts(items))
+                    } catch {
+                        print("⚠️ Failed to fetch ConceptItems: \(error)")
+                    }
+                }
+
             case .test:
                 return .none
 
@@ -88,7 +98,10 @@ public struct FeatureStudyMainReducer {
 
             // index는 변경 필요
             case .selectItem(let index):
-                state.detail = FeatureStudyDetailReducer.State.init()
+                state.detail = FeatureStudyDetailReducer.State(
+                    items: state.concepts,
+                    index: index
+                )
                 return .none
 
             case .presentDetail(.presented(.dismiss)):
@@ -100,6 +113,10 @@ public struct FeatureStudyMainReducer {
 
             case .dismiss:
                 print("FeatureStudyMainReducer :: dismiss")
+                return .none
+
+            case let .loadConcepts(items):
+                state.concepts = items
                 return .none
             }
         }
