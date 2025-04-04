@@ -36,12 +36,24 @@ public struct FeatureSearchMainReducer {
         public var matchedConceptItems: [ConceptItem] = []
         public var matchedQuestionItems: [QuestionItem] = []
 
-        public var matchedBookmarkItems: [BookmarkFeedItem] {
+        public var questionFeedItems: [BookmarkFeedItem] {
             matchedQuestionItems.map {
                 BookmarkFeedItem(
                     category: $0.subject.rawValue,
                     title: $0.title.text,
                     views: "\($0.viewCount)",
+                    tags: [],
+                    isBookmarked: true
+                )
+            }
+        }
+
+        public var conceptFeedItems: [BookmarkFeedItem] {
+            matchedConceptItems.map {
+                BookmarkFeedItem(
+                    category: $0.subject,
+                    title: $0.title,
+                    views: "\($0.views)",
                     tags: [],
                     isBookmarked: true
                 )

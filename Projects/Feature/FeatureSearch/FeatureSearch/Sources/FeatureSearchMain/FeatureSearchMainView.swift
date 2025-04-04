@@ -110,7 +110,7 @@ public struct FeatureSearchMainView: View {
                 case .done:
                     switch viewStore.source {
                     case .quiz:
-                        List(viewStore.matchedBookmarkItems, id: \.self) { item in
+                        List(viewStore.questionFeedItems, id: \.self) { item in
                             BookmarkCardView(
                                 category: item.category,
                                 title: item.title,
@@ -124,7 +124,18 @@ public struct FeatureSearchMainView: View {
                         .listStyle(.plain)
 
                     case .study:
-                        EmptyView()
+                        List(viewStore.conceptFeedItems, id: \.self) { item in
+                            BookmarkCardView(
+                                category: item.category,
+                                title: item.title,
+                                views: item.views,
+                                tags: item.tags,
+                                isBookmarked: item.isBookmarked
+                            )
+                            .listRowBackground(Color.Background._2)
+                        }
+                        .listRowSeparator(.hidden)
+                        .listStyle(.plain)
 
                     case .none:
                         EmptyView()
