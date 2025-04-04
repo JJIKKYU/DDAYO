@@ -10,5 +10,5 @@ import Foundation
 public enum FeatureSearchSource: Equatable {
     case study
     case quiz
-    case bookmark
+    // case bookmark
 }

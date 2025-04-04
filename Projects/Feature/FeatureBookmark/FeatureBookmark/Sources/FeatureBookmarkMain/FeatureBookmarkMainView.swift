@@ -104,7 +104,7 @@ public struct FeatureBookmarkMainView: View {
 
                             ScrollView {
                                 LazyVStack(spacing: 8) {
-                                    ForEach(viewStore.conceptItems) { item in
+                                    ForEach(viewStore.filteredConceptFeedItems) { item in
                                         ConceptListCell(
                                             concept: item,
                                             type: .regular,

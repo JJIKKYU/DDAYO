@@ -29,7 +29,7 @@ public struct RoundImageButton: View {
                 .foregroundStyle(isBookmarked ? Color.Green._500 : .gray)
         }
         .frame(width: 52, height: 52, alignment: .center)
-        .background(Color.white)
+        .background(Color.Grayscale.white)
         .cornerRadius(16)
         .overlay(
             RoundedRectangle(cornerRadius: 16)

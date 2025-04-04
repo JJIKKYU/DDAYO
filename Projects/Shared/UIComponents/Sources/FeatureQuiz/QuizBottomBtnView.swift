@@ -58,7 +58,7 @@ public struct QuizBottomBtnView: View {
                     }) {
                         Text("정답 맞히기")
                             .font(.headline)
-                            .foregroundColor(.white)
+                            .foregroundColor(Color.Grayscale.white)
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(Color.Green._500)
@@ -69,7 +69,7 @@ public struct QuizBottomBtnView: View {
                 .padding(.bottom, 40)
                 .padding(.top, 16)
                 .clipShape(RoundedCornerShape(radius: 16, corners: [.topLeft, .topRight]))
-                .background(.white)
+                .background(Color.Grayscale.white)
                 .background(.shadow(.drop(color: .black.opacity(0.06), radius: 20, x: 0, y: -2)))
             }
         }

@@ -30,7 +30,7 @@ public struct BookmarkFilterChipView: View {
                         if isSelected {
                             Color.Green._50
                         } else {
-                            Color.white
+                            Color.Grayscale.white
                         }
                     }
                 )

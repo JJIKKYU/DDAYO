@@ -21,7 +21,7 @@ public struct FeatureStudyMainView: View {
         WithViewStore(store, observe:  { $0 }) { viewStore in
             VStack {
                 NaviBar(type: .study, title: "개념학습", trailing1: {
-                    store.send(.pressedSearchBtn)
+                    store.send(.navigateToSearch(.study))
                 })
                 ScrollView {
                     HStack {

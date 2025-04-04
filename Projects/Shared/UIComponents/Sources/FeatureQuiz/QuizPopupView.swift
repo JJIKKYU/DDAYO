@@ -89,7 +89,7 @@ public struct QuizPopupView: View {
                 }
                 .padding(.all, 20)
                 .frame(maxWidth: UIScreen.main.bounds.width - 40)
-                .background(Color.white)
+                .background(Color.Grayscale.white)
                 .cornerRadius(24)
             }
         }

@@ -155,8 +155,8 @@ public struct RootFeature {
                         state.routing.path.append(.featureQuizSubject(FeatureQuizSubjectReducer.State(selectedSujbect: quizTab, selectedQuestionType: questionType, selectedStartOption: quizStartOption)))
                         return .none
 
-                    case .navigateToSearch:
-                        state.routing.path.append(.featureSearchMain(.init(source: .study)))
+                    case .navigateToSearch(let source):
+                        state.routing.path.append(.featureSearchMain(.init(source: source)))
                         return .none
 
                     default:
@@ -174,6 +174,10 @@ public struct RootFeature {
 
                 case .featureStudyMain(let action):
                     switch action {
+                    case .navigateToSearch(let source):
+                        state.routing.path.append(.featureSearchMain(.init(source: source)))
+                        return .none
+
                     default:
                         return .none
                     }

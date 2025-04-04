@@ -95,7 +95,7 @@ struct TagBadgeView: View {
             .padding(.horizontal, 6)
             .padding(.vertical, 4)
             .background(tagColor(for: text))
-            .foregroundColor(.white)
+            .foregroundColor(Color.Grayscale.white)
             .cornerRadius(4)
     }
 

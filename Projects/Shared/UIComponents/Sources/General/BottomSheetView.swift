@@ -27,7 +27,7 @@ public struct BottomSheetView: View {
             Button(action: closeAction) {
                 Text("닫기")
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundColor(Color.Grayscale.white)
                     .padding()
                     .frame(maxWidth: .infinity)
                     .background(Color.gray)

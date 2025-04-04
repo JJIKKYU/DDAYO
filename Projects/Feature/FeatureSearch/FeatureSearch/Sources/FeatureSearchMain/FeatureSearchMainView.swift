@@ -34,6 +34,7 @@ public struct FeatureSearchMainView: View {
                     .background(
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(Color.Green._500, lineWidth: 1)
+                            .background(Color.Background._2)
                     )
                     .padding(.leading, 16)
 
@@ -77,28 +78,65 @@ public struct FeatureSearchMainView: View {
 
                             List {
                                 ForEach(viewStore.recentKeywords, id: \.self) { keyword in
-                                    RecentSearchCellView(keyword: keyword, timestampText: "어제") {
+                                    RecentSearchCellView(
+                                        keyword: keyword,
+                                        timestampText: "어제"
+                                    ) {
                                         viewStore.send(.removeRecentKeyword(keyword))
                                     }
+                                    .listRowBackground(Color.Background._2)
                                     .padding(.vertical, 8)
                                 }
                             }
+                            .background(Color.Background._2)
                             .listStyle(.plain)
                         }
                     }
 
                 case .searching:
                     List(viewStore.results, id: \.self) { result in
-                        SearchResultCellView(keyword: viewStore.keyword, result: result)
+                        SearchResultCellView(
+                            keyword: viewStore.keyword,
+                            result: result,
+                            onTap: {
+                                viewStore.send(.selectResult(result))
+                            }
+                        )
+                        .listRowBackground(Color.Background._2)
                     }
+                    .background(Color.Background._2)
                     .listStyle(.plain)
 
                 case .done:
-                    EmptyView()
+                    switch viewStore.source {
+                    case .quiz:
+                        List(viewStore.matchedBookmarkItems, id: \.self) { item in
+                            BookmarkCardView(
+                                category: item.category,
+                                title: item.title,
+                                views: item.views,
+                                tags: item.tags,
+                                isBookmarked: item.isBookmarked
+                            )
+                            .listRowBackground(Color.Background._2)
+                        }
+                        .listRowSeparator(.hidden)
+                        .listStyle(.plain)
+
+                    case .study:
+                        EmptyView()
+
+                    case .none:
+                        EmptyView()
+                    }
                 }
             }
             .padding(.top, 16)
             .toolbar(.hidden, for: .navigationBar)
+            .onAppear {
+                viewStore.send(.loadAllItems)
+            }
         }
+        .background(Color.Background._2)
     }
 }

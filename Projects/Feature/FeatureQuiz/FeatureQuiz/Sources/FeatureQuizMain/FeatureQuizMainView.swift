@@ -31,7 +31,7 @@ public struct FeatureQuizMainView: View {
                         get: \.selectedTab,
                         send: FeatureQuizMainReducer.Action.selectTab
                     ),
-                    onSelectSearch: { viewStore.send(.navigateToSearch) }
+                    onSelectSearch: { viewStore.send(.navigateToSearch(.quiz)) }
                 )
                 .padding(.init(top: 15, leading: 20, bottom: 20, trailing: 20))
 

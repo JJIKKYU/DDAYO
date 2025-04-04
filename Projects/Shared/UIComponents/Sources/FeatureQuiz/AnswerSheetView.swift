@@ -64,7 +64,7 @@ public struct AnswerSheetView: View {
                     }) {
                         Text("정답 확인")
                             .font(.headline)
-                            .foregroundColor(.white)
+                            .foregroundColor(Color.Grayscale.white)
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(Color.Green._500)

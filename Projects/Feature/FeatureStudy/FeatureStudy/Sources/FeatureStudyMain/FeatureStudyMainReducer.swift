@@ -34,7 +34,6 @@ public struct FeatureStudyMainReducer {
 
     public enum Action {
         case onAppear
-        case pressedSearchBtn
         case showSheet(Bool)
 
         case selectSortOption(SortOption?)
@@ -43,6 +42,8 @@ public struct FeatureStudyMainReducer {
         case dismiss
         case test
         case loadConcepts([ConceptItem])
+
+        case navigateToSearch(FeatureSearchSource)
     }
 
     public var body: some ReducerOf<Self> {
@@ -60,10 +61,6 @@ public struct FeatureStudyMainReducer {
                 }
 
             case .test:
-                return .none
-
-            case .pressedSearchBtn:
-                print("pressedSearchBtn! -> 다른 스크린으로 이동하는 로직 만들기")
                 return .none
 
             case .showSheet(let isPresented):
@@ -117,6 +114,9 @@ public struct FeatureStudyMainReducer {
 
             case let .loadConcepts(items):
                 state.concepts = items
+                return .none
+
+            case .navigateToSearch:
                 return .none
             }
         }

@@ -81,7 +81,7 @@ public struct FeatureQuizMainReducer {
         case swipeTab(QuizTab)
 
         case navigateToQuizSubject(QuizTab, QuestionType, QuizStartOption)
-        case navigateToSearch
+        case navigateToSearch(FeatureSearchSource)
     }
 
     public var body: some ReducerOf<Self> {

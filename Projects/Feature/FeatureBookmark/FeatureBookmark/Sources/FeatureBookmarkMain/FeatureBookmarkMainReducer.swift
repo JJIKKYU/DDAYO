@@ -60,6 +60,9 @@ public struct FeatureBookmarkMainReducer {
         }
 
         var allConceptItems: [ConceptItem] = []
+        var filteredConceptFeedItems: [ConceptItem] {
+            return []
+        }
 
         var questionFilter: QuestionFilterReducer.State = .init()
         var conceptSort: ConceptSortingReducer.State = .init()
@@ -194,16 +197,16 @@ public struct FeatureBookmarkMainReducer {
 
                     switch sorted.selectedOption {
                     case .leastViewed:
-                        state.conceptItems.sort { $0.views < $1.views }
+                        state.allConceptItems.sort { $0.views < $1.views }
 
                     case .mostViewed:
-                        state.conceptItems.sort { $0.views > $1.views }
+                        state.allConceptItems.sort { $0.views > $1.views }
 
                     case .az:
-                        state.conceptItems.sort { $0.title < $1.title }
+                        state.allConceptItems.sort { $0.title < $1.title }
 
                     case .za:
-                        state.conceptItems.sort { $0.title > $1.title }
+                        state.allConceptItems.sort { $0.title > $1.title }
 
                     case .none:
                         break
