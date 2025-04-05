@@ -13,7 +13,7 @@ public final class QuestionItem {
     @Attribute(.unique)
     public var id: UUID
 
-    public var title: RichContent
+    public var title: String
     public var subjectRawValue: String
     public var questionTypeRawValue: String
     public var date: String?
@@ -23,14 +23,16 @@ public final class QuestionItem {
     public var choice3: RichContent
     public var choice4: RichContent
 
+    public var desc: RichContent
     public var answer: Int
     public var explanation: String
 
     public var viewCount: Int
+    public var version: Int
 
     public init(
         id: UUID = UUID(),
-        title: RichContent,
+        title: String,
         subject: QuizSubject,
         questionType: QuestionType,
         date: String?,
@@ -38,9 +40,11 @@ public final class QuestionItem {
         choice2: RichContent,
         choice3: RichContent,
         choice4: RichContent,
+        desc: RichContent,
         answer: Int,
         explanation: String,
-        viewCount: Int = 0
+        viewCount: Int = 0,
+        version: Int
     ) {
         self.id = id
         self.title = title
@@ -51,9 +55,11 @@ public final class QuestionItem {
         self.choice2 = choice2
         self.choice3 = choice3
         self.choice4 = choice4
+        self.desc = desc
         self.answer = answer
         self.explanation = explanation
         self.viewCount = viewCount
+        self.version = version
     }
 
     public var subject: QuizSubject {

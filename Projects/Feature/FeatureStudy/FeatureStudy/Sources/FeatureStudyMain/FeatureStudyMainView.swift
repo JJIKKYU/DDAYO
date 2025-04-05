@@ -24,23 +24,25 @@ public struct FeatureStudyMainView: View {
                     store.send(.navigateToSearch(.study))
                 })
                 ScrollView {
-                    HStack {
-                        Text("최근 본")
-                            .foregroundStyle(Color.Grayscale._800)
-                            .font(.system(size: 20, weight: .bold))
-                            .padding(.horizontal, 20)
+                    if let recentItem = viewStore.recentItem {
+                        HStack {
+                            Text("최근 본")
+                                .foregroundStyle(Color.Grayscale._800)
+                                .font(.system(size: 20, weight: .bold))
+                                .padding(.horizontal, 20)
 
-                        Spacer()
+                            Spacer()
+                        }
+
+                        ConceptListCell(
+                            concept: recentItem,
+                            type: .continueLearning,
+                            onTap: {
+                                print("계속 공부하자!")
+                        })
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 8)
                     }
-
-                    ConceptListCell(
-                        concept: .init(title: "", desc: "", views: 0, mnemonics: [""], subject: "", subjectId: 0),
-                        type: .continueLearning,
-                        onTap: {
-                            print("계속 공부하자!")
-                    })
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 8)
 
                     HStack {
                         Text("모든 개념")
@@ -77,30 +79,22 @@ public struct FeatureStudyMainView: View {
                     .padding(.horizontal, 20)
 
                     LazyVStack {
-                        ForEach(store.concepts) { data in
+                        ForEach(Array(zip(store.concepts.indices, store.concepts)), id: \.1.id) { index, data in
                             ConceptListCell(
                                 concept: data,
                                 type: .regular,
                                 onTap: {
-                                    print("onTap!")
-                                    viewStore.send(.selectItem(0))
+                                    print("Tapped index: \(index), title: \(data.title)")
+                                    viewStore.send(.selectItem(index))
                                 }
                             )
-                            .fullScreenCover(
-                                store: store.scope(
-                                    state: \.$detail,
-                                    action: FeatureStudyMainReducer.Action.presentDetail
-                                )
-                            ) { detailStore in
-                                FeatureStudyDetailView(store: detailStore)
-                            }
                             .padding(.horizontal, 20)
                             .padding(.bottom, 8)
                         }
                     }
                 }
             }
-            .onAppear {
+            .task {
                 viewStore.send(.onAppear)
             }
         }

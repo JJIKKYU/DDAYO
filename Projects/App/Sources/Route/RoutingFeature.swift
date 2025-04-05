@@ -57,6 +57,7 @@ public struct RootRoutingReducer: Reducer {
 
         /// FeatureStudy
         case featureStudyMain(FeatureStudyMainReducer)
+        case featureStudyDetail(FeatureStudyDetailReducer)
 
         /// Featurebookmark
         case featureBookmarkMain(FeatureBookmarkMainReducer)

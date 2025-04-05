@@ -29,15 +29,11 @@ public struct FeatureQuizSubjectView: View {
                 })
 
                 ScrollView {
-                    if let sections = viewStore.subjectList[viewStore.selectedSujbect] {
-                        ForEach(sections.indices, id: \.self) { index in
-                            let section = sections[index]
-                            QuizButton(title: section.rawValue) {
-                                print("button 터치!")
-                                viewStore.send(.navigateToQuizPlay(section))
-                            }
-                            .padding(.horizontal, 20)
+                    ForEach(viewStore.displayedSubjects, id: \.self) { subject in
+                        QuizButton(title: subject.rawValue) {
+                            viewStore.send(.navigateToQuizPlay(subject))
                         }
+                        .padding(.horizontal, 20)
                     }
                 }
 

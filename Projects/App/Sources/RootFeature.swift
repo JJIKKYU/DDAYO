@@ -31,10 +31,11 @@ public struct RootFeature {
         /// FeatureQuiz
         var featureQuizMain = FeatureQuizMainReducer.State()
         var featureQuizSubject = FeatureQuizSubjectReducer.State()
-        var featureQuizPlay = FeatureQuizPlayReducer.State()
+        var featureQuizPlay = FeatureQuizPlayReducer.State(sourceType: .subject(nil))
 
         /// FeatureStudy
         var featureStudyMain = FeatureStudyMainReducer.State()
+        var featureStudyDetail = FeatureStudyDetailReducer.State(items: [], index: 0)
 
         /// FeatureBookmark
         var featureBookmarkMain = FeatureBookmarkMainReducer.State()
@@ -58,6 +59,7 @@ public struct RootFeature {
 
         /// FeatureStudy
         case featureStudyMain(FeatureStudyMainReducer.Action)
+        case featureStudyDetail(FeatureStudyDetailReducer.Action)
 
         /// FeatureBookmark
         case featureBookmarkMain(FeatureBookmarkMainReducer.Action)
@@ -72,30 +74,14 @@ public struct RootFeature {
                 switch action {
                 case .task:
                     return .run { send in
-                        let t = try? conceptService.loadConceptsAndSyncWithLocal(context: modelContext)
-
-                        do {
-                            let dtos = try await questionService.fetchQuestionsFromFirebase()
-                            let models = dtos.compactMap { $0.toModel() }
-
-                            // 1. 기존 저장된 데이터가 있다면 삭제 (옵션)
-                            let existing = try modelContext.fetch(FetchDescriptor<QuestionItem>())
-                            for item in existing {
-                                modelContext.delete(item)
+                        // 1. 개념 데이터를 먼저 처리
+                        await MainActor.run {
+                            do {
+                                _ = try conceptService.loadConceptsAndSyncWithLocal(context: modelContext)
+                                _ = try questionService.loadQuestionsAndSyncWithLocal(context: modelContext)
+                            } catch {
+                                print("❌ Concept sync error: \(error)")
                             }
-
-                            // 2. 새 데이터 삽입
-                            for model in models {
-                                modelContext.insert(model)
-                            }
-
-                            // 3. 저장
-                            try modelContext.save()
-
-                            // 4. 상태 업데이트
-                            await send(.fetchQuestionsResponse(.success(models)))
-                        } catch {
-                            await send(.fetchQuestionsResponse(.failure(error)))
                         }
                     }
 
@@ -127,8 +113,31 @@ public struct RootFeature {
                     case .featureQuizSubject(let subjectAction):
                         switch subjectAction {
                         case .navigateToQuizPlay(let subject):
-                            state.routing.path.append(.featureQuizPlay(FeatureQuizPlayReducer.State(selectedSubject: subject)))
+                            state.routing.path.append(.featureQuizPlay(FeatureQuizPlayReducer.State(sourceType: .subject(subject))))
 
+                        case .pressedBackBtn:
+                            return .send(.routing(.pop))
+
+                        default:
+                            break
+                        }
+
+                    case .featureSearchMain(let searchAction):
+                        switch searchAction {
+                        case .navigateToQuizPlay(let questionItems, let index):
+                            state.routing.path.append(.featureQuizPlay(.init(sourceType: .searchResult(items: questionItems, index: index))))
+                            return .none
+
+                        case .navigateToStudyDetail(let items, let index):
+                            state.routing.path.append(.featureStudyDetail(.init(items: items, index: index)))
+                            return .none
+
+                        default:
+                            break
+                        }
+
+                    case .featureStudyDetail(let studyAction):
+                        switch studyAction {
                         case .pressedBackBtn:
                             return .send(.routing(.pop))
 
@@ -145,7 +154,7 @@ public struct RootFeature {
                 case .featureQuizSubject(let action):
                     print("action = \(action)")
                     if case .navigateToQuizPlay(let subject) = action {
-                        state.routing.path.append(.featureQuizPlay(FeatureQuizPlayReducer.State(selectedSubject: subject)))
+                        state.routing.path.append(.featureQuizPlay(FeatureQuizPlayReducer.State(sourceType: .subject(subject))))
                     }
                     return .none
 
@@ -178,11 +187,21 @@ public struct RootFeature {
                         state.routing.path.append(.featureSearchMain(.init(source: source)))
                         return .none
 
+                    case .navigateToStudyDetail(let items, let index):
+                        state.routing.path.append(.featureStudyDetail(.init(items: items, index: index)))
+                        return .none
+
                     default:
                         return .none
                     }
 
                 case .featureBookmarkMain(let action):
+                    switch action {
+                    default:
+                        return .none
+                    }
+
+                case .featureSearchMain(let action):
                     switch action {
                     default:
                         return .none
@@ -205,6 +224,7 @@ public struct RootFeature {
 
             /// FeatureStudy
             Scope(state: \.featureStudyMain,action: \.featureStudyMain) { FeatureStudyMainReducer() }
+            Scope(state: \.featureStudyDetail,action: \.featureStudyDetail) { FeatureStudyDetailReducer() }
 
             /// FeatureBookmark
             Scope(state: \.featureBookmarkMain, action: \.featureBookmarkMain) { FeatureBookmarkMainReducer() }
@@ -216,4 +236,33 @@ public struct RootFeature {
 
     @Reducer
     public enum Path { }
+}
+
+// MARK: - Save Question/ Concept
+
+extension RootFeature {
+    @MainActor
+    func syncQuestions(from dtos: [QuestionItemDTO], context: ModelContext) throws {
+        for dto in dtos {
+            guard let uuid = UUID(uuidString: dto.id) else { continue }
+
+            let predicate = #Predicate<QuestionItem> { $0.id == uuid }
+            let existing = try context.fetch(FetchDescriptor(predicate: predicate)).first
+
+            if let existing, existing.version >= dto.version {
+                continue // 이미 최신
+            }
+
+            // 최신으로 업데이트
+            if let existing {
+                context.delete(existing)
+            }
+
+            if let newItem = dto.toModel() {
+                context.insert(newItem)
+            }
+        }
+
+        try context.save()
+    }
 }

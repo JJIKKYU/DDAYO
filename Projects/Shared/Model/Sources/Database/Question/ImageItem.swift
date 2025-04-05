@@ -10,10 +10,11 @@ import SwiftData
 
 @Model
 public final class ImageItem {
-    public var data: Data         // 이미지 바이너리 데이터
-    public var filename: String? // 선택사항
+    // 이미지 바이너리 데이터
+    public var data: Data?
+    public var filename: String?
 
-    public init(data: Data, filename: String? = nil) {
+    public init(data: Data?, filename: String? = nil) {
         self.data = data
         self.filename = filename
     }

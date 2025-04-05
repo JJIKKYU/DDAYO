@@ -1,4 +1,3 @@
-//
 //  BookmarkCardView.swift
 //  UIComponents
 //
@@ -69,11 +68,11 @@ public struct BookmarkCardView: View {
 
                 Spacer()
 
-                Image(isBookmarked ? .bookmark : .bookmarkFilled)
+                Image(isBookmarked ? .bookmarkFilled : .bookmark)
                     .resizable()
                     .frame(width: 24, height: 24)
                     .scaledToFit()
-                    .foregroundColor(.Grayscale._300)
+                    .foregroundColor(Color.Grayscale._300)
             }
         }
         .padding(.init(top: 16, leading: 20, bottom: 16, trailing: 20))

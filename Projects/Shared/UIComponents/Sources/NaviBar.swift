@@ -134,6 +134,13 @@ public struct NaviBar: View {
             }
 
         case .studyDetail:
+            if let leading1 = leading1 {
+                Button(action: leading1) {
+                    Image(systemName: "chevron.left")
+                        .foregroundColor(.Grayscale._900)
+                }
+            }
+
             Spacer()
 
             Text(title)

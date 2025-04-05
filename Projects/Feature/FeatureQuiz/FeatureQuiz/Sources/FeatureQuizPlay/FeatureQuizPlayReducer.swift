@@ -19,6 +19,7 @@ public struct FeatureQuizPlayReducer {
 
     @ObservableState
     public struct State: Equatable, Hashable {
+        var sourceType: QuizSourceType
         var currentQuestion: QuestionItem? = nil
         var questionIndex: Int = 0
         var loadedQuestions: [QuestionItem] = []
@@ -29,52 +30,71 @@ public struct FeatureQuizPlayReducer {
         var selectedIndex: Int? = nil
         var step: FeatureQuizPlayStep = .showAnswers
         var isCorrect: Bool? = nil
-        let selectedSubject: QuizSubject?
         var isBookmarked: Bool = false // New property for bookmark status
 
-        public init(selectedSubject: QuizSubject? = nil) {
-            self.selectedSubject = selectedSubject
+        public init(
+            sourceType: QuizSourceType
+        ) {
+            self.sourceType = sourceType
         }
     }
 
     public enum Action {
         case onAppear
-        case selectedAnswer(Int?) // bottomSheet에서 선택지를 눌렀을때 (0번, 1번..)
-        case toggleSheet(Bool)    // bottomSheet이 열렸는지 여부
-        case confirmAnswer        // bottomSheet에서 선택지를 누르고 "정답확인"을 눌렀을 경우
-        case nextQuiz             // bottomSheet에서 마지막에 "다음문제"를 눌렀을 경우
+        // bottomSheet에서 선택지를 눌렀을때 (0번, 1번..)
+        case selectedAnswer(Int?)
+        // bottomSheet이 열렸는지 여부
+        // bottomSheet에서 선택지를 누르고 "정답확인"을 눌렀을 경우
+        case toggleSheet(Bool)
+        case confirmAnswer
+        // bottomSheet에서 마지막에 "다음문제"를 눌렀을 경우
+        case nextQuiz
         case setCurrentQuestion(QuestionItem, all: [QuestionItem])
         case changeStep(FeatureQuizPlayStep)
-        case loadNextQuestion     // 다음 문제 로드
+        // 다음 문제 로드
+        case loadNextQuestion
 
         case pressedBackBtn
         case pressedCloseBtn
 
-        case showPopup            // 팝업 표시
-        case hidePopup            // 팝업 숨기기
+        // 팝업 표시
+        case showPopup
+        // 팝업 숨기기
+        case hidePopup
 
-        case toggleBookmarkTapped  // New action for bookmark button tap
-        case updateBookmarkStatus(Bool) // New action for bookmark status update
+        // 북마크 버튼을 눌렀을 경우
+        case toggleBookmarkTapped
+        // 북마크 상태 업데이트가 필요할 경우
+        case updateBookmarkStatus(Bool)
     }
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                return .run { [selectedSubject = state.selectedSubject] send in
-                    var descriptor = FetchDescriptor<QuestionItem>()
-                    if let subject = selectedSubject {
-                        descriptor.predicate = #Predicate<QuestionItem> {
-                            $0.subjectRawValue == subject.rawValue
+                switch state.sourceType {
+                case .subject(let selectedSubject):
+                    return .run { send in
+                        var descriptor = FetchDescriptor<QuestionItem>()
+                        if let subject = selectedSubject {
+                            descriptor.predicate = #Predicate<QuestionItem> {
+                                $0.subjectRawValue == subject.rawValue
+                            }
                         }
+                        let questions = try modelContext.fetch(descriptor)
+                        guard !questions.isEmpty else {
+                            print("FeatureQuizPlayReducer :: 저장된 문제가 없습니다.")
+                            return
+                        }
+                        let firstQuestion = questions[0]
+                        await send(.setCurrentQuestion(firstQuestion, all: questions))
                     }
-                    let questions = try modelContext.fetch(descriptor)
-                    guard !questions.isEmpty else {
-                        print("FeatureQuizPlayReducer :: 저장된 문제가 없습니다.")
-                        return
+
+                case .searchResult(let items, let index):
+                    guard !items.isEmpty else { return .none }
+                    return .run { send in
+                        await send(.setCurrentQuestion(items[index], all: items))
                     }
-                    let firstQuestion = questions[0]
-                    await send(.setCurrentQuestion(firstQuestion, all: questions))
                 }
 
             case .selectedAnswer(let index):
@@ -89,13 +109,17 @@ public struct FeatureQuizPlayReducer {
                 print("Play :: confirm!")
                 switch state.step {
                 case .showAnswers:
-                    if let selectedIndex = state.selectedIndex,
-                       let question = state.currentQuestion {
-                        // ✅ 정답 여부 판단 (SwiftData에서 로드된 정답 기준)
-                        state.isCorrect = (selectedIndex == question.answer - 1)
-                        state.step = .confirmAnswers
-                    } else {
-                        print("정답이 선택되지 않았거나 문제가 없습니다.")
+                    do {
+                        if let selectedIndex = state.selectedIndex,
+                           let question = state.currentQuestion {
+                            state.isCorrect = (selectedIndex == question.answer - 1)
+                            try saveWrongAnswer(for: question, selectedIndex: selectedIndex, context: modelContext)
+                            state.step = .confirmAnswers
+                        } else {
+                            print("정답이 선택되지 않았거나 문제가 없습니다.")
+                        }
+                    } catch {
+                        print("오답 저장 중 오류 발생: \(error)")
                     }
 
                 case .confirmAnswers:
@@ -120,12 +144,12 @@ public struct FeatureQuizPlayReducer {
             case .loadNextQuestion:
                 print("FeatureQuizPlayReducer :: loaddNextQuestion")
 
-                return .run { [questionIndex = state.questionIndex, loadedQuestions = state.loadedQuestions, selectedSubject = state.selectedSubject] send in
+                return .run { [questionIndex = state.questionIndex, loadedQuestions = state.loadedQuestions, sourceType = state.sourceType] send in
                     var questions: [QuestionItem] = loadedQuestions
 
                     if questions.isEmpty {
                         var descriptor = FetchDescriptor<QuestionItem>()
-                        if let subject = selectedSubject {
+                        if case let .subject(subject) = sourceType, let subject {
                             descriptor.predicate = #Predicate { $0.subject == subject }
                         }
                         questions = try modelContext.fetch(descriptor)
@@ -220,5 +244,31 @@ public struct FeatureQuizPlayReducer {
                 return .none
             }
         }
+    }
+}
+
+
+// MARK: - extension
+
+extension FeatureQuizPlayReducer {
+    private func saveWrongAnswer(for question: QuestionItem, selectedIndex: Int, context: ModelContext) throws {
+        let questionId: UUID = question.id
+        let predicate = #Predicate<WrongAnswerItem> {
+            $0.questionID == questionId
+        }
+
+        if let existing = try context.fetch(FetchDescriptor(predicate: predicate)).first {
+            existing.selectedAnswerIndex = selectedIndex
+            existing.date = .now
+        } else {
+            let wrongItem = WrongAnswerItem(
+                questionID: question.id,
+                selectedAnswerIndex: selectedIndex,
+                date: .now
+            )
+            context.insert(wrongItem)
+        }
+
+        try context.save()
     }
 }

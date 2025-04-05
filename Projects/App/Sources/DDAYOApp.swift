@@ -20,7 +20,16 @@ struct DDAYOApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
     @State private var modelContainer: ModelContainer = {
-        try! ModelContainer(for: QuestionItem.self, RichContent.self, ImageItem.self, BookmarkItem.self, ConceptItem.self)
+        try! ModelContainer(
+            for: QuestionItem.self,
+            RichContent.self,
+            ImageItem.self,
+            BookmarkItem.self,
+            ConceptItem.self,
+            WrongAnswerItem.self,
+            QuestionVersion.self,
+            RecentConceptItem.self
+        )
     }()
 
     var body: some Scene {

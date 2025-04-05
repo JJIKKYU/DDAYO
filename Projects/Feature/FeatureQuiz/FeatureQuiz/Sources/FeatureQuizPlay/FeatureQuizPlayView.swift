@@ -38,7 +38,7 @@ public struct FeatureQuizPlayView: View {
                     if let question = viewStore.currentQuestion {
                         ScrollView {
                             VStack(alignment: .leading, spacing: 16) {
-                                Text(question.title.text)
+                                Text(question.title)
                                     .font(.system(size: 18, weight: .bold))
                                     .foregroundColor(.Grayscale._800)
                                     .lineSpacing(3.0)
@@ -48,31 +48,35 @@ public struct FeatureQuizPlayView: View {
                                     .font(.system(size: 11, weight: .regular))
                                     .foregroundColor(.Grayscale._500)
 
-                                if let firstImage = question.title.images.first,
-                                   let uiImage = UIImage(data: firstImage.data) {
-                                    Image(uiImage: uiImage)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(maxWidth: .infinity)
-                                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                                } else {
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .fill(Color.Grayscale._50)
-                                        .frame(height: 200)
-                                        .overlay(
-                                            VStack {
-                                                Image(systemName: "photo")
-                                                    .resizable()
-                                                    .scaledToFit()
-                                                    .frame(width: 40, height: 40)
-                                                    .foregroundStyle(Color.Grayscale._400)
+//                                if let firstImage = question.title.images.first,
+//                                   let uiImage = UIImage(data: firstImage.data) {
+//                                    Image(uiImage: uiImage)
+//                                        .resizable()
+//                                        .scaledToFit()
+//                                        .frame(maxWidth: .infinity)
+//                                        .clipShape(RoundedRectangle(cornerRadius: 12))
+//                                } else {
+//
+//                                }
 
-                                                Text("이미지 영역입니다")
-                                                    .font(.system(size: 13, weight: .regular))
-                                                    .foregroundStyle(Color.Grayscale._400)
-                                            }
-                                        )
-                                }
+                                Text(question.desc.text)
+
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(Color.Grayscale._50)
+                                    .frame(height: 200)
+                                    .overlay(
+                                        VStack {
+                                            Image(systemName: "photo")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 40, height: 40)
+                                                .foregroundStyle(Color.Grayscale._400)
+
+                                            Text("이미지 영역입니다")
+                                                .font(.system(size: 13, weight: .regular))
+                                                .foregroundStyle(Color.Grayscale._400)
+                                        }
+                                    )
                             }
                             .padding(16)
                             .padding(.bottom, 100)
@@ -131,7 +135,7 @@ public struct FeatureQuizPlayView: View {
 }
 
 #Preview {
-    FeatureQuizPlayView(store: .init(initialState: FeatureQuizPlayReducer.State(), reducer: {
+    FeatureQuizPlayView(store: .init(initialState: FeatureQuizPlayReducer.State(sourceType: .subject(.applicationTesting)), reducer: {
         FeatureQuizPlayReducer()
     }))
 }

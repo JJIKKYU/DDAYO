@@ -19,10 +19,10 @@ public struct FeatureStudyDetailView: View {
     public var body: some View {
         WithViewStore(store, observe:  { $0 }) { viewStore in
             VStack(alignment: .leading) {
-                NaviBar(type: .studyDetail, title: "개념 학습", trailing1: {
-                    print("close Btn")
-                    viewStore.send(.pressedCloseBtn)
-                    viewStore.send(.dismiss)
+                NaviBar(type: .studyDetail, title: "개념 학습", leading1: {
+                    viewStore.send(.pressedBackBtn)
+                }, trailing1: {
+                    viewStore.send(.pressedBackBtn)
                 })
 
                 ScrollView {
@@ -85,6 +85,10 @@ public struct FeatureStudyDetailView: View {
                     nextAction: { viewStore.send(.goNext) }
                 )
             }
+            .onAppear {
+                viewStore.send(.onAppear)
+            }
+            .toolbar(.hidden, for: .navigationBar)
         }
     }
 }

@@ -25,6 +25,7 @@ public struct FeatureStudyMainReducer {
         // bottomSheet에서 선택한 값을 임시로 저장하고
         // bottomSheet이 없어질때 반영하기 위해서 임시 저장
         var tempSortOption: SortOption? = .az
+        var recentItem: ConceptItem? = nil
         @Presents var detail: FeatureStudyDetailReducer.State?
 
         public init() {
@@ -42,8 +43,10 @@ public struct FeatureStudyMainReducer {
         case dismiss
         case test
         case loadConcepts([ConceptItem])
+        case setRecentItem(ConceptItem)
 
         case navigateToSearch(FeatureSearchSource)
+        case navigateToStudyDetail(items: [ConceptItem], index: Int)
     }
 
     public var body: some ReducerOf<Self> {
@@ -51,13 +54,29 @@ public struct FeatureStudyMainReducer {
             switch action {
             case .onAppear:
                 return .run { [modelContext] send in
-                    do {
-                        let descriptor = FetchDescriptor<ConceptItem>()
-                        let items = try modelContext.fetch(descriptor)
-                        await send(.loadConcepts(items))
-                    } catch {
-                        print("⚠️ Failed to fetch ConceptItems: \(error)")
-                    }
+                    await Task { @MainActor in
+                        do {
+                            let descriptor = FetchDescriptor<ConceptItem>()
+                            let items: [ConceptItem] = try modelContext.fetch(descriptor)
+                                .sorted { $0.title < $1.title }
+
+                            // Load recent item
+                            let recentDescriptor = FetchDescriptor<RecentConceptItem>()
+                            let recentItems = try modelContext.fetch(recentDescriptor)
+
+
+                            if let recentId = recentItems.first?.conceptId,
+                               let recentConcept: ConceptItem = items
+                                   .filter({ $0.id == recentId })
+                                   .first {
+                                send(.setRecentItem(recentConcept))
+                            }
+
+                            send(.loadConcepts(items))
+                        } catch {
+                            print("⚠️ ConceptItems 또는 RecentConceptItem을 불러오는데 실패: \(error)")
+                        }
+                    }.value
                 }
 
             case .test:
@@ -93,17 +112,22 @@ public struct FeatureStudyMainReducer {
                     await send(.showSheet(false))
                 }
 
-            // index는 변경 필요
             case .selectItem(let index):
-                state.detail = FeatureStudyDetailReducer.State(
-                    items: state.concepts,
-                    index: index
-                )
-                return .none
+                var items = state.concepts
+                guard items.indices.contains(index) else {
+                    return .none
+                }
 
-            case .presentDetail(.presented(.dismiss)):
-                state.detail = nil
-                return .none
+                var selected = items[index]
+                selected.views += 1
+                items[index] = selected
+                state.concepts = items
+
+                return .run { [selected, modelContext] send in
+                    modelContext.insert(selected)
+                    try? modelContext.save()
+                    await send(.navigateToStudyDetail(items: items, index: index))
+                }
 
             case .presentDetail(let action):
                 return .none
@@ -116,7 +140,11 @@ public struct FeatureStudyMainReducer {
                 state.concepts = items
                 return .none
 
-            case .navigateToSearch:
+            case let .setRecentItem(item):
+                state.recentItem = item
+                return .none
+
+            case .navigateToSearch, .navigateToStudyDetail:
                 return .none
             }
         }

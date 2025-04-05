@@ -1,5 +1,4 @@
 @preconcurrency import ProjectDescription
-
 let project = Project(
     name: "DDAYO",
     targets: [
@@ -14,6 +13,7 @@ let project = Project(
                         "UIColorName": "",
                         "UIImageName": "",
                     ],
+                    "UIUserInterfaceStyle": "Light"
                 ]
             ),
             sources: ["./Sources/**"],

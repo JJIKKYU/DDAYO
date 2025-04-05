@@ -28,6 +28,9 @@ public struct FeatureSearchMainView: View {
                             .foregroundStyle(Color.Grayscale._300)
                             .font(.system(size: 14, weight: .medium))
                         )
+                        .onSubmit {
+                            viewStore.send(.selectResult(viewStore.keyword))
+                        }
                         .padding(.vertical, 10)
                         .padding(.horizontal, 12)
                     }
@@ -110,7 +113,7 @@ public struct FeatureSearchMainView: View {
                 case .done:
                     switch viewStore.source {
                     case .quiz:
-                        List(viewStore.questionFeedItems, id: \.self) { item in
+                        List(Array(viewStore.questionFeedItems.enumerated()), id: \.element) { index, item in
                             BookmarkCardView(
                                 category: item.category,
                                 title: item.title,
@@ -118,13 +121,17 @@ public struct FeatureSearchMainView: View {
                                 tags: item.tags,
                                 isBookmarked: item.isBookmarked
                             )
+                            .onTapGesture {
+                                viewStore.send(.selectCardView(index: index))
+                            }
                             .listRowBackground(Color.Background._2)
+                            .listRowSeparator(.hidden)
                         }
                         .listRowSeparator(.hidden)
                         .listStyle(.plain)
 
                     case .study:
-                        List(viewStore.conceptFeedItems, id: \.self) { item in
+                        List(Array(viewStore.conceptFeedItems.enumerated()), id: \.element) { index, item in
                             BookmarkCardView(
                                 category: item.category,
                                 title: item.title,
@@ -132,7 +139,12 @@ public struct FeatureSearchMainView: View {
                                 tags: item.tags,
                                 isBookmarked: item.isBookmarked
                             )
+                            .onTapGesture {
+                                viewStore.send(.selectCardView(index: index))
+                                print("index: \(index), title: \(item.title)")
+                            }
                             .listRowBackground(Color.Background._2)
+                            .listRowSeparator(.hidden)
                         }
                         .listRowSeparator(.hidden)
                         .listStyle(.plain)

@@ -21,7 +21,7 @@ extension QuestionItemDTO {
 
         return QuestionItem(
             id: uuid,
-            title: convertRich(title),
+            title: title,
             subject: subject,
             questionType: questionType,
             date: date,
@@ -29,8 +29,10 @@ extension QuestionItemDTO {
             choice2: convertRich(choice2),
             choice3: convertRich(choice3),
             choice4: convertRich(choice4),
+            desc: convertRich(desc),
             answer: answer,
-            explanation: explanation
+            explanation: explanation,
+            version: version
         )
     }
 }

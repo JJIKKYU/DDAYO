@@ -25,6 +25,12 @@ public enum QuizSubject: String, CaseIterable, Codable {
     case softwareSecurity = "소프트웨어 개발 보안 구축"
     case basicApplicationTech = "응용SW기초 기술 활용"
     case softwarePackaging = "제품소프트웨어 패키징"
+
+    // 실기 언어 과목
+    case c = "c"
+    case cpp = "cpp"
+    case java = "java"
+    case python = "python"
 }
 
 public extension QuizSubject {
@@ -51,6 +57,15 @@ public extension QuizSubject {
             .softwareSecurity,
             .basicApplicationTech,
             .softwarePackaging
+        ]
+    }
+
+    static var practicalLanguageCases: [QuizSubject] {
+        return [
+            .c,
+            .cpp,
+            .java,
+            .python
         ]
     }
 }

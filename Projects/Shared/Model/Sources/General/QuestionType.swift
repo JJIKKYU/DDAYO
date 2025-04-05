@@ -8,7 +8,7 @@
 import Foundation
 
 public enum QuestionType: String, Equatable, CaseIterable, Codable {
-    case all = "모든"
+    case all = "all"
     case past = "기출"
     case ai = "ai"
 

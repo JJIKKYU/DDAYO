@@ -23,30 +23,42 @@ public struct FeatureBookmarkMainReducer {
 
         var allQuestions: [QuestionItem] = []
         var bookmarkItems: [BookmarkItem] = []
+        var allWrongAnswers: [WrongAnswerItem] = []
 
         var selectedTab: BookmarkTabType = .문제
         var showOnlyWrongAnswers: Bool = false
 
         var bookmarkFeedItems: [BookmarkFeedItem] {
             let bookmarkedIDs = Set(bookmarkItems.map { $0.questionID })
+            let wrongAnswerIDs = Set(allWrongAnswers.map { $0.questionID })
+
             return allQuestions
-                .filter { bookmarkedIDs.contains($0.id) }
+                .filter { bookmarkedIDs.contains($0.id) || wrongAnswerIDs.contains($0.id) }
                 .map {
-                    BookmarkFeedItem(
+                    let isWrong = wrongAnswerIDs.contains($0.id)
+                    let isBookmarked = bookmarkedIDs.contains($0.id)
+                    print("isBookmarked = \(isBookmarked)")
+                    let tags = makeTags(for: $0, isWrong: isWrong)
+
+                    return BookmarkFeedItem(
                         category: $0.subject.rawValue,
-                        title: $0.title.text,
+                        title: $0.title,
                         views: "\($0.viewCount)",
-                        tags: makeTags(for: $0),
-                        isBookmarked: true
+                        tags: tags,
+                        isBookmarked: isBookmarked
                     )
                 }
         }
 
-        private func makeTags(for question: QuestionItem) -> [String] {
+        private func makeTags(for question: QuestionItem, isWrong: Bool) -> [String] {
             var tags: [String] = []
 
             // 시험 유형
             tags.append(question.questionType.displayName)
+
+            if isWrong {
+                tags.append("틀린 문제")
+            }
 
             // 필기/실기 (예시는 subject 기준으로 임의 처리)
             if QuizSubject.writtenCases.contains(question.subject) {
@@ -73,7 +85,10 @@ public struct FeatureBookmarkMainReducer {
 
         var filteredBookmarkFeedItems: [BookmarkFeedItem] {
             bookmarkFeedItems.filter { item in
-                let matchesWrongOnly = !showOnlyWrongAnswers || item.tags.contains("틀린 문제")
+                let isWrong = item.tags.contains("틀린 문제")
+                if showOnlyWrongAnswers && !isWrong {
+                    return false
+                }
 
                 let matchesExamType: Bool = {
                     switch questionFilter.examType {
@@ -97,13 +112,13 @@ public struct FeatureBookmarkMainReducer {
                     }
                 }()
 
-                return matchesWrongOnly && matchesExamType && matchesQuestionType
+                return matchesExamType && matchesQuestionType
             }
         }
     }
 
     public enum InternalAction {
-        case updateBookmarkData(allQuestions: [QuestionItem], bookmarks: [BookmarkItem])
+        case updateBookmarkData(allQuestions: [QuestionItem], bookmarks: [BookmarkItem], wrongAnswers: [WrongAnswerItem])
     }
 
     public enum Action {
@@ -136,12 +151,14 @@ public struct FeatureBookmarkMainReducer {
                 return .run { send in
                     let allQuestions = try modelContext.fetch(FetchDescriptor<QuestionItem>())
                     let bookmarkItems = try modelContext.fetch(FetchDescriptor<BookmarkItem>())
-                    await send(.internalAction(.updateBookmarkData(allQuestions: allQuestions, bookmarks: bookmarkItems)))
+                    let wrongAnswers = try modelContext.fetch(FetchDescriptor<WrongAnswerItem>())
+                    await send(.internalAction(.updateBookmarkData(allQuestions: allQuestions, bookmarks: bookmarkItems, wrongAnswers: wrongAnswers)))
                 }
 
-            case .internalAction(.updateBookmarkData(let allQuestions, let bookmarks)):
+            case .internalAction(.updateBookmarkData(let allQuestions, let bookmarks, let wrongAnswers)):
                 state.allQuestions = allQuestions
                 state.bookmarkItems = bookmarks
+                state.allWrongAnswers = wrongAnswers
                 return .none
 
             case .openFilter:

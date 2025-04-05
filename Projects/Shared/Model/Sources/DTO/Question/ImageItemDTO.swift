@@ -8,9 +8,11 @@
 import Foundation
 
 public struct ImageItemDTO: Decodable {
-    public let data: Data  // base64로 되어 있다고 가정
+    public let data: Data?
+    public var filename: String?
 
-    public init(data: Data) {
+    public init(data: Data?, filename: String? = nil) {
         self.data = data
+        self.filename = filename
     }
 }

@@ -1,15 +1,15 @@
 //
-//  ConceptBundleData.swift
+//  QuestionVersion.swift
 //  Model
 //
-//  Created by 정진균 on 4/2/25.
+//  Created by 정진균 on 4/5/25.
 //
 
 import Foundation
 import SwiftData
 
 @Model
-public final class ConceptVersion {
+public final class QuestionVersion {
     @Attribute(.unique) public var id: UUID
     public var version: Int
 

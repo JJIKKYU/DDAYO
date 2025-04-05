@@ -27,7 +27,10 @@ public struct FeatureStudyDetailReducer {
             return items[currentIndex]
         }
 
-        public init(items: [ConceptItem], index: Int) {
+        public init(
+            items: [ConceptItem],
+            index: Int
+        ) {
             self.items = items
             self.currentIndex = index
         }
@@ -38,31 +41,42 @@ public struct FeatureStudyDetailReducer {
         case goPrevious
         case goNext
         case toggleBookmarkTapped
-        case pressedCloseBtn
-        case dismiss
+        case pressedBackBtn
     }
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .onAppear:
+                if let currentItem = state.currentItem {
+                    Task { [modelContext]
+                        await updateRecentItem(modelContext, currentItem)
+                    }
+                }
                 return .none
 
-            case .pressedCloseBtn:
-                return .none
-
-            case .dismiss:
+            case .pressedBackBtn:
                 return .none
 
             case .goPrevious:
                 if state.currentIndex > 0 {
                     state.currentIndex -= 1
+                    if let currentItem = state.currentItem {
+                        Task { [modelContext]
+                            await updateRecentItem(modelContext, currentItem)
+                        }
+                    }
                 }
                 return .none
 
             case .goNext:
                 if state.currentIndex < state.items.count - 1 {
                     state.currentIndex += 1
+                    if let currentItem = state.currentItem {
+                        Task { [modelContext]
+                            await updateRecentItem(modelContext, currentItem)
+                        }
+                    }
                 }
                 return .none
 
@@ -92,5 +106,20 @@ public struct FeatureStudyDetailReducer {
                 }
             }
         }
+    }
+}
+
+// MARK: - extension
+
+extension FeatureStudyDetailReducer {
+    @MainActor
+    private func updateRecentItem(_ modelContext: ModelContext, _ item: ConceptItem) {
+        let allItems = try? modelContext.fetch(FetchDescriptor<RecentConceptItem>())
+        allItems?.forEach { modelContext.delete($0) }
+
+        let recent = RecentConceptItem(conceptId: item.id)
+        modelContext.insert(recent)
+
+        try? modelContext.save()
     }
 }

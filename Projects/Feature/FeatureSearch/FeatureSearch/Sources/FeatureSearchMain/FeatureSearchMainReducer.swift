@@ -32,30 +32,33 @@ public struct FeatureSearchMainReducer {
         public var mode: SearchMode = .initial
         public var allConceptItems: [ConceptItem] = []
         public var allQuestionItems: [QuestionItem] = []
+        public var allBookmarkItems: [BookmarkItem] = []
 
         public var matchedConceptItems: [ConceptItem] = []
         public var matchedQuestionItems: [QuestionItem] = []
 
         public var questionFeedItems: [BookmarkFeedItem] {
-            matchedQuestionItems.map {
+            let bookmarkedIDs = Set(allBookmarkItems.map { $0.questionID })
+            return matchedQuestionItems.map {
                 BookmarkFeedItem(
                     category: $0.subject.rawValue,
-                    title: $0.title.text,
+                    title: $0.title,
                     views: "\($0.viewCount)",
                     tags: [],
-                    isBookmarked: true
+                    isBookmarked: bookmarkedIDs.contains($0.id)
                 )
             }
         }
 
         public var conceptFeedItems: [BookmarkFeedItem] {
-            matchedConceptItems.map {
+            let bookmarkedIDs = Set(allBookmarkItems.map { $0.questionID })
+            return matchedConceptItems.map {
                 BookmarkFeedItem(
                     category: $0.subject,
                     title: $0.title,
                     views: "\($0.views)",
                     tags: [],
-                    isBookmarked: true
+                    isBookmarked: bookmarkedIDs.contains($0.id)
                 )
             }
         }
@@ -76,6 +79,12 @@ public struct FeatureSearchMainReducer {
         case removeAllRecentKeywords
         case selectResult(String)
         case loadAllItems
+
+        // 검색 결과를 선택했을때
+        case selectCardView(index: Int)
+
+        case navigateToQuizPlay(questionItems: [QuestionItem], index: Int)
+        case navigateToStudyDetail(items: [ConceptItem], index: Int)
     }
 
     public var body: some ReducerOf<Self> {
@@ -107,9 +116,9 @@ public struct FeatureSearchMainReducer {
                 // QuestionItem
                 case .quiz:
                     let matched = state.allQuestionItems
-                        .filter { $0.title.text.localizedCaseInsensitiveContains(state.keyword) }
+                        .filter { $0.title.localizedCaseInsensitiveContains(state.keyword) }
                     state.matchedQuestionItems = matched
-                    state.results = matched.map { $0.title.text }
+                    state.results = matched.map { $0.title }
                 }
                 state.mode = .searching
                 return .none
@@ -148,9 +157,9 @@ public struct FeatureSearchMainReducer {
                 // QuestionItem
                 case .quiz:
                     let matched = state.allQuestionItems
-                        .filter { $0.title.text.localizedCaseInsensitiveContains(result) }
+                        .filter { $0.title.localizedCaseInsensitiveContains(result) }
                     state.matchedQuestionItems = matched
-                    state.results = matched.map { $0.title.text }
+                    state.results = matched.map { $0.title }
                 }
                 state.selectedKeyword = result
                 state.keyword = result
@@ -158,6 +167,26 @@ public struct FeatureSearchMainReducer {
 
                 return .run { send in
                     await send(.addRecentKeyword(result))
+                }
+
+            case .selectCardView(let index):
+                guard let source = state.source else { return .none }
+                switch source {
+                case .study:
+                    let matchedConceptItems: [ConceptItem] = state.matchedConceptItems
+                    let selectedIndex: Int = index
+
+                    return .run { send in
+                        await send(.navigateToStudyDetail(items: matchedConceptItems, index: index))
+                    }
+
+                case .quiz:
+                    let matchedQuestionItems: [QuestionItem] = state.matchedQuestionItems
+                    let selectedIndex: Int = index
+
+                    return .run { send in
+                        await send(.navigateToQuizPlay(questionItems: matchedQuestionItems, index: selectedIndex))
+                    }
                 }
 
             case .loadAllItems:
@@ -183,16 +212,18 @@ public struct FeatureSearchMainReducer {
                         print("Failed to load QuestionItems: \(error)")
                     }
                 }
+
+                do {
+                    let bookmarks = try modelContext.fetch(FetchDescriptor<BookmarkItem>())
+                    state.allBookmarkItems = bookmarks
+                } catch {
+                    print("Failed to load BookmarkItems: \(error)")
+                }
+                return .none
+
+            case .navigateToQuizPlay, .navigateToStudyDetail:
                 return .none
             }
         }
-    }
-
-    private var dummyData: [String] {
-        [
-            "UML", "ERD", "Agile", "Scrum", "Stack", "Queue", "Semaphore",
-            "TCP/IP", "HTTP", "Encryption", "Normalization", "REST", "JWT",
-            "iOS", "Android", "Swift", "Kotlin", "ViewModel", "Reducer", "TCA"
-        ]
     }
 }

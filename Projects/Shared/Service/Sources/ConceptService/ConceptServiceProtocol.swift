@@ -16,6 +16,7 @@ public protocol ConceptServiceProtocol {
 public struct ConceptService: ConceptServiceProtocol {
     public init() {}
 
+    @MainActor
     public func loadConceptsFromBundle() throws -> [ConceptItemDTO] {
         guard let url = Bundle.main.url(forResource: "concepts", withExtension: "json") else {
             throw NSError(domain: "ConceptService", code: 1, userInfo: [NSLocalizedDescriptionKey: "JSON file not found in bundle"])
@@ -28,8 +29,9 @@ public struct ConceptService: ConceptServiceProtocol {
         return bundleData.items
     }
 
+    
     public func loadConceptsAndSyncWithLocal(context: ModelContext) throws -> [ConceptItem] {
-        // 1. json load
+        // 1. json loadun
         guard let url = Bundle.main.url(forResource: "concepts", withExtension: "json") else {
             throw NSError(domain: "ConceptService", code: 1, userInfo: [NSLocalizedDescriptionKey: "JSON file not found in bundle"])
         }

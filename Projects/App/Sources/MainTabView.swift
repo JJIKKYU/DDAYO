@@ -79,6 +79,9 @@ public struct MainTabView: View {
             case .featureStudyMain(let store):
                 FeatureStudyMainView(store: store)
 
+            case .featureStudyDetail(let store):
+                FeatureStudyDetailView(store: store)
+
             case .featureBookmarkMain(let store):
                 FeatureBookmarkMainView(store: store)
 
