@@ -23,21 +23,69 @@ public struct FeatureBookmarkMainReducer {
 
         var allQuestions: [QuestionItem] = []
         var bookmarkItems: [BookmarkItem] = []
-        var allWrongAnswers: [WrongAnswerItem] = []
 
         var selectedTab: BookmarkTabType = .문제
         var showOnlyWrongAnswers: Bool = false
 
-        var bookmarkFeedItems: [BookmarkFeedItem] {
-            let bookmarkedIDs = Set(bookmarkItems.map { $0.questionID })
-            let wrongAnswerIDs = Set(allWrongAnswers.map { $0.questionID })
+        var filteredQuestions: [QuestionItem] {
+            let bookmarked = bookmarkItems
+                .filter { $0.type == .문제 }
+                .sorted(by: { $0.date > $1.date })
 
-            return allQuestions
-                .filter { bookmarkedIDs.contains($0.id) || wrongAnswerIDs.contains($0.id) }
+            let bookmarkedIDs = Set(bookmarked
+                .map { $0.questionID })
+
+            let wrongAnswerIDs = Set(bookmarked
+                .filter({ $0.reason == .wrong })
+                .map { $0.questionID })
+
+            let questionMap = Dictionary(uniqueKeysWithValues: allQuestions.map { ($0.id, $0) })
+
+            return bookmarked.compactMap { bookmark in
+                guard let question = questionMap[bookmark.questionID] else { return nil }
+
+                let isWrong = wrongAnswerIDs.contains(question.id)
+                let tags = makeTags(for: question, isWrong: isWrong)
+
+                if showOnlyWrongAnswers && !tags.contains("틀린 문제") {
+                    return nil
+                }
+
+                let matchesExamType: Bool = {
+                    switch questionFilter.examType {
+                    case .all: return true
+                    case .written: return tags.contains("필기시험")
+                    case .practical: return tags.contains("실기시험")
+                    }
+                }()
+
+                let matchesQuestionType: Bool = {
+                    switch questionFilter.questionType {
+                    case .all: return true
+                    case .past: return tags.contains("기출 문제")
+                    case .ai: return tags.contains("AI 예상 문제")
+                    }
+                }()
+
+                return (matchesExamType && matchesQuestionType) ? question : nil
+            }
+        }
+        var bookmarkFeedItems: [BookmarkFeedItem] {
+            let bookmarkedIDs = Set(
+                bookmarkItems
+                    .filter { $0.type == .문제 }
+                    .map { $0.questionID }
+            )
+            let wrongAnswerIDs = Set(
+                bookmarkItems
+                    .filter { $0.type == .문제 && $0.reason == .wrong }
+                    .map { $0.questionID }
+            )
+
+            return filteredQuestions
                 .map {
                     let isWrong = wrongAnswerIDs.contains($0.id)
                     let isBookmarked = bookmarkedIDs.contains($0.id)
-                    print("isBookmarked = \(isBookmarked)")
                     let tags = makeTags(for: $0, isWrong: isWrong)
 
                     return BookmarkFeedItem(
@@ -49,40 +97,6 @@ public struct FeatureBookmarkMainReducer {
                     )
                 }
         }
-
-        private func makeTags(for question: QuestionItem, isWrong: Bool) -> [String] {
-            var tags: [String] = []
-
-            // 시험 유형
-            tags.append(question.questionType.displayName)
-
-            if isWrong {
-                tags.append("틀린 문제")
-            }
-
-            // 필기/실기 (예시는 subject 기준으로 임의 처리)
-            if QuizSubject.writtenCases.contains(question.subject) {
-                tags.append("필기시험")
-            } else {
-                tags.append("실기시험")
-            }
-
-            // 틀린 문제 여부 판단은 별도 로직 필요 시 추가
-            return tags
-        }
-
-        var allConceptItems: [ConceptItem] = []
-        var filteredConceptFeedItems: [ConceptItem] {
-            return []
-        }
-
-        var questionFilter: QuestionFilterReducer.State = .init()
-        var conceptSort: ConceptSortingReducer.State = .init()
-
-        // Sheet
-        @Presents var filter: QuestionFilterReducer.State?
-        @Presents var conceptSortSheet: ConceptSortingReducer.State?
-
         var filteredBookmarkFeedItems: [BookmarkFeedItem] {
             bookmarkFeedItems.filter { item in
                 let isWrong = item.tags.contains("틀린 문제")
@@ -115,15 +129,70 @@ public struct FeatureBookmarkMainReducer {
                 return matchesExamType && matchesQuestionType
             }
         }
+
+        private func makeTags(for question: QuestionItem, isWrong: Bool) -> [String] {
+            var tags: [String] = []
+
+            // 시험 유형
+            tags.append(question.questionType.displayName)
+
+            if isWrong {
+                tags.append("틀린 문제")
+            }
+
+            // 필기/실기 (예시는 subject 기준으로 임의 처리)
+            if QuizSubject.writtenCases.contains(question.subject) {
+                tags.append("필기시험")
+            } else {
+                tags.append("실기시험")
+            }
+
+            // 틀린 문제 여부 판단은 별도 로직 필요 시 추가
+            return tags
+        }
+
+        var allConcepts: [ConceptItem] = []
+        var filteredConceptItems: [ConceptItem] {
+            let bookmarkedIDs = Set(
+                bookmarkItems
+                    .filter { $0.type == .개념 }
+                    .map { $0.questionID }
+            )
+            return allConcepts.filter { bookmarkedIDs.contains($0.id) }
+        }
+        var filteredConceptFeedItems: [BookmarkFeedItem] {
+            filteredConceptItems.map {
+                return BookmarkFeedItem(
+                    category: $0.subject,
+                    title: $0.title,
+                    views: "\($0.views)",
+                    tags: [],
+                    isBookmarked: true,
+                    originConceptItem: $0
+                )
+            }
+        }
+
+        var questionFilter: QuestionFilterReducer.State = .init()
+        var conceptSort: ConceptSortingReducer.State = .init()
+
+        // Sheet
+        @Presents var filter: QuestionFilterReducer.State?
+        @Presents var conceptSortSheet: ConceptSortingReducer.State?
     }
 
     public enum InternalAction {
-        case updateBookmarkData(allQuestions: [QuestionItem], bookmarks: [BookmarkItem], wrongAnswers: [WrongAnswerItem])
+        case updateBookmarkData(
+            allQuestions: [QuestionItem],
+            allConcepts: [ConceptItem],
+            bookmarks: [BookmarkItem]
+        )
     }
 
     public enum Action {
         case selectTab(BookmarkTabType)
         case swipeTab(BookmarkTabType)
+        case selectItem(Int)
 
         case questionFilter(QuestionFilterReducer.Action)
         case conceptSort(ConceptSortingReducer.Action)
@@ -134,6 +203,9 @@ public struct FeatureBookmarkMainReducer {
         case toggleWrongOnly
         case onAppear
         case internalAction(InternalAction)
+
+        case navigateToStudyDetail(items: [ConceptItem], idnex: Int)
+        case navigateToQuizPlay(items: [QuestionItem], index: Int)
     }
 
     public var body: some ReducerOf<Self> {
@@ -149,16 +221,29 @@ public struct FeatureBookmarkMainReducer {
             switch action {
             case .onAppear:
                 return .run { send in
-                    let allQuestions = try modelContext.fetch(FetchDescriptor<QuestionItem>())
-                    let bookmarkItems = try modelContext.fetch(FetchDescriptor<BookmarkItem>())
-                    let wrongAnswers = try modelContext.fetch(FetchDescriptor<WrongAnswerItem>())
-                    await send(.internalAction(.updateBookmarkData(allQuestions: allQuestions, bookmarks: bookmarkItems, wrongAnswers: wrongAnswers)))
+                    do {
+                        // MainActor에서 fetch
+                        let (allQuestions, allConcepts, bookmarkItems) = try await MainActor.run {
+                            let allQuestions: [QuestionItem] = try modelContext.fetch(FetchDescriptor<QuestionItem>())
+                            let allConcepts: [ConceptItem] = try modelContext.fetch(FetchDescriptor<ConceptItem>())
+                            let bookmarkItems: [BookmarkItem] = try modelContext.fetch(FetchDescriptor<BookmarkItem>())
+                            return (allQuestions, allConcepts, bookmarkItems)
+                        }
+
+                        await send(.internalAction(.updateBookmarkData(
+                            allQuestions: allQuestions,
+                            allConcepts: allConcepts,
+                            bookmarks: bookmarkItems
+                        )))
+                    } catch {
+                        print("FeatureBookmarkMainReducer :: modelContext fetch error: \(error)")
+                    }
                 }
 
-            case .internalAction(.updateBookmarkData(let allQuestions, let bookmarks, let wrongAnswers)):
+            case .internalAction(.updateBookmarkData(let allQuestions, let allConcepts, let bookmarks)):
                 state.allQuestions = allQuestions
+                state.allConcepts = allConcepts
                 state.bookmarkItems = bookmarks
-                state.allWrongAnswers = wrongAnswers
                 return .none
 
             case .openFilter:
@@ -214,16 +299,16 @@ public struct FeatureBookmarkMainReducer {
 
                     switch sorted.selectedOption {
                     case .leastViewed:
-                        state.allConceptItems.sort { $0.views < $1.views }
+                        state.allConcepts.sort { $0.views < $1.views }
 
                     case .mostViewed:
-                        state.allConceptItems.sort { $0.views > $1.views }
+                        state.allConcepts.sort { $0.views > $1.views }
 
                     case .az:
-                        state.allConceptItems.sort { $0.title < $1.title }
+                        state.allConcepts.sort { $0.title < $1.title }
 
                     case .za:
-                        state.allConceptItems.sort { $0.title > $1.title }
+                        state.allConcepts.sort { $0.title > $1.title }
 
                     case .none:
                         break
@@ -240,6 +325,45 @@ public struct FeatureBookmarkMainReducer {
 
             case .toggleWrongOnly:
                 state.showOnlyWrongAnswers.toggle()
+                return .none
+
+            case .selectItem(let index):
+                print("Selected item at index: \(index)")
+                switch state.selectedTab {
+                case .문제:
+                    let filteredQuestions: [QuestionItem] = state.filteredQuestions
+                    Task {
+                        await MainActor.run {
+                            if let selectedQuestion: QuestionItem = filteredQuestions[safe: index] {
+                                selectedQuestion.viewCount += 1
+                                modelContext.insert(selectedQuestion)
+                                try? modelContext.save()
+                            }
+                        }
+                    }
+
+                    return .run { send in
+                        await send(.navigateToQuizPlay(items: filteredQuestions, index: index))
+                    }
+
+                case .개념:
+                    let filteredConcepts: [ConceptItem] = state.filteredConceptItems
+                    Task {
+                        await MainActor.run {
+                            if let selectedConcept: ConceptItem = filteredConcepts[safe: index] {
+                                selectedConcept.views += 1
+                                modelContext.insert(selectedConcept)
+                                try? modelContext.save()
+                            }
+                        }
+                    }
+
+                    return .run { send in
+                        await send(.navigateToStudyDetail(items: filteredConcepts, idnex: index))
+                    }
+                }
+
+            case .navigateToStudyDetail, .navigateToQuizPlay:
                 return .none
             }
         }

@@ -14,8 +14,10 @@ public struct AnswerSheetView: View {
     @Binding var selectedIndex: Int?
     @Binding var step: FeatureQuizPlayStep
     let isCorrect: Bool?
+    @Binding var isBookmarked: Bool
     let question: QuestionItem?
     let onConfirmAnswer: () -> Void
+    let onSelectBookmark: () -> Void
 
     public init(
         answers: [QuizAnswer],
@@ -23,16 +25,20 @@ public struct AnswerSheetView: View {
         selectedIndex: Binding<Int?>,
         step: Binding<FeatureQuizPlayStep>,
         isCorrect: Bool?,
+        isBookmarked: Binding<Bool>,
         question: QuestionItem?,
-        onConfirmAnswer: @escaping () -> Void
+        onConfirmAnswer: @escaping () -> Void,
+        onSelectBookmark: @escaping () -> Void
     ) {
         self.answers = answers
         self._isSheetPresented = isSheetPresented
         self._selectedIndex = selectedIndex
         self._step = step
         self.isCorrect = isCorrect
+        self._isBookmarked = isBookmarked
         self.question = question
         self.onConfirmAnswer = onConfirmAnswer
+        self.onSelectBookmark = onSelectBookmark
     }
 
     public var body: some View {
@@ -59,16 +65,22 @@ public struct AnswerSheetView: View {
 
                     Spacer()
 
-                    Button(action: {
-                        onConfirmAnswer()
-                    }) {
-                        Text("정답 확인")
-                            .font(.headline)
-                            .foregroundColor(Color.Grayscale.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.Green._500)
-                            .cornerRadius(12)
+                    HStack(spacing: 12) {
+                        RoundImageButton(image: isBookmarked ? .bookmarkFilled : .bookmark, isBookmarked: $isBookmarked) {
+                            onSelectBookmark()
+                        }
+
+                        Button(action: {
+                            onConfirmAnswer()
+                        }) {
+                            Text("정답 확인")
+                                .font(.headline)
+                                .foregroundColor(Color.Grayscale.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.Green._500)
+                                .cornerRadius(12)
+                        }
                     }
                 }
 
@@ -147,9 +159,13 @@ public struct AnswerSheetView: View {
         selectedIndex: $selectedIndex,
         step: .constant(.showAnswers),
         isCorrect: true,
+        isBookmarked: .constant(false),
         question: nil,
         onConfirmAnswer: {
             print("onConfirm!")
+        },
+        onSelectBookmark: {
+            print("onSelectBookmark!")
         }
     )
 }

@@ -26,7 +26,6 @@ struct DDAYOApp: App {
             ImageItem.self,
             BookmarkItem.self,
             ConceptItem.self,
-            WrongAnswerItem.self,
             QuestionVersion.self,
             RecentConceptItem.self
         )

@@ -161,7 +161,15 @@ public struct RootFeature {
                 case .featureQuizMain(let action):
                     switch action {
                     case .navigateToQuizSubject(let quizTab, let questionType, let quizStartOption):
-                        state.routing.path.append(.featureQuizSubject(FeatureQuizSubjectReducer.State(selectedSujbect: quizTab, selectedQuestionType: questionType, selectedStartOption: quizStartOption)))
+                        switch quizStartOption {
+                        // 언어별, 과목별은 세부 과목 선택
+                        case .startLanguageQuiz, .startSubjectQuiz:
+                            state.routing.path.append(.featureQuizSubject(FeatureQuizSubjectReducer.State(selectedSujbect: quizTab, selectedQuestionType: questionType, selectedStartOption: quizStartOption)))
+
+                        // 랜덤 퀴즈는 바로 진입
+                        case .startRandomQuiz:
+                            state.routing.path.append(.featureQuizPlay(.init(sourceType: .random(quizTab, questionType))))
+                        }
                         return .none
 
                     case .navigateToSearch(let source):
@@ -197,8 +205,16 @@ public struct RootFeature {
 
                 case .featureBookmarkMain(let action):
                     switch action {
-                    default:
+                    case .navigateToQuizPlay(let items, let index):
+                        state.routing.path.append(.featureQuizPlay(.init(sourceType: .fromBookmark(items: items, index: index))))
                         return .none
+
+                    case .navigateToStudyDetail(let items, let index):
+                        state.routing.path.append(.featureStudyDetail(.init(items: items, index: index)))
+                        return .none
+
+                    default:
+                        break
                     }
 
                 case .featureSearchMain(let action):
@@ -236,33 +252,4 @@ public struct RootFeature {
 
     @Reducer
     public enum Path { }
-}
-
-// MARK: - Save Question/ Concept
-
-extension RootFeature {
-    @MainActor
-    func syncQuestions(from dtos: [QuestionItemDTO], context: ModelContext) throws {
-        for dto in dtos {
-            guard let uuid = UUID(uuidString: dto.id) else { continue }
-
-            let predicate = #Predicate<QuestionItem> { $0.id == uuid }
-            let existing = try context.fetch(FetchDescriptor(predicate: predicate)).first
-
-            if let existing, existing.version >= dto.version {
-                continue // 이미 최신
-            }
-
-            // 최신으로 업데이트
-            if let existing {
-                context.delete(existing)
-            }
-
-            if let newItem = dto.toModel() {
-                context.insert(newItem)
-            }
-        }
-
-        try context.save()
-    }
 }

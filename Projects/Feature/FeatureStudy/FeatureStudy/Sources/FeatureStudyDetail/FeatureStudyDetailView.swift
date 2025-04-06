@@ -18,69 +18,77 @@ public struct FeatureStudyDetailView: View {
 
     public var body: some View {
         WithViewStore(store, observe:  { $0 }) { viewStore in
-            VStack(alignment: .leading) {
-                NaviBar(type: .studyDetail, title: "개념 학습", leading1: {
-                    viewStore.send(.pressedBackBtn)
-                }, trailing1: {
-                    viewStore.send(.pressedBackBtn)
-                })
+            ZStack(alignment: .bottom) {
+                VStack(alignment: .leading) {
+                    NaviBar(type: .studyDetail, title: "개념 학습", leading1: {
+                        viewStore.send(.pressedBackBtn)
+                    }, trailing1: {
+                        viewStore.send(.pressedBackBtn)
+                    })
 
-                ScrollView {
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text(viewStore.currentItem?.title ?? "")
-                                .font(.system(size: 24, weight: .bold))
-                                .foregroundStyle(Color.Grayscale._900)
+                    ScrollView {
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text(viewStore.currentItem?.title ?? "")
+                                    .font(.system(size: 24, weight: .bold))
+                                    .foregroundStyle(Color.Grayscale._900)
 
-                            Spacer()
+                                Spacer()
+                            }
+
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.Grayscale._50)
+                                .frame(height: 200)
+                                .overlay(
+                                    VStack {
+                                        Image(systemName: "photo")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 40, height: 40)
+                                            .foregroundStyle(Color.Grayscale._400)
+
+                                        Text("이미지 영역입니다")
+                                            .font(.system(size: 13, weight: .regular))
+                                            .foregroundStyle(Color.Grayscale._400)
+                                    }
+                                )
+                                .padding(.bottom, 16)
+
+                            Text(viewStore.currentItem?.desc ?? "")
+                                .font(.system(size: 15, weight: .regular))
+                                .foregroundStyle(Color.Grayscale._700)
+                                .lineSpacing(4)
+                                .multilineTextAlignment(.leading)
+                                .padding(.all, 0)
+
+                            HStack(alignment: .center, spacing: 0) {
+                                Image(uiImage: UIComponentsAsset.eye.image)
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(Color.Grayscale._300)
+                                    .frame(width: 16, height: 16)
+                                    .padding(.trailing, 2)
+
+                                Text("99회")
+                                    .font(.system(size: 11))
+                                    .foregroundColor(Color.Grayscale._400)
+
+                                Spacer()
+                            }
                         }
-
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.Grayscale._50)
-                            .frame(height: 200)
-                            .overlay(
-                                VStack {
-                                    Image(systemName: "photo")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 40, height: 40)
-                                        .foregroundStyle(Color.Grayscale._400)
-
-                                    Text("이미지 영역입니다")
-                                        .font(.system(size: 13, weight: .regular))
-                                        .foregroundStyle(Color.Grayscale._400)
-                                }
-                            )
-                            .padding(.bottom, 16)
-
-                        Text(viewStore.currentItem?.desc ?? "")
-                            .font(.system(size: 15, weight: .regular))
-                            .foregroundStyle(Color.Grayscale._700)
-                            .lineSpacing(4)
-                            .multilineTextAlignment(.leading)
-                            .padding(.all, 0)
-
-                        HStack(alignment: .center, spacing: 0) {
-                            Image(uiImage: UIComponentsAsset.eye.image)
-                                .renderingMode(.template)
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundColor(Color.Grayscale._300)
-                                .frame(width: 16, height: 16)
-                                .padding(.trailing, 2)
-
-                            Text("99회")
-                                .font(.system(size: 11))
-                                .foregroundColor(Color.Grayscale._400)
-
-                            Spacer()
-                        }
+                        .frame(maxHeight: .infinity)
+                        .padding(.top, 20)
+                        .padding(.horizontal, 20)
                     }
-                    .padding(.horizontal, 20)
+                    .frame(maxHeight: .infinity)
                 }
 
                 StudyBottomBtnView(
-                    bookmarkAction: { viewStore.send(.toggleBookmarkTapped) },
+                    isBookmarked: viewStore.binding(
+                        get: \.isBookmarked,
+                        send: FeatureStudyDetailReducer.Action.updateBookmarkStatus),
+                    onSelectBookmark: { viewStore.send(.toggleBookmarkTapped) },
                     prevAction: { viewStore.send(.goPrevious) },
                     nextAction: { viewStore.send(.goNext) }
                 )

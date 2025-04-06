@@ -21,7 +21,7 @@ public struct FeatureQuizMainView: View {
 
     public var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 0) {
                 Tabs(
                     tabs: [
                         .필기, .실기
@@ -33,48 +33,53 @@ public struct FeatureQuizMainView: View {
                     ),
                     onSelectSearch: { viewStore.send(.navigateToSearch(.quiz)) }
                 )
-                .padding(.init(top: 15, leading: 20, bottom: 20, trailing: 20))
 
                 TabView(
                     selection: viewStore.binding(
                         get: \.selectedTab,
                         send: { .swipeTab($0) }
                     )) {
-                        VStack(spacing: 40) {
-                            if let sections = viewStore.examSections[.필기] {
-                                ForEach(sections.indices, id: \.self) { index in
-                                    let section = sections[index]
-                                    ExamSectionView(
-                                        title: section.title,
-                                        subtitle: section.subtitle,
-                                        buttons: section.buttons.map { button in
-                                            (title: button.title, action: { viewStore.send(.navigateToQuizSubject(.필기, section.questionType, button.option)) }
-                                            )
-                                        }
-                                    )
+                        ScrollView {
+                            LazyVStack(spacing: 40) {
+                                if let sections = viewStore.examSections[.필기] {
+                                    ForEach(sections.indices, id: \.self) { index in
+                                        let section = sections[index]
+                                        ExamSectionView(
+                                            title: section.title,
+                                            subtitle: section.subtitle,
+                                            buttons: section.buttons.map { button in
+                                                (title: button.title, action: { viewStore.send(.navigateToQuizSubject(.필기, section.questionType, button.option)) }
+                                                )
+                                            }
+                                        )
+                                    }
                                 }
-                            }
 
-                            Spacer()
+                                Spacer()
+                            }
+                            .padding(.top, 20)
                         }
                         .tag(QuizTab.필기)
 
-                        VStack(spacing: 40) {
-                            if let sections = viewStore.examSections[.실기] {
-                                ForEach(sections.indices, id: \.self) { index in
-                                    let section = sections[index]
-                                    ExamSectionView(
-                                        title: section.title,
-                                        subtitle: section.subtitle,
-                                        buttons: section.buttons.map { button in
-                                            (title: button.title, action: { viewStore.send(.navigateToQuizSubject(.실기, section.questionType, button.option)) }
-                                            )
-                                        }
-                                    )
+                        ScrollView {
+                            LazyVStack(spacing: 40) {
+                                if let sections = viewStore.examSections[.실기] {
+                                    ForEach(sections.indices, id: \.self) { index in
+                                        let section = sections[index]
+                                        ExamSectionView(
+                                            title: section.title,
+                                            subtitle: section.subtitle,
+                                            buttons: section.buttons.map { button in
+                                                (title: button.title, action: { viewStore.send(.navigateToQuizSubject(.실기, section.questionType, button.option)) }
+                                                )
+                                            }
+                                        )
+                                    }
                                 }
-                            }
 
-                            Spacer()
+                                Spacer()
+                            }
+                            .padding(.top, 20)
                         }
                         .tag(QuizTab.실기)
                     }

@@ -13,7 +13,13 @@ let project = Project(
                         "UIColorName": "",
                         "UIImageName": "",
                     ],
-                    "UIUserInterfaceStyle": "Light"
+                    "UIUserInterfaceStyle": "Light",
+                    "ITSAppUsesNonExemptEncryption": "NO",
+                    "UIAppFonts": [
+                      "Pretendard-Regular.otf",
+                      "Pretendard-Bold.otf",
+                      "Pretendard-Medium.otf",
+                    ]
                 ]
             ),
             sources: ["./Sources/**"],

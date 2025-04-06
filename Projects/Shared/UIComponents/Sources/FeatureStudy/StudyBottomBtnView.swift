@@ -9,16 +9,19 @@ import Model
 import SwiftUI
 
 public struct StudyBottomBtnView: View {
-    let bookmarkAction: () -> Void
+    @Binding var isBookmarked: Bool
+    let onSelectBookmark: () -> Void
     let prevAction: () -> Void
     let nextAction: () -> Void
 
     public init(
-        bookmarkAction: @escaping () -> Void,
+        isBookmarked: Binding<Bool>,
+        onSelectBookmark: @escaping () -> Void,
         prevAction: @escaping () -> Void,
         nextAction: @escaping () -> Void
     ) {
-        self.bookmarkAction = bookmarkAction
+        self._isBookmarked = isBookmarked
+        self.onSelectBookmark = onSelectBookmark
         self.prevAction = prevAction
         self.nextAction = nextAction
     }
@@ -31,9 +34,9 @@ public struct StudyBottomBtnView: View {
                 Spacer()
 
                 HStack(spacing: 12) {
-                    RoundImageButton(image: .bookmark, isBookmarked: .constant(false)) {
+                    RoundImageButton(image: isBookmarked ? .bookmarkFilled : .bookmark, isBookmarked: $isBookmarked) {
                         print("북마크 버튼 터치!")
-                        bookmarkAction()
+                        onSelectBookmark()
                     }
 
                     Button(action: {
@@ -77,7 +80,8 @@ public struct StudyBottomBtnView: View {
 struct StudyBottomBtnView_Previews: PreviewProvider {
     static var previews: some View {
         StudyBottomBtnView(
-            bookmarkAction: { print("북마크!") },
+            isBookmarked: .constant(false),
+            onSelectBookmark: { print("북마크!") },
             prevAction: { print("이전!") },
             nextAction: { print("다음!") }
         )

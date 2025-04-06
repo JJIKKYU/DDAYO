@@ -51,6 +51,14 @@ public struct NaviBar: View {
         }
         .padding(.horizontal, 20)
         .padding(.top, 15)
+        .padding(.bottom, 20)
+        .background(Color.Grayscale.white)
+        .overlay(
+            Rectangle()
+                .frame(height: 1)
+                .foregroundColor(Color.Grayscale._100),
+            alignment: .bottom
+        )
     }
 
     @ViewBuilder

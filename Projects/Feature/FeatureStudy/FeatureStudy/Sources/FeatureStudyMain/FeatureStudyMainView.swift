@@ -19,12 +19,14 @@ public struct FeatureStudyMainView: View {
 
     public var body: some View {
         WithViewStore(store, observe:  { $0 }) { viewStore in
-            VStack {
+            VStack(spacing: 0) {
                 NaviBar(type: .study, title: "개념학습", trailing1: {
                     store.send(.navigateToSearch(.study))
                 })
+
                 ScrollView {
-                    if let recentItem = viewStore.recentItem {
+                    if let recentFeedItem: BookmarkFeedItem = viewStore.recentFeedItem,
+                       let originConceptItem: ConceptItem = recentFeedItem.originConceptItem {
                         HStack {
                             Text("최근 본")
                                 .foregroundStyle(Color.Grayscale._800)
@@ -33,15 +35,19 @@ public struct FeatureStudyMainView: View {
 
                             Spacer()
                         }
+                        .padding(.top, 20)
+                        .padding(.bottom, 0)
 
                         ConceptListCell(
-                            concept: recentItem,
+                            concept: originConceptItem,
                             type: .continueLearning,
+                            isBookmarked: recentFeedItem.isBookmarked,
                             onTap: {
                                 print("계속 공부하자!")
                         })
                         .padding(.horizontal, 20)
-                        .padding(.bottom, 8)
+                        .padding(.bottom, 20)
+                        .padding(.top, 12)
                     }
 
                     HStack {
@@ -52,7 +58,9 @@ public struct FeatureStudyMainView: View {
 
                         Spacer()
                     }
+                    .padding(.all, 0)
                     .padding(.top, 15)
+                    .padding(.bottom, 16)
 
                     HStack {
                         SortingBtnView(title: viewStore.selectedSortOption?.displayName ?? SortOption.az.displayName, onTap: {
@@ -77,19 +85,19 @@ public struct FeatureStudyMainView: View {
                         Spacer()
                     }
                     .padding(.horizontal, 20)
+                    .padding(.bottom, 8)
 
-                    LazyVStack {
-                        ForEach(Array(zip(store.concepts.indices, store.concepts)), id: \.1.id) { index, data in
+                    LazyVStack(spacing: 8) {
+                        ForEach(Array(zip(viewStore.conceptFeedItems.indices, viewStore.conceptFeedItems)), id: \.1.id) { index, data in
                             ConceptListCell(
-                                concept: data,
+                                concept: data.originConceptItem!,
                                 type: .regular,
+                                isBookmarked: data.isBookmarked,
                                 onTap: {
-                                    print("Tapped index: \(index), title: \(data.title)")
                                     viewStore.send(.selectItem(index))
                                 }
                             )
                             .padding(.horizontal, 20)
-                            .padding(.bottom, 8)
                         }
                     }
                 }

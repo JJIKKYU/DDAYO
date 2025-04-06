@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - BookmarkTabType
 
-public enum BookmarkTabType: Int, Equatable, CaseIterable {
+public enum BookmarkTabType: Int, Equatable, CaseIterable, Codable {
     case 문제 = 0
     case 개념 = 1
 

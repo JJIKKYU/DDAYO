@@ -9,5 +9,7 @@ import Foundation
 
 public enum QuizSourceType: Equatable, Hashable {
     case subject(QuizSubject?)
+    case random(QuizTab, QuestionType)
     case searchResult(items: [QuestionItem], index: Int)
+    case fromBookmark(items: [QuestionItem], index: Int)
 }

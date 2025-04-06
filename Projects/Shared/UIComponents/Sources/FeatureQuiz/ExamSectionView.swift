@@ -32,6 +32,7 @@ public struct ExamSectionView: View {
             Text(subtitle)
                 .font(.system(size: 13, weight: .medium))
                 .foregroundColor(Color.Grayscale._400)
+                .padding(.bottom, 6)
 
             ForEach(buttons.indices, id: \.self) { index in
                 let button = buttons[index]

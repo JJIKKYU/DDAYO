@@ -8,9 +8,11 @@
 import SwiftUI
 import ComposableArchitecture
 import UIComponents
+import Model
 
 public struct FeatureSearchMainView: View {
     public let store: StoreOf<FeatureSearchMainReducer>
+    @FocusState private var isTextFieldFocused: Bool
 
     public init(store: StoreOf<FeatureSearchMainReducer>) {
         self.store = store
@@ -28,6 +30,7 @@ public struct FeatureSearchMainView: View {
                             .foregroundStyle(Color.Grayscale._300)
                             .font(.system(size: 14, weight: .medium))
                         )
+                        .focused($isTextFieldFocused)
                         .onSubmit {
                             viewStore.send(.selectResult(viewStore.keyword))
                         }
@@ -132,19 +135,16 @@ public struct FeatureSearchMainView: View {
 
                     case .study:
                         List(Array(viewStore.conceptFeedItems.enumerated()), id: \.element) { index, item in
-                            BookmarkCardView(
-                                category: item.category,
-                                title: item.title,
-                                views: item.views,
-                                tags: item.tags,
-                                isBookmarked: item.isBookmarked
-                            )
-                            .onTapGesture {
-                                viewStore.send(.selectCardView(index: index))
-                                print("index: \(index), title: \(item.title)")
+                            if let originItem: ConceptItem = item.originConceptItem {
+                                ConceptListCell(
+                                    concept: originItem,
+                                    type: .regular,
+                                    isBookmarked: item.isBookmarked) {
+                                        viewStore.send(.selectCardView(index: index))
+                                    }
+                                    .listRowBackground(Color.Background._2)
+                                    .listRowSeparator(.hidden)
                             }
-                            .listRowBackground(Color.Background._2)
-                            .listRowSeparator(.hidden)
                         }
                         .listRowSeparator(.hidden)
                         .listStyle(.plain)
@@ -158,6 +158,9 @@ public struct FeatureSearchMainView: View {
             .toolbar(.hidden, for: .navigationBar)
             .onAppear {
                 viewStore.send(.loadAllItems)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    isTextFieldFocused = true
+                }
             }
         }
         .background(Color.Background._2)

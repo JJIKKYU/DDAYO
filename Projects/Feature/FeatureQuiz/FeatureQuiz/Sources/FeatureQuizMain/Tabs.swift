@@ -60,14 +60,24 @@ struct Tabs: View {
                             .frame(width: tabWidths[selectedIndex], height: 3)
                             .offset(x: tabWidths.prefix(selectedIndex).reduce(0, +) + CGFloat(selectedIndex) * 10, y: 37) // ✅ 선택된 탭 위치로 이동
                             .matchedGeometryEffect(id: "underline", in: animationNamespace)
+                            .zIndex(10)
                     }
                 },
                 alignment: .bottomLeading
             )
         }
-        // .background(.red)
-        .padding(.all, 0)
+        .padding(.horizontal, 20)
+        .padding(.top, 15)
+        .padding(.bottom, 11)
         .animation(.easeInOut, value: selectedTab)
+        .overlay(
+            Rectangle()
+                .frame(height: 1)
+                .zIndex(0)
+                .foregroundColor(Color.Grayscale._100),
+            alignment: .bottom
+        )
+        .background(Color.Grayscale.white.ignoresSafeArea())
     }
 }
 
@@ -75,10 +85,14 @@ struct Tabs_Previews: PreviewProvider {
     @Namespace private static var animationNamespace // matchedGeometryEffect 사용
 
     static var previews: some View {
-        Tabs(tabs: [.필기, .실기],
-             animationNamespace: animationNamespace,
-             selectedTab: .constant(.필기),
-             onSelectSearch: { print("onSelectSearch!") }
-        )
+        VStack {
+            Tabs(tabs: [.필기, .실기],
+                 animationNamespace: animationNamespace,
+                 selectedTab: .constant(.필기),
+                 onSelectSearch: { print("onSelectSearch!") }
+            )
+
+            Spacer()
+        }
     }
 }

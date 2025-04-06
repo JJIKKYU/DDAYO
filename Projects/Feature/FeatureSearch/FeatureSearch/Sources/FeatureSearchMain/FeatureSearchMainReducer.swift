@@ -58,7 +58,8 @@ public struct FeatureSearchMainReducer {
                     title: $0.title,
                     views: "\($0.views)",
                     tags: [],
-                    isBookmarked: bookmarkedIDs.contains($0.id)
+                    isBookmarked: bookmarkedIDs.contains($0.id),
+                    originConceptItem: $0
                 )
             }
         }

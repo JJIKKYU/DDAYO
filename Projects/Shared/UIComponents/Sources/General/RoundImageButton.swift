@@ -26,7 +26,7 @@ public struct RoundImageButton: View {
                 .resizable()
                 .renderingMode(.template)
                 .frame(width: 24, height: 24)
-                .foregroundStyle(isBookmarked ? Color.Green._500 : .gray)
+                .foregroundStyle(isBookmarked ? Color.Grayscale._900 : Color.Grayscale._500)
         }
         .frame(width: 52, height: 52, alignment: .center)
         .background(Color.Grayscale.white)

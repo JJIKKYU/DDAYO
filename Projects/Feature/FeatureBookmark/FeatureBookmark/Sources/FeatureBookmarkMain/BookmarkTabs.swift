@@ -54,7 +54,18 @@ struct BookmarkTabView: View {
                 alignment: .bottomLeading
             )
         }
+        .padding(.horizontal, 20)
+        .padding(.top, 15)
+        .padding(.bottom, 11)
         .animation(.easeInOut, value: selectedTab)
+        .overlay(
+            Rectangle()
+                .frame(height: 1)
+                .zIndex(0)
+                .foregroundColor(Color.Grayscale._100),
+            alignment: .bottom
+        )
+        .background(Color.Grayscale.white.ignoresSafeArea())
     }
 }
 

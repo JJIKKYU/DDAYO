@@ -49,7 +49,7 @@ public struct QuizBottomBtnView: View {
                 Spacer()
 
                 HStack(spacing: 12) {
-                    RoundImageButton(image: .bookmark, isBookmarked: $isBookmarked) {
+                    RoundImageButton(image: isBookmarked ? .bookmarkFilled : .bookmark, isBookmarked: $isBookmarked) {
                         onSelectBookmark()
                     }
 
@@ -81,8 +81,10 @@ public struct QuizBottomBtnView: View {
                 selectedIndex: $selectedIndex,
                 step: $step,
                 isCorrect: isCorrect,
+                isBookmarked: $isBookmarked,
                 question: question,
-                onConfirmAnswer: onConfirmAnswer
+                onConfirmAnswer: onConfirmAnswer,
+                onSelectBookmark: onSelectBookmark
             )
             .presentationDetents([.fraction(0.45), .medium, .large])
         }

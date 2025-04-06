@@ -118,9 +118,3 @@ public struct ExamSectionButton: Equatable, Hashable {
     var title: String
     var option: QuizStartOption
 }
-
-public enum QuizStartOption: Equatable {
-    case startRandomQuiz
-    case startSubjectQuiz
-    case startLanguageQuiz
-}

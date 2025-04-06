@@ -13,21 +13,23 @@ import Model
 public struct ConceptListCell: View {
     public let concept: ConceptItem
     public let type: ConceptListCellType
+    public let isBookmarked: Bool
     public let onTap: (() -> Void)
 
     public init(
         concept: ConceptItem,
         type: ConceptListCellType,
+        isBookmarked: Bool,
         onTap: @escaping (() -> Void)
     ) {
         self.concept = concept
         self.type = type
+        self.isBookmarked = isBookmarked
         self.onTap = onTap
     }
 
     public var body: some View {
             Button(action: {
-                print("Cell tapped")
                 onTap()
             }) {
                 VStack(alignment: .leading, spacing: 0) {
@@ -73,12 +75,13 @@ public struct ConceptListCell: View {
                         Button {
                             print("Bookmark!!")
                         } label: {
-                            Image(.bookmark)
-                                .renderingMode(.template)
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundStyle(Color.Grayscale._300)
-                                .frame(width: 24, height: 24)
+                            Image(isBookmarked ? .bookmarkFilled : .bookmark)
+                            .renderingMode(.template)
+                            .resizable()
+                            .foregroundStyle(isBookmarked ? Color.Grayscale._900 : Color.Grayscale._500)
+                            .scaledToFit()
+                            .foregroundStyle(Color.Grayscale._300)
+                            .frame(width: 24, height: 24)
                         }
                     }
 
@@ -105,10 +108,10 @@ struct ConceptListView_Previews: PreviewProvider {
         )
 
         VStack(alignment: .leading, spacing: 12) {
-            ConceptListCell(concept: concept, type: .regular, onTap: {
+            ConceptListCell(concept: concept, type: .regular, isBookmarked: false, onTap: {
                 print("!!")
             })
-            ConceptListCell(concept: concept, type: .continueLearning, onTap: {
+            ConceptListCell(concept: concept, type: .continueLearning, isBookmarked: true, onTap: {
                 print("!!!")
             })
         }

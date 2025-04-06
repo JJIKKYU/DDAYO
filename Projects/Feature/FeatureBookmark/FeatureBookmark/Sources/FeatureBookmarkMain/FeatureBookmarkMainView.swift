@@ -31,7 +31,6 @@ public struct FeatureBookmarkMainView: View {
                         send: FeatureBookmarkMainReducer.Action.selectTab
                     )
                 )
-                .padding(.init(top: 15, leading: 20, bottom: 20, trailing: 20))
 
                 TabView(
                     selection: viewStore.binding(
@@ -69,19 +68,27 @@ public struct FeatureBookmarkMainView: View {
                                 }
                                 .buttonStyle(.plain)
                             }
+                            .padding(.top, 16)
                             .padding(.horizontal, 20)
                             .padding(.bottom, 8)
 
                             ScrollView {
                                 LazyVStack(spacing: 8) {
-                                    ForEach(viewStore.filteredBookmarkFeedItems) { item in
-                                        BookmarkCardView(
-                                            category: item.category,
-                                            title: item.title,
-                                            views: item.views,
-                                            tags: item.tags,
-                                            isBookmarked: item.isBookmarked
-                                        )
+                                    Color.clear.frame(height: 5)
+
+                                    ForEach(viewStore.filteredBookmarkFeedItems.indices, id: \.self) { index in
+                                        if let item = viewStore.filteredBookmarkFeedItems[safe: index] {
+                                            BookmarkCardView(
+                                                category: item.category,
+                                                title: item.title,
+                                                views: item.views,
+                                                tags: item.tags,
+                                                isBookmarked: item.isBookmarked
+                                            )
+                                            .onTapGesture {
+                                                viewStore.send(.selectItem(index))
+                                            }
+                                        }
                                     }
                                 }
                                 .padding(.horizontal, 20)
@@ -99,19 +106,25 @@ public struct FeatureBookmarkMainView: View {
 
                                 Spacer()
                             }
+                            .padding(.top, 16)
                             .padding(.horizontal, 20)
                             .padding(.bottom, 8)
 
                             ScrollView {
                                 LazyVStack(spacing: 8) {
-                                    ForEach(viewStore.filteredConceptFeedItems) { item in
-                                        ConceptListCell(
-                                            concept: item,
-                                            type: .regular,
-                                            onTap: {
-                                                print("onTap!")
-                                            }
-                                        )
+                                    Color.clear.frame(height: 5)
+
+                                    ForEach(viewStore.filteredConceptFeedItems.indices, id: \.self) { index in
+                                        if let item: BookmarkFeedItem = viewStore.filteredConceptFeedItems[safe: index] {
+                                            ConceptListCell(
+                                                concept: item.originConceptItem!,
+                                                type: .regular,
+                                                isBookmarked: item.isBookmarked,
+                                                onTap: {
+                                                    viewStore.send(.selectItem(index))
+                                                }
+                                            )
+                                        }
                                     }
                                 }
                                 .padding(.horizontal, 20)

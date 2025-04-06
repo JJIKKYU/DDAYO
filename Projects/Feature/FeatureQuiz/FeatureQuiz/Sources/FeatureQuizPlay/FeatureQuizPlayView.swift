@@ -25,7 +25,7 @@ public struct FeatureQuizPlayView: View {
                     // ✅ 네비게이션 바
                     NaviBar(
                         type: .quizPlay,
-                        title: "1번 문제",
+                        title: "\(viewStore.questionIndex)번 문제",
                         leading1: {
                             viewStore.send(.pressedBackBtn)
                         },
@@ -45,7 +45,7 @@ public struct FeatureQuizPlayView: View {
                                     .multilineTextAlignment(.leading)
 
                                 Text("\(question.subject.rawValue) · \(question.date ?? "") · \(question.questionType.displayName)")
-                                    .font(.system(size: 11, weight: .regular))
+                                    .font(.custom("Pretendard-Regular", size: 11))
                                     .foregroundColor(.Grayscale._500)
 
 //                                if let firstImage = question.title.images.first,
@@ -60,6 +60,10 @@ public struct FeatureQuizPlayView: View {
 //                                }
 
                                 Text(question.desc.text)
+
+                                Image(uiImage: UIImage(resource: .init(name: "image_1", bundle: .main)))
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.horizontal, 20)
 
                                 RoundedRectangle(cornerRadius: 12)
                                     .fill(Color.Grayscale._50)
@@ -113,15 +117,24 @@ public struct FeatureQuizPlayView: View {
                         viewStore.send(.confirmAnswer)
                     },
                     onSelectBookmark: {
-                        viewStore.send(.toggleBookmarkTapped)
+                        viewStore.send(.toggleBookmarkTapped(isWrong: false))
                     }
                 )
 
-                // ✅ 팝업 뷰 바인딩 추가
-                QuizPopupView(isPresented: viewStore.binding(
-                    get: \ .isPopupPresented,
-                    send: { $0 ? .showPopup : .hidePopup }
-                ),solvedQuizCnt: 20, allQuizCnt: 30, correctQuizCnt: 7)
+                QuizPopupView(
+                    visible: Binding(
+                        get: { viewStore.isPopupPresented },
+                        set: { _ in } // 변경은 내부 onAction에서 처리
+                    ),
+                    solvedQuizCnt: viewStore.solvedCount,
+                    allQuizCnt: viewStore.loadedQuestions.count,
+                    correctQuizCnt: viewStore.correctCount,
+                    quizOption: viewStore.quizStartOption,
+                    onAction: { isContinue in
+                        viewStore.send(.hidePopup(isContinueStudy: isContinue))
+                    }
+                )
+                .transition(.opacity)
                 .opacity(viewStore.isPopupPresented ? 1 : 0)
                 .animation(.easeInOut(duration: 0.5), value: viewStore.isPopupPresented)
             }

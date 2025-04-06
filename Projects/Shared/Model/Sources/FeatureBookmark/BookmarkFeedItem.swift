@@ -14,12 +14,21 @@ public struct BookmarkFeedItem: Identifiable, Equatable, Hashable {
     public let views: String
     public let tags: [String]
     public let isBookmarked: Bool
+    public var originConceptItem: ConceptItem?
 
-    public init(category: String, title: String, views: String, tags: [String], isBookmarked: Bool) {
+    public init(
+        category: String,
+        title: String,
+        views: String,
+        tags: [String],
+        isBookmarked: Bool,
+        originConceptItem: ConceptItem? = nil
+    ) {
         self.category = category
         self.title = title
         self.views = views
         self.tags = tags
         self.isBookmarked = isBookmarked
+        self.originConceptItem = originConceptItem
     }
 }

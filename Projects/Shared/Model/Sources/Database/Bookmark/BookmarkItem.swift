@@ -1,4 +1,3 @@
-//
 //  BookmarkItem.swift
 //  Model
 //
@@ -13,10 +12,23 @@ public final class BookmarkItem {
     @Attribute(.unique)
     public var id: UUID  // Bookmark의 고유 ID
 
-    public var questionID: UUID  // 북마크한 문제의 UUID
+    public var type: BookmarkTabType
+    public var reason: BookmarkReason
 
-    public init(id: UUID = UUID(), questionID: UUID) {
+    public var questionID: UUID  // 북마크한 문제의 UUID
+    public var date: Date
+
+    public init(
+        id: UUID = UUID(),
+        date: Date = Date(),
+        questionID: UUID,
+        type: BookmarkTabType,
+        reason: BookmarkReason
+    ) {
         self.id = id
         self.questionID = questionID
+        self.type = type
+        self.date = date
+        self.reason = reason
     }
 }
