@@ -9,6 +9,7 @@ import ComposableArchitecture
 import DI
 import Model
 import SwiftData
+import Foundation
 
 public enum SearchMode: Equatable, Hashable {
     case initial
@@ -80,7 +81,10 @@ public struct FeatureSearchMainReducer {
         case removeAllRecentKeywords
         case selectResult(String)
         case loadAllItems
+
+        // Bookmark
         case toggleBookmark(index: Int)
+        case updateBookmarkStatus(index: Int, isBookmarked: Bool, itemId: UUID)
 
         // 검색 결과를 선택했을때
         case selectCardView(index: Int)
@@ -227,40 +231,77 @@ public struct FeatureSearchMainReducer {
                 return .none
 
             case .toggleBookmark(let index):
-//                guard let source = state.source else { return .none }
-//
-//                switch source {
-//                case .quiz:
-//                    guard state.matchedQuestionItems.indices.contains(index) else { return .none }
-//                    let item = state.matchedQuestionItems[index]
-//                    let predicate = #Predicate<BookmarkItem> { $0.questionID == item.id }
-//
-//                    if let existing = try? modelContext.fetch(FetchDescriptor<BookmarkItem>(predicate: predicate)).first {
-//                        modelContext.delete(existing)
-//                        try? modelContext.save()
-//                        state.allBookmarkItems.removeAll { $0.questionID == item.id }
-//                    } else {
-//                        let new = BookmarkItem(questionID: item.id, type: .문제, reason: .manual)
-//                        modelContext.insert(new)
-//                        try? modelContext.save()
-//                        state.allBookmarkItems.append(new)
-//                    }
-//
-//                case .study:
-//                    guard state.matchedConceptItems.indices.contains(index) else { return .none }
-//                    let item = state.matchedConceptItems[index]
-//                    let predicate = #Predicate<BookmarkItem> { $0.questionID == item.id }
-//
-//                    if let existing = try? modelContext.fetch(FetchDescriptor<BookmarkItem>(predicate: predicate)).first {
-//                        modelContext.delete(existing)
-//                        try? modelContext.save()
-//                        state.allBookmarkItems.removeAll { $0.questionID == item.id }
-//                    } else {
-//                        let new = BookmarkItem(questionID: item.id, type: .개념, reason: .manual)
-//                        modelContext.insert(new)
-//                        try? modelContext.save()
-//                        state.allBookmarkItems.append(new)
-//                    }
+                guard let source = state.source else { return .none }
+                print("FeatureSearchMainReducer :: toggleBookmark, index = \(index)")
+
+                switch source {
+                case .quiz:
+                    guard state.matchedQuestionItems.indices.contains(index) else { return .none }
+                    let item: QuestionItem = state.matchedQuestionItems[index]
+                    let questionItemId: UUID = item.id
+                    let predicate: Predicate<BookmarkItem> = #Predicate<BookmarkItem> { $0.questionID == questionItemId }
+
+                    return .run { send in
+                        let isBookmarked: Bool = try await MainActor.run {
+                            if let existing: BookmarkItem = try? modelContext.fetch(FetchDescriptor<BookmarkItem>(predicate: predicate)).first {
+                                modelContext.delete(existing)
+                                try modelContext.save()
+                                return false
+                                // state.allBookmarkItems.removeAll { $0.questionID == item.id }
+                            } else {
+                                let newBookmarkItem: BookmarkItem = .init(questionID: questionItemId, type: .문제, reason: .manual)
+                                modelContext.insert(newBookmarkItem)
+                                try modelContext.save()
+                                return true
+                                // state.allBookmarkItems.append(newBookmarkItem)
+                            }
+                        }
+
+                        await send(.updateBookmarkStatus(index: index, isBookmarked: isBookmarked, itemId: questionItemId))
+                    }
+
+                case .study:
+                    guard state.matchedConceptItems.indices.contains(index) else { return .none }
+                    let item: ConceptItem = state.matchedConceptItems[index]
+                    let conceptItemId: UUID = item.id
+                    let predicate: Predicate<BookmarkItem> = #Predicate<BookmarkItem> { $0.questionID == conceptItemId }
+
+                    if let existing: BookmarkItem = try? modelContext.fetch(FetchDescriptor<BookmarkItem>(predicate: predicate)).first {
+                        modelContext.delete(existing)
+                        try? modelContext.save()
+                        state.allBookmarkItems.removeAll { $0.questionID == item.id }
+                    } else {
+                        let newBookmarkItem: BookmarkItem = .init(questionID: item.id, type: .개념, reason: .manual)
+                        modelContext.insert(newBookmarkItem)
+                        try? modelContext.save()
+                        state.allBookmarkItems.append(newBookmarkItem)
+                    }
+                }
+
+                return .none
+
+            case .updateBookmarkStatus(let index, let isBookmarked, let itemId):
+                guard let source: FeatureSearchSource = state.source else { return .none }
+
+                switch source {
+                case .quiz:
+                    // 이미 있는 북마크 제거
+                    state.allBookmarkItems.removeAll { $0.questionID == itemId }
+
+                    // 새로 북마크 추가
+                    if isBookmarked {
+                        let newBookmarkItem = BookmarkItem(questionID: itemId, type: .문제, reason: .manual)
+                        state.allBookmarkItems.append(newBookmarkItem)
+                    }
+
+                case .study:
+                    state.allBookmarkItems.removeAll { $0.questionID == itemId }
+
+                    if isBookmarked {
+                        let newBookmarkItem = BookmarkItem(questionID: itemId, type: .개념, reason: .manual)
+                        state.allBookmarkItems.append(newBookmarkItem)
+                    }
+                }
 
                 return .none
 

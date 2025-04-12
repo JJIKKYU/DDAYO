@@ -145,10 +145,11 @@ public struct FeatureSearchMainView: View {
                                     isBookmarked: viewStore.binding(
                                         get: { _ in item.isBookmarked },
                                         send: FeatureSearchMainReducer.Action.toggleBookmark(index: index)
-                                    )
-                                ) {
-                                    viewStore.send(.selectCardView(index: index))
-                                }
+                                    ),
+                                    onTap: {
+                                        viewStore.send(.selectCardView(index: index))
+                                    }
+                                )
                                 .listRowBackground(Color.Background._2)
                                 .listRowSeparator(.hidden)
                             }

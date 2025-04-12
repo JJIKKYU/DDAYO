@@ -83,6 +83,7 @@ public struct ConceptListCell: View {
                             .foregroundStyle(Color.Grayscale._300)
                             .frame(width: 24, height: 24)
                         }
+                        .buttonStyle(.plain)
                     }
 
                 }
