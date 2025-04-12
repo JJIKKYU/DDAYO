@@ -80,10 +80,13 @@ public struct FeatureSearchMainReducer {
         case removeAllRecentKeywords
         case selectResult(String)
         case loadAllItems
+        case toggleBookmark(index: Int)
 
         // 검색 결과를 선택했을때
         case selectCardView(index: Int)
 
+        // Navigateion
+        case pressedBackBtn
         case navigateToQuizPlay(questionItems: [QuestionItem], index: Int)
         case navigateToStudyDetail(items: [ConceptItem], index: Int)
     }
@@ -124,6 +127,7 @@ public struct FeatureSearchMainReducer {
                 state.mode = .searching
                 return .none
 
+            // 현재는 미사용
             case .clear:
                 state.keyword = ""
                 state.results = []
@@ -222,7 +226,45 @@ public struct FeatureSearchMainReducer {
                 }
                 return .none
 
-            case .navigateToQuizPlay, .navigateToStudyDetail:
+            case .toggleBookmark(let index):
+//                guard let source = state.source else { return .none }
+//
+//                switch source {
+//                case .quiz:
+//                    guard state.matchedQuestionItems.indices.contains(index) else { return .none }
+//                    let item = state.matchedQuestionItems[index]
+//                    let predicate = #Predicate<BookmarkItem> { $0.questionID == item.id }
+//
+//                    if let existing = try? modelContext.fetch(FetchDescriptor<BookmarkItem>(predicate: predicate)).first {
+//                        modelContext.delete(existing)
+//                        try? modelContext.save()
+//                        state.allBookmarkItems.removeAll { $0.questionID == item.id }
+//                    } else {
+//                        let new = BookmarkItem(questionID: item.id, type: .문제, reason: .manual)
+//                        modelContext.insert(new)
+//                        try? modelContext.save()
+//                        state.allBookmarkItems.append(new)
+//                    }
+//
+//                case .study:
+//                    guard state.matchedConceptItems.indices.contains(index) else { return .none }
+//                    let item = state.matchedConceptItems[index]
+//                    let predicate = #Predicate<BookmarkItem> { $0.questionID == item.id }
+//
+//                    if let existing = try? modelContext.fetch(FetchDescriptor<BookmarkItem>(predicate: predicate)).first {
+//                        modelContext.delete(existing)
+//                        try? modelContext.save()
+//                        state.allBookmarkItems.removeAll { $0.questionID == item.id }
+//                    } else {
+//                        let new = BookmarkItem(questionID: item.id, type: .개념, reason: .manual)
+//                        modelContext.insert(new)
+//                        try? modelContext.save()
+//                        state.allBookmarkItems.append(new)
+//                    }
+
+                return .none
+
+            case .navigateToQuizPlay, .navigateToStudyDetail, .pressedBackBtn:
                 return .none
             }
         }

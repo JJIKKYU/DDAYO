@@ -11,77 +11,97 @@ public struct BookmarkCardView: View {
     public let title: String
     public let views: String
     public let tags: [String]
-    public let isBookmarked: Bool
+    @Binding public var isBookmarked: Bool
+    public let onTap: () -> Void
 
-    public init(category: String, title: String, views: String, tags: [String], isBookmarked: Bool) {
+    public init(
+        category: String,
+        title: String,
+        views: String,
+        tags: [String],
+        isBookmarked: Binding<Bool>,
+        onTap: @escaping () -> Void
+    ) {
         self.category = category
         self.title = title
         self.views = views
         self.tags = tags
-        self.isBookmarked = isBookmarked
+        self._isBookmarked = isBookmarked
+        self.onTap = onTap
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            // 상단 카테고리
-            HStack(alignment: .center) {
-                Text(category)
-                    .font(.system(size: 11, weight: .regular))
-                    .foregroundColor(.Grayscale._500)
-                    .padding(.bottom, 6)
-
-                Spacer()
-
-                if tags.contains("AI 예상 문제") {
-                    AIBadgeView()
-                }
-            }
-
-            // 문제 제목
-            Text(title)
-                .font(.system(size: 14, weight: .regular))
-                .foregroundColor(.Grayscale._900)
-                .lineSpacing(4)
-                .lineLimit(2)
-                .multilineTextAlignment(.leading)
-                .padding(.bottom, 8)
-
-            // 하단 뱃지 영역
-            HStack(spacing: 8) {
-                HStack(spacing: 4) {
-                    Image(.eye)
-                        .resizable()
-                        .renderingMode(.template)
-                        .foregroundStyle(Color.Grayscale._300)
-                        .frame(width: 16, height: 16)
-                        .scaledToFit()
-
-                    Text(views)
+        Button {
+            onTap()
+        } label: {
+            VStack(alignment: .leading, spacing: 8) {
+                // 상단 카테고리
+                HStack(alignment: .center) {
+                    Text(category)
                         .font(.system(size: 11, weight: .regular))
-                        .foregroundStyle(Color.Grayscale._400)
+                        .foregroundColor(.Grayscale._500)
+                        .padding(.bottom, 6)
+
+                    Spacer()
+
+                    if tags.contains("AI 예상 문제") {
+                        AIBadgeView()
+                    }
                 }
-                .foregroundColor(.Grayscale._400)
 
-                ForEach(tags.filter { $0 != "AI 예상 문제" }, id: \.self) { tag in
-                    TagBadgeView(text: tag)
+                // 문제 제목
+                Text(title)
+                    .font(.system(size: 14, weight: .regular))
+                    .foregroundColor(.Grayscale._900)
+                    .lineSpacing(4)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.leading)
+                    .padding(.bottom, 8)
+
+                // 하단 뱃지 영역
+                HStack(spacing: 8) {
+                    HStack(spacing: 4) {
+                        Image(.eye)
+                            .resizable()
+                            .renderingMode(.template)
+                            .foregroundStyle(Color.Grayscale._300)
+                            .frame(width: 16, height: 16)
+                            .scaledToFit()
+
+                        Text(views)
+                            .font(.system(size: 11, weight: .regular))
+                            .foregroundStyle(Color.Grayscale._400)
+                    }
+                    .foregroundColor(.Grayscale._400)
+
+                    ForEach(tags.filter { $0 != "AI 예상 문제" }, id: \.self) { tag in
+                        TagBadgeView(text: tag)
+                    }
+
+                    Spacer()
+
+                    Button {
+                        isBookmarked.toggle()
+                        // onBookmarkTap()
+                    } label: {
+                        Image(isBookmarked ? .bookmarkFilled : .bookmark)
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .scaledToFit()
+                            .foregroundColor(Color.Grayscale._300)
+                    }
+                    .buttonStyle(.plain)
                 }
-
-                Spacer()
-
-                Image(isBookmarked ? .bookmarkFilled : .bookmark)
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .scaledToFit()
-                    .foregroundColor(Color.Grayscale._300)
             }
+            .padding(.init(top: 16, leading: 20, bottom: 16, trailing: 20))
+            .background(Color.Grayscale.white)
+            .cornerRadius(16)
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(Color.Grayscale._100)
+            )
         }
-        .padding(.init(top: 16, leading: 20, bottom: 16, trailing: 20))
-        .background(Color.Grayscale.white)
-        .cornerRadius(16)
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(Color.Grayscale._100)
-        )
+        .buttonStyle(.plain)
     }
 }
 
@@ -138,7 +158,8 @@ struct AIBadgeView: View {
         title: "UML에서 활용되는 다이어그램 중, 시스템의 동작을 표현하는 행위(Bohavlral) 다이어그램에 해당하지 않는 것은?",
         views: "99999+",
         tags: ["필기시험", "틀린 문제"],
-        isBookmarked: true
+        isBookmarked: .constant(false),
+        onTap: {}
     )
     .padding()
     .background(Color.Grayscale._50)

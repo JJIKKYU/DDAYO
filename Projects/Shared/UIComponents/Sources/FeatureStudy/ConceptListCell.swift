@@ -13,18 +13,18 @@ import Model
 public struct ConceptListCell: View {
     public let concept: ConceptItem
     public let type: ConceptListCellType
-    public let isBookmarked: Bool
+    @Binding public var isBookmarked: Bool
     public let onTap: (() -> Void)
 
     public init(
         concept: ConceptItem,
         type: ConceptListCellType,
-        isBookmarked: Bool,
+        isBookmarked: Binding<Bool>,
         onTap: @escaping (() -> Void)
     ) {
         self.concept = concept
         self.type = type
-        self.isBookmarked = isBookmarked
+        self._isBookmarked = isBookmarked
         self.onTap = onTap
     }
 
@@ -52,7 +52,7 @@ public struct ConceptListCell: View {
 
                     if type == .continueLearning {
                         ContinueLearningButton {
-                            print("이어서학습하기 버튼 누름!")
+                            onTap()
                         }
                         .padding(.bottom, 8)
                     }
@@ -73,7 +73,7 @@ public struct ConceptListCell: View {
                         Spacer()
 
                         Button {
-                            print("Bookmark!!")
+                            isBookmarked.toggle()
                         } label: {
                             Image(isBookmarked ? .bookmarkFilled : .bookmark)
                             .renderingMode(.template)
@@ -108,10 +108,10 @@ struct ConceptListView_Previews: PreviewProvider {
         )
 
         VStack(alignment: .leading, spacing: 12) {
-            ConceptListCell(concept: concept, type: .regular, isBookmarked: false, onTap: {
+            ConceptListCell(concept: concept, type: .regular, isBookmarked: .constant(false), onTap: {
                 print("!!")
             })
-            ConceptListCell(concept: concept, type: .continueLearning, isBookmarked: true, onTap: {
+            ConceptListCell(concept: concept, type: .continueLearning, isBookmarked: .constant(true), onTap: {
                 print("!!!")
             })
         }

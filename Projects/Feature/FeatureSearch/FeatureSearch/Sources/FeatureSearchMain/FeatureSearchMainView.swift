@@ -45,7 +45,7 @@ public struct FeatureSearchMainView: View {
                     .padding(.leading, 16)
 
                     Button("취소") {
-                        viewStore.send(.clear)
+                        viewStore.send(.pressedBackBtn)
                     }
                     .font(.system(size: 16, weight: .medium))
                     .foregroundColor(Color.Grayscale._800)
@@ -122,11 +122,14 @@ public struct FeatureSearchMainView: View {
                                 title: item.title,
                                 views: item.views,
                                 tags: item.tags,
-                                isBookmarked: item.isBookmarked
+                                isBookmarked: viewStore.binding(
+                                    get: { _ in item.isBookmarked },
+                                    send: FeatureSearchMainReducer.Action.toggleBookmark(index: index)
+                                ),
+                                onTap: {
+                                    viewStore.send(.selectCardView(index: index))
+                                }
                             )
-                            .onTapGesture {
-                                viewStore.send(.selectCardView(index: index))
-                            }
                             .listRowBackground(Color.Background._2)
                             .listRowSeparator(.hidden)
                         }
@@ -139,11 +142,15 @@ public struct FeatureSearchMainView: View {
                                 ConceptListCell(
                                     concept: originItem,
                                     type: .regular,
-                                    isBookmarked: item.isBookmarked) {
-                                        viewStore.send(.selectCardView(index: index))
-                                    }
-                                    .listRowBackground(Color.Background._2)
-                                    .listRowSeparator(.hidden)
+                                    isBookmarked: viewStore.binding(
+                                        get: { _ in item.isBookmarked },
+                                        send: FeatureSearchMainReducer.Action.toggleBookmark(index: index)
+                                    )
+                                ) {
+                                    viewStore.send(.selectCardView(index: index))
+                                }
+                                .listRowBackground(Color.Background._2)
+                                .listRowSeparator(.hidden)
                             }
                         }
                         .listRowSeparator(.hidden)

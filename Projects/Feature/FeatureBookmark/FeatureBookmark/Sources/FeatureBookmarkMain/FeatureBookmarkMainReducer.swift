@@ -9,6 +9,7 @@ import ComposableArchitecture
 import DI
 import Model
 import SwiftData
+import Foundation
 
 @Reducer
 public struct FeatureBookmarkMainReducer {
@@ -204,6 +205,10 @@ public struct FeatureBookmarkMainReducer {
         case onAppear
         case internalAction(InternalAction)
 
+        // Bookmark
+        case toggleBookmark(index: Int)
+        case updateBookmarkStatus(index: Int, isBookmarked: Bool)
+
         case navigateToStudyDetail(items: [ConceptItem], idnex: Int)
         case navigateToQuizPlay(items: [QuestionItem], index: Int)
     }
@@ -327,38 +332,105 @@ public struct FeatureBookmarkMainReducer {
                 state.showOnlyWrongAnswers.toggle()
                 return .none
 
+            case .toggleBookmark(let index): // New case handling
+                switch state.selectedTab {
+                case .문제:
+                    guard let item: QuestionItem = state.filteredQuestions[safe: index] else { return .none }
+                    let questionID: UUID = item.id
+                    return .run { send in
+                        let isBookmarked: Bool = try await MainActor.run {
+                            let predicate = #Predicate<BookmarkItem> {
+                                $0.questionID == questionID
+                            }
+                            if let existing: BookmarkItem = try? modelContext.fetch(FetchDescriptor<BookmarkItem>(predicate: predicate)).first {
+                                modelContext.delete(existing)
+                                try modelContext.save()
+                                return false
+                            } else {
+                                let newBookmark: BookmarkItem = .init(questionID: questionID, type: .문제, reason: .manual)
+                                modelContext.insert(newBookmark)
+                                try modelContext.save()
+                                return true
+                            }
+                        }
+
+                        await send(.updateBookmarkStatus(index: index, isBookmarked: isBookmarked))
+                    }
+
+                case .개념:
+                    guard let item: ConceptItem = state.filteredConceptItems[safe: index] else { return .none }
+                    let conceptID: UUID = item.id
+                    return .run { send in
+                        let isBookmarked: Bool = try await MainActor.run {
+                            let predicate = #Predicate<BookmarkItem> {
+                                $0.questionID == conceptID
+                            }
+                            if let existing: BookmarkItem = try? modelContext.fetch(FetchDescriptor<BookmarkItem>(predicate: predicate)).first {
+                                modelContext.delete(existing)
+                                try modelContext.save()
+                                return false
+                            } else {
+                                let newBookmark: BookmarkItem = .init(questionID: conceptID, type: .개념, reason: .manual)
+                                modelContext.insert(newBookmark)
+                                try modelContext.save()
+                                return true
+                            }
+                        }
+
+                        await send(.updateBookmarkStatus(index: index, isBookmarked: isBookmarked))
+                    }
+                }
+
+            case .updateBookmarkStatus(let index, let isBookmarked):
+                print("FeatureBookmarkMainReducer :: updateBookmarkStatus, index = \(index), isBookmarked = \(isBookmarked), tab = \(state.selectedTab)")
+
+                switch state.selectedTab {
+                case .문제:
+                    guard let question: QuestionItem = state.filteredQuestions[safe: index] else { return .none }
+                    state.bookmarkItems.removeAll { question.id == $0.questionID }
+
+                    if !isBookmarked { return .none }
+                    let newBookmark: BookmarkItem = .init(questionID: question.id, type: .문제, reason: .manual)
+                    state.bookmarkItems.append(newBookmark)
+
+                case .개념:
+                    guard  let concept: ConceptItem = state.filteredConceptItems[safe: index] else { return .none }
+                    state.bookmarkItems.removeAll { $0.questionID == concept.id }
+
+                    if !isBookmarked { return .none }
+                    let newBookmark: BookmarkItem = .init(questionID: concept.id, type: .개념, reason: .manual)
+                    state.bookmarkItems.append(newBookmark)
+               }
+                return .none
+
             case .selectItem(let index):
                 print("Selected item at index: \(index)")
                 switch state.selectedTab {
                 case .문제:
                     let filteredQuestions: [QuestionItem] = state.filteredQuestions
-                    Task {
-                        await MainActor.run {
-                            if let selectedQuestion: QuestionItem = filteredQuestions[safe: index] {
-                                selectedQuestion.viewCount += 1
-                                modelContext.insert(selectedQuestion)
-                                try? modelContext.save()
-                            }
-                        }
-                    }
-
+                    guard let selectedQuestion: QuestionItem = filteredQuestions[safe: index] else { return .none }
                     return .run { send in
+                        try await MainActor.run {
+
+                            selectedQuestion.viewCount += 1
+                            modelContext.insert(selectedQuestion)
+                            try modelContext.save()
+                        }
+
                         await send(.navigateToQuizPlay(items: filteredQuestions, index: index))
                     }
 
                 case .개념:
                     let filteredConcepts: [ConceptItem] = state.filteredConceptItems
-                    Task {
-                        await MainActor.run {
+                    guard let selectedConcept: ConceptItem = filteredConcepts[safe: index] else { return .none }
+                    return .run { send in
+                        try await MainActor.run {
                             if let selectedConcept: ConceptItem = filteredConcepts[safe: index] {
                                 selectedConcept.views += 1
                                 modelContext.insert(selectedConcept)
-                                try? modelContext.save()
+                                try modelContext.save()
                             }
                         }
-                    }
-
-                    return .run { send in
                         await send(.navigateToStudyDetail(items: filteredConcepts, idnex: index))
                     }
                 }

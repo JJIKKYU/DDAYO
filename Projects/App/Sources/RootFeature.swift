@@ -132,6 +132,9 @@ public struct RootFeature {
                             state.routing.path.append(.featureStudyDetail(.init(items: items, index: index)))
                             return .none
 
+                        case .pressedBackBtn:
+                            return .send(.routing(.pop))
+
                         default:
                             break
                         }

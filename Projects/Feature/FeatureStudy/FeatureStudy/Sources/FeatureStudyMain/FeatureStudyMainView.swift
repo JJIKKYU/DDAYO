@@ -41,9 +41,12 @@ public struct FeatureStudyMainView: View {
                         ConceptListCell(
                             concept: originConceptItem,
                             type: .continueLearning,
-                            isBookmarked: recentFeedItem.isBookmarked,
+                            isBookmarked: viewStore.binding(
+                                get: { _ in recentFeedItem.isBookmarked },
+                                send: FeatureStudyMainReducer.Action.toggleBookmark(index: viewStore.conceptFeedItems.firstIndex(where: { $0.originConceptItem?.id == recentFeedItem.originConceptItem?.id }) ?? 0)
+                            ),
                             onTap: {
-                                print("계속 공부하자!")
+                                viewStore.send(.selectRecentItem)
                         })
                         .padding(.horizontal, 20)
                         .padding(.bottom, 20)
@@ -92,7 +95,10 @@ public struct FeatureStudyMainView: View {
                             ConceptListCell(
                                 concept: data.originConceptItem!,
                                 type: .regular,
-                                isBookmarked: data.isBookmarked,
+                                isBookmarked: viewStore.binding(
+                                    get: { _ in data.isBookmarked},
+                                    send: FeatureStudyMainReducer.Action.toggleBookmark(index: index)
+                                ),
                                 onTap: {
                                     viewStore.send(.selectItem(index))
                                 }

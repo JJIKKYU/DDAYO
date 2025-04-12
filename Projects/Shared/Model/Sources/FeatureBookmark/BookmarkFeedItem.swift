@@ -13,7 +13,7 @@ public struct BookmarkFeedItem: Identifiable, Equatable, Hashable {
     public let title: String
     public let views: String
     public let tags: [String]
-    public let isBookmarked: Bool
+    public var isBookmarked: Bool
     public var originConceptItem: ConceptItem?
 
     public init(

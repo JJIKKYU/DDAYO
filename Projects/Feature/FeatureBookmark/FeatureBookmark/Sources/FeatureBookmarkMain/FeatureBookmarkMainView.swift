@@ -83,11 +83,14 @@ public struct FeatureBookmarkMainView: View {
                                                 title: item.title,
                                                 views: item.views,
                                                 tags: item.tags,
-                                                isBookmarked: item.isBookmarked
+                                                isBookmarked: viewStore.binding(
+                                                    get: { _ in item.isBookmarked },
+                                                    send: FeatureBookmarkMainReducer.Action.toggleBookmark(index: index)
+                                                ),
+                                                onTap: {
+                                                    viewStore.send(.selectItem(index))
+                                                }
                                             )
-                                            .onTapGesture {
-                                                viewStore.send(.selectItem(index))
-                                            }
                                         }
                                     }
                                 }
@@ -119,7 +122,10 @@ public struct FeatureBookmarkMainView: View {
                                             ConceptListCell(
                                                 concept: item.originConceptItem!,
                                                 type: .regular,
-                                                isBookmarked: item.isBookmarked,
+                                                isBookmarked: viewStore.binding(
+                                                    get: { _ in item.isBookmarked },
+                                                    send: FeatureBookmarkMainReducer.Action.toggleBookmark(index: index)
+                                                ),
                                                 onTap: {
                                                     viewStore.send(.selectItem(index))
                                                 }

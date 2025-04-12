@@ -6,10 +6,11 @@
 //
 
 import ComposableArchitecture
-import Model
-import SwiftData
 import DI
+import Foundation
+import Model
 import Service
+import SwiftData
 
 @Reducer
 public struct FeatureStudyMainReducer {
@@ -39,6 +40,7 @@ public struct FeatureStudyMainReducer {
 
         case selectSortOption(SortOption?)
         case selectItem(Int)
+        case selectRecentItem
 
         case dismiss
         case test
@@ -48,6 +50,10 @@ public struct FeatureStudyMainReducer {
         // navigate
         case navigateToSearch(FeatureSearchSource)
         case navigateToStudyDetail(items: [ConceptItem], index: Int)
+
+        // bookmark
+        case toggleBookmark(index: Int)
+        case updateBookmarkStatus(index: Int, isBookmarked: Bool)
     }
 
     public var body: some ReducerOf<Self> {
@@ -56,72 +62,68 @@ public struct FeatureStudyMainReducer {
             action in
             switch action {
             case .onAppear:
-                return .run { [modelContext] send in
-                    await Task { @MainActor in
-                        do {
-                            let descriptor = FetchDescriptor<ConceptItem>()
-                            let items: [ConceptItem] = try modelContext.fetch(descriptor)
-                                .sorted { $0.title < $1.title }
-                            
-                            // Load recent item
-                            let recentDescriptor = FetchDescriptor<RecentConceptItem>()
-                            let recentItems = try modelContext.fetch(recentDescriptor)
-                            
-                            
-                            if let recentId = recentItems.first?.conceptId,
-                               let recentConcept: ConceptItem = items
-                                .filter({ $0.id == recentId })
-                                .first {
-                                send(.setRecentItem(recentConcept))
-                            }
-                            
-                            send(.loadConcepts(items))
-                        } catch {
-                            print("⚠️ ConceptItems 또는 RecentConceptItem을 불러오는데 실패: \(error)")
+                return .run { send in
+                    try await MainActor.run {
+                        let descriptor = FetchDescriptor<ConceptItem>()
+                        let items: [ConceptItem] = try modelContext.fetch(descriptor)
+                            .sorted { $0.title < $1.title }
+
+                        // Load recent item
+                        let recentDescriptor = FetchDescriptor<RecentConceptItem>()
+                        let recentItems = try modelContext.fetch(recentDescriptor)
+
+
+                        if let recentId = recentItems.first?.conceptId,
+                           let recentConcept: ConceptItem = items
+                            .filter({ $0.id == recentId })
+                            .first {
+                            send(.setRecentItem(recentConcept))
                         }
-                    }.value
+
+                        send(.loadConcepts(items))
+                    }
                 }
-                
+
             case .test:
                 return .none
-                
+
             case .showSheet(let isPresented):
                 state.isSheetPresented = isPresented
-                
+
                 // bottomSheet가 닫히는 시점에만 반영
                 if !isPresented,
                    let tempOption = state.tempSortOption {
                     switch tempOption {
                     case .leastViewed:
                         state.conceptFeedItems.sort { $0.views < $1.views }
-                        
+
                     case .mostViewed:
                         state.conceptFeedItems.sort { $0.views > $1.views }
-                        
+
                     case .az:
                         state.conceptFeedItems.sort { $0.title < $1.title }
-                        
+
                     case .za:
                         state.conceptFeedItems.sort { $0.title > $1.title }
                     }
-                    
+
                     state.selectedSortOption = tempOption
                     state.tempSortOption = nil
                 }
                 return .none
-                
+
             case let .selectSortOption(option):
                 state.tempSortOption = option
                 return .run { send in
                     await send(.showSheet(false))
                 }
-                
+
             case .selectItem(let index):
                 guard state.conceptFeedItems.indices.contains(index) else { return .none }
-                
+
                 var items = state.conceptFeedItems
                 var selected = items[index]
-                
+
                 // views 업데이트
                 let origin = selected.originConceptItem
                 origin?.views += 1
@@ -135,18 +137,37 @@ public struct FeatureStudyMainReducer {
                 )
                 items[index] = selected
                 state.conceptFeedItems = items
-                
-                return .run { [modelContext] send in
-                    guard let origin else { return }
-                    modelContext.insert(origin)
-                    try? modelContext.save()
+
+                return .run { [items] send in
+                    try await MainActor.run {
+                        guard let origin else { return }
+                        modelContext.insert(origin)
+                        try modelContext.save()
+                    }
+
                     await send(.navigateToStudyDetail(items: items.compactMap { $0.originConceptItem }, index: index))
                 }
-                
+
+            case .selectRecentItem:
+                // 현재까지 본 아이템이 있을 경우에만
+                guard let recentItemId: UUID = state.recentFeedItem?.originConceptItem?.id else {
+                    return .none
+                }
+                // 현재까지본 아이템의 id와 전체 리스트 id를 비교해서 index를 찾는다.
+                guard let index: Int = state.conceptFeedItems
+                    .firstIndex(where: { $0.originConceptItem?.id == recentItemId })
+                else { return .none }
+
+                let originItems: [ConceptItem] = state.conceptFeedItems.compactMap ({ $0.originConceptItem })
+
+                return .run { send in
+                    await send(.navigateToStudyDetail(items: originItems, index: index))
+                }
+
             case .dismiss:
                 print("FeatureStudyMainReducer :: dismiss")
                 return .none
-                
+
             case let .loadConcepts(items):
                 state.allConcepts = items
                 let bookmarkedIDs = try? modelContext.fetch(FetchDescriptor<BookmarkItem>()).map(\.questionID)
@@ -162,7 +183,7 @@ public struct FeatureStudyMainReducer {
                     )
                 }
                 return .none
-                
+
             case let .setRecentItem(item):
                 let bookmarkedIDs = try? modelContext.fetch(FetchDescriptor<BookmarkItem>()).map(\.questionID)
                 let bookmarkedSet = Set(bookmarkedIDs ?? [])
@@ -177,7 +198,65 @@ public struct FeatureStudyMainReducer {
                     )
                 state.recentFeedItem = feedItem
                 return .none
-                
+
+            case let .toggleBookmark(index):
+                guard state.conceptFeedItems.indices.contains(index) else { return .none }
+                let item: BookmarkFeedItem = state.conceptFeedItems[index]
+                guard let conceptId = item.originConceptItem?.id else {
+                    return .none
+                }
+
+                print("FeatureStudyMainReducer :: toggleBookmark[index]")
+
+                return .run { send in
+                    let isBookmarked: Bool = try await MainActor.run {
+                        let predicate = #Predicate<BookmarkItem> {
+                            $0.questionID == conceptId
+                        }
+
+                        if let existing = try modelContext.fetch(FetchDescriptor<BookmarkItem>(predicate: predicate)).first {
+                            modelContext.delete(existing)
+                            try modelContext.save()
+                            return false
+                        } else {
+                            let newBookmark: BookmarkItem = .init(
+                                questionID: conceptId,
+                                type: .개념,
+                                reason: .manual
+                            )
+                            modelContext.insert(newBookmark)
+                            try modelContext.save()
+                            return true
+                        }
+                    }
+
+                    await send(.updateBookmarkStatus(index: index, isBookmarked: isBookmarked))
+                }
+
+            case .updateBookmarkStatus(let index, let isBookmarked):
+                print("FeatureStudyMainReducer :: updateBookmarkStatus, index = \(index), isBookmarked = \(isBookmarked)")
+                guard state.conceptFeedItems.indices.contains(index) else { return .none }
+
+                var item = state.conceptFeedItems[index]
+                item = BookmarkFeedItem(
+                    category: item.category,
+                    title: item.title,
+                    views: item.views,
+                    tags: item.tags,
+                    isBookmarked: isBookmarked,
+                    originConceptItem: item.originConceptItem
+                )
+
+                state.conceptFeedItems[index] = item
+
+                // 공부중인 아이템과 동일한 UUID면 같이 반영
+                if let recentId = state.recentFeedItem?.originConceptItem?.id,
+                   recentId == item.originConceptItem?.id {
+                    state.recentFeedItem = item
+                }
+
+                return .none
+
             case .navigateToSearch,
                     .navigateToStudyDetail:
                 return .none
