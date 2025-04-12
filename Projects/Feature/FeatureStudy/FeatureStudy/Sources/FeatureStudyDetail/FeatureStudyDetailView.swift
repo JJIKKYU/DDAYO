@@ -20,9 +20,7 @@ public struct FeatureStudyDetailView: View {
         WithViewStore(store, observe:  { $0 }) { viewStore in
             ZStack(alignment: .bottom) {
                 VStack(alignment: .leading) {
-                    NaviBar(type: .studyDetail, title: "개념 학습", leading1: {
-                        viewStore.send(.pressedBackBtn)
-                    }, trailing1: {
+                    NaviBar(type: .studyDetail, title: "개념 학습", trailing1: {
                         viewStore.send(.pressedBackBtn)
                     })
 

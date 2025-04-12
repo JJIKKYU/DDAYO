@@ -7,7 +7,8 @@
 
 import Foundation
 
-public enum FeatureQuizPlayStep {
+public enum FeatureQuizPlayStep: Equatable, Hashable {
     case showAnswers
     case confirmAnswers
+    case solvedQuestion(isCorrect: Bool)
 }

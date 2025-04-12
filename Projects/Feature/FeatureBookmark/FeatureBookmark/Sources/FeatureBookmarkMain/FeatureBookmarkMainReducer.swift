@@ -408,10 +408,9 @@ public struct FeatureBookmarkMainReducer {
                 switch state.selectedTab {
                 case .문제:
                     let filteredQuestions: [QuestionItem] = state.filteredQuestions
-                    guard let selectedQuestion: QuestionItem = filteredQuestions[safe: index] else { return .none }
                     return .run { send in
                         try await MainActor.run {
-
+                            guard let selectedQuestion: QuestionItem = filteredQuestions[safe: index] else { return }
                             selectedQuestion.viewCount += 1
                             modelContext.insert(selectedQuestion)
                             try modelContext.save()
@@ -422,9 +421,10 @@ public struct FeatureBookmarkMainReducer {
 
                 case .개념:
                     let filteredConcepts: [ConceptItem] = state.filteredConceptItems
-                    guard let selectedConcept: ConceptItem = filteredConcepts[safe: index] else { return .none }
+                    guard let selectedConcept: ConceptItem =  filteredConcepts[safe: index] else { return .none }
                     return .run { send in
                         try await MainActor.run {
+
                             if let selectedConcept: ConceptItem = filteredConcepts[safe: index] {
                                 selectedConcept.views += 1
                                 modelContext.insert(selectedConcept)

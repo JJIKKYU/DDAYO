@@ -10,6 +10,13 @@ import FeatureQuiz
 import FeatureStudy
 import FeatureBookmark
 import FeatureSearch
+import Foundation
+
+public final class GlobalRouteObserver {
+    static let shared = GlobalRouteObserver()
+
+    @Published var currentRoute: RootRoutingReducer.Path.State?
+}
 
 @Reducer
 public struct RootRoutingReducer: Reducer {
@@ -29,16 +36,19 @@ public struct RootRoutingReducer: Reducer {
             switch action {
             case .push(let route):
                 state.path.append(route)
+                GlobalRouteObserver.shared.currentRoute = route
                 return .none
 
             case .pop:
                 if !state.path.isEmpty {
                     state.path.removeLast()
                 }
+                GlobalRouteObserver.shared.currentRoute = state.path.last
                 return .none
 
             case .popToRoot:
                 state.path.removeAll()
+                GlobalRouteObserver.shared.currentRoute = state.path.last
                 return .none
 
             case .path:

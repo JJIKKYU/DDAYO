@@ -30,6 +30,12 @@ public final class QuestionItem {
     public var viewCount: Int
     public var version: Int
 
+    // 문제 틀리면 false, 맞으면 true, 아직 풀기 전이면 nil
+    @Transient
+    public var isCorrect: Bool? = nil
+    @Transient
+    public var selectedIndex: Int? = nil
+
     public init(
         id: UUID = UUID(),
         title: String,

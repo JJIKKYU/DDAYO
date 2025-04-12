@@ -1,8 +1,9 @@
 import ComposableArchitecture
-import FeatureQuiz
-import FeatureStudy
 import FeatureBookmark
+import FeatureQuiz
 import FeatureSearch
+import FeatureStudy
+import Model
 import SwiftUI
 import UIComponents
 
@@ -94,9 +95,3 @@ public struct MainTabView: View {
         }
     }
 }
-
-// struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//    }
-// }

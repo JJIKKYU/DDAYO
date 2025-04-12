@@ -114,9 +114,7 @@ public struct FeatureStudyMainReducer {
 
             case let .selectSortOption(option):
                 state.tempSortOption = option
-                return .run { send in
-                    await send(.showSheet(false))
-                }
+                return .send(.showSheet(false))
 
             case .selectItem(let index):
                 guard state.conceptFeedItems.indices.contains(index) else { return .none }
@@ -166,7 +164,7 @@ public struct FeatureStudyMainReducer {
 
             case .dismiss:
                 print("FeatureStudyMainReducer :: dismiss")
-                return .none
+                return .send(.showSheet(false))
 
             case let .loadConcepts(items):
                 state.allConcepts = items

@@ -113,7 +113,7 @@ public struct RootFeature {
                     case .featureQuizSubject(let subjectAction):
                         switch subjectAction {
                         case .navigateToQuizPlay(let subject):
-                            state.routing.path.append(.featureQuizPlay(FeatureQuizPlayReducer.State(sourceType: .subject(subject))))
+                            return .send(.routing(.push(.featureQuizPlay(.init(sourceType: .subject(subject))))))
 
                         case .pressedBackBtn:
                             return .send(.routing(.pop))
@@ -125,12 +125,10 @@ public struct RootFeature {
                     case .featureSearchMain(let searchAction):
                         switch searchAction {
                         case .navigateToQuizPlay(let questionItems, let index):
-                            state.routing.path.append(.featureQuizPlay(.init(sourceType: .searchResult(items: questionItems, index: index))))
-                            return .none
+                            return .send(.routing(.push(.featureQuizPlay(.init(sourceType: .searchResult(items: questionItems, index: index))))))
 
                         case .navigateToStudyDetail(let items, let index):
-                            state.routing.path.append(.featureStudyDetail(.init(items: items, index: index)))
-                            return .none
+                            return .send(.routing(.push(.featureStudyDetail(.init(items: items, index: index)))))
 
                         case .pressedBackBtn:
                             return .send(.routing(.pop))
@@ -157,7 +155,7 @@ public struct RootFeature {
                 case .featureQuizSubject(let action):
                     print("action = \(action)")
                     if case .navigateToQuizPlay(let subject) = action {
-                        state.routing.path.append(.featureQuizPlay(FeatureQuizPlayReducer.State(sourceType: .subject(subject))))
+                        return .send(.routing(.push(.featureQuizPlay(FeatureQuizPlayReducer.State(sourceType: .subject(subject))))))
                     }
                     return .none
 
@@ -167,17 +165,15 @@ public struct RootFeature {
                         switch quizStartOption {
                         // 언어별, 과목별은 세부 과목 선택
                         case .startLanguageQuiz, .startSubjectQuiz:
-                            state.routing.path.append(.featureQuizSubject(FeatureQuizSubjectReducer.State(selectedSujbect: quizTab, selectedQuestionType: questionType, selectedStartOption: quizStartOption)))
+                            return .send(.routing(.push(.featureQuizSubject(FeatureQuizSubjectReducer.State(selectedSujbect: quizTab, selectedQuestionType: questionType, selectedStartOption: quizStartOption)))))
 
                         // 랜덤 퀴즈는 바로 진입
                         case .startRandomQuiz:
-                            state.routing.path.append(.featureQuizPlay(.init(sourceType: .random(quizTab, questionType))))
+                            return .send(.routing(.push(.featureQuizPlay(.init(sourceType: .random(quizTab, questionType))))))
                         }
-                        return .none
 
                     case .navigateToSearch(let source):
-                        state.routing.path.append(.featureSearchMain(.init(source: source)))
-                        return .none
+                        return .send(.routing(.push(.featureSearchMain(.init(source: source)))))
 
                     default:
                         return .none
@@ -195,12 +191,10 @@ public struct RootFeature {
                 case .featureStudyMain(let action):
                     switch action {
                     case .navigateToSearch(let source):
-                        state.routing.path.append(.featureSearchMain(.init(source: source)))
-                        return .none
+                        return .send(.routing(.push(.featureSearchMain(.init(source: source)))))
 
                     case .navigateToStudyDetail(let items, let index):
-                        state.routing.path.append(.featureStudyDetail(.init(items: items, index: index)))
-                        return .none
+                        return .send(.routing(.push(.featureStudyDetail(.init(items: items, index: index)))))
 
                     default:
                         return .none
@@ -209,12 +203,10 @@ public struct RootFeature {
                 case .featureBookmarkMain(let action):
                     switch action {
                     case .navigateToQuizPlay(let items, let index):
-                        state.routing.path.append(.featureQuizPlay(.init(sourceType: .fromBookmark(items: items, index: index))))
-                        return .none
+                        return .send(.routing(.push(.featureQuizPlay(.init(sourceType: .fromBookmark(items: items, index: index))))))
 
                     case .navigateToStudyDetail(let items, let index):
-                        state.routing.path.append(.featureStudyDetail(.init(items: items, index: index)))
-                        return .none
+                        return .send(.routing(.push(.featureStudyDetail(.init(items: items, index: index)))))
 
                     default:
                         break
@@ -255,4 +247,25 @@ public struct RootFeature {
 
     @Reducer
     public enum Path { }
+}
+
+extension UINavigationController: @retroactive UIGestureRecognizerDelegate {
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        interactivePopGestureRecognizer?.delegate = self
+    }
+
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        switch GlobalRouteObserver.shared.currentRoute {
+        case .featureQuizPlay, .featureStudyDetail:
+            return false
+
+        default:
+            return viewControllers.count > 1 && presentedViewController == nil
+        }
+    }
+
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        true
+    }
 }

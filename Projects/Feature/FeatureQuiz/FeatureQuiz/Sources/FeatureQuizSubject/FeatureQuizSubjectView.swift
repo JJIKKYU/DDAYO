@@ -5,10 +5,12 @@
 //  Created by 정진균 on 2/22/25.
 //
 
-import SwiftUI
 import ComposableArchitecture
-import UIComponents
+import Foundation
 import Model
+import SwiftUI
+import SwiftUIIntrospect
+import UIComponents
 
 public struct FeatureQuizSubjectView: View {
     public let store: StoreOf<FeatureQuizSubjectReducer>
@@ -38,6 +40,9 @@ public struct FeatureQuizSubjectView: View {
                 }
 
                 Spacer()
+            }
+            .introspect(.navigationView(style: .stack), on: .iOS(.v18)) { entity in
+                entity.interactivePopGestureRecognizer?.isEnabled = true
             }
             .background(Color.Background._2)
             .onAppear {

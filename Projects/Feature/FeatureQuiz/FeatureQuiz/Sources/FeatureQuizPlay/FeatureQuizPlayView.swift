@@ -9,6 +9,7 @@ import ComposableArchitecture
 import SwiftUI
 import UIComponents
 import Model
+import SwiftUIIntrospect
 
 public struct FeatureQuizPlayView: View {
     @State private var isFloatingButtonVisible = false
@@ -25,67 +26,65 @@ public struct FeatureQuizPlayView: View {
                     // ✅ 네비게이션 바
                     NaviBar(
                         type: .quizPlay,
-                        title: "\(viewStore.questionIndex)번 문제",
-                        leading1: {
-                            viewStore.send(.pressedBackBtn)
-                        },
+                        title: viewStore.quizPlayTitle,
                         trailing1: {
                             viewStore.send(.pressedCloseBtn)
                         }
                     )
 
                     // ✅ 문제 내용 및 이미지 (ScrollView)
-                    if let question = viewStore.currentQuestion {
-                        ScrollView {
-                            VStack(alignment: .leading, spacing: 16) {
-                                Text(question.title)
-                                    .font(.system(size: 18, weight: .bold))
-                                    .foregroundColor(.Grayscale._800)
-                                    .lineSpacing(3.0)
-                                    .multilineTextAlignment(.leading)
+                    TabView(selection: viewStore.binding(
+                        get: \.questionIndex,
+                        send: { .setQuestionIndex($0) })
+                    ) {
+                        ForEach(viewStore.loadedQuestions.prefix(viewStore.visibleQuestionCount).indices, id: \.self) { index in
+                            let question: QuestionItem = viewStore.loadedQuestions[index]
 
-                                Text("\(question.subject.rawValue) · \(question.date ?? "") · \(question.questionType.displayName)")
-                                    .font(.custom("Pretendard-Regular", size: 11))
-                                    .foregroundColor(.Grayscale._500)
+                            ScrollView {
+                                VStack(alignment: .leading, spacing: 16) {
+                                    Text(question.title)
+                                        .font(.system(size: 18, weight: .bold))
+                                        .foregroundColor(.Grayscale._800)
+                                        .lineSpacing(3.0)
+                                        .multilineTextAlignment(.leading)
 
-//                                if let firstImage = question.title.images.first,
-//                                   let uiImage = UIImage(data: firstImage.data) {
-//                                    Image(uiImage: uiImage)
-//                                        .resizable()
-//                                        .scaledToFit()
-//                                        .frame(maxWidth: .infinity)
-//                                        .clipShape(RoundedRectangle(cornerRadius: 12))
-//                                } else {
-//
-//                                }
+                                    Text("\(question.subject.rawValue) · \(question.date ?? "") · \(question.questionType.displayName)")
+                                        .font(.custom("Pretendard-Regular", size: 11))
+                                        .foregroundColor(.Grayscale._500)
 
-                                Text(question.desc.text)
+                                    Text(question.desc.text)
 
-                                Image(uiImage: UIImage(resource: .init(name: "image_1", bundle: .main)))
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.horizontal, 20)
+                                    Image(uiImage: UIImage(resource: .init(name: "image_1", bundle: .main)))
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.horizontal, 20)
 
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(Color.Grayscale._50)
-                                    .frame(height: 200)
-                                    .overlay(
-                                        VStack {
-                                            Image(systemName: "photo")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 40, height: 40)
-                                                .foregroundStyle(Color.Grayscale._400)
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(Color.Grayscale._50)
+                                        .frame(height: 200)
+                                        .overlay(
+                                            VStack {
+                                                Image(systemName: "photo")
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: 40, height: 40)
+                                                    .foregroundStyle(Color.Grayscale._400)
 
-                                            Text("이미지 영역입니다")
-                                                .font(.system(size: 13, weight: .regular))
-                                                .foregroundStyle(Color.Grayscale._400)
-                                        }
-                                    )
+                                                Text("이미지 영역입니다")
+                                                    .font(.system(size: 13, weight: .regular))
+                                                    .foregroundStyle(Color.Grayscale._400)
+                                            }
+                                        )
+                                }
+                                .padding(16)
+                                .padding(.bottom, 100)
                             }
-                            .padding(16)
-                            .padding(.bottom, 100)
+                            .tag(index)
                         }
-                    } else {
+                    }
+                    .tabViewStyle(.page(indexDisplayMode: .never))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+                    if viewStore.loadedQuestions.isEmpty {
                         ProgressView("문제를 불러오는 중입니다...")
                             .padding(.top, 100)
                     }
@@ -137,12 +136,25 @@ public struct FeatureQuizPlayView: View {
                 .transition(.opacity)
                 .opacity(viewStore.isPopupPresented ? 1 : 0)
                 .animation(.easeInOut(duration: 0.5), value: viewStore.isPopupPresented)
+                .introspect(.navigationView(style: .stack), on: .iOS(.v18)) { entity in
+                    entity.interactivePopGestureRecognizer?.isEnabled = false
+                }
+            }
+            .introspect(.navigationView(style: .stack), on: .iOS(.v18)) { entity in
+                entity.interactivePopGestureRecognizer?.isEnabled = false
             }
             .background(Color.Background._1)
             .onAppear {
                 viewStore.send(.onAppear)
             }
             .toolbar(.hidden, for: .navigationBar)
+        }
+        .accessibilityIdentifier("FeatureQuizPlayView")
+        .introspect(.navigationView(style: .stack), on: .iOS(.v18)) { entity in
+            entity.interactivePopGestureRecognizer?.isEnabled = false
+        }
+        .introspect(.navigationStack, on: .iOS(.v18)) { entity in
+            entity.interactivePopGestureRecognizer?.isEnabled = false
         }
     }
 }

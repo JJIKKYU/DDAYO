@@ -23,7 +23,7 @@
             "XCTestDynamicOverlay": .framework,
             "ConcurrencyExtras": .framework,
             "IssueReporting": .framework,
-            "PerceptionCore": .framework
+            "PerceptionCore": .framework,
         ]
     )
 #endif
@@ -35,6 +35,7 @@ let package = Package(
         // .package(url: "https://github.com/Alamofire/Alamofire", from: "5.0.0"),
         // You can read more about dependencies here: https://docs.tuist.io/documentation/tuist/dependencies
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.9.2"),
-        .package(url: "https://github.com/firebase/firebase-ios-sdk", from: "11.6.0")
+        .package(url: "https://github.com/firebase/firebase-ios-sdk", from: "11.6.0"),
+        .package(url: "https://github.com/siteline/swiftui-introspect", from: "1.0.0"),
     ]
 )

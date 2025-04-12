@@ -41,6 +41,45 @@ public struct AnswerSheetView: View {
         self.onSelectBookmark = onSelectBookmark
     }
 
+    public var btnTitle: String {
+        switch step {
+        case .showAnswers:
+            return "정답 확인"
+
+        case .confirmAnswers:
+            return "다음 문제"
+
+        case .solvedQuestion(let isCorrect):
+            return "닫기"
+        }
+    }
+
+    public var btnForegroundColor: Color {
+        switch step {
+        case .showAnswers:
+            return Color.Grayscale.white
+
+        case .confirmAnswers:
+            return Color.Grayscale.white
+
+        case .solvedQuestion(let isCorrect):
+            return Color.Grayscale._900
+        }
+    }
+
+    public var btnBackgroundColor: Color {
+        switch step {
+        case .showAnswers:
+            return Color.Green._500
+
+        case .confirmAnswers:
+            return Color.Green._500
+
+        case .solvedQuestion(let isCorrect):
+            return Color.Grayscale._100
+        }
+    }
+
     public var body: some View {
         VStack(alignment: .leading) {
             Spacer()
@@ -73,18 +112,18 @@ public struct AnswerSheetView: View {
                         Button(action: {
                             onConfirmAnswer()
                         }) {
-                            Text("정답 확인")
+                            Text(btnTitle)
                                 .font(.headline)
-                                .foregroundColor(Color.Grayscale.white)
+                                .foregroundColor(btnForegroundColor)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.Green._500)
+                                .background(btnBackgroundColor)
                                 .cornerRadius(12)
                         }
                     }
                 }
 
-            case .confirmAnswers:
+            case .confirmAnswers, .solvedQuestion:
                 ScrollView {
                     if let question, let selectedIndex {
                         if isCorrect == true {
@@ -124,16 +163,22 @@ public struct AnswerSheetView: View {
 
                 Spacer()
 
-                Button(action: {
-                    onConfirmAnswer()
-                }) {
-                    Text("다음 문제")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(Color.Grayscale.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.Green._500)
-                        .cornerRadius(12)
+                HStack(spacing: 12) {
+                    RoundImageButton(image: isBookmarked ? .bookmarkFilled : .bookmark, isBookmarked: $isBookmarked) {
+                        onSelectBookmark()
+                    }
+
+                    Button(action: {
+                        onConfirmAnswer()
+                    }) {
+                        Text(btnTitle)
+                            .font(.headline)
+                            .foregroundColor(btnForegroundColor)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(btnBackgroundColor)
+                            .cornerRadius(12)
+                    }
                 }
             }
         }

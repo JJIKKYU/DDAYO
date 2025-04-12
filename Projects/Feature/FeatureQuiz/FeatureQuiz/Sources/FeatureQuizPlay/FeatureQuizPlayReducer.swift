@@ -34,6 +34,24 @@ public struct FeatureQuizPlayReducer {
         var step: FeatureQuizPlayStep = .showAnswers
         var isCorrect: Bool? = nil
         var isBookmarked: Bool = false
+        // 푼 문제까지 보이는 카운트
+        var visibleQuestionCount: Int = 1
+
+        var quizPlayTitle: String {
+            switch sourceType {
+            case .subject:
+                return "\(self.questionIndex + 1)번 문제"
+
+            case .random:
+                return "\(self.questionIndex + 1)번 문제"
+
+            case .searchResult:
+                return "검색 결과"
+
+            case .fromBookmark:
+                return "북마크"
+            }
+        }
 
         public init(
             sourceType: QuizSourceType
@@ -56,7 +74,7 @@ public struct FeatureQuizPlayReducer {
         }
     }
 
-    public enum Action {
+    public enum Action: Equatable, Hashable {
         case onAppear
         // bottomSheet에서 선택지를 눌렀을때 (0번, 1번..)
         case selectedAnswer(Int?)
@@ -83,6 +101,7 @@ public struct FeatureQuizPlayReducer {
         case toggleBookmarkTapped(isWrong: Bool)
         // 북마크 상태 업데이트가 필요할 경우
         case updateBookmarkStatus(Bool)
+        case setQuestionIndex(Int) // Added Action
     }
 
     public var body: some ReducerOf<Self> {
@@ -92,7 +111,7 @@ public struct FeatureQuizPlayReducer {
                 switch state.sourceType {
                 case .subject(let selectedSubject):
                     return .run { send in
-                        let (questions): ([QuestionItem]) = try await MainActor.run {
+                        let questions: [QuestionItem] = try await MainActor.run {
                             var descriptor = FetchDescriptor<QuestionItem>()
                             if let subject = selectedSubject {
                                 descriptor.predicate = #Predicate<QuestionItem> {
@@ -142,6 +161,7 @@ public struct FeatureQuizPlayReducer {
                         }
 
                         var questions = try modelContext.fetch(descriptor)
+                        questions.shuffle()
 
                         // 추가 필터링: questionType이 all이 아니면 그에 맞는 타입만 필터링
                         if questionType != .all {
@@ -154,8 +174,8 @@ public struct FeatureQuizPlayReducer {
                             return
                         }
 
-                        let randomQuestion = questions.randomElement()!
-                        await send(.setCurrentQuestion(randomQuestion, all: questions))
+                        guard let question: QuestionItem = questions[safe: 0] else { return }
+                        await send(.setCurrentQuestion(question, all: questions))
                     }
                 }
 
@@ -180,10 +200,13 @@ public struct FeatureQuizPlayReducer {
                     state.step = .confirmAnswers
 
                     state.solvedCount += 1
+                    question.selectedIndex = selectedIndex
                     if isCorrect {
+                        question.isCorrect = true
                         state.correctCount += 1
                         return .none
                     }
+                    question.isCorrect = false
 
                     return .run { send in
                         await send(.toggleBookmarkTapped(isWrong: true))
@@ -193,20 +216,21 @@ public struct FeatureQuizPlayReducer {
                     return .run { send in
                         await send(.nextQuiz)
                     }
+
+                case .solvedQuestion:
+                    state.isSheetPresented = false
+                    return .none
                 }
-                return .none
 
             case .nextQuiz:
                 print("FeatureQuizPlayReducer :: nextQuiz!!")
-                // 현재 열려 있는 bottomSheet을 닫고, 문제 다시 세팅
-                state.isSheetPresented = false
-                state.selectedIndex = nil
-                state.isCorrect = nil
-                state.step = .showAnswers
-
-                return .run { send in
-                    await send(.loadNextQuestion) // ✅ 다음 문제를 불러오는 액션 호출
+                guard state.questionIndex + 1 < state.loadedQuestions.count else {
+                    print("마지막 문제입니다.")
+                    return .none
                 }
+                state.visibleQuestionCount = min(state.loadedQuestions.count, state.visibleQuestionCount + 1)
+                let nextIndex = state.questionIndex + 1
+                return .send(.setQuestionIndex(nextIndex))
 
             case .loadNextQuestion:
                 print("FeatureQuizPlayReducer :: loaddNextQuestion")
@@ -239,7 +263,18 @@ public struct FeatureQuizPlayReducer {
             case let .setCurrentQuestion(question, all):
                 state.currentQuestion = question
                 state.loadedQuestions = all
-                state.questionIndex += 1
+                state.questionIndex = all.firstIndex(of: question) ?? 0
+                state.isSheetPresented = false
+                state.selectedIndex = nil
+                state.isCorrect = nil
+                state.step = .showAnswers
+                if let isCorrect: Bool = question.isCorrect {
+                    state.step = .solvedQuestion(isCorrect: isCorrect)
+                    state.selectedIndex = question.selectedIndex
+                    state.isCorrect = isCorrect
+                } else {
+                    state.isCorrect = false
+                }
 
                 state.answers = [
                     .init(number: 0, title: question.choice1.text),
@@ -265,6 +300,7 @@ public struct FeatureQuizPlayReducer {
 
             case .pressedBackBtn:
                 print("FeatureQuizPlayReducer :: pressedBackBtn!")
+                state.isPopupPresented = false
                 return .none
 
             case .pressedCloseBtn:
@@ -282,9 +318,7 @@ public struct FeatureQuizPlayReducer {
                     state.isPopupPresented = false
                     return .none
                 } else {
-                    return .run { send in
-                        await send(.pressedBackBtn)
-                    }
+                    return .send(.pressedBackBtn)
                 }
 
             case .toggleBookmarkTapped(let isWrong):
@@ -322,6 +356,20 @@ public struct FeatureQuizPlayReducer {
 
             case let .updateBookmarkStatus(bookmarked):
                 state.isBookmarked = bookmarked
+                return .none
+
+            case let .setQuestionIndex(index):
+                guard index < state.loadedQuestions.count else { return .none }
+                state.questionIndex = index
+
+                let question = state.loadedQuestions[index]
+                return .send(.setCurrentQuestion(question, all: state.loadedQuestions))
+//                guard index < state.loadedQuestions.count else { return .none }
+//                let currentQuestion = state.loadedQuestions[index]
+//                let allQuestion: [QuestionItem] = state.loadedQuestions
+//                return .run { send in
+//                    await send(.setCurrentQuestion(currentQuestion, all: allQuestion))
+//                }
                 return .none
             }
         }

@@ -41,6 +41,26 @@ public struct QuizBottomBtnView: View {
         self.onSelectBookmark = onSelectBookmark
     }
 
+    public var foregroundColor: Color {
+        switch step {
+        case .showAnswers, .confirmAnswers:
+            return Color.Grayscale.white
+
+        case .solvedQuestion:
+            return Color.Grayscale._900
+        }
+    }
+
+    public var backgroundColor: Color {
+        switch step {
+        case .showAnswers, .confirmAnswers:
+            return Color.Green._500
+
+        case .solvedQuestion:
+            return Color.Grayscale._100
+        }
+    }
+
     public var body: some View {
         ZStack(alignment: .bottom) {
             Color.clear.ignoresSafeArea()
@@ -58,10 +78,10 @@ public struct QuizBottomBtnView: View {
                     }) {
                         Text("정답 맞히기")
                             .font(.headline)
-                            .foregroundColor(Color.Grayscale.white)
+                            .foregroundColor(foregroundColor)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.Green._500)
+                            .background(backgroundColor)
                             .cornerRadius(12)
                     }
                 }
