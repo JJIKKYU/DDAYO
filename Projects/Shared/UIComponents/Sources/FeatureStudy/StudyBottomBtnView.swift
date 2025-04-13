@@ -13,17 +13,23 @@ public struct StudyBottomBtnView: View {
     let onSelectBookmark: () -> Void
     let prevAction: () -> Void
     let nextAction: () -> Void
+    let canGoPrevious: Bool
+    let canGoNext: Bool
 
     public init(
         isBookmarked: Binding<Bool>,
         onSelectBookmark: @escaping () -> Void,
         prevAction: @escaping () -> Void,
-        nextAction: @escaping () -> Void
+        nextAction: @escaping () -> Void,
+        canGoPrevious: Bool,
+        canGoNext: Bool
     ) {
         self._isBookmarked = isBookmarked
         self.onSelectBookmark = onSelectBookmark
         self.prevAction = prevAction
         self.nextAction = nextAction
+        self.canGoPrevious = canGoPrevious
+        self.canGoNext = canGoNext
     }
 
     public var body: some View {
@@ -45,12 +51,13 @@ public struct StudyBottomBtnView: View {
                     }) {
                         Text("이전 개념")
                             .font(.headline)
-                            .foregroundColor(Color.Grayscale._900)
+                            .foregroundColor(canGoPrevious ? Color.Grayscale.white : Color.Grayscale._900)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.Grayscale._100)
+                            .background(canGoPrevious ? Color.Green._500 : Color.Grayscale._100)
                             .cornerRadius(12)
                     }
+                    .disabled(!canGoPrevious)
 
                     Button(action: {
                         print("다음 개념 터치!")
@@ -58,12 +65,13 @@ public struct StudyBottomBtnView: View {
                     }) {
                         Text("다음 개념")
                             .font(.headline)
-                            .foregroundColor(Color.Grayscale.white)
+                            .foregroundColor(canGoNext ? Color.Grayscale.white : Color.Grayscale._900)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.Green._500)
+                            .background(canGoNext ? Color.Green._500 : Color.Grayscale._100)
                             .cornerRadius(12)
                     }
+                    .disabled(!canGoNext)
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 40)
@@ -83,7 +91,9 @@ struct StudyBottomBtnView_Previews: PreviewProvider {
             isBookmarked: .constant(false),
             onSelectBookmark: { print("북마크!") },
             prevAction: { print("이전!") },
-            nextAction: { print("다음!") }
+            nextAction: { print("다음!") },
+            canGoPrevious: true,
+            canGoNext: true
         )
     }
 }

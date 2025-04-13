@@ -45,7 +45,7 @@ public struct ConceptService: ConceptServiceProtocol {
         let localVersion = localVersions.first?.version ?? 0
 
         // 버전이 같으면 그대로 반환
-        let existingItems = try context.fetch(FetchDescriptor<ConceptItem>())
+        let existingItems: [ConceptItem] = try context.fetch(FetchDescriptor<ConceptItem>())
         guard bundleData.version > localVersion else {
             return existingItems
         }

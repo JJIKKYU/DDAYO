@@ -37,6 +37,9 @@ public struct FeatureQuizPlayReducer {
         // 푼 문제까지 보이는 카운트
         var visibleQuestionCount: Int = 1
 
+        // imageDetail
+        var isImageDetailPresented: Bool = false
+
         var quizPlayTitle: String {
             switch sourceType {
             case .subject:
@@ -101,7 +104,10 @@ public struct FeatureQuizPlayReducer {
         case toggleBookmarkTapped(isWrong: Bool)
         // 북마크 상태 업데이트가 필요할 경우
         case updateBookmarkStatus(Bool)
-        case setQuestionIndex(Int) // Added Action
+        case setQuestionIndex(Int)
+
+        case presentImageDetail(imageName: String)
+        case dismissImageDetail
     }
 
     public var body: some ReducerOf<Self> {
@@ -126,18 +132,32 @@ public struct FeatureQuizPlayReducer {
                             return
                         }
 
-                        let firstQuestion = questions[0]
+                        questions.forEach {
+                            $0.isCorrect = nil
+                            $0.selectedIndex = nil
+                        }
+                        guard let firstQuestion: QuestionItem = questions[safe: 0] else {
+                            return
+                        }
                         await send(.setCurrentQuestion(firstQuestion, all: questions))
                     }
 
                 case .searchResult(let items, let index):
                     guard !items.isEmpty else { return .none }
+                    items.forEach {
+                        $0.isCorrect = nil
+                        $0.selectedIndex = nil
+                    }
                     return .run { send in
                         await send(.setCurrentQuestion(items[index], all: items))
                     }
 
                 case .fromBookmark(let items, let index):
                     guard !items.isEmpty else { return .none }
+                    items.forEach {
+                        $0.isCorrect = nil
+                        $0.selectedIndex = nil
+                    }
                     return .run { send in
                         await send(.setCurrentQuestion(items[index], all: items))
                     }
@@ -162,6 +182,10 @@ public struct FeatureQuizPlayReducer {
 
                         var questions = try modelContext.fetch(descriptor)
                         questions.shuffle()
+                        questions.forEach {
+                            $0.isCorrect = nil
+                            $0.selectedIndex = nil
+                        }
 
                         // 추가 필터링: questionType이 all이 아니면 그에 맞는 타입만 필터링
                         if questionType != .all {
@@ -364,12 +388,14 @@ public struct FeatureQuizPlayReducer {
 
                 let question = state.loadedQuestions[index]
                 return .send(.setCurrentQuestion(question, all: state.loadedQuestions))
-//                guard index < state.loadedQuestions.count else { return .none }
-//                let currentQuestion = state.loadedQuestions[index]
-//                let allQuestion: [QuestionItem] = state.loadedQuestions
-//                return .run { send in
-//                    await send(.setCurrentQuestion(currentQuestion, all: allQuestion))
-//                }
+
+            case .presentImageDetail(let imageName):
+                state.isImageDetailPresented = true
+                // state.imageZoom = .init(imageName: imageName)
+                return .none
+
+            case .dismissImageDetail:
+                state.isImageDetailPresented = false
                 return .none
             }
         }

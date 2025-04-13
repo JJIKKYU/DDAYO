@@ -28,6 +28,14 @@ public struct FeatureStudyDetailReducer {
             return items[currentIndex]
         }
 
+        var canGoPrevious: Bool {
+            currentIndex > 0
+        }
+
+        var canGoNext: Bool {
+            currentIndex < items.count - 1
+        }
+
         public init(
             items: [ConceptItem],
             index: Int,
@@ -57,16 +65,27 @@ public struct FeatureStudyDetailReducer {
             switch action {
             case .onAppear:
                 guard let currentItem = state.currentItem else { return .none }
-
-                let currentItemId: UUID = currentItem.id
-                Task { [modelContext] in
-                    await updateRecentItem(modelContext, currentItem)
-                }
-
-                let bookmarkPredicate = #Predicate<BookmarkItem> { $0.questionID == currentItemId }
-                let isBookmarked = (try? modelContext.fetch(FetchDescriptor<BookmarkItem>(predicate: bookmarkPredicate)).isEmpty == false) ?? false
+                let currentItemId = currentItem.id
 
                 return .run { send in
+                    await MainActor.run {
+                        // 최근 본 개념 초기화 후 저장
+                        let allItems = try? modelContext.fetch(FetchDescriptor<RecentConceptItem>())
+                        allItems?.forEach { modelContext.delete($0) }
+
+                        let recent = RecentConceptItem(conceptId: currentItemId)
+                        modelContext.insert(recent)
+
+                        try? modelContext.save()
+                    }
+
+                    // 북마크 여부 확인
+                    let isBookmarked: Bool = await MainActor.run {
+                        let bookmarkPredicate = #Predicate<BookmarkItem> { $0.questionID == currentItemId }
+                        let bookmarks = try? modelContext.fetch(FetchDescriptor<BookmarkItem>(predicate: bookmarkPredicate))
+                        return bookmarks?.isEmpty == false
+                    }
+
                     await send(.updateBookmarkStatus(isBookmarked))
                 }
 
@@ -74,39 +93,10 @@ public struct FeatureStudyDetailReducer {
                 return .none
 
             case .goPrevious:
-                guard state.currentIndex > 0 else { return .none }
-
-                state.currentIndex -= 1
-                guard let currentItem = state.currentItem else { return .none }
-
-                let currentItemId: UUID = currentItem.id
-                Task { [modelContext] in
-                    await updateRecentItem(modelContext, currentItem)
-                }
-
-                let bookmarkPredicate = #Predicate<BookmarkItem> { $0.questionID == currentItemId }
-                let isBookmarked = (try? modelContext.fetch(FetchDescriptor<BookmarkItem>(predicate: bookmarkPredicate)).isEmpty == false) ?? false
-
-                return .run { send in
-                    await send(.updateBookmarkStatus(isBookmarked))
-                }
+                return handlePageMove(&state, direction: -1)
 
             case .goNext:
-                guard state.currentIndex < state.items.count - 1 else { return .none }
-                state.currentIndex += 1
-
-                let currentItem = state.currentItem!
-                let currentItemId: UUID = currentItem.id
-                Task { [modelContext] in
-                    await updateRecentItem(modelContext, currentItem)
-                }
-
-                let bookmarkPredicate = #Predicate<BookmarkItem> { $0.questionID == currentItemId }
-                let isBookmarked = (try? modelContext.fetch(FetchDescriptor<BookmarkItem>(predicate: bookmarkPredicate)).isEmpty == false) ?? false
-
-                return .run { send in
-                    await send(.updateBookmarkStatus(isBookmarked))
-                }
+                return handlePageMove(&state, direction: 1)
 
             case .toggleBookmarkTapped:
                 guard let currentItem = state.currentItem else {
@@ -147,7 +137,7 @@ public struct FeatureStudyDetailReducer {
     }
 }
 
-// MARK:: - extension
+// MARK: - extension
 
 extension FeatureStudyDetailReducer {
     @MainActor
@@ -159,5 +149,40 @@ extension FeatureStudyDetailReducer {
         modelContext.insert(recent)
 
         try? modelContext.save()
+    }
+
+    private func handlePageMove(_ state: inout State, direction: Int) -> Effect<Action> {
+        let newIndex = state.currentIndex + direction
+        guard state.items.indices.contains(newIndex) else { return .none }
+
+        state.currentIndex = newIndex
+        guard let currentItem = state.currentItem else { return .none }
+        let currentItemId: UUID = currentItem.id
+
+        return .run { send in
+            await MainActor.run {
+                // 최근 본 개념 초기화 후 저장
+                let allItems: [RecentConceptItem]? = try? modelContext.fetch(FetchDescriptor<RecentConceptItem>())
+                allItems?.forEach { modelContext.delete($0) }
+
+                let recent: RecentConceptItem = .init(conceptId: currentItemId)
+                modelContext.insert(recent)
+
+                // 조회수 증가
+                currentItem.views += 1
+                try? modelContext.save()
+            }
+
+            // 북마크 여부 확인
+            let isBookmarked: Bool = await MainActor.run {
+                let bookmarkPredicate: Predicate<BookmarkItem> = #Predicate { $0.questionID == currentItemId }
+                let bookmarks: [BookmarkItem]? = try? modelContext.fetch(FetchDescriptor<BookmarkItem>(predicate: bookmarkPredicate))
+                let isBookmarked = (bookmarks?.isEmpty == false)
+
+                return isBookmarked
+            }
+
+            await send(.updateBookmarkStatus(isBookmarked))
+        }
     }
 }

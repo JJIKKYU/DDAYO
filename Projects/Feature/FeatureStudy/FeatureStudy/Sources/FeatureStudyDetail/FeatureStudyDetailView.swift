@@ -68,7 +68,7 @@ public struct FeatureStudyDetailView: View {
                                     .frame(width: 16, height: 16)
                                     .padding(.trailing, 2)
 
-                                Text("99회")
+                                Text("\(viewStore.currentItem?.views ?? 0)회")
                                     .font(.system(size: 11))
                                     .foregroundColor(Color.Grayscale._400)
 
@@ -88,7 +88,9 @@ public struct FeatureStudyDetailView: View {
                         send: FeatureStudyDetailReducer.Action.updateBookmarkStatus),
                     onSelectBookmark: { viewStore.send(.toggleBookmarkTapped) },
                     prevAction: { viewStore.send(.goPrevious) },
-                    nextAction: { viewStore.send(.goNext) }
+                    nextAction: { viewStore.send(.goNext) },
+                    canGoPrevious: viewStore.canGoPrevious,
+                    canGoNext: viewStore.canGoNext
                 )
             }
             .onAppear {
@@ -113,4 +115,3 @@ struct FeatureStudyDetailView_Previews: PreviewProvider {
         .previewLayout(.sizeThatFits)
     }
 }
-

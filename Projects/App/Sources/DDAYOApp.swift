@@ -27,7 +27,8 @@ struct DDAYOApp: App {
             BookmarkItem.self,
             ConceptItem.self,
             QuestionVersion.self,
-            RecentConceptItem.self
+            RecentConceptItem.self,
+            ConceptVersion.self
         )
     }()
 

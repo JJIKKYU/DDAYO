@@ -10,9 +10,32 @@ import SwiftUI
 import UIComponents
 import Model
 import SwiftUIIntrospect
+import HighlightSwift
+
+let someCode: String = """
+#include <stdio.h>
+    
+void align(int a[]){
+  int temp;
+  for(int i=0;i<4;i++)
+    for(int j=0;j<4-i;j++)
+      if(a[j]>a[j+1]){
+        temp=a[j];
+        a[j]=a[j+1];
+        a[j+1]=temp;
+      }
+}
+ main() {
+   int a[]={85, 75, 50, 100, 95};
+   align(a);
+   for(int i=0;i<5;i++)
+     printf("%d",a[i]);
+}
+"""
 
 public struct FeatureQuizPlayView: View {
     @State private var isFloatingButtonVisible = false
+    @State var result: HighlightResult?
     public let store: StoreOf<FeatureQuizPlayReducer>
 
     public init(store: StoreOf<FeatureQuizPlayReducer>) {
@@ -20,7 +43,7 @@ public struct FeatureQuizPlayView: View {
     }
 
     public var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStore<FeatureQuizPlayReducer.State, FeatureQuizPlayReducer.Action>) in
             ZStack(alignment: .bottom) {
                 VStack(spacing: 0) {
                     // ✅ 네비게이션 바
@@ -37,7 +60,8 @@ public struct FeatureQuizPlayView: View {
                         get: \.questionIndex,
                         send: { .setQuestionIndex($0) })
                     ) {
-                        ForEach(viewStore.loadedQuestions.prefix(viewStore.visibleQuestionCount).indices, id: \.self) { index in
+                        let visibleQuestions = Array(viewStore.loadedQuestions.prefix(viewStore.visibleQuestionCount))
+                        ForEach(visibleQuestions.indices, id: \.self) { (index: Int) in
                             let question: QuestionItem = viewStore.loadedQuestions[index]
 
                             ScrollView {
@@ -47,37 +71,65 @@ public struct FeatureQuizPlayView: View {
                                         .foregroundColor(.Grayscale._800)
                                         .lineSpacing(3.0)
                                         .multilineTextAlignment(.leading)
+                                        .padding(.top, 16)
 
                                     Text("\(question.subject.rawValue) · \(question.date ?? "") · \(question.questionType.displayName)")
                                         .font(.custom("Pretendard-Regular", size: 11))
                                         .foregroundColor(.Grayscale._500)
 
                                     Text(question.desc.text)
+                                    ZStack(alignment: .center) {
+                                        Rectangle()
+                                            .frame(maxWidth: .infinity)
+                                            .background(Color.Grayscale._50)
+                                            .cornerRadius(12)
+
+                                        HStack {
+                                            CodeText(someCode, result: result)
+//                                                .codeTextStyle(CodeTextStyle.)
+//                                                .codeTextColors(.custom(dark: .light(.github), light: .light(.github)))
+        //                                        .font(.callout)
+//                                                .highlightLanguage(.c)
+                                                .onHighlightSuccess { result in
+                                                    self.result = result
+                                                }
+                                                .font(.caption2)
+                                                .lineSpacing(10)
+                                                .background(.clear)
+                                                .padding(.horizontal, 10)
+                                                .padding(.vertical, 10)
+
+                                            Spacer()
+                                        }
+                                        .background(Color.Grayscale._50)
+                                        .cornerRadius(12)
+                                    }
+                                    .background(Color.Grayscale._50)
+                                    .cornerRadius(12)
+
 
                                     Image(uiImage: UIImage(resource: .init(name: "image_1", bundle: .main)))
                                         .frame(maxWidth: .infinity)
                                         .padding(.horizontal, 20)
-
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .fill(Color.Grayscale._50)
-                                        .frame(height: 200)
-                                        .overlay(
-                                            VStack {
-                                                Image(systemName: "photo")
-                                                    .resizable()
-                                                    .scaledToFit()
-                                                    .frame(width: 40, height: 40)
-                                                    .foregroundStyle(Color.Grayscale._400)
-
-                                                Text("이미지 영역입니다")
-                                                    .font(.system(size: 13, weight: .regular))
-                                                    .foregroundStyle(Color.Grayscale._400)
+                                        .onTapGesture {
+                                            print("onTapGesture!")
+                                            viewStore.send(.presentImageDetail(imageName: "image_1"))
+                                        }
+                                        .sheet(
+                                            isPresented: viewStore.binding(
+                                                get: \.isImageDetailPresented,
+                                                send: { _ in FeatureQuizPlayReducer.Action.dismissImageDetail }
+                                            ),
+                                            content: {
+                                                ZoomableImageView(image: UIImage(named: "image_1") ?? UIImage())
                                             }
                                         )
                                 }
-                                .padding(16)
+                                // .padding(16)
+                                .padding(.horizontal, 16)
                                 .padding(.bottom, 100)
                             }
+                            .frame(maxWidth: .infinity)
                             .tag(index)
                         }
                     }
@@ -136,25 +188,12 @@ public struct FeatureQuizPlayView: View {
                 .transition(.opacity)
                 .opacity(viewStore.isPopupPresented ? 1 : 0)
                 .animation(.easeInOut(duration: 0.5), value: viewStore.isPopupPresented)
-                .introspect(.navigationView(style: .stack), on: .iOS(.v18)) { entity in
-                    entity.interactivePopGestureRecognizer?.isEnabled = false
-                }
-            }
-            .introspect(.navigationView(style: .stack), on: .iOS(.v18)) { entity in
-                entity.interactivePopGestureRecognizer?.isEnabled = false
             }
             .background(Color.Background._1)
             .onAppear {
                 viewStore.send(.onAppear)
             }
             .toolbar(.hidden, for: .navigationBar)
-        }
-        .accessibilityIdentifier("FeatureQuizPlayView")
-        .introspect(.navigationView(style: .stack), on: .iOS(.v18)) { entity in
-            entity.interactivePopGestureRecognizer?.isEnabled = false
-        }
-        .introspect(.navigationStack, on: .iOS(.v18)) { entity in
-            entity.interactivePopGestureRecognizer?.isEnabled = false
         }
     }
 }
