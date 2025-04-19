@@ -45,7 +45,7 @@ public struct QuizPopupView: View {
             return "모든 문제를 풀었어요! 👏"
 
         case false:
-            return "\(allQuizCnt)문제 중 \(correctQuizCnt)문제를 맞혔어요!"
+            return "\(correctQuizCnt)문제를 맞혔어요!"
         }
     }
 

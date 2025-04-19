@@ -28,7 +28,7 @@ public struct FeatureSearchMainReducer {
         public var source: FeatureSearchSource? = nil
         public var keyword: String = ""
         public var results: [String] = []
-        public var recentKeywords: [String] = []
+        public var recentKeywords: [RecentSearchItem] = []
         public var selectedKeyword: String = ""
         public var mode: SearchMode = .initial
         public var allConceptItems: [ConceptItem] = []
@@ -77,10 +77,12 @@ public struct FeatureSearchMainReducer {
         case clear
         case search
         case addRecentKeyword(String)
-        case removeRecentKeyword(String)
+        case removeRecentKeyword(RecentSearchItem)
         case removeAllRecentKeywords
         case selectResult(String)
         case loadAllItems
+        case loadRecentSearchItems
+        case updateRecentSearchItems([RecentSearchItem])
 
         // Bookmark
         case toggleBookmark(index: Int)
@@ -104,12 +106,10 @@ public struct FeatureSearchMainReducer {
                 state.keyword = text
                 state.mode = text.isEmpty ? .initial : .searching
                 if state.mode == .initial {
-                    return .none
+                    return .send(.loadRecentSearchItems)
                 }
 
-                return .run { send in
-                    await send(.search)
-                }
+                return .send(.search)
 
             case .search:
                 guard let source = state.source else { return .none }
@@ -139,17 +139,33 @@ public struct FeatureSearchMainReducer {
                 return .none
 
             case .addRecentKeyword(let keyword):
-                if !keyword.isEmpty && !state.recentKeywords.contains(keyword) {
-                    state.recentKeywords.insert(keyword, at: 0)
+                return .run { _ in
+                    guard !keyword.isEmpty else { return }
+                    _ = try await MainActor.run {
+                        let predicate = #Predicate<RecentSearchItem> { $0.keyword == keyword }
+                        let exists = try modelContext.fetch(FetchDescriptor<RecentSearchItem>(predicate: predicate)).isEmpty == false
+
+                        if !exists {
+                            let item = RecentSearchItem(keyword: keyword, searchedAt: .now)
+                            modelContext.insert(item)
+                            try modelContext.save()
+                        }
+                    }
                 }
-                return .none
 
             case .removeRecentKeyword(let keyword):
-                state.recentKeywords.removeAll { $0 == keyword }
-                return .none
+                print("FeatureSearchMainReducer :: removeRecentKeyword \(keyword.keyword)")
+
+                return .run { @Sendable send in
+                    try await MainActor.run {
+                        modelContext.delete(keyword)
+                        try modelContext.save()
+                    }
+                    await send(.loadRecentSearchItems)
+                }
 
             case .removeAllRecentKeywords:
-                state.recentKeywords = []
+                // state.recentKeywords = []
                 return .none
 
             case .selectResult(let result):
@@ -208,7 +224,7 @@ public struct FeatureSearchMainReducer {
                         let items = try modelContext.fetch(descriptor)
                         state.allConceptItems = items
                     } catch {
-                        print("Failed to load ConceptItems: \(error)")
+                        print("FeatureSearchMainReducer :: Failed to load ConceptItems: \(error)")
                     }
 
                 // QuestionItem
@@ -218,7 +234,7 @@ public struct FeatureSearchMainReducer {
                         let items = try modelContext.fetch(descriptor)
                         state.allQuestionItems = items
                     } catch {
-                        print("Failed to load QuestionItems: \(error)")
+                        print("FeatureSearchMainReducer :: Failed to load QuestionItems: \(error)")
                     }
                 }
 
@@ -226,8 +242,33 @@ public struct FeatureSearchMainReducer {
                     let bookmarks = try modelContext.fetch(FetchDescriptor<BookmarkItem>())
                     state.allBookmarkItems = bookmarks
                 } catch {
-                    print("Failed to load BookmarkItems: \(error)")
+                    print("FeatureSearchMainReducer :: Failed to load BookmarkItems: \(error)")
                 }
+
+                do {
+                    let recentSearchItems = try modelContext.fetch(FetchDescriptor<RecentSearchItem>(sortBy: [SortDescriptor(\.searchedAt, order: .reverse)]))
+                    state.recentKeywords = recentSearchItems
+                } catch {
+                    print("FeatureSearchMainReducer :: Failed to load RecentSearchItems: \(error)")
+                }
+
+                return .none
+
+            case .loadRecentSearchItems:
+                return .run { send in
+                    do {
+                        let recentKeywords = try await MainActor.run {
+                            try modelContext
+                                .fetch(FetchDescriptor<RecentSearchItem>(sortBy: [SortDescriptor(\.searchedAt, order: .reverse)]))
+                        }
+                        await send(.updateRecentSearchItems(recentKeywords))
+                    } catch {
+                        print("FeatureSearchMainReducer :: Failed to fetch recent search items: \(error)")
+                    }
+                }
+
+            case .updateRecentSearchItems(let items):
+                state.recentKeywords = items
                 return .none
 
             case .toggleBookmark(let index):

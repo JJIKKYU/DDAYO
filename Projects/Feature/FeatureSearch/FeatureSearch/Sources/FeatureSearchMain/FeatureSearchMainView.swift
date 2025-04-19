@@ -85,8 +85,8 @@ public struct FeatureSearchMainView: View {
                             List {
                                 ForEach(viewStore.recentKeywords, id: \.self) { keyword in
                                     RecentSearchCellView(
-                                        keyword: keyword,
-                                        timestampText: "어제"
+                                        keyword: keyword.keyword,
+                                        searchedAt: keyword.searchedAt
                                     ) {
                                         viewStore.send(.removeRecentKeyword(keyword))
                                     }

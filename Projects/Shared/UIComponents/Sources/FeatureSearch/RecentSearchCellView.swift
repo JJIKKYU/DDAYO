@@ -9,12 +9,16 @@ import SwiftUI
 
 public struct RecentSearchCellView: View {
     public let keyword: String
-    public let timestampText: String
+    public let searchedAt: Date
     public let onClose: (() -> Void)
 
-    public init(keyword: String, timestampText: String, onClose: @escaping () -> Void) {
+    public init(
+        keyword: String,
+        searchedAt: Date,
+        onClose: @escaping () -> Void
+    ) {
         self.keyword = keyword
-        self.timestampText = timestampText
+        self.searchedAt = searchedAt
         self.onClose = onClose
     }
 
@@ -33,7 +37,7 @@ public struct RecentSearchCellView: View {
             Spacer()
 
             HStack(alignment: .center, spacing: 6) {
-                Text(timestampText)
+                Text(searchedAt.description)
                     .lineLimit(1)
                     .multilineTextAlignment(.trailing)
                     .font(.system(size: 11))
