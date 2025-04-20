@@ -14,16 +14,16 @@ public struct FeatureQuizSubjectReducer {
 
     public struct State: Equatable {
         public init(
-            selectedSujbect: QuizTab = .필기,
+            selectedQuizTab: QuizTab = .필기,
             selectedQuestionType: QuestionType = .past,
             selectedStartOption: QuizStartOption = .startRandomQuiz
         ) {
-            self.selectedSujbect = selectedSujbect
+            self.selectedQuizTab = selectedQuizTab
             self.selectedQuestionType = selectedQuestionType
             self.selectedStartOption = selectedStartOption
         }
 
-        public var selectedSujbect: QuizTab = .필기
+        public var selectedQuizTab: QuizTab = .필기
         public var selectedQuestionType: QuestionType = .past
         public var selectedStartOption: QuizStartOption = .startLanguageQuiz
 
@@ -35,13 +35,13 @@ public struct FeatureQuizSubjectReducer {
         public var navigationTitle: String {
             switch selectedStartOption {
             case .startRandomQuiz:
-                return "\(selectedSujbect.getName()) 랜덤 문제 풀기"
+                return "\(selectedQuizTab.getName()) 랜덤 문제 풀기"
 
             case .startSubjectQuiz:
-                return "\(selectedSujbect.getName()) 과목별로 풀기"
+                return "\(selectedQuizTab.getName()) 과목별로 풀기"
 
             case .startLanguageQuiz:
-                return "\(selectedSujbect.getName()) 언어별로 풀기"
+                return "\(selectedQuizTab.getName()) 언어별로 풀기"
             }
         }
 
@@ -51,7 +51,7 @@ public struct FeatureQuizSubjectReducer {
                 return QuizSubject.practicalLanguageCases
 
             case .startSubjectQuiz:
-                return subjectList[selectedSujbect] ?? []
+                return subjectList[selectedQuizTab] ?? []
 
             // 랜덤일 경우에는 리스트를 안 보여줄 수도 있음
             case .startRandomQuiz:
@@ -64,7 +64,10 @@ public struct FeatureQuizSubjectReducer {
         case onAppear
 
         case pressedBackBtn
-        case navigateToQuizPlay(QuizSubject)
+        case navigateToQuizPlay(QuizSubject, QuestionType)
+
+        // 다음 과목으로 자동 이동
+        case autoNavigateToNextSubject
     }
 
     public var body: some ReducerOf<Self> {
@@ -77,6 +80,9 @@ public struct FeatureQuizSubjectReducer {
                 return .none
 
             case .navigateToQuizPlay:
+                return .none
+
+            case .autoNavigateToNextSubject:
                 return .none
             }
         }

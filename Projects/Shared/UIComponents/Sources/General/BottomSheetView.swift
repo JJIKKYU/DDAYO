@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Model
 
 public struct BottomSheetView: View {
     public let closeAction: () -> Void  // 닫기 액션만 전달
@@ -19,10 +20,18 @@ public struct BottomSheetView: View {
             Text("정렬")
                 .font(.headline)
 
-            Button("A-Z순") { closeAction() }
-            Button("Z-A순") { closeAction() }
-            Button("적게 읽은 순") { closeAction() }
-            Button("많이 읽은 순") { closeAction() }
+
+            ForEach(SortOption.allCases, id: \.self) { sortOption in
+                Button(action: {
+                    closeAction()
+                }) {
+                    Text(sortOption.displayName)
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(Color.Grayscale._900)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.vertical, 10)
+                }
+            }
 
             Button(action: closeAction) {
                 Text("닫기")

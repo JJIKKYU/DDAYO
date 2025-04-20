@@ -23,10 +23,10 @@ public struct FeatureStudyMainReducer {
         var allConcepts: [ConceptItem] = []
         var conceptFeedItems: [BookmarkFeedItem] = []
         var isSheetPresented: Bool = false
-        var selectedSortOption: SortOption? = .az
+        var selectedSortOption: SortOption? = .default
         // bottomSheet에서 선택한 값을 임시로 저장하고
         // bottomSheet이 없어질때 반영하기 위해서 임시 저장
-        var tempSortOption: SortOption? = .az
+        var tempSortOption: SortOption? = .default
         var recentFeedItem: BookmarkFeedItem? = nil
 
         public init() {
@@ -62,25 +62,39 @@ public struct FeatureStudyMainReducer {
             action in
             switch action {
             case .onAppear:
+                let selectedSortOption: SortOption = state.selectedSortOption ?? .default
                 return .run { send in
                     try await MainActor.run {
                         let descriptor = FetchDescriptor<ConceptItem>()
                         let items: [ConceptItem] = try modelContext.fetch(descriptor)
-                            .sorted { $0.title < $1.title }
 
-                        // Load recent item
-                        let recentDescriptor = FetchDescriptor<RecentConceptItem>()
-                        let recentItems = try modelContext.fetch(recentDescriptor)
+                        let sorted: [ConceptItem]
+                        switch selectedSortOption {
+                        case .default:
+                            sorted = items.sortedByDefault()
 
+                        case .leastViewed:
+                            sorted = items.sortedByViews(ascending: true)
+
+                        case .mostViewed:
+                            sorted = items.sortedByViews(ascending: false)
+
+                        case .az:
+                            sorted = items.sortedByTitle(ascending: true)
+
+                        case .za:
+                            sorted = items.sortedByTitle(ascending: false)
+                        }
+
+                        let recentDescriptor: FetchDescriptor<RecentConceptItem> = .init()
+                        let recentItems: [RecentConceptItem] = try modelContext.fetch(recentDescriptor)
 
                         if let recentId = recentItems.first?.conceptId,
-                           let recentConcept: ConceptItem = items
-                            .filter({ $0.id == recentId })
-                            .first {
+                           let recentConcept: ConceptItem = sorted.first(where: { $0.id == recentId }) {
                             send(.setRecentItem(recentConcept))
                         }
 
-                        send(.loadConcepts(items))
+                        send(.loadConcepts(sorted))
                     }
                 }
 
@@ -94,6 +108,20 @@ public struct FeatureStudyMainReducer {
                 if !isPresented,
                    let tempOption = state.tempSortOption {
                     switch tempOption {
+                    case .default:
+                        state.conceptFeedItems.sort {
+                            guard let lhs = $0.originConceptItem,
+                                  let rhs = $1.originConceptItem else {
+                                return false
+                            }
+
+                            if lhs.subjectId == rhs.subjectId {
+                                return lhs.id.uuidString < rhs.id.uuidString
+                            } else {
+                                return lhs.subjectId < rhs.subjectId
+                            }
+                        }
+
                     case .leastViewed:
                         state.conceptFeedItems.sort { $0.views < $1.views }
 

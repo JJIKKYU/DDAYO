@@ -8,8 +8,17 @@
 import Foundation
 
 public enum QuizSourceType: Equatable, Hashable {
-    case subject(QuizSubject?)
+    case subject(QuizSubject?, QuestionType?)
     case random(QuizTab, QuestionType)
     case searchResult(items: [QuestionItem], index: Int)
     case fromBookmark(items: [QuestionItem], index: Int)
+}
+
+public extension QuizSourceType {
+    var isBookmarkSource: Bool {
+        if case .fromBookmark = self {
+            return true
+        }
+        return false
+    }
 }

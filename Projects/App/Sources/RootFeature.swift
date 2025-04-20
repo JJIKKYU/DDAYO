@@ -31,7 +31,7 @@ public struct RootFeature {
         /// FeatureQuiz
         var featureQuizMain = FeatureQuizMainReducer.State()
         var featureQuizSubject = FeatureQuizSubjectReducer.State()
-        var featureQuizPlay = FeatureQuizPlayReducer.State(sourceType: .subject(nil))
+        var featureQuizPlay = FeatureQuizPlayReducer.State(sourceType: .subject(nil, nil))
 
         /// FeatureStudy
         var featureStudyMain = FeatureStudyMainReducer.State()
@@ -112,8 +112,8 @@ public struct RootFeature {
 
                     case .featureQuizSubject(let subjectAction):
                         switch subjectAction {
-                        case .navigateToQuizPlay(let subject):
-                            return .send(.routing(.push(.featureQuizPlay(.init(sourceType: .subject(subject))))))
+                        case .navigateToQuizPlay(let subject, let quiestionType):
+                            return .send(.routing(.push(.featureQuizPlay(.init(sourceType: .subject(subject, quiestionType))))))
 
                         case .pressedBackBtn:
                             return .send(.routing(.pop))
@@ -154,8 +154,8 @@ public struct RootFeature {
 
                 case .featureQuizSubject(let action):
                     print("action = \(action)")
-                    if case .navigateToQuizPlay(let subject) = action {
-                        return .send(.routing(.push(.featureQuizPlay(FeatureQuizPlayReducer.State(sourceType: .subject(subject))))))
+                    if case .navigateToQuizPlay(let subject, let questionType) = action {
+                        return .send(.routing(.push(.featureQuizPlay(FeatureQuizPlayReducer.State(sourceType: .subject(subject, questionType))))))
                     }
                     return .none
 
@@ -165,7 +165,7 @@ public struct RootFeature {
                         switch quizStartOption {
                         // 언어별, 과목별은 세부 과목 선택
                         case .startLanguageQuiz, .startSubjectQuiz:
-                            return .send(.routing(.push(.featureQuizSubject(FeatureQuizSubjectReducer.State(selectedSujbect: quizTab, selectedQuestionType: questionType, selectedStartOption: quizStartOption)))))
+                            return .send(.routing(.push(.featureQuizSubject(FeatureQuizSubjectReducer.State(selectedQuizTab: quizTab, selectedQuestionType: questionType, selectedStartOption: quizStartOption)))))
 
                         // 랜덤 퀴즈는 바로 진입
                         case .startRandomQuiz:

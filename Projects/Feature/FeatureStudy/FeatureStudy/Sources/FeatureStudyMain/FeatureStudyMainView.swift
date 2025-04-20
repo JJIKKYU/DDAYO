@@ -66,7 +66,7 @@ public struct FeatureStudyMainView: View {
                     .padding(.bottom, 16)
 
                     HStack {
-                        SortingBtnView(title: viewStore.selectedSortOption?.displayName ?? SortOption.az.displayName, onTap: {
+                        SortingBtnView(title: viewStore.selectedSortOption?.displayName ?? SortOption.default.displayName, onTap: {
                             viewStore.send(.showSheet(true))
                         })
                         .sheet(
@@ -81,7 +81,7 @@ public struct FeatureStudyMainView: View {
                                 onClose: { viewStore.send(.dismiss) }
                             )
                             .presentationDetents(
-                                [.height(320)]
+                                [.height(360)]
                             )
                         }
 

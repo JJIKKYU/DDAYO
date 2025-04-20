@@ -103,7 +103,7 @@ public struct FeatureBookmarkMainView: View {
 
                         VStack(alignment: .leading, spacing: 0) {
                             HStack(alignment: .center) {
-                                SortingBtnView(title: viewStore.conceptSort.selectedOption?.displayName ?? SortOption.az.displayName, onTap: {
+                                SortingBtnView(title: viewStore.conceptSort.selectedOption?.displayName ?? SortOption.default.displayName, onTap: {
                                     viewStore.send(.openSort)
                                 })
 
@@ -161,7 +161,7 @@ public struct FeatureBookmarkMainView: View {
                         onClose: { viewStore.send(.dismiss) }
                     )
                     .presentationDetents(
-                        [.height(320)]
+                        [.height(360)]
                     )
                 }
             }

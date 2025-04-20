@@ -36,3 +36,29 @@ public final class ConceptItem {
         self.subjectId = subjectId
     }
 }
+
+// MARK: - Sort Extension
+
+public extension Array where Element == ConceptItem {
+    func sortedByDefault() -> [ConceptItem] {
+        return self.sorted {
+            if $0.subjectId == $1.subjectId {
+                return $0.id.uuidString < $1.id.uuidString
+            } else {
+                return $0.subjectId < $1.subjectId
+            }
+        }
+    }
+
+    func sortedByViews(ascending: Bool = true) -> [ConceptItem] {
+        return self.sorted {
+            ascending ? $0.views < $1.views : $0.views > $1.views
+        }
+    }
+
+    func sortedByTitle(ascending: Bool = true) -> [ConceptItem] {
+        return self.sorted {
+            ascending ? $0.title < $1.title : $0.title > $1.title
+        }
+    }
+}

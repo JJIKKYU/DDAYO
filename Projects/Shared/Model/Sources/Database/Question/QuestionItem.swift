@@ -84,3 +84,25 @@ public extension QuestionItem {
         [choice1.text, choice2.text, choice3.text, choice4.text]
     }
 }
+
+public extension QuestionItem {
+    func tags(isWrong: Bool) -> [String] {
+        var tags: [String] = []
+
+        // 시험 유형
+        tags.append(self.questionType.displayName)
+
+        if isWrong {
+            tags.append("틀린 문제")
+        }
+
+        // 필기/실기 (subject 기준)
+        if QuizSubject.writtenCases.contains(self.subject) {
+            tags.append("필기시험")
+        } else {
+            tags.append("실기시험")
+        }
+
+        return tags
+    }
+}

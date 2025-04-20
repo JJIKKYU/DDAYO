@@ -39,14 +39,25 @@ public struct FeatureSearchMainReducer {
         public var matchedQuestionItems: [QuestionItem] = []
 
         public var questionFeedItems: [BookmarkFeedItem] {
-            let bookmarkedIDs = Set(allBookmarkItems.map { $0.questionID })
+            let bookmarkedIDs: Set<UUID> = Set(
+                allBookmarkItems.map { $0.questionID }
+            )
+            let wrongAnswerIDs: Set<UUID> = Set(
+                allBookmarkItems
+                    .filter({ $0.type == .문제 && $0.reason == .wrong})
+                    .map { $0.questionID }
+            )
             return matchedQuestionItems.map {
-                BookmarkFeedItem(
+                let isWrong = wrongAnswerIDs.contains($0.id)
+                let isBookmarked = bookmarkedIDs.contains($0.id)
+                let tags: [String] = $0.tags(isWrong: isWrong)
+
+                return BookmarkFeedItem(
                     category: $0.subject.rawValue,
                     title: $0.title,
                     views: "\($0.viewCount)",
-                    tags: [],
-                    isBookmarked: bookmarkedIDs.contains($0.id)
+                    tags: tags,
+                    isBookmarked: isBookmarked
                 )
             }
         }
@@ -76,13 +87,16 @@ public struct FeatureSearchMainReducer {
         case keywordChanged(String)
         case clear
         case search
-        case addRecentKeyword(String)
-        case removeRecentKeyword(RecentSearchItem)
-        case removeAllRecentKeywords
         case selectResult(String)
         case loadAllItems
         case loadRecentSearchItems
         case updateRecentSearchItems([RecentSearchItem])
+
+        // 최근 검색어
+        case addRecentKeyword(String)
+        case removeRecentKeyword(RecentSearchItem)
+        case removeAllRecentKeywords
+        case selectRecentKeyword(RecentSearchItem)
 
         // Bookmark
         case toggleBookmark(index: Int)
@@ -98,7 +112,9 @@ public struct FeatureSearchMainReducer {
     }
 
     public var body: some ReducerOf<Self> {
-        Reduce { state, action in
+        Reduce {
+            state,
+            action in
             switch action {
             case let .keywordChanged(text):
                 guard state.keyword != text else { return .none }
@@ -114,24 +130,35 @@ public struct FeatureSearchMainReducer {
             case .search:
                 guard let source = state.source else { return .none }
                 switch source {
-                // ConceptItem
+                    // ConceptItem
                 case .study:
                     let matched = state.allConceptItems
                         .filter { $0.title.localizedCaseInsensitiveContains(state.keyword) }
                     state.matchedConceptItems = matched
                     state.results = matched.map { $0.title }
 
-                // QuestionItem
-                case .quiz:
-                    let matched = state.allQuestionItems
-                        .filter { $0.title.localizedCaseInsensitiveContains(state.keyword) }
-                    state.matchedQuestionItems = matched
-                    state.results = matched.map { $0.title }
+                    // QuestionItem
+                case .quiz(let quizTab):
+                    switch quizTab {
+                    case .실기:
+                        let matched: [QuestionItem] = state.allQuestionItems
+                            .filter { $0.subject.quizTab == .실기 }
+                            .filter { $0.title.localizedCaseInsensitiveContains(state.keyword) }
+                        state.matchedQuestionItems = matched
+                        state.results = matched.map { $0.title }
+
+                    case .필기:
+                        let matched: [QuestionItem] = state.allQuestionItems
+                            .filter { $0.subject.quizTab == .필기 }
+                            .filter { $0.title.localizedCaseInsensitiveContains(state.keyword) }
+                        state.matchedQuestionItems = matched
+                        state.results = matched.map { $0.title }
+                    }
                 }
                 state.mode = .searching
                 return .none
 
-            // 현재는 미사용
+                // 현재는 미사용
             case .clear:
                 state.keyword = ""
                 state.results = []
@@ -139,6 +166,7 @@ public struct FeatureSearchMainReducer {
                 return .none
 
             case .addRecentKeyword(let keyword):
+                guard let searchCategory: SearchCategory = state.source?.searchCategory else { return .none }
                 return .run { _ in
                     guard !keyword.isEmpty else { return }
                     _ = try await MainActor.run {
@@ -146,7 +174,7 @@ public struct FeatureSearchMainReducer {
                         let exists = try modelContext.fetch(FetchDescriptor<RecentSearchItem>(predicate: predicate)).isEmpty == false
 
                         if !exists {
-                            let item = RecentSearchItem(keyword: keyword, searchedAt: .now)
+                            let item = RecentSearchItem(keyword: keyword, searchedAt: .now, searchCategoryRawValue: searchCategory.rawValue)
                             modelContext.insert(item)
                             try modelContext.save()
                         }
@@ -165,21 +193,33 @@ public struct FeatureSearchMainReducer {
                 }
 
             case .removeAllRecentKeywords:
-                // state.recentKeywords = []
-                return .none
+                guard let searchCategory = state.source?.searchCategory else { return .none }
+                return .run { @Sendable send in
+                    try await MainActor.run {
+                        let predicate: Predicate<RecentSearchItem> = #Predicate {
+                            $0.searchCategoryRawValue == searchCategory.rawValue
+                        }
+                        let itemsToDelete: [RecentSearchItem] = try modelContext.fetch(FetchDescriptor<RecentSearchItem>(predicate: predicate))
+                        for item in itemsToDelete {
+                            modelContext.delete(item)
+                        }
+                        try modelContext.save()
+                    }
+                    await send(.loadRecentSearchItems)
+                }
 
             case .selectResult(let result):
                 // keyword 선택시 그 keyword 기준으로 띄운다
                 guard let source = state.source else { return .none }
                 switch source {
-                // ConceptItem
+                    // ConceptItem
                 case .study:
                     let matched = state.allConceptItems
                         .filter { $0.title.localizedCaseInsensitiveContains(result) }
                     state.matchedConceptItems = matched
                     state.results = matched.map { $0.title }
 
-                // QuestionItem
+                    // QuestionItem
                 case .quiz:
                     let matched = state.allQuestionItems
                         .filter { $0.title.localizedCaseInsensitiveContains(result) }
@@ -200,24 +240,38 @@ public struct FeatureSearchMainReducer {
                 case .study:
                     let matchedConceptItems: [ConceptItem] = state.matchedConceptItems
                     let selectedIndex: Int = index
+                    guard let conceptItem: ConceptItem = matchedConceptItems[safe: selectedIndex] else { return .none }
 
                     return .run { send in
+                        try await MainActor.run {
+                            conceptItem.views += 1
+                            try modelContext.save()
+                        }
+
                         await send(.navigateToStudyDetail(items: matchedConceptItems, index: index))
                     }
 
                 case .quiz:
                     let matchedQuestionItems: [QuestionItem] = state.matchedQuestionItems
                     let selectedIndex: Int = index
+                    guard let questionItem: QuestionItem = matchedQuestionItems[safe: selectedIndex] else { return .none }
 
                     return .run { send in
+                        try await MainActor.run {
+                            questionItem.viewCount += 1
+                            try modelContext.save()
+                        }
+
                         await send(.navigateToQuizPlay(questionItems: matchedQuestionItems, index: selectedIndex))
                     }
                 }
 
             case .loadAllItems:
                 guard let source = state.source else { return .none }
+                guard let searchCategory: SearchCategory = state.source?.searchCategory else { return .none }
+
                 switch source {
-                // ConceptItem
+                    // ConceptItem
                 case .study:
                     do {
                         let descriptor = FetchDescriptor<ConceptItem>()
@@ -227,7 +281,7 @@ public struct FeatureSearchMainReducer {
                         print("FeatureSearchMainReducer :: Failed to load ConceptItems: \(error)")
                     }
 
-                // QuestionItem
+                    // QuestionItem
                 case .quiz:
                     do {
                         let descriptor = FetchDescriptor<QuestionItem>()
@@ -246,7 +300,13 @@ public struct FeatureSearchMainReducer {
                 }
 
                 do {
-                    let recentSearchItems = try modelContext.fetch(FetchDescriptor<RecentSearchItem>(sortBy: [SortDescriptor(\.searchedAt, order: .reverse)]))
+                    let recentSearchItems: [RecentSearchItem] = try modelContext.fetch(
+                        FetchDescriptor<RecentSearchItem>(
+                            predicate: #Predicate { $0.searchCategoryRawValue == searchCategory.rawValue },
+                            sortBy: [SortDescriptor(\.searchedAt, order: .reverse)]
+                        )
+                    )
+                    print("FeatureSearchMainReducer :: \(recentSearchItems)")
                     state.recentKeywords = recentSearchItems
                 } catch {
                     print("FeatureSearchMainReducer :: Failed to load RecentSearchItems: \(error)")
@@ -255,11 +315,16 @@ public struct FeatureSearchMainReducer {
                 return .none
 
             case .loadRecentSearchItems:
+                guard let searchCategory: SearchCategory = state.source?.searchCategory else { return .none }
                 return .run { send in
                     do {
-                        let recentKeywords = try await MainActor.run {
-                            try modelContext
-                                .fetch(FetchDescriptor<RecentSearchItem>(sortBy: [SortDescriptor(\.searchedAt, order: .reverse)]))
+                        let recentKeywords: [RecentSearchItem] = try await MainActor.run {
+                            try modelContext.fetch(
+                                FetchDescriptor<RecentSearchItem>(
+                                    predicate: #Predicate { $0.searchCategoryRawValue == searchCategory.rawValue },
+                                    sortBy: [SortDescriptor(\.searchedAt, order: .reverse)]
+                                )
+                            )
                         }
                         await send(.updateRecentSearchItems(recentKeywords))
                     } catch {
@@ -346,7 +411,12 @@ public struct FeatureSearchMainReducer {
 
                 return .none
 
-            case .navigateToQuizPlay, .navigateToStudyDetail, .pressedBackBtn:
+            case .selectRecentKeyword(let item):
+                return .send(.selectResult(item.keyword))
+
+            case .navigateToQuizPlay,
+                    .navigateToStudyDetail,
+                    .pressedBackBtn:
                 return .none
             }
         }

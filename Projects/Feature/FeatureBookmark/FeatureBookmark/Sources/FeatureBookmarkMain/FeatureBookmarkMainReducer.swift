@@ -45,8 +45,8 @@ public struct FeatureBookmarkMainReducer {
             return bookmarked.compactMap { bookmark in
                 guard let question = questionMap[bookmark.questionID] else { return nil }
 
-                let isWrong = wrongAnswerIDs.contains(question.id)
-                let tags = makeTags(for: question, isWrong: isWrong)
+                let isWrong: Bool = wrongAnswerIDs.contains(question.id)
+                let tags: [String] = question.tags(isWrong: isWrong)
 
                 if showOnlyWrongAnswers && !tags.contains("틀린 문제") {
                     return nil
@@ -87,7 +87,7 @@ public struct FeatureBookmarkMainReducer {
                 .map {
                     let isWrong = wrongAnswerIDs.contains($0.id)
                     let isBookmarked = bookmarkedIDs.contains($0.id)
-                    let tags = makeTags(for: $0, isWrong: isWrong)
+                    let tags: [String] = $0.tags(isWrong: isWrong)
 
                     return BookmarkFeedItem(
                         category: $0.subject.rawValue,
@@ -129,27 +129,6 @@ public struct FeatureBookmarkMainReducer {
 
                 return matchesExamType && matchesQuestionType
             }
-        }
-
-        private func makeTags(for question: QuestionItem, isWrong: Bool) -> [String] {
-            var tags: [String] = []
-
-            // 시험 유형
-            tags.append(question.questionType.displayName)
-
-            if isWrong {
-                tags.append("틀린 문제")
-            }
-
-            // 필기/실기 (예시는 subject 기준으로 임의 처리)
-            if QuizSubject.writtenCases.contains(question.subject) {
-                tags.append("필기시험")
-            } else {
-                tags.append("실기시험")
-            }
-
-            // 틀린 문제 여부 판단은 별도 로직 필요 시 추가
-            return tags
         }
 
         var allConcepts: [ConceptItem] = []
@@ -225,6 +204,7 @@ public struct FeatureBookmarkMainReducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
+                let selectedOption: SortOption = state.conceptSort.selectedOption ?? .default
                 return .run { send in
                     do {
                         // MainActor에서 fetch
@@ -235,9 +215,27 @@ public struct FeatureBookmarkMainReducer {
                             return (allQuestions, allConcepts, bookmarkItems)
                         }
 
+                        let sortedConcepts: [ConceptItem]
+                        switch selectedOption {
+                        case .default:
+                            sortedConcepts = allConcepts.sortedByDefault()
+
+                        case .leastViewed:
+                            sortedConcepts = allConcepts.sortedByViews(ascending: true)
+
+                        case .mostViewed:
+                            sortedConcepts = allConcepts.sortedByViews(ascending: false)
+
+                        case .az:
+                            sortedConcepts = allConcepts.sortedByTitle(ascending: true)
+
+                        case .za:
+                            sortedConcepts = allConcepts.sortedByTitle(ascending: false)
+                        }
+
                         await send(.internalAction(.updateBookmarkData(
                             allQuestions: allQuestions,
-                            allConcepts: allConcepts,
+                            allConcepts: sortedConcepts,
                             bookmarks: bookmarkItems
                         )))
                     } catch {
@@ -303,18 +301,16 @@ public struct FeatureBookmarkMainReducer {
                     state.conceptSort = sorted
 
                     switch sorted.selectedOption {
+                    case .default:
+                        state.allConcepts = state.allConcepts.sortedByDefault()
                     case .leastViewed:
-                        state.allConcepts.sort { $0.views < $1.views }
-
+                        state.allConcepts = state.allConcepts.sortedByViews(ascending: true)
                     case .mostViewed:
-                        state.allConcepts.sort { $0.views > $1.views }
-
+                        state.allConcepts = state.allConcepts.sortedByViews(ascending: false)
                     case .az:
-                        state.allConcepts.sort { $0.title < $1.title }
-
+                        state.allConcepts = state.allConcepts.sortedByTitle(ascending: true)
                     case .za:
-                        state.allConcepts.sort { $0.title > $1.title }
-
+                        state.allConcepts = state.allConcepts.sortedByTitle(ascending: false)
                     case .none:
                         break
                     }

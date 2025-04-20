@@ -20,6 +20,15 @@ public struct FeatureQuizPlayReducer {
     @ObservableState
     public struct State: Equatable, Hashable {
         var sourceType: QuizSourceType
+        var quizSubject: QuizSubject? {
+            switch sourceType {
+            case .subject(let quizSubject, let QuestionType):
+                return quizSubject
+
+            default:
+                return nil
+            }
+        }
         var quizStartOption: QuizStartOption
         var currentQuestion: QuestionItem? = nil
         var questionIndex: Int = 0
@@ -98,7 +107,7 @@ public struct FeatureQuizPlayReducer {
         // 팝업 표시
         case showPopup
         // 팝업 숨기기
-        case hidePopup(isContinueStudy: Bool)
+        case hidePopup(popupAction: QuizPopupAction)
 
         // 북마크 버튼을 눌렀을 경우
         case toggleBookmarkTapped(isWrong: Bool)
@@ -108,6 +117,11 @@ public struct FeatureQuizPlayReducer {
 
         case presentImageDetail(imageName: String)
         case dismissImageDetail
+
+        // 다음 과목으로 이동
+        case requestNextSubject
+        case restartRandomQuiz(quizTab: QuizTab, questionType: QuestionType)
+        case restartReviewFromBookmark
     }
 
     public var body: some ReducerOf<Self> {
@@ -115,7 +129,7 @@ public struct FeatureQuizPlayReducer {
             switch action {
             case .onAppear:
                 switch state.sourceType {
-                case .subject(let selectedSubject):
+                case .subject(let selectedSubject, let questionType):
                     return .run { send in
                         let questions: [QuestionItem] = try await MainActor.run {
                             var descriptor = FetchDescriptor<QuestionItem>()
@@ -221,7 +235,13 @@ public struct FeatureQuizPlayReducer {
                     }
                     let isCorrect: Bool = (selectedIndex == question.answer - 1)
                     state.isCorrect = isCorrect
-                    state.step = .confirmAnswers
+
+                    // 검색 결과로 보고 있는 화면이라면 바로 step 조절
+                    if case .searchResult = state.sourceType {
+                        state.step = .solvedQuestion(isCorrect: isCorrect)
+                    } else {
+                        state.step = .confirmAnswers
+                    }
 
                     state.solvedCount += 1
                     question.selectedIndex = selectedIndex
@@ -246,10 +266,20 @@ public struct FeatureQuizPlayReducer {
                     return .none
                 }
 
+            // 다음 문제
             case .nextQuiz:
                 print("FeatureQuizPlayReducer :: nextQuiz!!")
                 guard state.questionIndex + 1 < state.loadedQuestions.count else {
                     print("마지막 문제입니다.")
+
+                    // Search의 경우에는 다음 문제를 로드하지 않는다.
+                    // 하나만 보는 것이 스펙
+                    if case .searchResult = state.sourceType {
+                        return .none
+                    }
+
+                    state.isSheetPresented = false
+                    state.isPopupPresented = true
                     return .none
                 }
                 state.visibleQuestionCount = min(state.loadedQuestions.count, state.visibleQuestionCount + 1)
@@ -264,7 +294,7 @@ public struct FeatureQuizPlayReducer {
 
                     if questions.isEmpty {
                         var descriptor = FetchDescriptor<QuestionItem>()
-                        if case let .subject(subject) = sourceType, let subject {
+                        if case let .subject(subjectOpt, _) = sourceType, let subject = subjectOpt {
                             descriptor.predicate = #Predicate { $0.subject == subject }
                         }
                         questions = try modelContext.fetch(descriptor)
@@ -329,6 +359,20 @@ public struct FeatureQuizPlayReducer {
 
             case .pressedCloseBtn:
                 print("FeatureQuizPlayReducer :: pressedCloseBtn!")
+
+                switch state.sourceType {
+                case .fromBookmark, .searchResult:
+                    return .send(.pressedBackBtn)
+                default:
+                    break
+                }
+
+                // 문제를 하나도 풀지 않았을 경우에는 바로 뒤로가기
+                if state.solvedCount == 0 {
+                    return .send(.pressedBackBtn)
+                }
+
+                // 문제를 하나 이상 풀었을 경우에만
                 state.isSheetPresented = false
                 state.isPopupPresented = true
                 return .none
@@ -337,12 +381,44 @@ public struct FeatureQuizPlayReducer {
                 state.isPopupPresented = true
                 return .none
 
-            case .hidePopup(let isContinueStudy):
-                if isContinueStudy {
+            case .hidePopup(let action):
+                switch action {
+                case .dismiss:
+                    return .send(.pressedBackBtn)
+
+                case .keepStudying:
                     state.isPopupPresented = false
                     return .none
-                } else {
+
+                case .finishStudy:
                     return .send(.pressedBackBtn)
+
+                case .reviewRandom:
+                    // 기본값 설정 또는 상황에 맞게 전달
+                    guard let quizTab = state.quizSubject?.quizTab else {
+                        return .none
+                    }
+
+                    guard case let .subject(_, questionType) = state.sourceType,
+                          let questionType = questionType else {
+                        return .none
+                    }
+
+                    return .send(
+                        .restartRandomQuiz(
+                            quizTab: quizTab,
+                            questionType: questionType
+                        )
+                    )
+
+                case .reviewRandomFromBookmark:
+                    return .send(.restartReviewFromBookmark)
+
+                case .nextSubject:
+                    return .send(.requestNextSubject)
+
+                case .nextLanguage:
+                    return .send(.requestNextSubject)
                 }
 
             case .toggleBookmarkTapped(let isWrong):
@@ -361,9 +437,17 @@ public struct FeatureQuizPlayReducer {
                         let existing = try modelContext.fetch(FetchDescriptor<BookmarkItem>(predicate: predicate)).first
 
                         if let existing {
-                            modelContext.delete(existing)
-                            try modelContext.save()
-                            return false
+                            // 이미 북마크가 되어있고 문제를 맞췄다면
+                            // manual로 bookmark 성격 변경
+                            if existing.reason == .wrong && !isWrong {
+                                existing.reason = .manual
+                                try modelContext.save()
+                                return true
+                            } else {
+                                modelContext.delete(existing)
+                                try modelContext.save()
+                                return false
+                            }
                         } else {
                             let newBookmark = BookmarkItem(
                                 questionID: questionID,
@@ -397,6 +481,49 @@ public struct FeatureQuizPlayReducer {
             case .dismissImageDetail:
                 state.isImageDetailPresented = false
                 return .none
+
+            case let .restartRandomQuiz(quizTab, questionType):
+                state.questionIndex = 0
+                state.solvedCount = 0
+                state.correctCount = 0
+                state.visibleQuestionCount = 1
+                state.sourceType = .random(quizTab, questionType)
+                state.isPopupPresented = false
+                return .send(.onAppear)
+
+            case .requestNextSubject:
+                guard case let .subject(currentSubjectOpt, questionType) = state.sourceType,
+                      let current = currentSubjectOpt else {
+                    return .none
+                }
+
+                let group: [QuizSubject] = current.group
+                guard !group.isEmpty else { return .none }
+
+                guard let index = group.firstIndex(of: current),
+                      let next = group[safe: index + 1] else {
+                    return .none
+                }
+
+                state.sourceType = .subject(next, questionType)
+                state.isPopupPresented = false
+                state.solvedCount = 0
+                state.correctCount = 0
+                state.visibleQuestionCount = 1
+
+                return .send(.onAppear)
+
+            case .restartReviewFromBookmark:
+                guard case let .fromBookmark(items, _) = state.sourceType else {
+                    return .none
+                }
+                state.sourceType = .fromBookmark(items: items, index: 0)
+                state.questionIndex = 0
+                state.solvedCount = 0
+                state.correctCount = 0
+                state.visibleQuestionCount = 1
+                state.isPopupPresented = false
+                return .send(.onAppear)
             }
         }
     }

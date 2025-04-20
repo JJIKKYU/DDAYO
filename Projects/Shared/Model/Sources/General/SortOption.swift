@@ -8,6 +8,7 @@
 import Foundation
 
 public enum SortOption: String, Equatable, CaseIterable {
+    case `default`
     case az
     case za
     case mostViewed
@@ -19,6 +20,7 @@ public enum SortOption: String, Equatable, CaseIterable {
         case .za: return "Z-A순"
         case .leastViewed: return "적게 읽은 순"
         case .mostViewed: return "많이 읽은 순"
+        case .default: return "기본순"
         }
     }
 }

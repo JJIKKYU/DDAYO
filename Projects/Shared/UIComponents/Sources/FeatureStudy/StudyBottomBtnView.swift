@@ -8,6 +8,11 @@
 import Model
 import SwiftUI
 
+public enum StudyButtonType {
+    case previous
+    case next
+}
+
 public struct StudyBottomBtnView: View {
     @Binding var isBookmarked: Bool
     let onSelectBookmark: () -> Void
@@ -15,6 +20,24 @@ public struct StudyBottomBtnView: View {
     let nextAction: () -> Void
     let canGoPrevious: Bool
     let canGoNext: Bool
+    let prevButtonType: StudyButtonType
+    let nextButtonType: StudyButtonType
+
+    private func textColor(for type: StudyButtonType) -> Color {
+        switch type {
+        case .previous: return canGoPrevious ? Color.Grayscale._900 : Color.Grayscale._300
+        // case .next: return canGoNext ? Color.Grayscale.white : Color.Grayscale._900
+        case .next: return Color.Grayscale.white
+        }
+    }
+
+    private func backgroundColor(for type: StudyButtonType) -> Color {
+        switch type {
+        case .previous: return canGoPrevious ? Color.Grayscale._100 : Color.Grayscale._50
+        // case .next: return canGoNext ? Color.Green._500 : Color.Grayscale._100
+        case .next: return Color.Green._500
+        }
+    }
 
     public init(
         isBookmarked: Binding<Bool>,
@@ -22,7 +45,9 @@ public struct StudyBottomBtnView: View {
         prevAction: @escaping () -> Void,
         nextAction: @escaping () -> Void,
         canGoPrevious: Bool,
-        canGoNext: Bool
+        canGoNext: Bool,
+        prevButtonType: StudyButtonType = .previous,
+        nextButtonType: StudyButtonType = .next
     ) {
         self._isBookmarked = isBookmarked
         self.onSelectBookmark = onSelectBookmark
@@ -30,6 +55,8 @@ public struct StudyBottomBtnView: View {
         self.nextAction = nextAction
         self.canGoPrevious = canGoPrevious
         self.canGoNext = canGoNext
+        self.prevButtonType = prevButtonType
+        self.nextButtonType = nextButtonType
     }
 
     public var body: some View {
@@ -51,10 +78,10 @@ public struct StudyBottomBtnView: View {
                     }) {
                         Text("이전 개념")
                             .font(.headline)
-                            .foregroundColor(canGoPrevious ? Color.Grayscale.white : Color.Grayscale._900)
+                            .foregroundColor(textColor(for: .previous))
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(canGoPrevious ? Color.Green._500 : Color.Grayscale._100)
+                            .background(backgroundColor(for: .previous))
                             .cornerRadius(12)
                     }
                     .disabled(!canGoPrevious)
@@ -65,13 +92,12 @@ public struct StudyBottomBtnView: View {
                     }) {
                         Text("다음 개념")
                             .font(.headline)
-                            .foregroundColor(canGoNext ? Color.Grayscale.white : Color.Grayscale._900)
+                            .foregroundColor(textColor(for: .next))
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(canGoNext ? Color.Green._500 : Color.Grayscale._100)
+                            .background(backgroundColor(for: .next))
                             .cornerRadius(12)
                     }
-                    .disabled(!canGoNext)
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 40)

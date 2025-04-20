@@ -26,7 +26,7 @@ public struct FeatureSearchMainView: View {
                         TextField("", text: viewStore.binding(
                             get: \.keyword,
                             send: FeatureSearchMainReducer.Action.keywordChanged
-                        ), prompt: Text("궁금한 모든 개념을 검색해보세요")
+                        ), prompt: Text(placeholderText)
                             .foregroundStyle(Color.Grayscale._300)
                             .font(.system(size: 14, weight: .medium))
                         )
@@ -58,7 +58,7 @@ public struct FeatureSearchMainView: View {
                         Spacer()
                         VStack(spacing: 8) {
                             Text("최근 검색어 내역이 없습니다.")
-                            Text("원하시는 개념을 검색해보세요.")
+                            Text(recentKeywordEmptyText)
                         }
                         .font(.system(size: 15))
                         .foregroundColor(Color.gray)
@@ -86,10 +86,13 @@ public struct FeatureSearchMainView: View {
                                 ForEach(viewStore.recentKeywords, id: \.self) { keyword in
                                     RecentSearchCellView(
                                         keyword: keyword.keyword,
-                                        searchedAt: keyword.searchedAt
-                                    ) {
-                                        viewStore.send(.removeRecentKeyword(keyword))
-                                    }
+                                        searchedAt: keyword.searchedAt,
+                                        onClose: {
+                                            viewStore.send(.removeRecentKeyword(keyword))
+                                        },
+                                        onSelect: {
+                                            viewStore.send(.selectRecentKeyword(keyword))
+                                        })
                                     .listRowBackground(Color.Background._2)
                                     .padding(.vertical, 8)
                                 }
@@ -172,5 +175,45 @@ public struct FeatureSearchMainView: View {
             }
         }
         .background(Color.Background._2)
+    }
+}
+
+// MARK: - Extension
+
+extension FeatureSearchMainView {
+    public var recentKeywordEmptyText: String {
+        switch store.source {
+        case .quiz(let quizTab):
+            switch quizTab {
+            case .실기:
+                return "찾으시는 문제를 검색해보세요"
+
+            case .필기:
+                return "찾으시는 문제를 검색해보세요"
+            }
+        case .study:
+            return "궁금한 모든 개념을 검색해보세요"
+
+        case .none:
+            return "찾으시는 문제를 검색해보세요"
+        }
+    }
+
+    public var placeholderText: String {
+        switch store.source {
+        case .quiz(let quizTab):
+            switch quizTab {
+            case .실기:
+                return "찾으시는 문제를 검색해보세요"
+
+            case .필기:
+                return "찾으시는 문제를 검색해보세요"
+            }
+        case .study:
+            return "궁금한 모든 개념을 검색해보세요"
+
+        case .none:
+            return "찾으시는 문제를 검색해보세요"
+        }
     }
 }

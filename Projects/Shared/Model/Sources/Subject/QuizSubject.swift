@@ -68,4 +68,26 @@ public extension QuizSubject {
             .python
         ]
     }
+
+    var group: [QuizSubject] {
+        if QuizSubject.writtenCases.contains(self) {
+            return QuizSubject.writtenCases
+        } else if QuizSubject.practicalCases.contains(self) {
+            return QuizSubject.practicalCases
+        } else if QuizSubject.practicalLanguageCases.contains(self) {
+            return QuizSubject.practicalLanguageCases
+        } else {
+            return []
+        }
+    }
+
+    var quizTab: QuizTab? {
+        if QuizSubject.writtenCases.contains(self) {
+            return .필기
+        } else if QuizSubject.practicalCases.contains(self) || QuizSubject.practicalLanguageCases.contains(self) {
+            return .실기
+        } else {
+            return nil
+        }
+    }
 }

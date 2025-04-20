@@ -1,4 +1,3 @@
-//
 //  FeatureQuizPlayView.swift
 //  FeatureQuiz
 //
@@ -181,8 +180,10 @@ public struct FeatureQuizPlayView: View {
                     allQuizCnt: viewStore.loadedQuestions.count,
                     correctQuizCnt: viewStore.correctCount,
                     quizOption: viewStore.quizStartOption,
-                    onAction: { isContinue in
-                        viewStore.send(.hidePopup(isContinueStudy: isContinue))
+                    quizSubject: viewStore.quizSubject,
+                    quizSourceType: viewStore.sourceType,
+                    onAction: { action in
+                        viewStore.send(.hidePopup(popupAction: action))
                     }
                 )
                 .transition(.opacity)
@@ -199,7 +200,7 @@ public struct FeatureQuizPlayView: View {
 }
 
 #Preview {
-    FeatureQuizPlayView(store: .init(initialState: FeatureQuizPlayReducer.State(sourceType: .subject(.applicationTesting)), reducer: {
+    FeatureQuizPlayView(store: .init(initialState: FeatureQuizPlayReducer.State(sourceType: .subject(.applicationTesting, .past)), reducer: {
         FeatureQuizPlayReducer()
     }))
 }
