@@ -22,6 +22,7 @@ let project = Project(
             dependencies: [
                 .external(name: "ComposableArchitecture", condition: nil),
                 .external(name: "SwiftUIIntrospect", condition: nil),
+                .external(name: "HighlightSwift", condition: nil),
 
                 // Feature
                 .project(target: "FeatureSearch", path: "../../Feature/FeatureSearch", status: .required, condition: nil),

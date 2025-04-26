@@ -34,17 +34,21 @@ struct DDAYOApp: App {
         )
     }()
 
+    @State private var firebaseLogger: FirebaseLoggerProtocol = FirebaseLogger()
+
     var body: some Scene {
         WindowGroup {
-            MainTabView(
-                store: Store(initialState: RootFeature.State()) {
-                    RootFeature()
-                } withDependencies: {
-                    $0.modelContext = modelContainer.mainContext
-                    $0.conceptService = ConceptService()
-                }
-            )
-            .modelContainer(modelContainer)  // SwiftUI에도 주입
+            withDependencies {
+                $0.modelContext = modelContainer.mainContext
+                $0.conceptService = ConceptService()
+                $0.firebaseLogger = firebaseLogger
+            } operation: {
+                MainTabView(
+                    store: Store(initialState: RootFeature.State()) {
+                        RootFeature()
+                    }
+                )
+            }
         }
     }
 }

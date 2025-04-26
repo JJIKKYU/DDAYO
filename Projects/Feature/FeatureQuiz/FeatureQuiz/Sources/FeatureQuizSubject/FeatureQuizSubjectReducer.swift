@@ -7,9 +7,12 @@
 
 import ComposableArchitecture
 import Model
+import Service
 
 @Reducer
 public struct FeatureQuizSubjectReducer {
+    @Dependency(\.firebaseLogger) var firebaseLogger
+
     public init() {}
 
     public struct State: Equatable {
@@ -79,7 +82,26 @@ public struct FeatureQuizSubjectReducer {
             case .pressedBackBtn:
                 return .none
 
-            case .navigateToQuizPlay:
+            case .navigateToQuizPlay(let quizSubject, let questionType):
+                var clickTarget: String
+                if QuizSubject.practicalLanguageCases.contains(quizSubject) {
+                    clickTarget = "practical_language"
+                } else if quizSubject.quizTab == .실기 {
+                    clickTarget = "practical_subject"
+                } else {
+                    clickTarget = "theory_subject"
+                }
+
+                firebaseLogger.logEvent(
+                    .click,
+                    parameters: FBClickParam(
+                        clickTarget: clickTarget,
+                        customParameters: [
+                            "ai": questionType == .ai,
+                            "subject_detail": "t\(quizSubject.index + 1)"
+                        ]
+                    ).parameters
+                )
                 return .none
 
             case .autoNavigateToNextSubject:

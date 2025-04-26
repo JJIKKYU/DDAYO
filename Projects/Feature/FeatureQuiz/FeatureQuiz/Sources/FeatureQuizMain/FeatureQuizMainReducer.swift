@@ -7,12 +7,14 @@
 
 import ComposableArchitecture
 import Model
+import Service
 
 // MARK: - Reducer
 
 @Reducer
 public struct FeatureQuizMainReducer {
     @Dependency(\.modelContext) var modelContext
+    @Dependency(\.firebaseLogger) var firebaseLogger
 
     public init() {}
 
@@ -90,14 +92,57 @@ public struct FeatureQuizMainReducer {
             case .selectTab(let tab):
                 print("FeatureQuizMainReducer :: selectedTab = \(tab)")
                 state.selectedTab = tab
+
+                // Log
+                firebaseLogger.logEvent(
+                    .click,
+                    parameters: FBClickParam(
+                        clickTarget: tab.clickTargetName()
+                    ).parameters
+                )
                 return .none
 
             case .swipeTab(let tab):
                 print("FeatureQuizMainReducer :: swipeTab = \(tab)")
                 state.selectedTab = tab
+
+                // Log
+                firebaseLogger.logEvent(
+                    .click,
+                    parameters: FBClickParam(
+                        clickTarget: tab.clickTargetName()
+                    ).parameters
+                )
                 return .none
 
-            case .navigateToQuizSubject:
+            case .navigateToQuizSubject(let quizTab, let questionType, let quizStartOption):
+                let clickTarget: String = {
+                    switch (quizTab, quizStartOption) {
+                    case (.실기, .startSubjectQuiz):
+                        return "exercise_practical_subject"
+                    case (.실기, .startRandomQuiz):
+                        return "exercise_practical_random"
+                    case (.실기, .startLanguageQuiz):
+                        return "exercise_practical_language"
+                    case (.필기, .startSubjectQuiz):
+                        return "exercise_theory_subject"
+                    case (.필기, .startRandomQuiz):
+                        return "exercise_theory_random"
+                    default:
+                        return ""
+                    }
+                }()
+
+                // ai 문제를 터치했는지 여부
+                firebaseLogger.logEvent(
+                    .click,
+                    parameters: FBClickParam(
+                        clickTarget: clickTarget,
+                        customParameters: [
+                            "ai": questionType == .ai
+                        ]
+                    ).parameters
+                )
                 return .none
 
             case .navigateToSearch:

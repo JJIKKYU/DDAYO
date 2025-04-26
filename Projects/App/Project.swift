@@ -25,10 +25,9 @@ let project = Project(
             sources: ["./Sources/**"],
             resources: ["./Resources/**"],
             dependencies: [
-                .external(name: "ComposableArchitecture", condition: nil),
+//                .external(name: "ComposableArchitecture", condition: nil),
                 .external(name: "FirebaseAnalytics", condition: nil),
                 .external(name: "FirebaseFirestore", condition: nil),
-                .external(name: "HighlightSwift", condition: nil),
 
                 // Feature
                 .project(target: "FeatureQuiz", path: "../Feature/FeatureQuiz", status: .required, condition: nil),
@@ -49,7 +48,7 @@ let project = Project(
                 base: [
                     "DEVELOPMENT_TEAM": "V237TD2AXA",
                     "OTHER_LDFLAGS": [
-                        "-all_load",
+//                        "-all_load",
                         "-ObjC"
                     ]
                 ]

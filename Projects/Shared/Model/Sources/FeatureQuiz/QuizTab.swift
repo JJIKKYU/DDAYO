@@ -22,4 +22,15 @@ public enum QuizTab: Int, Equatable, CaseIterable {
             return "실기"
         }
     }
+
+    /// 로그용 name
+    public func clickTargetName() -> String {
+        switch self {
+        case .필기:
+            return "exercise_navi_theory"
+
+        case .실기:
+            return "exercise_navi_practical"
+        }
+    }
 }

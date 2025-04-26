@@ -90,4 +90,16 @@ public extension QuizSubject {
             return nil
         }
     }
+
+    var index: Int {
+        if let idx = QuizSubject.writtenCases.firstIndex(of: self) {
+            return idx
+        } else if let idx = QuizSubject.practicalCases.firstIndex(of: self) {
+            return idx
+        } else if let idx = QuizSubject.practicalLanguageCases.firstIndex(of: self) {
+            return idx
+        } else {
+            return 0
+        }
+    }
 }

@@ -6,10 +6,14 @@ import FeatureStudy
 import Model
 import SwiftUI
 import UIComponents
+import Service
 
 public struct MainTabView: View {
     @Bindable
     var store: StoreOf<RootFeature>
+    @State private var selectedTab = "gnb_exercise"
+
+    @Dependency(\.firebaseLogger) var firebaseLogger
 
     public init(
         store: StoreOf<RootFeature>
@@ -21,7 +25,7 @@ public struct MainTabView: View {
 
     public var body: some View {
         NavigationStack(path: $store.scope(state: \.routing.path, action: \.routing.path)) {
-            TabView {
+            TabView(selection: $selectedTab) {
                 FeatureQuizMainView(
                     store: store.scope(
                         state: \.featureQuizMain,
@@ -34,7 +38,7 @@ public struct MainTabView: View {
                         .foregroundStyle(Color.Grayscale._400)
                     Text("문제풀기")
                 }
-                .tag(1)
+                .tag("gnb_exercise")
 
                 FeatureStudyMainView(
                     store: store.scope(
@@ -48,7 +52,7 @@ public struct MainTabView: View {
                         .foregroundStyle(Color.Grayscale._400)
                     Text("개념학습")
                 }
-                .tag(2)
+                .tag("gnb_study")
 
                 FeatureBookmarkMainView(
                     store: store.scope(
@@ -62,7 +66,7 @@ public struct MainTabView: View {
                         .foregroundStyle(Color.Grayscale._400)
                     Text("북마크")
                 }
-                .tag(3)
+                .tag("gnb_bookmark")
             }
             .tint(Color.Grayscale._800)
             .font(.headline)
@@ -92,6 +96,16 @@ public struct MainTabView: View {
         }
         .onAppear {
             store.send(.task)
+        }
+        .onChange(of: selectedTab) { newValue in
+            firebaseLogger
+                .logEvent(.click,
+                    parameters: FBClickParam(
+                        clickTarget: newValue,
+                        sessionID: ""
+                    ).parameters
+                )
+            print("탭이 변경되었어: \(newValue)")
         }
     }
 }

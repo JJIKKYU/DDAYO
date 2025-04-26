@@ -10,10 +10,12 @@ import DI
 import Model
 import SwiftData
 import Foundation
+import Service
 
 @Reducer
 public struct FeatureQuizPlayReducer {
     @Dependency(\.modelContext) var modelContext
+    @Dependency(\.firebaseLogger) var firebaseLogger
 
     public init() {}
 
@@ -130,6 +132,14 @@ public struct FeatureQuizPlayReducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
+                /*
+                firebaseLogger.logEvent(
+                    .impression,
+                    parameters: FBImpParamBuilder()
+                        .add(.conceptID, value: "ques")
+                        .add(.ai, value: <#T##Any?#>)
+                )
+                */
                 switch state.sourceType {
                 case .subject(let selectedSubject, let questionType):
                     return .run { send in
