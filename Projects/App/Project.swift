@@ -61,5 +61,20 @@ let project = Project(
             resources: [],
             dependencies: [.target(name: "DDAYO")]
         ),
+    ],
+    schemes: [
+        .scheme(
+            name: "DDAYO",
+            shared: true,
+            buildAction: .buildAction(targets: ["DDAYO"]),
+            testAction: .targets(["DDAYOTests"]),
+            runAction: .runAction(
+                arguments: .arguments(
+                    launchArguments: [
+                        .launchArgument(name: "-FIRDebugEnabled", isEnabled: true)
+                    ]
+                )
+            )
+        )
     ]
 )
