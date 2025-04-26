@@ -22,7 +22,7 @@ public struct FeatureQuizMainView: View {
     public var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             VStack(alignment: .leading, spacing: 0) {
-                Tabs(
+                QuizTabView(
                     tabs: [
                         .필기, .실기
                     ],
