@@ -92,6 +92,19 @@ public struct FeatureStudyDetailView: View {
                     canGoPrevious: viewStore.canGoPrevious,
                     canGoNext: viewStore.canGoNext
                 )
+
+                StudyPopupView(
+                    visible: Binding(
+                        get: { viewStore.isPopupPresented },
+                        set: { _ in } // 변경은 내부 onAction에서 처리
+                    ),
+                    onAction: { action in
+                        viewStore.send(.hidePopup(popupAction: action))
+                    }
+                )
+                .transition(.opacity)
+                .opacity(viewStore.isPopupPresented ? 1 : 0)
+                .animation(.easeInOut(duration: 0.5), value: viewStore.isPopupPresented)
             }
             .onAppear {
                 viewStore.send(.onAppear)

@@ -22,6 +22,7 @@ public struct FeatureStudyDetailReducer {
         var items: [ConceptItem] = []
         var currentIndex: Int = 0
         var isBookmarked: Bool = false
+        var isPopupPresented: Bool = false // study 종료 뷰 표시 여부
 
         public var currentItem: ConceptItem? {
             guard items.indices.contains(currentIndex) else { return nil }
@@ -56,6 +57,13 @@ public struct FeatureStudyDetailReducer {
         case toggleBookmarkTapped
         // 북마크 상태 업데이트가 필요할 경우
         case updateBookmarkStatus(Bool)
+        // 처음부터 다시 개념 공부 시작
+        case restartStudy
+
+        // 팝업 표시
+        case showPopup
+        // 팝업 숨기기
+        case hidePopup(popupAction: StudyPopupAction)
 
         case pressedBackBtn
     }
@@ -132,6 +140,24 @@ public struct FeatureStudyDetailReducer {
             case .updateBookmarkStatus(let bookmarked):
                 state.isBookmarked = bookmarked
                 return .none
+
+            case .showPopup:
+                state.isPopupPresented = true
+                return .none
+
+            case .hidePopup(let action):
+                switch action {
+                case .review:
+                    state.isPopupPresented = false
+                    return .send(.restartStudy)
+
+                case .dismiss:
+                    return .send(.pressedBackBtn)
+                }
+
+            case .restartStudy:
+                state.currentIndex = 0
+                return .none
             }
         }
     }
@@ -153,7 +179,10 @@ extension FeatureStudyDetailReducer {
 
     private func handlePageMove(_ state: inout State, direction: Int) -> Effect<Action> {
         let newIndex = state.currentIndex + direction
-        guard state.items.indices.contains(newIndex) else { return .none }
+        guard state.items.indices.contains(newIndex) else {
+            // 다음이 없을 경우에는 팝업을 노출하도록
+            return .send(.showPopup)
+        }
 
         state.currentIndex = newIndex
         guard let currentItem = state.currentItem else { return .none }
