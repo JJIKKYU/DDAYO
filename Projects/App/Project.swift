@@ -47,7 +47,11 @@ let project = Project(
             ],
             settings: .settings(
                 base: [
-                    "DEVELOPMENT_TEAM": "V237TD2AXA"
+                    "DEVELOPMENT_TEAM": "V237TD2AXA",
+                    "OTHER_LDFLAGS": [
+                        "-all_load",
+                        "-ObjC"
+                    ]
                 ]
             )
         ),

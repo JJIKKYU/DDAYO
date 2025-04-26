@@ -24,6 +24,7 @@
             "ConcurrencyExtras": .framework,
             "IssueReporting": .framework,
             "PerceptionCore": .framework,
+            "GoogleUtilities": .framework
         ]
     )
 #endif

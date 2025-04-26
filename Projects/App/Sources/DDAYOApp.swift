@@ -1,18 +1,19 @@
 import ComposableArchitecture
 import DI
 import FirebaseCore
+import FirebaseAnalytics
 import Model
 import Service
 import SwiftData
 import SwiftUI
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    FirebaseApp.configure()
-
-    return true
-  }
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        FirebaseApp.configure()
+        Analytics.logEvent("test_event", parameters: ["dummy": "value"])
+        return true
+    }
 }
 
 @main
