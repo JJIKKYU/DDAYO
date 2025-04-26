@@ -248,12 +248,11 @@ public struct FeatureQuizPlayReducer {
                     if isCorrect {
                         question.isCorrect = true
                         state.correctCount += 1
-                        return .none
                     }
                     question.isCorrect = false
 
                     return .run { send in
-                        await send(.toggleBookmarkTapped(isWrong: true))
+                        await send(.toggleBookmarkTapped(isWrong: !isCorrect))
                     }
 
                 case .confirmAnswers:
