@@ -22,26 +22,41 @@ public struct FeatureSearchMainView: View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             VStack(spacing: 20) {
                 HStack(spacing: 12) {
-                    HStack {
-                        TextField("", text: viewStore.binding(
-                            get: \.keyword,
-                            send: FeatureSearchMainReducer.Action.keywordChanged
-                        ), prompt: Text(placeholderText)
-                            .foregroundStyle(Color.Grayscale._300)
-                            .font(.system(size: 14, weight: .medium))
-                        )
-                        .focused($isTextFieldFocused)
-                        .onSubmit {
-                            viewStore.send(.selectResult(viewStore.keyword))
-                        }
-                        .padding(.vertical, 10)
-                        .padding(.horizontal, 12)
-                    }
-                    .background(
+                    ZStack {
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.Green._500, lineWidth: 1)
-                            .background(Color.Background._2)
-                    )
+                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                            .background(Color.white)
+
+                        HStack(alignment: .center) {
+                            TextField(
+                                "",
+                                text: viewStore.binding(
+                                    get: \.keyword,
+                                    send: FeatureSearchMainReducer.Action.keywordChanged
+                                ),
+                                prompt: Text(placeholderText)
+                                    .foregroundColor(Color.Grayscale._300)
+                            )
+                            .font(.system(size: 16))
+                            .padding(.vertical, 12)
+                            .padding(.leading, 16)
+
+                            if !viewStore.keyword.isEmpty {
+                                Button(action: {
+                                    viewStore.send(.keywordChanged(""))
+                                }) {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundColor(Color.Grayscale._300)
+                                        // .padding(8)
+                                        // .background(Color.Grayscale._300)
+                                        .clipShape(Circle())
+                                        .frame(width: 16, height: 16)
+                                }
+                                .padding(.trailing, 12)
+                            }
+                        }
+                    }
+                    .frame(height: 44)
                     .padding(.leading, 16)
 
                     Button("취소") {
