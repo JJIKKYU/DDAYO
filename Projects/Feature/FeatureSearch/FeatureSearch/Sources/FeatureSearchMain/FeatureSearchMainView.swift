@@ -110,6 +110,9 @@ public struct FeatureSearchMainView: View {
                                         })
                                     .listRowBackground(Color.Background._2)
                                     .padding(.vertical, 8)
+                                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                                        return -viewDimensions.width
+                                    }
                                 }
                             }
                             .background(Color.Background._2)
@@ -127,6 +130,9 @@ public struct FeatureSearchMainView: View {
                             }
                         )
                         .listRowBackground(Color.Background._2)
+                        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                            return -viewDimensions.width
+                        }
                     }
                     .background(Color.Background._2)
                     .listStyle(.plain)

@@ -40,6 +40,7 @@ public struct RecentSearchCellView: View {
                 Text(keyword)
                     .foregroundColor(Color.Grayscale._900)
                     .font(.system(size: 16, weight: .medium))
+                    .lineSpacing(5.0)
 
                 Spacer()
 
@@ -49,6 +50,7 @@ public struct RecentSearchCellView: View {
                         .multilineTextAlignment(.trailing)
                         .font(.system(size: 11))
                         .foregroundColor(Color.Grayscale._500)
+                        .lineSpacing(5.0)
 
                     Button {
                         onClose()
