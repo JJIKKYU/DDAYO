@@ -42,72 +42,32 @@ public struct QuizPopupView: View {
     }
 
     private var allDone: Bool {
-        return solvedQuizCnt == allQuizCnt
+        switch quizSourceType {
+        // 북마크일 경우에는 항상 true
+        case .fromBookmark:
+            return true
+
+        default:
+            return solvedQuizCnt == allQuizCnt
+        }
     }
 
     public var body: some View {
-        ZStack {
-            if isVisible {
-                // 배경 어둡게
-                Color.Grayscale.black.opacity(0.6)
-                    .edgesIgnoringSafeArea(.all)
-
-                // 팝업 컨텐츠
-                VStack(alignment: .leading, spacing: 0) {
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text(title)
-                                .font(.system(size: 18, weight: .bold))
-                                .foregroundStyle(Color.Grayscale._900)
-
-                            Spacer()
-                        }
-                        .padding(.bottom, 6)
-
-                        Text(desc)
-                            .lineSpacing(4.0)
-                            .font(.system(size: 15, weight: .regular))
-                            .foregroundStyle(Color.Grayscale._800)
-                            .multilineTextAlignment(.leading)
-                    }
-                    .padding(.all, 8)
-
-                    HStack(spacing: 12) {
-                        Button(action: {
-                            onAction(allDone ? .dismiss : .keepStudying)
-                            isVisible = false
-                        }) {
-                            Text(leadingTitle)
-                                .font(.system(size: 16, weight: .semibold))
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 14.5)
-                                .background(Color.Grayscale._100)
-                                .foregroundColor(Color.Grayscale._900)
-                                .cornerRadius(12)
-                        }
-
-                        Button(action: {
-                            handleTrailingButtonAction()
-                        }) {
-                            Text(trailingTitle)
-                                .font(.system(size: 16, weight: .semibold))
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 14.5)
-                                .background(allDone ? Color.Green._500 : Color.Red._500)
-                                .foregroundColor(Color.Grayscale.white)
-                                .cornerRadius(12)
-                        }
-                    }
-                    .padding(.top, 12)
-                    .frame(maxWidth: .infinity)
-                }
-                .padding(.all, 20)
-                .frame(maxWidth: UIScreen.main.bounds.width - 40)
-                .background(Color.Grayscale.white)
-                .cornerRadius(24)
+        BasePopupView(
+            isVisible: isVisible,
+            title: title,
+            desc: desc,
+            leadingTitle: leadingTitle,
+            trailingTitle: trailingTitle,
+            allDone: allDone,
+            onLeadingAction: {
+                onAction(allDone ? .dismiss : .keepStudying)
+                isVisible = false
+            },
+            onTrailingAction: {
+                handleTrailingButtonAction()
             }
-        }
-        .animation(.easeInOut, value: isVisible)
+        )
     }
 }
 
@@ -128,12 +88,21 @@ public struct QuizPopupView: View {
 
 extension QuizPopupView {
     private var title: String {
-        switch allDone {
-        case true:
+        // 북마크일 경우에는 항상 마지막 문제를 풀면
+        // 모든 문제를 풀었다고 노출
+        switch quizSourceType {
+        case .fromBookmark:
             return "모든 문제를 풀었어요! 👏"
 
-        case false:
-            return "\(correctQuizCnt)문제를 맞혔어요!"
+        // 그 외 화면에서는 푼 문제 개수 노출
+        default:
+            switch allDone {
+            case true:
+                return "모든 문제를 풀었어요! 👏"
+
+            case false:
+                return "\(correctQuizCnt)문제를 맞혔어요!"
+            }
         }
     }
 
@@ -171,26 +140,25 @@ extension QuizPopupView {
     }
 
     private var trailingTitle: String {
-        if allDone {
-            switch quizSourceType {
-            case .fromBookmark:
+        switch quizSourceType {
+        case .fromBookmark:
+            return "복습하기"
+
+        default:
+            if !allDone { return "끝내기" }
+
+            switch quizOption {
+            case .startRandomQuiz:
                 return "복습하기"
 
-            default:
-                switch quizOption {
-                case .startRandomQuiz:
-                    return "복습하기"
+            case .startSubjectQuiz:
+                return nextSubjectName != nil ? "다음 과목 풀기" : "복습하기"
 
-                case .startSubjectQuiz:
-                    return nextSubjectName != nil ? "다음 과목 풀기" : "복습하기"
-
-                case .startLanguageQuiz:
-                    return nextSubjectName != nil ? "다음 언어 풀기" : "복습하기"
-                }
+            case .startLanguageQuiz:
+                return nextSubjectName != nil ? "다음 언어 풀기" : "복습하기"
             }
-        } else {
-            return "끝내기"
         }
+
     }
 
     private var nextSubjectName: String? {
@@ -210,13 +178,13 @@ extension QuizPopupView {
     }
 
     private var messageContext: QuizPopupMessageContext {
-        guard allDone else { return .notYetDone }
-
         switch quizSourceType {
         case .fromBookmark:
             return .allDoneFromBookmark
 
         default:
+            guard allDone else { return .notYetDone }
+
             switch quizOption {
             case .startRandomQuiz:
                 return .allDoneFromRandom

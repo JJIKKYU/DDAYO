@@ -111,6 +111,8 @@ public struct FeatureQuizPlayReducer {
 
         // 북마크 버튼을 눌렀을 경우
         case toggleBookmarkTapped(isWrong: Bool)
+        // 틀린 문제를 맞췄을 경우 북마크 상태 변경
+        case updateBookmarkReasonIfNeeded(QuestionItem)
         // 북마크 상태 업데이트가 필요할 경우
         case updateBookmarkStatus(Bool)
         case setQuestionIndex(Int)
@@ -172,6 +174,8 @@ public struct FeatureQuizPlayReducer {
                         $0.isCorrect = nil
                         $0.selectedIndex = nil
                     }
+                    // 북마크는 전체 내용을 오갈 수 있도록 카운트제공
+                    state.visibleQuestionCount = items.count
                     return .run { send in
                         await send(.setCurrentQuestion(items[index], all: items))
                     }
@@ -248,11 +252,12 @@ public struct FeatureQuizPlayReducer {
                     if isCorrect {
                         question.isCorrect = true
                         state.correctCount += 1
+                        return .send(.updateBookmarkReasonIfNeeded(question))
                     }
                     question.isCorrect = false
 
                     return .run { send in
-                        await send(.toggleBookmarkTapped(isWrong: !isCorrect))
+                        await send(.toggleBookmarkTapped(isWrong: true))
                     }
 
                 case .confirmAnswers:
@@ -520,9 +525,25 @@ public struct FeatureQuizPlayReducer {
                 state.questionIndex = 0
                 state.solvedCount = 0
                 state.correctCount = 0
-                state.visibleQuestionCount = 1
+                state.visibleQuestionCount = items.count
                 state.isPopupPresented = false
                 return .send(.onAppear)
+
+            case let .updateBookmarkReasonIfNeeded(question):
+                return .run { send in
+                    let questionID = question.id
+                    try await MainActor.run {
+                        let predicate = #Predicate<BookmarkItem> { $0.questionID == questionID }
+                        guard let existing = try modelContext.fetch(FetchDescriptor<BookmarkItem>(predicate: predicate)).first else {
+                            return
+                        }
+                        guard existing.reason == .wrong else {
+                            return
+                        }
+                        existing.reason = .manual
+                        try modelContext.save()
+                    }
+                }
             }
         }
     }
