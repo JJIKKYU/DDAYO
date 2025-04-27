@@ -40,3 +40,13 @@ public final class FBImpParamBuilder {
         parameters
     }
 }
+
+public extension FBImpParamBuilder {
+    @discardableResult
+    func addIf(_ condition: Bool, _ key: FBImpParamKey, value: Any?) -> Self {
+        if condition {
+            self.add(key, value: value)
+        }
+        return self
+    }
+}

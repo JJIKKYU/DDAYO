@@ -13,6 +13,7 @@ let project = Project(
             sources: ["./Sources/**"],
             dependencies: [
                 .external(name: "ComposableArchitecture", condition: nil),
+                .external(name: "Mixpanel", condition: nil),
 
                 .project(target: "Model", path: "../Model", status: .required, condition: nil)
             ],

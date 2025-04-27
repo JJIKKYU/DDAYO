@@ -15,6 +15,7 @@ import Service
 public struct FeatureQuizMainReducer {
     @Dependency(\.modelContext) var modelContext
     @Dependency(\.firebaseLogger) var firebaseLogger
+    @Dependency(\.mixpanelLogger) var mixpanelLogger
 
     public init() {}
 
@@ -100,6 +101,13 @@ public struct FeatureQuizMainReducer {
                         clickTarget: tab.clickTargetName()
                     ).parameters
                 )
+
+                mixpanelLogger.log(
+                    "Tab_Click",
+                    parameters: [
+                        "clickTarget": tab.clickTargetName()
+                    ]
+                )
                 return .none
 
             case .swipeTab(let tab):
@@ -112,6 +120,12 @@ public struct FeatureQuizMainReducer {
                     parameters: FBClickParam(
                         clickTarget: tab.clickTargetName()
                     ).parameters
+                )
+                mixpanelLogger.log(
+                    "Tab_Click",
+                    parameters: [
+                        "clickTarget": tab.clickTargetName()
+                    ]
                 )
                 return .none
 
@@ -142,6 +156,13 @@ public struct FeatureQuizMainReducer {
                             "ai": questionType == .ai
                         ]
                     ).parameters
+                )
+                mixpanelLogger.log(
+                    "Excercise_Click",
+                    parameters: [
+                        "clickTarget": clickTarget,
+                        "ai": questionType == .ai
+                    ]
                 )
                 return .none
 

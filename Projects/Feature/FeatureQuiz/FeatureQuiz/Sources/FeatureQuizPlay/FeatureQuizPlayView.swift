@@ -63,50 +63,69 @@ public struct FeatureQuizPlayView: View {
                         ForEach(visibleQuestions.indices, id: \.self) { (index: Int) in
                             let question: QuestionItem = viewStore.loadedQuestions[index]
 
+                            let metaText: String = {
+                                var parts: [String] = []
+                                parts.append(question.subject.rawValue)
+                                if let date = question.date, !date.isEmpty {
+                                    parts.append(date)
+                                }
+                                parts.append(question.questionType.displayName)
+                                return parts.joined(separator: " · ")
+                            }()
+
                             ScrollView {
                                 VStack(alignment: .leading, spacing: 16) {
-                                    Text(question.title)
-                                        .font(.system(size: 18, weight: .bold))
-                                        .foregroundColor(.Grayscale._800)
-                                        .lineSpacing(3.0)
-                                        .multilineTextAlignment(.leading)
-                                        .padding(.top, 16)
+                                    HStack {
+                                        Text(question.title)
+                                            .font(.system(size: 18, weight: .bold))
+                                            .foregroundColor(.Grayscale._800)
+                                            .lineSpacing(3.0)
+                                            .multilineTextAlignment(.leading)
+                                            .padding(.top, 16)
 
-                                    Text("\(question.subject.rawValue) · \(question.date ?? "") · \(question.questionType.displayName)")
-                                        .font(.custom("Pretendard-Regular", size: 11))
-                                        .foregroundColor(.Grayscale._500)
+                                        Spacer()
+                                    }
 
-                                    Text(question.desc.text)
-                                    ZStack(alignment: .center) {
-                                        Rectangle()
-                                            .frame(maxWidth: .infinity)
+                                    HStack {
+                                        Text(metaText)
+                                            .font(.custom("Pretendard-Regular", size: 11))
+                                            .foregroundColor(.Grayscale._500)
+
+                                        Spacer()
+                                    }
+
+                                    if question.desc.text.isEmpty == false {
+                                        Text(question.desc.text)
+                                    }
+
+                                    if question.code.isEmpty == false {
+                                        ZStack(alignment: .center) {
+                                            Rectangle()
+                                                .frame(maxWidth: .infinity)
+                                                .background(Color.Grayscale._50)
+                                                .cornerRadius(12)
+
+                                            HStack {
+                                                CodeText(someCode, result: result)
+                                                    .onHighlightSuccess { result in
+                                                        self.result = result
+                                                    }
+                                                    .font(.caption2)
+                                                    .lineSpacing(10)
+                                                    .background(.clear)
+                                                    .padding(.horizontal, 10)
+                                                    .padding(.vertical, 10)
+
+                                                Spacer()
+                                            }
                                             .background(Color.Grayscale._50)
                                             .cornerRadius(12)
-
-                                        HStack {
-                                            CodeText(someCode, result: result)
-//                                                .codeTextStyle(CodeTextStyle.)
-//                                                .codeTextColors(.custom(dark: .light(.github), light: .light(.github)))
-        //                                        .font(.callout)
-//                                                .highlightLanguage(.c)
-                                                .onHighlightSuccess { result in
-                                                    self.result = result
-                                                }
-                                                .font(.caption2)
-                                                .lineSpacing(10)
-                                                .background(.clear)
-                                                .padding(.horizontal, 10)
-                                                .padding(.vertical, 10)
-
-                                            Spacer()
                                         }
                                         .background(Color.Grayscale._50)
                                         .cornerRadius(12)
                                     }
-                                    .background(Color.Grayscale._50)
-                                    .cornerRadius(12)
 
-
+                                    /*
                                     Image(uiImage: UIImage(resource: .init(name: "image_1", bundle: .main)))
                                         .frame(maxWidth: .infinity)
                                         .padding(.horizontal, 20)
@@ -123,6 +142,7 @@ public struct FeatureQuizPlayView: View {
                                                 ZoomableImageView(image: UIImage(named: "image_1") ?? UIImage())
                                             }
                                         )
+                                    */
                                 }
                                 // .padding(16)
                                 .padding(.horizontal, 16)

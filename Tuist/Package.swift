@@ -39,5 +39,6 @@ let package = Package(
         .package(url: "https://github.com/firebase/firebase-ios-sdk", from: "11.6.0"),
         .package(url: "https://github.com/siteline/swiftui-introspect", from: "1.0.0"),
         .package(url: "https://github.com/appstefan/highlightswift.git", from: "1.1.0"),
+        .package(url: "https://github.com/mixpanel/mixpanel-swift", from: "2.8.0"),
     ]
 )

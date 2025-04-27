@@ -14,6 +14,7 @@ public struct MainTabView: View {
     @State private var selectedTab = "gnb_exercise"
 
     @Dependency(\.firebaseLogger) var firebaseLogger
+    @Dependency(\.mixpanelLogger) var mixpanelLogger
 
     public init(
         store: StoreOf<RootFeature>
@@ -105,6 +106,13 @@ public struct MainTabView: View {
                         sessionID: ""
                     ).parameters
                 )
+
+            mixpanelLogger.log(
+                "Gnb_Click",
+                parameters: [
+                    "clickTarget": newValue
+                ]
+            )
             print("탭이 변경되었어: \(newValue)")
         }
     }

@@ -24,8 +24,9 @@ public final class QuestionItem {
     public var choice4: RichContent
 
     public var desc: RichContent
+    public var code: String
     public var answer: Int
-    public var explanation: String
+    public var explanation: RichContent
 
     public var viewCount: Int
     public var version: Int
@@ -47,8 +48,9 @@ public final class QuestionItem {
         choice3: RichContent,
         choice4: RichContent,
         desc: RichContent,
+        code: String,
         answer: Int,
-        explanation: String,
+        explanation: RichContent,
         viewCount: Int = 0,
         version: Int
     ) {
@@ -62,6 +64,7 @@ public final class QuestionItem {
         self.choice3 = choice3
         self.choice4 = choice4
         self.desc = desc
+        self.code = code
         self.answer = answer
         self.explanation = explanation
         self.viewCount = viewCount

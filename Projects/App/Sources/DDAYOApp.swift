@@ -6,12 +6,21 @@ import Model
 import Service
 import SwiftData
 import SwiftUI
+import Mixpanel
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         FirebaseApp.configure()
-        Analytics.logEvent("test_event", parameters: ["dummy": "value"])
+        // d1466888a5a3d7e109e760ecda62f46f
+//        Mixpanel.initialize(token: "d1466888a5a3d7e109e760ecda62f46f", automaticPushTracking: true)
+//        Mixpanel.mainInstance().flushInterval = 1
+//        Mixpanel.mainInstance().track(event: "Sign Up", properties: [
+//           "source": "Pat's affiliate site",
+//           "Opted out of email": true
+//        ])
+        // MixpanelLogger().log("Logging Test!")
+
         return true
     }
 }
@@ -42,6 +51,7 @@ struct DDAYOApp: App {
                 $0.modelContext = modelContainer.mainContext
                 $0.conceptService = ConceptService()
                 $0.firebaseLogger = firebaseLogger
+                $0.mixpanelLogger = MixpanelLogger()
             } operation: {
                 MainTabView(
                     store: Store(initialState: RootFeature.State()) {

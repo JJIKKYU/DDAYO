@@ -24,7 +24,7 @@ public struct FeatureSearchMainView: View {
                 HStack(spacing: 12) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                            .stroke(Color.Green._500, lineWidth: 1)
                             .background(Color.white)
 
                         HStack(alignment: .center) {

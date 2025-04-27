@@ -30,8 +30,9 @@ extension QuestionItemDTO {
             choice3: convertRich(choice3),
             choice4: convertRich(choice4),
             desc: convertRich(desc),
+            code: code,
             answer: answer,
-            explanation: explanation,
+            explanation: convertRich(explanation),
             version: version
         )
     }

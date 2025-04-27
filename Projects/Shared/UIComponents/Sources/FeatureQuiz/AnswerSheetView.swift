@@ -151,7 +151,7 @@ public struct AnswerSheetView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.top, 20)
 
-                        Text(question.explanation.forceCharWrapping)
+                        Text(question.explanation.text.forceCharWrapping)
                             .padding(.top, 10)
                             .font(.system(size: 15, weight: .regular))
                             .foregroundStyle(Color.Grayscale._700)

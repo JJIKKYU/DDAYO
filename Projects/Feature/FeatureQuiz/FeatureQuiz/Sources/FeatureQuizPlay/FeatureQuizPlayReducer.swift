@@ -16,6 +16,7 @@ import Service
 public struct FeatureQuizPlayReducer {
     @Dependency(\.modelContext) var modelContext
     @Dependency(\.firebaseLogger) var firebaseLogger
+    @Dependency(\.mixpanelLogger) var mixpanelLogger
 
     public init() {}
 
@@ -50,6 +51,9 @@ public struct FeatureQuizPlayReducer {
 
         // imageDetail
         var isImageDetailPresented: Bool = false
+
+        // 문제를 푸는데 걸리는 시간
+        var startTime: Date? = nil
 
         var quizPlayTitle: String {
             switch sourceType {
@@ -237,6 +241,24 @@ public struct FeatureQuizPlayReducer {
 
             case .toggleSheet(let isPresented):
                 state.isSheetPresented = isPresented
+
+                // bottomSheet이 뜰때 로깅
+                if isPresented {
+                    guard let question: QuestionItem = state.currentQuestion else { return .none }
+                    // Log
+                    let duration: TimeInterval = state.startTime.map { Date().timeIntervalSince($0) } ?? 0
+                    firebaseLogger.logEvent(
+                        .impression,
+                        parameters: FBImpParamBuilder()
+                            .add(.contentsType, value: "ques_answering")
+                            .add(.ai, value: question.questionType == .ai)
+                            .add(.quesIndex, value: state.questionIndex)
+                            .addIf(question.subject.isWrittenCase || question.subject.isPracticalCase, .subjectDetail, value: question.subject.logSubjectDetail)
+                            .addIf(question.subject.isPracticalLanguageCase, .languageDetail, value: question.subject.logSubjectDetail)
+                            .add(.duration, value: String(format: "%.2f", duration))
+                            .build()
+                    )
+                }
                 return .none
 
             case .confirmAnswer:
@@ -259,6 +281,21 @@ public struct FeatureQuizPlayReducer {
 
                     state.solvedCount += 1
                     question.selectedIndex = selectedIndex
+
+                    // Log
+                    let duration: TimeInterval = state.startTime.map { Date().timeIntervalSince($0) } ?? 0
+                    firebaseLogger.logEvent(
+                        .impression,
+                        parameters: FBImpParamBuilder()
+                            .add(.contentsType, value: "ques_answering")
+                            .add(.ai, value: question.questionType == .ai)
+                            .add(.quesIndex, value: state.questionIndex)
+                            .addIf(question.subject.isWrittenCase || question.subject.isPracticalCase, .subjectDetail, value: question.subject.logSubjectDetail)
+                            .addIf(question.subject.isPracticalLanguageCase, .languageDetail, value: question.subject.logSubjectDetail)
+                            .add(.duration, value: String(format: "%.2f", duration))
+                            .build()
+                    )
+
                     if isCorrect {
                         question.isCorrect = true
                         state.correctCount += 1
@@ -266,14 +303,27 @@ public struct FeatureQuizPlayReducer {
                     }
                     question.isCorrect = false
 
-                    return .run { send in
-                        await send(.toggleBookmarkTapped(isWrong: true))
-                    }
+                    return .send(.toggleBookmarkTapped(isWrong: true))
 
                 case .confirmAnswers:
-                    return .run { send in
-                        await send(.nextQuiz)
-                    }
+                    guard let question: QuestionItem = state.currentQuestion else { return .none }
+
+                    // Log
+                    let duration: TimeInterval = state.startTime.map { Date().timeIntervalSince($0) } ?? 0
+                    firebaseLogger.logEvent(
+                        .impression,
+                        parameters: FBImpParamBuilder()
+                            .add(.contentsType, value: "ques_result")
+                            .add(.ai, value: question.questionType == .ai)
+                            .add(.quesIndex, value: state.questionIndex)
+                            .addIf(question.subject.isWrittenCase || question.subject.isPracticalCase, .subjectDetail, value: question.subject.logSubjectDetail)
+                            .addIf(question.subject.isPracticalLanguageCase, .languageDetail, value: question.subject.logSubjectDetail)
+                            .add(.duration, value: String(format: "%.2f", duration))
+                            .build()
+                    )
+                    print("QuizPlayReducer :: confirmAnswers, duration = \(duration)")
+
+                    return .send(.nextQuiz)
 
                 case .solvedQuestion:
                     state.isSheetPresented = false
@@ -329,6 +379,7 @@ public struct FeatureQuizPlayReducer {
                 }
 
             case let .setCurrentQuestion(question, all):
+                // 문제 설정
                 state.currentQuestion = question
                 state.loadedQuestions = all
                 state.questionIndex = all.firstIndex(of: question) ?? 0
@@ -350,6 +401,22 @@ public struct FeatureQuizPlayReducer {
                     .init(number: 2, title: question.choice3.text),
                     .init(number: 3, title: question.choice4.text)
                 ]
+
+                let duration: TimeInterval = state.startTime.map { Date().timeIntervalSince($0) } ?? 0
+                firebaseLogger.logEvent(
+                    .impression,
+                    parameters: FBImpParamBuilder()
+                        .add(.contentsType, value: "ques")
+                        .add(.ai, value: question.questionType == .ai)
+                        .add(.quesIndex, value: state.questionIndex)
+                        .addIf(question.subject.isWrittenCase || question.subject.isPracticalCase, .subjectDetail, value: question.subject.logSubjectDetail)
+                        .addIf(question.subject.isPracticalLanguageCase, .languageDetail, value: question.subject.logSubjectDetail)
+                        .add(.duration, value: String(format: "%.2f", duration))
+                        .build()
+                )
+
+                // 문제 푸는 시간 초기화
+                state.startTime = Date()
 
                 let questionID = question.id
                 return .run { send in

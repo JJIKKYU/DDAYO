@@ -11,7 +11,7 @@ public enum QuizSubject: String, CaseIterable, Codable {
     case softwareDevelopment = "소프트웨어 개발"
     case databaseConstruction = "데이터베이스 구축"
     case programmingLanguage = "프로그래밍 언어 활용"
-    case informationSystemManagement = "정보시스템 구축 관리"
+    case informationSystemManagement = "정보 시스템 구축 관리"
 
     // 실기 과목
     case requirementsAnalysis = "요구사항 확인"
@@ -69,6 +69,18 @@ public extension QuizSubject {
         ]
     }
 
+    var isWrittenCase: Bool {
+        return QuizSubject.writtenCases.contains(self)
+    }
+
+    var isPracticalCase: Bool {
+        return QuizSubject.practicalCases.contains(self)
+    }
+
+    var isPracticalLanguageCase: Bool {
+        return QuizSubject.practicalLanguageCases.contains(self)
+    }
+
     var group: [QuizSubject] {
         if QuizSubject.writtenCases.contains(self) {
             return QuizSubject.writtenCases
@@ -91,6 +103,7 @@ public extension QuizSubject {
         }
     }
 
+    // 필기, 실기, 언어 별로 문제 풀기 과목 순서
     var index: Int {
         if let idx = QuizSubject.writtenCases.firstIndex(of: self) {
             return idx
@@ -100,6 +113,19 @@ public extension QuizSubject {
             return idx
         } else {
             return 0
+        }
+    }
+
+    // 로그용 디테일 String
+    var logSubjectDetail: String {
+        if let idx = QuizSubject.writtenCases.firstIndex(of: self) {
+            return "t\(idx)"
+        } else if let idx = QuizSubject.practicalCases.firstIndex(of: self) {
+            return "p\(idx)"
+        } else if QuizSubject.practicalLanguageCases.contains(self) {
+            return self.rawValue
+        } else {
+            return ""
         }
     }
 }

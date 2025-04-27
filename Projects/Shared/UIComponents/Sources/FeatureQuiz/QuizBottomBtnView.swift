@@ -61,6 +61,27 @@ public struct QuizBottomBtnView: View {
         }
     }
 
+    private func dynamicDetents(for question: QuestionItem?) -> Set<PresentationDetent> {
+        guard let question = question else {
+            return [.fraction(0.45), .medium, .large] // fallback
+        }
+
+        let totalCharacterCount = [
+            question.choice1.text,
+            question.choice2.text,
+            question.choice3.text,
+            question.choice4.text
+        ].reduce(0) { $0 + $1.count }
+
+        if totalCharacterCount <= 100 {
+            return [.fraction(0.45), .medium, .large]
+        } else if totalCharacterCount <= 200 {
+            return [.fraction(0.55), .medium, .large]
+        } else {
+            return [.medium, .large]
+        }
+    }
+
     public var body: some View {
         ZStack(alignment: .bottom) {
             Color.clear.ignoresSafeArea()
@@ -106,7 +127,8 @@ public struct QuizBottomBtnView: View {
                 onConfirmAnswer: onConfirmAnswer,
                 onSelectBookmark: onSelectBookmark
             )
-            .presentationDetents([.fraction(0.45), .medium, .large])
+            .presentationDetents(dynamicDetents(for: question))
+            // .presentationDetents([.fraction(0.45), .medium, .large])
         }
     }
 }
