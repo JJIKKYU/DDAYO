@@ -11,11 +11,11 @@ import SwiftData
 @Model
 public final class WrongAnswerItem {
     @Attribute(.unique) public var id: UUID
-    public var questionID: UUID
+    public var questionID: String
     public var selectedAnswerIndex: Int
     public var date: Date
 
-    public init(questionID: UUID, selectedAnswerIndex: Int, date: Date = .now) {
+    public init(questionID: String, selectedAnswerIndex: Int, date: Date = .now) {
         self.id = UUID()
         self.questionID = questionID
         self.selectedAnswerIndex = selectedAnswerIndex

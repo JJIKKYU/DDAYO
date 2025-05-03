@@ -10,7 +10,7 @@ import SwiftData
 
 @Model
 public final class ConceptItem {
-    @Attribute(.unique) public var id: UUID
+    @Attribute(.unique) public var id: String
     public var title: String
     public var desc: String
     public var views: Int
@@ -19,7 +19,7 @@ public final class ConceptItem {
     public var subjectId: Int
 
     public init(
-        id: UUID = UUID(),
+        id: String,
         title: String,
         desc: String,
         views: Int,
@@ -43,7 +43,7 @@ public extension Array where Element == ConceptItem {
     func sortedByDefault() -> [ConceptItem] {
         return self.sorted {
             if $0.subjectId == $1.subjectId {
-                return $0.id.uuidString < $1.id.uuidString
+                return $0.id < $1.id
             } else {
                 return $0.subjectId < $1.subjectId
             }

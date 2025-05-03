@@ -9,18 +9,13 @@ import Foundation
 
 extension QuestionItemDTO {
     public func toModel() -> QuestionItem? {
-        guard let uuid = UUID(uuidString: id)
-        else {
-            return nil
-        }
-
         func convertRich(_ dto: RichContentDTO) -> RichContent {
             let images = dto.images.map { ImageItem(data: $0.data) }
             return RichContent(text: dto.text, images: images)
         }
 
         return QuestionItem(
-            id: uuid,
+            id: id,
             title: title,
             subject: subject,
             questionType: questionType,

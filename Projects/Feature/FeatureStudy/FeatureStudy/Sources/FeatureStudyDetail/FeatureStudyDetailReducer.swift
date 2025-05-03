@@ -113,7 +113,7 @@ public struct FeatureStudyDetailReducer {
                 }
 
                 return .run { send in
-                    let conceptID: UUID = currentItem.id
+                    let conceptID: String = currentItem.id
 
                     let predicate = #Predicate<BookmarkItem> {
                         $0.questionID == conceptID
@@ -186,7 +186,7 @@ extension FeatureStudyDetailReducer {
 
         state.currentIndex = newIndex
         guard let currentItem = state.currentItem else { return .none }
-        let currentItemId: UUID = currentItem.id
+        let currentItemId: String = currentItem.id
 
         return .run { send in
             await MainActor.run {

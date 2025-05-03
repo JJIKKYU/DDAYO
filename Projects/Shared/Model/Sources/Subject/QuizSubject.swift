@@ -10,7 +10,7 @@ public enum QuizSubject: String, CaseIterable, Codable {
     case softwareDesign = "소프트웨어 설계"
     case softwareDevelopment = "소프트웨어 개발"
     case databaseConstruction = "데이터베이스 구축"
-    case programmingLanguage = "프로그래밍 언어 활용"
+    case programmingLanguageWritten = "프로그래밍 언어 활용"
     case informationSystemManagement = "정보 시스템 구축 관리"
 
     // 실기 과목
@@ -23,15 +23,46 @@ public enum QuizSubject: String, CaseIterable, Codable {
     case applicationTesting = "애플리케이션테스트 관리"
     case sqlApplication = "SQL 응용"
     case softwareSecurity = "소프트웨어 개발 보안 구축"
+    case programmingLanguagePractical = "프로그래밍 언어 활용_실기"
     case basicApplicationTech = "응용SW기초 기술 활용"
     case softwarePackaging = "제품소프트웨어 패키징"
 
     // 실기 언어 과목
-    case c = "c"
-    case cpp = "cpp"
-    case java = "java"
-    case python = "python"
+    case c = "프로그래밍 언어 활용_실기_C"
+    case cpp = "프로그래밍 언어 활용_실기_Cpp"
+    case java = "프로그래밍 언어 활용_실기_JAVA"
+    case python = "프로그래밍 언어 활용_실기_Python"
 }
+
+// MARK: - DisplayName
+public extension QuizSubject {
+    var displayName: String {
+        switch self {
+        case .c:
+            return "C"
+
+        case .cpp:
+            return "C++"
+
+        case .java:
+            return "Java"
+
+        case .python:
+            return "Python"
+
+        case .programmingLanguageWritten,
+             .programmingLanguagePractical:
+            return "프로그래밍 언어 활용"
+
+        default:
+            return self.rawValue
+                .replacingOccurrences(of: "_필기", with: "")
+                .replacingOccurrences(of: "_실기", with: "")
+        }
+    }
+}
+
+// MARK: - Case
 
 public extension QuizSubject {
     static var writtenCases: [QuizSubject] {
@@ -39,7 +70,7 @@ public extension QuizSubject {
             .softwareDesign,
             .softwareDevelopment,
             .databaseConstruction,
-            .programmingLanguage,
+            .programmingLanguageWritten,
             .informationSystemManagement
         ]
     }
@@ -55,6 +86,7 @@ public extension QuizSubject {
             .applicationTesting,
             .sqlApplication,
             .softwareSecurity,
+            .programmingLanguagePractical,
             .basicApplicationTech,
             .softwarePackaging
         ]

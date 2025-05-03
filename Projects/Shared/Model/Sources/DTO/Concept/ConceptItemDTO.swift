@@ -8,7 +8,7 @@
 import Foundation
 
 public struct ConceptItemDTO: Identifiable, Codable, Equatable, Hashable {
-    public var id: UUID // 고유 ID
+    public var id: String // 고유 ID
     public let title: String // 개념 이름
     public let description: String // 개념 요약
     public let views: Int // 조회수
@@ -17,7 +17,7 @@ public struct ConceptItemDTO: Identifiable, Codable, Equatable, Hashable {
     public let mnemonics: [String] // 암기어 배열
 
     public init(
-        id: UUID = UUID(),
+        id: String,
         title: String,
         description: String,
         views: Int,

@@ -15,13 +15,13 @@ public final class BookmarkItem {
     public var type: BookmarkTabType
     public var reason: BookmarkReason
 
-    public var questionID: UUID  // 북마크한 문제의 UUID
+    public var questionID: String
     public var date: Date
 
     public init(
         id: UUID = UUID(),
         date: Date = Date(),
-        questionID: UUID,
+        questionID: String,
         type: BookmarkTabType,
         reason: BookmarkReason
     ) {

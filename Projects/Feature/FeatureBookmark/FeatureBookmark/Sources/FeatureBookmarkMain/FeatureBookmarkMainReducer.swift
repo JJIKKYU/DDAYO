@@ -40,7 +40,9 @@ public struct FeatureBookmarkMainReducer {
                 .filter({ $0.reason == .wrong })
                 .map { $0.questionID })
 
-            let questionMap = Dictionary(uniqueKeysWithValues: allQuestions.map { ($0.id, $0) })
+            let questionMap: [String: QuestionItem] = Dictionary(
+                uniqueKeysWithValues: allQuestions.map { ($0.id, $0) }
+            )
 
             return bookmarked.compactMap { bookmark in
                 guard let question = questionMap[bookmark.questionID] else { return nil }
@@ -73,12 +75,12 @@ public struct FeatureBookmarkMainReducer {
             }
         }
         var bookmarkFeedItems: [BookmarkFeedItem] {
-            let bookmarkedIDs = Set(
+            let bookmarkedIDs: Set<String> = Set(
                 bookmarkItems
                     .filter { $0.type == .문제 }
                     .map { $0.questionID }
             )
-            let wrongAnswerIDs = Set(
+            let wrongAnswerIDs: Set<String> = Set(
                 bookmarkItems
                     .filter { $0.type == .문제 && $0.reason == .wrong }
                     .map { $0.questionID }
@@ -91,7 +93,7 @@ public struct FeatureBookmarkMainReducer {
                     let tags: [String] = $0.tags(isWrong: isWrong)
 
                     return BookmarkFeedItem(
-                        category: $0.subject.rawValue,
+                        category: $0.subject.displayName,
                         title: $0.title,
                         views: "\($0.viewCount)",
                         tags: tags,
@@ -335,7 +337,7 @@ public struct FeatureBookmarkMainReducer {
                 switch state.selectedTab {
                 case .문제:
                     guard let item: QuestionItem = state.filteredQuestions[safe: index] else { return .none }
-                    let questionID: UUID = item.id
+                    let questionID: String = item.id
                     return .run { send in
                         let isBookmarked: Bool = try await MainActor.run {
                             let predicate = #Predicate<BookmarkItem> {
@@ -358,7 +360,7 @@ public struct FeatureBookmarkMainReducer {
 
                 case .개념:
                     guard let item: ConceptItem = state.filteredConceptItems[safe: index] else { return .none }
-                    let conceptID: UUID = item.id
+                    let conceptID: String = item.id
                     return .run { send in
                         let isBookmarked: Bool = try await MainActor.run {
                             let predicate = #Predicate<BookmarkItem> {

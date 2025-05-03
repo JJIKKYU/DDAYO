@@ -39,21 +39,21 @@ public struct FeatureSearchMainReducer {
         public var matchedQuestionItems: [QuestionItem] = []
 
         public var questionFeedItems: [BookmarkFeedItem] {
-            let bookmarkedIDs: Set<UUID> = Set(
+            let bookmarkedIDs: Set<String> = Set(
                 allBookmarkItems.map { $0.questionID }
             )
-            let wrongAnswerIDs: Set<UUID> = Set(
+            let wrongAnswerIDs: Set<String> = Set(
                 allBookmarkItems
                     .filter({ $0.type == .문제 && $0.reason == .wrong})
                     .map { $0.questionID }
             )
             return matchedQuestionItems.map {
-                let isWrong = wrongAnswerIDs.contains($0.id)
+                let isWrong: Bool = wrongAnswerIDs.contains($0.id)
                 let isBookmarked = bookmarkedIDs.contains($0.id)
                 let tags: [String] = $0.tags(isWrong: isWrong)
 
                 return BookmarkFeedItem(
-                    category: $0.subject.rawValue,
+                    category: $0.subject.displayName,
                     title: $0.title,
                     views: "\($0.viewCount)",
                     tags: tags,
@@ -100,7 +100,7 @@ public struct FeatureSearchMainReducer {
 
         // Bookmark
         case toggleBookmark(index: Int)
-        case updateBookmarkStatus(index: Int, isBookmarked: Bool, itemId: UUID)
+        case updateBookmarkStatus(index: Int, isBookmarked: Bool, itemId: String)
 
         // 검색 결과를 선택했을때
         case selectCardView(index: Int)
@@ -344,7 +344,7 @@ public struct FeatureSearchMainReducer {
                 case .quiz:
                     guard state.matchedQuestionItems.indices.contains(index) else { return .none }
                     let item: QuestionItem = state.matchedQuestionItems[index]
-                    let questionItemId: UUID = item.id
+                    let questionItemId: String = item.id
                     let predicate: Predicate<BookmarkItem> = #Predicate<BookmarkItem> { $0.questionID == questionItemId }
 
                     return .run { send in
@@ -369,7 +369,7 @@ public struct FeatureSearchMainReducer {
                 case .study:
                     guard state.matchedConceptItems.indices.contains(index) else { return .none }
                     let item: ConceptItem = state.matchedConceptItems[index]
-                    let conceptItemId: UUID = item.id
+                    let conceptItemId: String = item.id
                     let predicate: Predicate<BookmarkItem> = #Predicate<BookmarkItem> { $0.questionID == conceptItemId }
 
                     if let existing: BookmarkItem = try? modelContext.fetch(FetchDescriptor<BookmarkItem>(predicate: predicate)).first {

@@ -65,7 +65,7 @@ public struct FeatureQuizPlayView: View {
 
                             let metaText: String = {
                                 var parts: [String] = []
-                                parts.append(question.subject.rawValue)
+                                parts.append(question.subject.displayName)
                                 if let date = question.date, !date.isEmpty {
                                     parts.append(date)
                                 }
@@ -106,7 +106,7 @@ public struct FeatureQuizPlayView: View {
                                                 .cornerRadius(12)
 
                                             HStack {
-                                                CodeText(someCode, result: result)
+                                                CodeText(question.code, result: result)
                                                     .onHighlightSuccess { result in
                                                         self.result = result
                                                     }

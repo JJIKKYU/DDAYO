@@ -32,7 +32,7 @@ public struct FeatureQuizSubjectView: View {
 
                 ScrollView {
                     ForEach(viewStore.displayedSubjects, id: \.self) { subject in
-                        QuizButton(title: subject.rawValue) {
+                        QuizButton(title: subject.displayName) {
                             viewStore.send(.navigateToQuizPlay(subject, viewStore.selectedQuestionType))
                         }
                         .padding(.horizontal, 20)

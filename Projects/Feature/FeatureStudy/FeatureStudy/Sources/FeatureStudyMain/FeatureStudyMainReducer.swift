@@ -116,7 +116,7 @@ public struct FeatureStudyMainReducer {
                             }
 
                             if lhs.subjectId == rhs.subjectId {
-                                return lhs.id.uuidString < rhs.id.uuidString
+                                return lhs.id < rhs.id
                             } else {
                                 return lhs.subjectId < rhs.subjectId
                             }
@@ -176,7 +176,7 @@ public struct FeatureStudyMainReducer {
 
             case .selectRecentItem:
                 // 현재까지 본 아이템이 있을 경우에만
-                guard let recentItemId: UUID = state.recentFeedItem?.originConceptItem?.id else {
+                guard let recentItemId: String = state.recentFeedItem?.originConceptItem?.id else {
                     return .none
                 }
                 // 현재까지본 아이템의 id와 전체 리스트 id를 비교해서 index를 찾는다.
@@ -197,7 +197,7 @@ public struct FeatureStudyMainReducer {
             case let .loadConcepts(items):
                 state.allConcepts = items
                 let bookmarkedIDs = try? modelContext.fetch(FetchDescriptor<BookmarkItem>()).map(\.questionID)
-                let bookmarkedSet = Set(bookmarkedIDs ?? [])
+                let bookmarkedSet: Set<String> = Set(bookmarkedIDs ?? [])
                 state.conceptFeedItems = items.map {
                     BookmarkFeedItem(
                         category: $0.subject,

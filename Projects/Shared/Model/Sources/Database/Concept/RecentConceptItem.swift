@@ -11,12 +11,12 @@ import SwiftData
 @Model
 public final class RecentConceptItem {
     @Attribute(.unique) public var id: UUID
-    public var conceptId: UUID
+    public var conceptId: String
     public var viewedAt: Date
 
     public init(
         id: UUID = UUID(),
-        conceptId: UUID,
+        conceptId: String,
         viewedAt: Date = .now
     ) {
         self.id = id

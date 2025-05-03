@@ -8,7 +8,7 @@
 import Foundation
 
 public struct BookmarkFeedItem: Identifiable, Equatable, Hashable {
-    public let id = UUID()
+    public let id: String = UUID().uuidString
     public let category: String
     public let title: String
     public let views: String

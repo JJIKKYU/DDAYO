@@ -100,6 +100,7 @@ public struct ConceptListCell: View {
 struct ConceptListView_Previews: PreviewProvider {
     static var previews: some View {
         let concept: ConceptItem = .init(
+            id: "id",
             title: "개념 학습 1",
             desc: "내용입니다.",
             views: 0,

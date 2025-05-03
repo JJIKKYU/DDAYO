@@ -11,7 +11,7 @@ import SwiftData
 @Model
 public final class QuestionItem {
     @Attribute(.unique)
-    public var id: UUID
+    public var id: String
 
     public var title: String
     public var subjectRawValue: String
@@ -38,7 +38,7 @@ public final class QuestionItem {
     public var selectedIndex: Int? = nil
 
     public init(
-        id: UUID = UUID(),
+        id: String,
         title: String,
         subject: QuizSubject,
         questionType: QuestionType,

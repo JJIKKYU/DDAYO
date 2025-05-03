@@ -269,7 +269,18 @@ public struct FeatureQuizPlayReducer {
                           let question = state.currentQuestion else {
                         return .none
                     }
-                    let isCorrect: Bool = (selectedIndex == question.answer - 1)
+                    print("Play :: 실기여부 = \(question.subject.isPracticalCase)")
+
+                    // 실기 문제의 경우에는 정답만 노출한다.
+                    var isCorrect: Bool = false
+                    if question.subject.isPracticalCase || question.subject.isPracticalLanguageCase {
+                        isCorrect = true
+                        state.selectedIndex = 0
+                    }
+                    // 필기 문제의 경우에는 사용자 답변을 받는다.
+                    else {
+                        isCorrect = (selectedIndex == question.answer - 1)
+                    }
                     state.isCorrect = isCorrect
 
                     // 검색 결과로 보고 있는 화면이라면 바로 step 조절
@@ -386,13 +397,21 @@ public struct FeatureQuizPlayReducer {
                 state.isSheetPresented = false
                 state.selectedIndex = nil
                 state.isCorrect = nil
-                state.step = .showAnswers
+
                 if let isCorrect: Bool = question.isCorrect {
                     state.step = .solvedQuestion(isCorrect: isCorrect)
                     state.selectedIndex = question.selectedIndex
                     state.isCorrect = isCorrect
                 } else {
                     state.isCorrect = false
+                }
+
+                if question.subject.isPracticalCase || question.subject.isPracticalLanguageCase {
+                    state.step = .confirmAnswers
+                    state.selectedIndex = 0
+                    state.isCorrect = true
+                } else {
+                    state.step = .showAnswers
                 }
 
                 state.answers = [
@@ -418,7 +437,7 @@ public struct FeatureQuizPlayReducer {
                 // 문제 푸는 시간 초기화
                 state.startTime = Date()
 
-                let questionID = question.id
+                let questionID: String = question.id
                 return .run { send in
                     let isBookmarked: Bool = try await MainActor.run {
                         let bookmarkPredicate = #Predicate<BookmarkItem> {
@@ -509,7 +528,7 @@ public struct FeatureQuizPlayReducer {
                 }
 
                 return .run { send in
-                    let questionID = question.id
+                    let questionID: String = question.id
 
                     let isBookmarked = try await MainActor.run {
                         let predicate = #Predicate<BookmarkItem> {
