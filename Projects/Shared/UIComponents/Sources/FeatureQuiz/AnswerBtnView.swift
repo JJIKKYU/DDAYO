@@ -95,6 +95,7 @@ public struct AnswerBtnView: View {
                     .font(.system(size: 15, weight: .medium))
                     .foregroundColor(textColor)
                     .padding(.vertical, 15)
+                    .lineSpacing(4.5)
 
                 Spacer()
 

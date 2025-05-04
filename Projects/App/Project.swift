@@ -24,16 +24,20 @@ let project = Project(
             ),
             sources: ["./Sources/**"],
             resources: ["./Resources/**"],
+            entitlements: .file(path: .path("./DDAYO.entitlements")),
             dependencies: [
 //                .external(name: "ComposableArchitecture", condition: nil),
                 .external(name: "FirebaseAnalytics", condition: nil),
                 .external(name: "FirebaseFirestore", condition: nil),
+                .external(name: "FirebaseAuth", condition: nil),
 
                 // Feature
                 .project(target: "FeatureQuiz", path: "../Feature/FeatureQuiz", status: .required, condition: nil),
                 .project(target: "FeatureStudy", path: "../Feature/FeatureStudy", status: .required, condition: nil),
                 .project(target: "FeatureBookmark", path: "../Feature/FeatureBookmark", status: .required, condition: nil),
                 .project(target: "FeatureSearch", path: "../Feature/FeatureSearch", status: .required, condition: nil),
+                .project(target: "FeatureAuth", path: "../Feature/FeatureAuth", status: .required, condition: nil),
+                .project(target: "FeatureProfile", path: "../Feature/FeatureProfile", status: .required, condition: nil),
 
                 // Shared
                 .project(target: "UIComponents", path: "../Shared/UIComponents", status: .required, condition: nil),

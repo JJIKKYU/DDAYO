@@ -8,12 +8,14 @@
 import SwiftUI
 
 public enum NaviBarType {
+    case authName       // (백버튼)
     case main           // (타이틀만, 왼쪽 정렬)
     case quiz           // (백버튼 + 타이틀 + 닫기 버튼)
     case quizPlay       // (백버튼 + 타이틀 + 닫기 버튼)
     case search         // (검색 필드 + 닫기 버튼)
     case study          // (타이틀, 검색버튼)
     case studyDetail    // (타이틀, 닫기 버튼)
+    case profile        // (백버튼, 타이틀)
 }
 
 public struct NaviBar: View {
@@ -64,6 +66,32 @@ public struct NaviBar: View {
     @ViewBuilder
     private var navBarContent: some View {
         switch type {
+        case .authName:
+            if let leading1 = leading1 {
+                Button(action: leading1) {
+                    Image(systemName: "chevron.left")
+                        .foregroundColor(.Grayscale._900)
+                }
+            }
+
+            Spacer()
+
+        case .profile:
+            if let leading1 = leading1 {
+                Button(action: leading1) {
+                    Image(systemName: "chevron.left")
+                        .foregroundColor(.Grayscale._900)
+                }
+            }
+
+            Spacer()
+
+            Text(title)
+                .font(.system(size: 16, weight: .medium))
+                .foregroundColor(.Grayscale._900)
+
+            Spacer()
+
         case .main:
             // ✅ 메인: 타이틀만 왼쪽 정렬
             Text(title)

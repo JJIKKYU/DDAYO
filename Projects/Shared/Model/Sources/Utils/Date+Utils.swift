@@ -9,28 +9,30 @@ import Foundation
 
 public extension Date {
     var relativeDescription: String {
-        let calendar = Calendar.current
-        let now = Date()
-        let components = calendar.dateComponents([.minute, .hour, .day], from: self, to: now)
+        let secondsAgo = -self.timeIntervalSinceNow
+        let minute = Int(secondsAgo / 60)
+        let hour = Int(secondsAgo / 3600)
+        let day = Int(secondsAgo / 86400)
 
-        if let minute = components.minute, minute < 1 {
+        if secondsAgo < 60 {
             return "방금 전"
-        } else if let minute = components.minute, minute < 60 {
+        } else if minute < 60 {
             return "\(minute)분 전"
-        } else if let hour = components.hour, hour < 24 {
+        } else if hour < 24 {
             return "\(hour)시간 전"
-        } else if calendar.isDateInYesterday(self) {
-            return "어제"
-        } else if let day = components.day {
-            if day == 2 {
+        } else {
+            let calendar = Calendar.current
+            if calendar.isDateInYesterday(self) {
+                return "어제"
+            } else if day == 2 {
                 return "그저께"
             } else if day <= 13 {
                 return "\(day)일 전"
+            } else {
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yy.MM.dd"
+                return formatter.string(from: self)
             }
         }
-
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yy.MM.dd"
-        return formatter.string(from: self)
     }
 }

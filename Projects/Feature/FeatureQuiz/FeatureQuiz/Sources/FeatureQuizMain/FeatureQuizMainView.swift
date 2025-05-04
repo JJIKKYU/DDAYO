@@ -31,7 +31,8 @@ public struct FeatureQuizMainView: View {
                         get: \.selectedTab,
                         send: FeatureQuizMainReducer.Action.selectTab
                     ),
-                    onSelectSearch: { viewStore.send(.navigateToSearch(.quiz(viewStore.selectedTab))) }
+                    onSelectSearch: { viewStore.send(.navigateToSearch(.quiz(viewStore.selectedTab))) },
+                    onSelectMenu: { viewStore.send(.navigateToProfileMain)}
                 )
 
                 TabView(
@@ -46,6 +47,7 @@ public struct FeatureQuizMainView: View {
                                         let section = sections[index]
                                         ExamSectionView(
                                             title: section.title,
+                                            isAi: section.isAi,
                                             subtitle: section.subtitle,
                                             buttons: section.buttons.map { button in
                                                 (title: button.title, action: { viewStore.send(.navigateToQuizSubject(.필기, section.questionType, button.option)) }
@@ -68,6 +70,7 @@ public struct FeatureQuizMainView: View {
                                         let section = sections[index]
                                         ExamSectionView(
                                             title: section.title,
+                                            isAi: section.isAi,
                                             subtitle: section.subtitle,
                                             buttons: section.buttons.map { button in
                                                 (title: button.title, action: { viewStore.send(.navigateToQuizSubject(.실기, section.questionType, button.option)) }

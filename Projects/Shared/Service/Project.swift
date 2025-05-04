@@ -14,6 +14,8 @@ let project = Project(
             dependencies: [
                 .external(name: "ComposableArchitecture", condition: nil),
                 .external(name: "Mixpanel", condition: nil),
+                .external(name: "FirebaseAnalytics", condition: nil),
+                .external(name: "FirebaseFirestore", condition: nil),
 
                 .project(target: "Model", path: "../Model", status: .required, condition: nil)
             ],

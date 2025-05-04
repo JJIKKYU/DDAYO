@@ -15,18 +15,32 @@ import FirebaseFirestore
 import Service
 import SwiftData
 import DI
+import FeatureAuth
+import FeatureProfile
+
+enum AppRoute {
+    case splash
+    case login
+    case main
+}
 
 @Reducer
 public struct RootFeature {
     @Dependency(\.questionService) var questionService
     @Dependency(\.modelContext) var modelContext
     @Dependency(\.conceptService) var conceptService
+    @Dependency(\.firebaseAuth) var firebaseAuth
 
     @ObservableState
     public struct State {
         public var questions: [QuestionItem] = []
 
         var routing = RootRoutingReducer.State()
+        var appState: AppRoute = .splash
+
+        /// FeatureAuth
+        var featureAuth = AuthFeatureReducer.State()
+        var featureAuthName = FeatureAuthNameReducer.State()
 
         /// FeatureQuiz
         var featureQuizMain = FeatureQuizMainReducer.State()
@@ -42,15 +56,25 @@ public struct RootFeature {
 
         /// FeatureSearch
         var featureSearchMain = FeatureSearchMainReducer.State()
+
+        /// FeatureProfile
+        var featureProfileMain = FeatureProfileMainReducer.State()
     }
 
     public enum Action {
         case task  // 앱 진입 시 호출
+        case syncInitialData
+        case checkAuthResult(FirebaseUser?)
+
         case fetchQuestionsResponse(Result<[QuestionItem], Error>)
 
         case routing(RootRoutingReducer.Action)
         case clickFeatureQuiz
         case path(StackActionOf<Path>)
+
+        /// FeatureAuth
+        case featureAuth(AuthFeatureReducer.Action)
+        case featureAuthName(FeatureAuthNameReducer.Action)
 
         /// FeatureQuiz
         case featureQuizMain(FeatureQuizMainReducer.Action)
@@ -66,6 +90,9 @@ public struct RootFeature {
 
         /// FeatureSearch
         case featureSearchMain(FeatureSearchMainReducer.Action)
+
+        /// FeatureProfile
+        case featureProfileMain(FeatureProfileMainReducer.Action)
     }
 
     public var body: some ReducerOf<Self> {
@@ -73,6 +100,22 @@ public struct RootFeature {
             Reduce { state, action in
                 switch action {
                 case .task:
+                    // 앱 시작시 로그인 여부 확인
+                    let user = firebaseAuth.getCurrentUser()
+                    return .send(.checkAuthResult(user))
+
+                case .checkAuthResult(let user):
+                    print("RootFeature :: user = \(user)")
+                    if let user {
+                        // 로그인이 되어 있을 경우에 데이터 초기화
+                        state.appState = .main
+                        return .send(.syncInitialData)
+                    } else {
+                        // 로그인 필요
+                        state.appState = .login
+                    }
+
+                case .syncInitialData:
                     return .run { send in
                         // 1. 개념 데이터를 먼저 처리
                         await MainActor.run {
@@ -80,7 +123,7 @@ public struct RootFeature {
                                 _ = try conceptService.loadConceptsAndSyncWithLocal(context: modelContext)
                                 _ = try questionService.loadQuestionsAndSyncWithLocal(context: modelContext)
                             } catch {
-                                print("❌ Concept sync error: \(error)")
+                                print("❌ 데이터 싱크가 실패했습니다.")
                             }
                         }
                     }
@@ -146,6 +189,32 @@ public struct RootFeature {
                             break
                         }
 
+                    case .featureAuthName(let authAction):
+                        switch authAction {
+                        case .pressedBackBtn:
+                            return .send(.routing(.pop))
+
+                        case .navigateToMain:
+                            state.appState = .main
+                            return .send(.routing(.pop))
+
+                        default:
+                            break
+                        }
+
+                    case .featureProfileMain(let profileAction):
+                        switch profileAction {
+                        case .pressedBackBtn:
+                            return .send(.routing(.pop))
+
+                        case .navigateToAuthView:
+                            state.appState = .login
+                            return .send(.routing(.pop))
+
+                        default:
+                            break
+                        }
+
                     default:
                         break
                     }
@@ -174,6 +243,9 @@ public struct RootFeature {
 
                     case .navigateToSearch(let source):
                         return .send(.routing(.push(.featureSearchMain(.init(source: source)))))
+
+                    case .navigateToProfileMain:
+                        return .send(.routing(.push(.featureProfileMain(.init()))))
 
                     default:
                         return .none
@@ -218,6 +290,21 @@ public struct RootFeature {
                         return .none
                     }
 
+                case .featureAuth(let action):
+                    print("RootFeature :: AuthFeature = \(action)")
+                    switch action {
+                    case .signInCompleted(let user):
+                        state.appState = .main
+                        return .none
+
+                    case .navigateToAuthNameView:
+                        return .send(.routing(.push(.featureAuthName(.init()))))
+
+                    default:
+                        break
+                    }
+                    return .none
+
                 default:
                     return .none
                 }
@@ -227,6 +314,10 @@ public struct RootFeature {
 
             // ✅ 내비게이션 관련 로직을 제거하고, RoutingReducer로 위임
             Scope(state: \.routing, action: \.routing) { RootRoutingReducer() }
+
+            /// FeatureAuth
+            Scope(state: \.featureAuth, action: \.featureAuth) { AuthFeatureReducer() }
+            Scope(state: \.featureAuthName, action: \.featureAuthName) { FeatureAuthNameReducer() }
 
             /// FeatureQuiz
             Scope(state: \.featureQuizMain, action: \.featureQuizMain) { FeatureQuizMainReducer() }
@@ -242,6 +333,9 @@ public struct RootFeature {
 
             /// FeatureSearchMain
             Scope(state: \.featureSearchMain, action: \.featureSearchMain, child: { FeatureSearchMainReducer() })
+
+            /// FeatureProfileMain
+            Scope(state: \.featureProfileMain, action: \.featureProfileMain, child: { FeatureProfileMainReducer() })
         }
     }
 

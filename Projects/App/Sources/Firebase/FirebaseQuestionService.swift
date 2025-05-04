@@ -49,18 +49,20 @@ public struct FirebaseQuestionService: QuestionServiceProtocol {
             print("🔄 새로운 번들 버전으로 기존 문제들을 업데이트합니다...")
             for dto in bundleData.items {
                 guard let model = dto.toModel() else { continue }
+                var newModel = model
                 let id: String = model.id
                 if let existing = existingItemsMap[id] {
                     if model.version > existing.version {
+                        newModel.viewCount = existing.viewCount
                         context.delete(existing)
-                        context.insert(model)
-                        updatedItems.append(model)
+                        context.insert(newModel)
+                        updatedItems.append(newModel)
                     } else {
                         updatedItems.append(existing)
                     }
                 } else {
-                    context.insert(model)
-                    updatedItems.append(model)
+                    context.insert(newModel)
+                    updatedItems.append(newModel)
                 }
             }
 

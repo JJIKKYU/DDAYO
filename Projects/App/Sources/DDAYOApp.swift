@@ -7,6 +7,7 @@ import Service
 import SwiftData
 import SwiftUI
 import Mixpanel
+import FeatureAuth
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
@@ -44,6 +45,7 @@ struct DDAYOApp: App {
     }()
 
     @State private var firebaseLogger: FirebaseLoggerProtocol = FirebaseLogger()
+    @State private var showSplash = true
 
     var body: some Scene {
         WindowGroup {
@@ -52,7 +54,14 @@ struct DDAYOApp: App {
                 $0.conceptService = ConceptService()
                 $0.firebaseLogger = firebaseLogger
                 $0.mixpanelLogger = MixpanelLogger()
+                $0.authClient = AuthClient(signInWithApple: {
+                    await AppleSignInManager.shared.signIn()
+                })
+                $0.firebaseAuth = FirebaseAuthImp()
             } operation: {
+//                AuthView(store: .init(initialState: AuthFeatureReducer.State(), reducer: {
+//                    AuthFeatureReducer()
+//                }))
                 MainTabView(
                     store: Store(initialState: RootFeature.State()) {
                         RootFeature()

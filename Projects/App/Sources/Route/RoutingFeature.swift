@@ -10,6 +10,8 @@ import FeatureQuiz
 import FeatureStudy
 import FeatureBookmark
 import FeatureSearch
+import FeatureAuth
+import FeatureProfile
 import Foundation
 
 public final class GlobalRouteObserver {
@@ -60,6 +62,9 @@ public struct RootRoutingReducer: Reducer {
 
     @Reducer
     public enum Path {
+        /// FeatureAuth
+        case featureAuthName(FeatureAuthNameReducer)
+
         /// FeatureQuiz
         case featureQuizMain(FeatureQuizMainReducer)
         case featureQuizSubject(FeatureQuizSubjectReducer)
@@ -74,5 +79,8 @@ public struct RootRoutingReducer: Reducer {
 
         /// FeatureSearch
         case featureSearchMain(FeatureSearchMainReducer)
+
+        /// FeatureProfileMain
+        case featureProfileMain(FeatureProfileMainReducer)
     }
 }

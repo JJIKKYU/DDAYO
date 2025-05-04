@@ -28,6 +28,7 @@ public struct FeatureQuizMainReducer {
             .필기 : [
                 .init(
                     title: "기출 문제",
+                    isAi: false,
                     subtitle: "역대 시험에 출제된 문제들을 모았어요.",
                     questionType: .past,
                     buttons: [
@@ -37,6 +38,7 @@ public struct FeatureQuizMainReducer {
                 ),
                 .init(
                     title: "AI 예상 문제",
+                    isAi: true,
                     subtitle: "시험 트렌드를 학습한 AI의 예상 문제를 풀어보세요!",
                     questionType: .ai,
                     buttons: [
@@ -48,6 +50,7 @@ public struct FeatureQuizMainReducer {
             .실기 : [
                 .init(
                     title: "기출 문제",
+                    isAi: false,
                     subtitle: "역대 시험에 출제된 문제들을 모았어요.",
                     questionType: .past,
                     buttons: [
@@ -58,6 +61,7 @@ public struct FeatureQuizMainReducer {
                 ),
                 .init(
                     title: "AI 예상 문제",
+                    isAi: true,
                     subtitle: "시험 트렌드를 학습한 AI의 예상 문제를 풀어보세요!",
                     questionType: .ai,
                     buttons: [
@@ -85,6 +89,7 @@ public struct FeatureQuizMainReducer {
 
         case navigateToQuizSubject(QuizTab, QuestionType, QuizStartOption)
         case navigateToSearch(FeatureSearchSource)
+        case navigateToProfileMain
     }
 
     public var body: some ReducerOf<Self> {
@@ -168,6 +173,9 @@ public struct FeatureQuizMainReducer {
 
             case .navigateToSearch:
                 return .none
+
+            case .navigateToProfileMain:
+                return .none
             }
         }
     }
@@ -175,6 +183,7 @@ public struct FeatureQuizMainReducer {
 
 public struct ExamSectionData: Equatable, Hashable {
     var title: String
+    var isAi: Bool
     var subtitle: String
     var questionType: QuestionType
     var buttons: [ExamSectionButton]

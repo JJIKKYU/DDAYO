@@ -73,12 +73,16 @@ public struct QuizBottomBtnView: View {
             question.choice4.text
         ].reduce(0) { $0 + $1.count }
 
-        if totalCharacterCount <= 100 {
+        if totalCharacterCount <= 80 {
             return [.fraction(0.45), .medium, .large]
-        } else if totalCharacterCount <= 200 {
-            return [.fraction(0.55), .medium, .large]
+        } else if totalCharacterCount <= 100 {
+            return [.fraction(0.5), .medium, .large]
+        } else if totalCharacterCount <= 170 {
+            return [.fraction(0.65), .fraction(0.7), .medium, .large]
+        } else if totalCharacterCount <= 210 {
+            return [.fraction(0.7), .fraction(0.75), .medium, .large]
         } else {
-            return [.medium, .large]
+            return [.fraction(0.8), .fraction(0.9), .medium, .large]
         }
     }
 

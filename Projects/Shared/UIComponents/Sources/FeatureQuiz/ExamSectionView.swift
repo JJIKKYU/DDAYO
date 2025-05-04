@@ -9,25 +9,35 @@ import SwiftUI
 
 public struct ExamSectionView: View {
     public let title: String
+    public let isAi: Bool
     public let subtitle: String
     public let buttons: [(title: String, action: () -> Void)]
 
     public init(
         title: String,
+        isAi: Bool,
         subtitle: String,
         buttons: [(title: String, action: () -> Void)]
     ) {
         self.title = title
+        self.isAi = isAi
         self.subtitle = subtitle
         self.buttons = buttons
     }
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(title)
-                .font(.system(size: 20))
-                .bold()
-                .foregroundStyle(Color.Grayscale._800)
+            HStack(alignment: .center, spacing: 6) {
+                Text(title)
+                    .font(.system(size: 20))
+                    .bold()
+                    .foregroundStyle(Color.Grayscale._800)
+
+                if isAi {
+                    Image(.AI)
+                        .frame(width: 20, height: 20)
+                }
+            }
 
             Text(subtitle)
                 .font(.system(size: 13, weight: .medium))

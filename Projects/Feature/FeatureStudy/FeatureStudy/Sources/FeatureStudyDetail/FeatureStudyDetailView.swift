@@ -83,6 +83,7 @@ public struct FeatureStudyDetailView: View {
                         .frame(maxHeight: .infinity)
                         .padding(.top, 20)
                         .padding(.horizontal, 20)
+                        .padding(.bottom, 40)
                     }
                     .frame(maxHeight: .infinity)
                 }

@@ -17,6 +17,7 @@ struct QuizTabView: View {
     @Binding var selectedTab: QuizTab
     @State private var tabWidths: [CGFloat] = []
     var onSelectSearch: (() -> Void)
+    var onSelectMenu: (() -> Void)
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
@@ -47,6 +48,16 @@ struct QuizTabView: View {
                         onSelectSearch()
                     } label: {
                         Image(uiImage: UIComponentsAsset.search.image)
+                            .resizable()
+                            .frame(width: 28, height: 28)
+                            .foregroundStyle(Color.Grayscale._900)
+                    }
+                    .buttonStyle(.plain)
+
+                    Button {
+                        onSelectMenu()
+                    } label: {
+                        Image(uiImage: UIComponentsAsset.kebab.image)
                             .resizable()
                             .frame(width: 28, height: 28)
                             .foregroundStyle(Color.Grayscale._900)
@@ -86,9 +97,10 @@ struct Tabs_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             QuizTabView(tabs: [.필기, .실기],
-                 animationNamespace: animationNamespace,
-                 selectedTab: .constant(.필기),
-                 onSelectSearch: { print("onSelectSearch!") }
+                        animationNamespace: animationNamespace,
+                        selectedTab: .constant(.필기),
+                        onSelectSearch: { print("onSelectSearch!") },
+                        onSelectMenu: { print("onSelectMenu!")}
             )
 
             Spacer()

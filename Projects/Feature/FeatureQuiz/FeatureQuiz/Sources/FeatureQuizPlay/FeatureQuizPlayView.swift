@@ -79,7 +79,7 @@ public struct FeatureQuizPlayView: View {
                                         Text(question.title)
                                             .font(.system(size: 18, weight: .bold))
                                             .foregroundColor(.Grayscale._800)
-                                            .lineSpacing(3.0)
+                                            .lineSpacing(4.5)
                                             .multilineTextAlignment(.leading)
                                             .padding(.top, 16)
 
@@ -88,7 +88,7 @@ public struct FeatureQuizPlayView: View {
 
                                     HStack {
                                         Text(metaText)
-                                            .font(.custom("Pretendard-Regular", size: 11))
+                                            .font(.system(size: 11, weight: .regular))
                                             .foregroundColor(.Grayscale._500)
 
                                         Spacer()
