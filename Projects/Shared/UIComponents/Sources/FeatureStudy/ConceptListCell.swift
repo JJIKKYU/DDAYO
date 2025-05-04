@@ -42,7 +42,8 @@ public struct ConceptListCell: View {
                     }
                     .padding(.bottom, 10)
 
-                    Text(concept.desc)
+                    // Text(concept.desc)
+                    MarkdownTextView(text: concept.desc)
                         .font(.system(size: 14, weight: .regular))
                         .foregroundColor(Color.Grayscale._900)
                         .lineLimit(2)
@@ -104,7 +105,6 @@ struct ConceptListView_Previews: PreviewProvider {
             title: "개념 학습 1",
             desc: "내용입니다.",
             views: 0,
-            mnemonics: ["안녕하세요"],
             subject: "주제입니다",
             subjectId: 1
         )

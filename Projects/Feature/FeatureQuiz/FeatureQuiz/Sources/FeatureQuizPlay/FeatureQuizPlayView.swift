@@ -107,9 +107,10 @@ public struct FeatureQuizPlayView: View {
 
                                             HStack {
                                                 CodeText(question.code, result: result)
-                                                    .onHighlightSuccess { result in
-                                                        self.result = result
-                                                    }
+//                                                    .onHighlightSuccess { result in
+//                                                        self.result = result
+//                                                    }
+                                                    .id(question.id)
                                                     .font(.caption2)
                                                     .lineSpacing(10)
                                                     .background(.clear)

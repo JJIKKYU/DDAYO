@@ -33,7 +33,10 @@ public struct FeatureStudyDetailView: View {
 
                                 Spacer()
                             }
+                            .padding(.bottom, 16)
 
+                            /*
+                             이미지가 필요할 경우에 활성화
                             RoundedRectangle(cornerRadius: 12)
                                 .fill(Color.Grayscale._50)
                                 .frame(height: 200)
@@ -51,12 +54,14 @@ public struct FeatureStudyDetailView: View {
                                     }
                                 )
                                 .padding(.bottom, 16)
+                            */
 
-                            Text(viewStore.currentItem?.desc ?? "")
+                            MarkdownTextView(text: viewStore.currentItem?.desc ?? "")
                                 .font(.system(size: 15, weight: .regular))
                                 .foregroundStyle(Color.Grayscale._700)
-                                .lineSpacing(4)
+                                .lineSpacing(6.5)
                                 .multilineTextAlignment(.leading)
+                                // .padding(.top, 12)
                                 .padding(.all, 0)
 
                             HStack(alignment: .center, spacing: 0) {

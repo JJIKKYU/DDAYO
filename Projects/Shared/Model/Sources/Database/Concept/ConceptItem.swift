@@ -14,7 +14,6 @@ public final class ConceptItem {
     public var title: String
     public var desc: String
     public var views: Int
-    public var mnemonics: [String]
     public var subject: String
     public var subjectId: Int
 
@@ -22,8 +21,7 @@ public final class ConceptItem {
         id: String,
         title: String,
         desc: String,
-        views: Int,
-        mnemonics: [String],
+        views: Int = 0,
         subject: String,
         subjectId: Int
     ) {
@@ -31,7 +29,6 @@ public final class ConceptItem {
         self.title = title
         self.desc = desc
         self.views = views
-        self.mnemonics = mnemonics
         self.subject = subject
         self.subjectId = subjectId
     }

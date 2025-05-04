@@ -29,6 +29,9 @@ public struct FeatureStudyMainReducer {
         var tempSortOption: SortOption? = .default
         var recentFeedItem: BookmarkFeedItem? = nil
 
+        // 초기에는 20개만 보여준다.
+        var visibleCount: Int = 20
+
         public init() {
 
         }
@@ -46,6 +49,7 @@ public struct FeatureStudyMainReducer {
         case test
         case loadConcepts([ConceptItem])
         case setRecentItem(ConceptItem)
+        case loadNextPage
 
         // navigate
         case navigateToSearch(FeatureSearchSource)
@@ -281,6 +285,10 @@ public struct FeatureStudyMainReducer {
                     state.recentFeedItem = item
                 }
 
+                return .none
+
+            case .loadNextPage:
+                state.visibleCount += 20
                 return .none
 
             case .navigateToSearch,

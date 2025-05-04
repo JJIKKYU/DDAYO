@@ -91,12 +91,13 @@ public struct FeatureStudyMainView: View {
                     .padding(.bottom, 8)
 
                     LazyVStack(spacing: 8) {
-                        ForEach(Array(zip(viewStore.conceptFeedItems.indices, viewStore.conceptFeedItems)), id: \.1.id) { index, data in
+                        ForEach(Array(zip(viewStore.conceptFeedItems.prefix(viewStore.visibleCount).indices,
+                                          viewStore.conceptFeedItems.prefix(viewStore.visibleCount))), id: \.1.id) { index, data in
                             ConceptListCell(
                                 concept: data.originConceptItem!,
                                 type: .regular,
                                 isBookmarked: viewStore.binding(
-                                    get: { _ in data.isBookmarked},
+                                    get: { _ in data.isBookmarked },
                                     send: FeatureStudyMainReducer.Action.toggleBookmark(index: index)
                                 ),
                                 onTap: {
@@ -104,6 +105,12 @@ public struct FeatureStudyMainView: View {
                                 }
                             )
                             .padding(.horizontal, 20)
+                            // ✅ 마지막 셀에 도달 시 onAppear로 다음 페이지 요청
+                            .onAppear {
+                                if index == viewStore.visibleCount - 1 {
+                                    viewStore.send(.loadNextPage)
+                                }
+                            }
                         }
                     }
                 }

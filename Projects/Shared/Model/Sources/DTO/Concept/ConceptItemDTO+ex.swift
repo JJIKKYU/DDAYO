@@ -14,8 +14,6 @@ extension ConceptItemDTO {
             id: id,
             title: title,
             desc: description,
-            views: views,
-            mnemonics: mnemonics,
             subject: subject,
             subjectId: subjectId
         )
