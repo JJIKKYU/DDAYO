@@ -18,6 +18,7 @@ public struct AnswerSheetView: View {
     let question: QuestionItem?
     let onConfirmAnswer: () -> Void
     let onSelectBookmark: () -> Void
+    @Binding var answerTotalHeight: CGFloat
 
     public init(
         answers: [QuizAnswer],
@@ -28,7 +29,8 @@ public struct AnswerSheetView: View {
         isBookmarked: Binding<Bool>,
         question: QuestionItem?,
         onConfirmAnswer: @escaping () -> Void,
-        onSelectBookmark: @escaping () -> Void
+        onSelectBookmark: @escaping () -> Void,
+        answerTotalHeight: Binding<CGFloat>
     ) {
         self.answers = answers
         self._isSheetPresented = isSheetPresented
@@ -39,6 +41,7 @@ public struct AnswerSheetView: View {
         self.question = question
         self.onConfirmAnswer = onConfirmAnswer
         self.onSelectBookmark = onSelectBookmark
+        self._answerTotalHeight = answerTotalHeight
     }
 
     public var btnTitle: String {
@@ -97,7 +100,10 @@ public struct AnswerSheetView: View {
                                     set: { newValue in
                                         if newValue { selectedIndex = index }  // ✅ 한 개만 선택되도록 업데이트
                                     }
-                                )
+                                ),
+                                onHeightUpdate: { height in
+                                    self.answerTotalHeight += height
+                                }
                             )
                         }
                     }
@@ -182,6 +188,9 @@ public struct AnswerSheetView: View {
                 }
             }
         }
+        .onAppear {
+            answerTotalHeight = 0  // ✅ 시트가 열릴 때 높이 초기화
+        }
         .padding(.horizontal, 20)
         .animation(.easeInOut(duration: 0.3), value: step)
         .background(Color.Background._1.ignoresSafeArea())
@@ -211,6 +220,7 @@ public struct AnswerSheetView: View {
         },
         onSelectBookmark: {
             print("onSelectBookmark!")
-        }
+        },
+        answerTotalHeight: .constant(10)
     )
 }

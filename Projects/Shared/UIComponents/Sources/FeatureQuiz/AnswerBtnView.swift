@@ -21,31 +21,29 @@ public enum AnswerBtnViewType {
 public struct AnswerBtnView: View {
     public let title: String
     @Binding public var isChecked: Bool
-
-    // 정답 확인에서 노출하는 경우
     public let btnType: AnswerBtnViewType
+    public var onHeightUpdate: ((CGFloat) -> Void)? = nil
 
     public init(
         title: String,
         isChecked: Binding<Bool>,
-        btnType: AnswerBtnViewType = .default
+        btnType: AnswerBtnViewType = .default,
+        onHeightUpdate: ((CGFloat) -> Void)? = nil
     ) {
         self.title = title
         self._isChecked = isChecked
         self.btnType = btnType
+        self.onHeightUpdate = onHeightUpdate
     }
 
     private var textColor: Color {
         switch btnType {
         case .default:
             return isChecked ? Color.Green._600 : Color.Grayscale._800
-
         case .correct:
             return Color.Green._600
-
         case .incorrectCorrectAnswer:
             return Color.Blue._600
-
         case .incorrectWrongAnswer:
             return Color.Red._600
         }
@@ -55,13 +53,10 @@ public struct AnswerBtnView: View {
         switch btnType {
         case .default:
             return isChecked ? Color.Green._50 : Color.Grayscale._50
-
         case .correct:
             return Color.Green._50
-
         case .incorrectCorrectAnswer:
             return Color.Blue._50
-
         case .incorrectWrongAnswer:
             return Color.Red._50
         }
@@ -73,15 +68,12 @@ public struct AnswerBtnView: View {
             return isChecked ? Color.Green._500 : Color.Grayscale._200
         case .correct:
             return Color.Green._600
-
         case .incorrectCorrectAnswer:
             return Color.Blue._600
-
         case .incorrectWrongAnswer:
             return Color.Red._600
         }
     }
-
 
     public var body: some View {
         Button {
@@ -123,6 +115,15 @@ public struct AnswerBtnView: View {
             .padding(.horizontal, 16)
             .background(backgroundColor)
             .cornerRadius(12)
+            .background(
+                GeometryReader { geometry in
+                    Color.clear
+                        .onAppear {
+                            onHeightUpdate?(geometry.size.height)
+                            print("AnswerBtnView height: \(geometry.size.height)")
+                        }
+                }
+            )
         }
         .disabled(btnType != .default)
     }

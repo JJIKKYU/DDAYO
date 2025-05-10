@@ -18,6 +18,7 @@ public struct QuizBottomBtnView: View {
     @Binding var isBookmarked: Bool
     let onConfirmAnswer: () -> Void
     let onSelectBookmark: () -> Void
+    @State private var answerTotalHeight: CGFloat = 0
 
     public init(
         isSheetPresented: Binding<Bool>,
@@ -63,27 +64,54 @@ public struct QuizBottomBtnView: View {
 
     private func dynamicDetents(for question: QuestionItem?) -> Set<PresentationDetent> {
         guard let question = question else {
-            return [.fraction(0.45), .medium, .large] // fallback
+            return [.fraction(0.45), .medium, .large]
         }
 
-        let totalCharacterCount = [
+        let texts = [
             question.choice1.text,
             question.choice2.text,
             question.choice3.text,
             question.choice4.text
-        ].reduce(0) { $0 + $1.count }
+        ]
 
-        if totalCharacterCount <= 80 {
-            return [.fraction(0.45), .medium, .large]
-        } else if totalCharacterCount <= 100 {
-            return [.fraction(0.5), .medium, .large]
-        } else if totalCharacterCount <= 170 {
-            return [.fraction(0.65), .fraction(0.7), .medium, .large]
-        } else if totalCharacterCount <= 210 {
-            return [.fraction(0.7), .fraction(0.75), .medium, .large]
-        } else {
-            return [.fraction(0.8), .fraction(0.9), .medium, .large]
-        }
+        let totalLines = texts.map { estimatedLines(for: $0) }.reduce(0, +)
+        print("QuizBottomBtnView :: totalLines = \(totalLines)")
+        let fraction = fractionDetent(for: totalLines)
+        print("QuizBottomBtnView :: fraction = \(fraction)")
+
+        return [.fraction(fraction), .medium, .large]
+    }
+
+    private func fractionDetent(for totalLines: Int) -> CGFloat {
+        let baseFraction: CGFloat = 0.25  // 최소 시작 높이
+        let lineHeightFraction: CGFloat = 0.05  // 한 줄마다 추가되는 비율
+
+        let fraction = baseFraction + (CGFloat(totalLines) * lineHeightFraction)
+        return min(fraction, 0.9)  // 최대 높이 제한
+    }
+
+    private var lineHeight: CGFloat {
+        UIFont.systemFont(ofSize: 15).lineHeight
+    }
+
+    private func estimatedLines(for text: String) -> Int {
+        let width: CGFloat = UIScreen.main.bounds.width - 40 - 24 - 32
+        let font = UIFont.systemFont(ofSize: 15)
+        let lineSpacing: CGFloat = 4.5
+        let nsText = text as NSString
+        let boundingRect = nsText.boundingRect(
+            with: CGSize(width: width, height: .greatestFiniteMagnitude),
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
+            attributes: [.font: font],
+            context: nil
+        )
+        let lineHeight = font.lineHeight + lineSpacing
+        let totalHeight = ceil(boundingRect.height)
+
+        print("Text: \(text)")
+        print("boundingRect.height: \(totalHeight), adjustedLineHeight: \(lineHeight)")
+        print("line = \(Int(ceil(totalHeight / lineHeight)))")
+        return Int(ceil(totalHeight / lineHeight))
     }
 
     public var body: some View {
@@ -129,11 +157,25 @@ public struct QuizBottomBtnView: View {
                 isBookmarked: $isBookmarked,
                 question: question,
                 onConfirmAnswer: onConfirmAnswer,
-                onSelectBookmark: onSelectBookmark
+                onSelectBookmark: onSelectBookmark,
+                answerTotalHeight: $answerTotalHeight
             )
-            .presentationDetents(dynamicDetents(for: question))
+            .presentationDetents(dynamicDetents(from: answerTotalHeight))
+            // .presentationDetents(dynamicDetents(for: question))
             // .presentationDetents([.fraction(0.45), .medium, .large])
         }
+    }
+    private func dynamicDetents(from height: CGFloat) -> Set<PresentationDetent> {
+        let screenHeight = UIScreen.main.bounds.height
+            let bottomPadding: CGFloat = 170 // 버튼 영역 등 포함한 하단 고정 영역
+            let extraPadding: CGFloat = 30 // 여유 여백 추가
+
+            let totalNeededHeight = height + bottomPadding + extraPadding
+            let ratio = totalNeededHeight / screenHeight
+            let clamped = min(max(ratio, 0.3), 0.95)
+
+            print("▶️ height: \(height), total: \(totalNeededHeight), clamped: \(clamped)")
+            return [.fraction(clamped)]
     }
 }
 
