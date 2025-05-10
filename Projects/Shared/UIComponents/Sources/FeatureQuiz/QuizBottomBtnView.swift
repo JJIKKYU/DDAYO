@@ -161,8 +161,6 @@ public struct QuizBottomBtnView: View {
                 answerTotalHeight: $answerTotalHeight
             )
             .presentationDetents(dynamicDetents(from: answerTotalHeight))
-            // .presentationDetents(dynamicDetents(for: question))
-            // .presentationDetents([.fraction(0.45), .medium, .large])
         }
     }
     private func dynamicDetents(from height: CGFloat) -> Set<PresentationDetent> {

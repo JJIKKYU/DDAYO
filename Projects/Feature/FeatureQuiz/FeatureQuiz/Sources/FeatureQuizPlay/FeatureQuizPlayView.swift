@@ -98,6 +98,27 @@ public struct FeatureQuizPlayView: View {
                                         Text(question.desc.text)
                                     }
 
+                                    if let imageName = question.desc.images.first?.filename {
+                                        Image(uiImage: UIImage(resource: .init(name: "QuestionImages/\(imageName)", bundle: .main)))
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(maxWidth: .infinity)
+                                            .padding(.horizontal, 20)
+                                            .onTapGesture {
+                                                print("onTapGesture!")
+                                                viewStore.send(.presentImageDetail(imageName: "QuestionImages/\(imageName)"))
+                                            }
+                                            .sheet(
+                                                isPresented: viewStore.binding(
+                                                    get: \.isImageDetailPresented,
+                                                    send: { _ in FeatureQuizPlayReducer.Action.dismissImageDetail }
+                                                ),
+                                                content: {
+                                                    ZoomableImageView(image: UIImage(named: "QuestionImages/\(imageName)") ?? UIImage())
+                                                }
+                                            )
+                                    }
+
                                     if question.code.isEmpty == false {
                                         ZStack(alignment: .center) {
                                             Rectangle()
@@ -125,25 +146,6 @@ public struct FeatureQuizPlayView: View {
                                         .background(Color.Grayscale._50)
                                         .cornerRadius(12)
                                     }
-
-                                    /*
-                                    Image(uiImage: UIImage(resource: .init(name: "image_1", bundle: .main)))
-                                        .frame(maxWidth: .infinity)
-                                        .padding(.horizontal, 20)
-                                        .onTapGesture {
-                                            print("onTapGesture!")
-                                            viewStore.send(.presentImageDetail(imageName: "image_1"))
-                                        }
-                                        .sheet(
-                                            isPresented: viewStore.binding(
-                                                get: \.isImageDetailPresented,
-                                                send: { _ in FeatureQuizPlayReducer.Action.dismissImageDetail }
-                                            ),
-                                            content: {
-                                                ZoomableImageView(image: UIImage(named: "image_1") ?? UIImage())
-                                            }
-                                        )
-                                    */
                                 }
                                 // .padding(16)
                                 .padding(.horizontal, 16)
