@@ -125,7 +125,9 @@ extension QuizPopupView {
                 : "랜덤 문제로 복습해볼까요?"
 
         case .notYetDone:
-            return "\(allQuizCnt - solvedQuizCnt)문제만 더 풀면 \(allQuizCnt)문제를 채울 수 있어요\n오늘의 공부를 마무리할까요?"
+            let roundedTarget = ((solvedQuizCnt + 9) / 10) * 10
+            let remaining = roundedTarget - solvedQuizCnt
+            return "\(remaining)문제만 더 풀면 \(roundedTarget)문제를 채울 수 있어요\n오늘의 공부를 마무리할까요?"
         }
     }
 

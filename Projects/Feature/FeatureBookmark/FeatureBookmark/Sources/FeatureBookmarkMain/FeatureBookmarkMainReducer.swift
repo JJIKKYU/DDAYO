@@ -67,7 +67,6 @@ public struct FeatureBookmarkMainReducer {
                     case .all: return true
                     case .past: return tags.contains("기출 문제")
                     case .ai: return tags.contains("AI 예상 문제")
-                    case .expected: return tags.contains("예상 문제")
                     }
                 }()
 
@@ -125,8 +124,6 @@ public struct FeatureBookmarkMainReducer {
                         return true
                     case .past:
                         return item.tags.contains("기출 문제")
-                    case .expected:
-                        return item.tags.contains("예상 문제")
                     case .ai:
                         return item.tags.contains("AI 예상 문제")
                     }

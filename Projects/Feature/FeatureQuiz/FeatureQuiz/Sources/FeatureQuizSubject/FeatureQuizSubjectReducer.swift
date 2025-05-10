@@ -12,6 +12,7 @@ import Service
 @Reducer
 public struct FeatureQuizSubjectReducer {
     @Dependency(\.firebaseLogger) var firebaseLogger
+    @Dependency(\.mixpanelLogger) var mixpanelLogger
 
     public init() {}
 
@@ -83,15 +84,26 @@ public struct FeatureQuizSubjectReducer {
                 return .none
 
             case .navigateToQuizPlay(let quizSubject, let questionType):
-                var clickTarget: String
+                var eventName: String
+                var subjectDetail: String
                 if QuizSubject.practicalLanguageCases.contains(quizSubject) {
-                    clickTarget = "practical_language"
+                    eventName = "click_practical_language"
+                    subjectDetail = quizSubject.displayName
                 } else if quizSubject.quizTab == .실기 {
-                    clickTarget = "practical_subject"
+                    eventName = "click_practical_subject"
+                    subjectDetail = "t\(quizSubject.index + 1)"
                 } else {
-                    clickTarget = "theory_subject"
+                    eventName = "click_theory_subject"
+                    subjectDetail = "t\(quizSubject.index + 1)"
                 }
 
+                mixpanelLogger.log(
+                    eventName,
+                    parameters: [
+                        "ai": questionType == .ai,
+                        "subject_detail": subjectDetail
+                    ])
+                /*
                 firebaseLogger.logEvent(
                     .click,
                     parameters: FBClickParam(
@@ -102,6 +114,7 @@ public struct FeatureQuizSubjectReducer {
                         ]
                     ).parameters
                 )
+                */
                 return .none
 
             case .autoNavigateToNextSubject:

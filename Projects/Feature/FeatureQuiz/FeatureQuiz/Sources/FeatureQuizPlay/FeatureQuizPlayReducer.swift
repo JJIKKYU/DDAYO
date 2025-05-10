@@ -116,7 +116,7 @@ public struct FeatureQuizPlayReducer {
         case hidePopup(popupAction: QuizPopupAction)
 
         // 북마크 버튼을 눌렀을 경우
-        case toggleBookmarkTapped(isWrong: Bool)
+        case toggleBookmarkTapped(isWrong: Bool, isForced: Bool = false)
         // 틀린 문제를 맞췄을 경우 북마크 상태 변경
         case updateBookmarkReasonIfNeeded(QuestionItem)
         // 북마크 상태 업데이트가 필요할 경우
@@ -136,14 +136,6 @@ public struct FeatureQuizPlayReducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                /*
-                firebaseLogger.logEvent(
-                    .impression,
-                    parameters: FBImpParamBuilder()
-                        .add(.conceptID, value: "ques")
-                        .add(.ai, value: <#T##Any?#>)
-                )
-                */
                 switch state.sourceType {
                 case .subject(let selectedSubject, let questionType):
                     return .run { send in
@@ -237,20 +229,45 @@ public struct FeatureQuizPlayReducer {
 
             case .selectedAnswer(let index):
                 state.selectedIndex = index
+
+                // Log
+                guard let question: QuestionItem = state.currentQuestion else { return .none }
+                mixpanelLogger.log(
+                    "click_ques_checking_btn",
+                    parameters: LogParamBuilder()
+                        .add(.quesID, value: question.id)
+                        .add(.quesIndex, value: state.questionIndex)
+                        .add(.ai, value: question.questionType == .ai)
+                        .addIf(question.subject.isWrittenCase || question.subject.isPracticalCase, .subjectDetail, value: question.subject.logSubjectDetail)
+                        .addIf(question.subject.isPracticalLanguageCase, .languageDetail, value: question.subject.logSubjectDetail)
+                        .build()
+                )
+
                 return .none
 
             case .toggleSheet(let isPresented):
                 state.isSheetPresented = isPresented
+                // 버튼을 누를때 로깅
+                guard let question: QuestionItem = state.currentQuestion else { return .none }
+                mixpanelLogger.log(
+                    "click_ques_answering_btn",
+                    parameters: LogParamBuilder()
+                        .add(.quesID, value: question.id)
+                        .add(.quesIndex, value: state.questionIndex)
+                        .add(.ai, value: question.questionType == .ai)
+                        .addIf(question.subject.isWrittenCase || question.subject.isPracticalCase, .subjectDetail, value: question.subject.logSubjectDetail)
+                        .addIf(question.subject.isPracticalLanguageCase, .languageDetail, value: question.subject.logSubjectDetail)
+                        .build()
+                )
 
                 // bottomSheet이 뜰때 로깅
                 if isPresented {
                     guard let question: QuestionItem = state.currentQuestion else { return .none }
                     // Log
                     let duration: TimeInterval = state.startTime.map { Date().timeIntervalSince($0) } ?? 0
-                    firebaseLogger.logEvent(
-                        .impression,
-                        parameters: FBImpParamBuilder()
-                            .add(.contentsType, value: "ques_answering")
+                    mixpanelLogger.log(
+                        "imp_ques_answering",
+                        parameters: LogParamBuilder()
                             .add(.ai, value: question.questionType == .ai)
                             .add(.quesIndex, value: state.questionIndex)
                             .addIf(question.subject.isWrittenCase || question.subject.isPracticalCase, .subjectDetail, value: question.subject.logSubjectDetail)
@@ -294,15 +311,26 @@ public struct FeatureQuizPlayReducer {
                     question.selectedIndex = selectedIndex
 
                     // Log
-                    let duration: TimeInterval = state.startTime.map { Date().timeIntervalSince($0) } ?? 0
-                    firebaseLogger.logEvent(
-                        .impression,
-                        parameters: FBImpParamBuilder()
-                            .add(.contentsType, value: "ques_answering")
+                    mixpanelLogger.log(
+                        "click_ques_answering_option",
+                        parameters: LogParamBuilder()
+                            .add(.quesID, value: question.id)
                             .add(.ai, value: question.questionType == .ai)
                             .add(.quesIndex, value: state.questionIndex)
                             .addIf(question.subject.isWrittenCase || question.subject.isPracticalCase, .subjectDetail, value: question.subject.logSubjectDetail)
                             .addIf(question.subject.isPracticalLanguageCase, .languageDetail, value: question.subject.logSubjectDetail)
+                            .build()
+                    )
+
+                    let duration: TimeInterval = state.startTime.map { Date().timeIntervalSince($0) } ?? 0
+                    mixpanelLogger.log(
+                        "imp_ques_result",
+                        parameters: LogParamBuilder()
+                            .add(.ai, value: question.questionType == .ai)
+                            .add(.quesIndex, value: state.questionIndex)
+                            .addIf(question.subject.isWrittenCase || question.subject.isPracticalCase, .subjectDetail, value: question.subject.logSubjectDetail)
+                            .addIf(question.subject.isPracticalLanguageCase, .languageDetail, value: question.subject.logSubjectDetail)
+                            .add(.answer, value: isCorrect ? "correct" : "wrong")
                             .add(.duration, value: String(format: "%.2f", duration))
                             .build()
                     )
@@ -314,25 +342,22 @@ public struct FeatureQuizPlayReducer {
                     }
                     question.isCorrect = false
 
-                    return .send(.toggleBookmarkTapped(isWrong: true))
+                    return .send(.toggleBookmarkTapped(isWrong: true, isForced: false))
 
                 case .confirmAnswers:
                     guard let question: QuestionItem = state.currentQuestion else { return .none }
 
                     // Log
-                    let duration: TimeInterval = state.startTime.map { Date().timeIntervalSince($0) } ?? 0
-                    firebaseLogger.logEvent(
-                        .impression,
-                        parameters: FBImpParamBuilder()
-                            .add(.contentsType, value: "ques_result")
+                    mixpanelLogger.log(
+                        "click_ques_next_btn",
+                        parameters: LogParamBuilder()
+                            .add(.quesID, value: question.id)
                             .add(.ai, value: question.questionType == .ai)
                             .add(.quesIndex, value: state.questionIndex)
                             .addIf(question.subject.isWrittenCase || question.subject.isPracticalCase, .subjectDetail, value: question.subject.logSubjectDetail)
                             .addIf(question.subject.isPracticalLanguageCase, .languageDetail, value: question.subject.logSubjectDetail)
-                            .add(.duration, value: String(format: "%.2f", duration))
                             .build()
                     )
-                    print("QuizPlayReducer :: confirmAnswers, duration = \(duration)")
 
                     return .send(.nextQuiz)
 
@@ -403,6 +428,7 @@ public struct FeatureQuizPlayReducer {
                     state.selectedIndex = question.selectedIndex
                     state.isCorrect = isCorrect
                 } else {
+                    state.step = .showAnswers
                     state.isCorrect = false
                 }
 
@@ -410,8 +436,6 @@ public struct FeatureQuizPlayReducer {
                     state.step = .confirmAnswers
                     state.selectedIndex = 0
                     state.isCorrect = true
-                } else {
-                    state.step = .showAnswers
                 }
 
                 state.answers = [
@@ -421,16 +445,17 @@ public struct FeatureQuizPlayReducer {
                     .init(number: 3, title: question.choice4.text)
                 ]
 
+                // Log
+                let eventName: String = question.isCorrect != nil ? "imp_ques_prev" : "imp_ques"
                 let duration: TimeInterval = state.startTime.map { Date().timeIntervalSince($0) } ?? 0
-                firebaseLogger.logEvent(
-                    .impression,
-                    parameters: FBImpParamBuilder()
-                        .add(.contentsType, value: "ques")
+                mixpanelLogger.log(
+                    eventName,
+                    parameters: LogParamBuilder()
                         .add(.ai, value: question.questionType == .ai)
                         .add(.quesIndex, value: state.questionIndex)
                         .addIf(question.subject.isWrittenCase || question.subject.isPracticalCase, .subjectDetail, value: question.subject.logSubjectDetail)
                         .addIf(question.subject.isPracticalLanguageCase, .languageDetail, value: question.subject.logSubjectDetail)
-                        .add(.duration, value: String(format: "%.2f", duration))
+                        .add(.duration, value: "0")
                         .build()
                 )
 
@@ -479,53 +504,95 @@ public struct FeatureQuizPlayReducer {
 
             case .showPopup:
                 state.isPopupPresented = true
+                // Log
+                guard let question = state.currentQuestion else { return .none }
+                mixpanelLogger.log(
+                    "imp_ques_popup_exit",
+                    parameters: LogParamBuilder()
+                        .add(.ai, value: question.questionType == .ai)
+                        .add(.quesIndex, value: state.questionIndex)
+                        .addIf(question.subject.isWrittenCase || question.subject.isPracticalCase, .subjectDetail, value: question.subject.logSubjectDetail)
+                        .addIf(question.subject.isPracticalLanguageCase, .languageDetail, value: question.subject.logSubjectDetail)
+                        .build()
+                )
                 return .none
 
             case .hidePopup(let action):
+                var eventName = ""
+                var nextAction: Action?
+
                 switch action {
                 case .dismiss:
-                    return .send(.pressedBackBtn)
+                    eventName = "click_ques_popup_btn_quit"
+                    nextAction = .pressedBackBtn
 
                 case .keepStudying:
+                    eventName = "click_ques_popup_btn_more"
                     state.isPopupPresented = false
-                    return .none
 
                 case .finishStudy:
-                    return .send(.pressedBackBtn)
+                    eventName = "click_ques_popup_finish"
+                    nextAction = .pressedBackBtn
 
                 case .reviewRandom:
-                    // 기본값 설정 또는 상황에 맞게 전달
-                    guard let quizTab = state.quizSubject?.quizTab else {
-                        return .none
-                    }
-
-                    guard case let .subject(_, questionType) = state.sourceType,
+                    eventName = "click_ques_popup_btn_restudy_random"
+                    guard let quizTab = state.quizSubject?.quizTab,
+                          case let .subject(_, questionType) = state.sourceType,
                           let questionType = questionType else {
                         return .none
                     }
-
-                    return .send(
-                        .restartRandomQuiz(
-                            quizTab: quizTab,
-                            questionType: questionType
-                        )
-                    )
+                    nextAction = .restartRandomQuiz(quizTab: quizTab, questionType: questionType)
 
                 case .reviewRandomFromBookmark:
-                    return .send(.restartReviewFromBookmark)
-
-                case .nextSubject:
-                    return .send(.requestNextSubject)
+                    eventName = "click_ques_popup_review_random_bookmark"
+                    nextAction = .restartReviewFromBookmark
 
                 case .nextLanguage:
-                    return .send(.requestNextSubject)
+                    eventName = "click_ques_popup_btn_restudy_language"
+                    nextAction = .requestNextSubject
+
+                case .nextSubject:
+                    eventName = "click_ques_popup_btn_restudy_subject"
+                    nextAction = .requestNextSubject
                 }
 
-            case .toggleBookmarkTapped(let isWrong):
+                guard let question = state.currentQuestion else { return .none }
+                mixpanelLogger.log(
+                    eventName,
+                    parameters: LogParamBuilder()
+                        .add(.quesID, value: question.id)
+                        .add(.ai, value: question.questionType == .ai)
+                        .add(.quesIndex, value: state.questionIndex)
+                        .addIf(question.subject.isWrittenCase || question.subject.isPracticalCase, .subjectDetail, value: question.subject.logSubjectDetail)
+                        .addIf(question.subject.isPracticalLanguageCase, .languageDetail, value: question.subject.logSubjectDetail)
+                        .build()
+                )
+
+                if let next = nextAction {
+                    return .send(next)
+                }
+
+                return .none
+
+            case .toggleBookmarkTapped(let isWrong, let isForced):
                 guard let question = state.currentQuestion else {
                     print("FeatureQuizPlayReducer :: currentQuestion is nil")
                     return .none
                 }
+
+                // Log
+                let page: String = question.isCorrect != nil ? "ques_result_prev" : "ques_result"
+                mixpanelLogger.log(
+                    "click_bookmark_btn",
+                    parameters: LogParamBuilder()
+                        .add(.page, value: page)
+                        .add(.quesID, value: question.id)
+                        .add(.ai, value: question.questionType == .ai)
+                        .add(.quesIndex, value: state.questionIndex)
+                        .addIf(question.subject.isWrittenCase || question.subject.isPracticalCase, .subjectDetail, value: question.subject.logSubjectDetail)
+                        .addIf(question.subject.isPracticalLanguageCase, .languageDetail, value: question.subject.logSubjectDetail)
+                        .build()
+                )
 
                 return .run { send in
                     let questionID: String = question.id
@@ -537,13 +604,27 @@ public struct FeatureQuizPlayReducer {
                         let existing = try modelContext.fetch(FetchDescriptor<BookmarkItem>(predicate: predicate)).first
 
                         if let existing {
+                            // 유저가 터치해서 강제로 변경하고자 할 때
+                            if isForced {
+                                modelContext.delete(existing)
+                                try modelContext.save()
+                                return false
+                            }
+
                             // 이미 북마크가 되어있고 문제를 맞췄다면
                             // manual로 bookmark 성격 변경
                             if existing.reason == .wrong && !isWrong {
+                                // 유저가 선택하지 않고, 틀린문제를 잘 풀어 자동으로 북마크의 형태가 바뀌지 않을때
                                 existing.reason = .manual
                                 try modelContext.save()
                                 return true
-                            } else {
+                            }
+                            // 이미 북마크가 되어있고 문제를 또 틀렸다면
+                            // 아무것도 하지 않는다.
+                            else if existing.reason == .wrong && isWrong {
+                                return true
+                            }
+                            else {
                                 modelContext.delete(existing)
                                 try modelContext.save()
                                 return false

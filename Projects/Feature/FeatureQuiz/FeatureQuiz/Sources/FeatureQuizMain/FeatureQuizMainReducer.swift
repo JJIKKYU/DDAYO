@@ -135,24 +135,25 @@ public struct FeatureQuizMainReducer {
                 return .none
 
             case .navigateToQuizSubject(let quizTab, let questionType, let quizStartOption):
-                let clickTarget: String = {
+                let eventName: String = {
                     switch (quizTab, quizStartOption) {
                     case (.실기, .startSubjectQuiz):
-                        return "exercise_practical_subject"
+                        return "click_exercise_practical_subject"
                     case (.실기, .startRandomQuiz):
-                        return "exercise_practical_random"
+                        return "click_exercise_practical_random"
                     case (.실기, .startLanguageQuiz):
-                        return "exercise_practical_language"
+                        return "click_exercise_practical_language"
                     case (.필기, .startSubjectQuiz):
-                        return "exercise_theory_subject"
+                        return "click_exercise_theory_subject"
                     case (.필기, .startRandomQuiz):
-                        return "exercise_theory_random"
+                        return "click_exercise_theory_random"
                     default:
                         return ""
                     }
                 }()
 
                 // ai 문제를 터치했는지 여부
+                /*
                 firebaseLogger.logEvent(
                     .click,
                     parameters: FBClickParam(
@@ -162,19 +163,21 @@ public struct FeatureQuizMainReducer {
                         ]
                     ).parameters
                 )
+                */
                 mixpanelLogger.log(
-                    "Excercise_Click",
-                    parameters: [
-                        "clickTarget": clickTarget,
-                        "ai": questionType == .ai
-                    ]
+                    eventName,
+                    parameters: LogParamBuilder()
+                        .add(.ai, value: questionType == .ai)
+                        .build()
                 )
                 return .none
 
             case .navigateToSearch:
+                mixpanelLogger.log("click_exercise_navi_serach")
                 return .none
 
             case .navigateToProfileMain:
+                mixpanelLogger.log("click_exercise_navi_profile")
                 return .none
             }
         }

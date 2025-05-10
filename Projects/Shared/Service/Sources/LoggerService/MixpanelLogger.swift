@@ -11,7 +11,8 @@ import Mixpanel
 // MARK: - MixpanelLoggerProtocol
 
 public protocol MixpanelLoggerProtocol {
-    func log(_ message: String, parameters: Properties?)
+    func log(_ message: String)
+    func log(_ message: String, parameters: [String: Any])
 }
 
 // MARK: - MixpanelLogger
@@ -32,8 +33,17 @@ public struct MixpanelLogger: MixpanelLoggerProtocol {
         // instance.identify(distinctId: <#T##String#>)
     }
 
-    public func log(_ message: String, parameters: Properties?) {
+    public func log(_ message: String) {
+        instance.track(event: message)
+        print("MixpanelLogger :: event = \(message)")
+    }
 
-        instance.track(event: message, properties: parameters ?? [:])
+    public func log(_ message: String, parameters: [String: Any] = [:]) {
+        let converted: Properties = parameters.compactMapValues { value in
+            value as? MixpanelType
+        }
+
+        instance.track(event: message, properties: converted)
+        print("MixpanelLogger :: event = \(message), properties = \(converted)")
     }
 }

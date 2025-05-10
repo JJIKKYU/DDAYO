@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum FBImpParamKey: String {
+public enum LogParamKey: String {
     case contentsType = "contents_type"
     case page
     case sessionID = "session_id"
@@ -24,13 +24,13 @@ public enum FBImpParamKey: String {
     case answer
 }
 
-public final class FBImpParamBuilder {
+public final class LogParamBuilder {
     private var parameters: [String: Any] = [:]
 
     public init() {}
 
     @discardableResult
-    public func add(_ key: FBImpParamKey, value: Any?) -> Self {
+    public func add(_ key: LogParamKey, value: Any?) -> Self {
         guard let value else { return self }
         parameters[key.rawValue] = value
         return self
@@ -41,9 +41,9 @@ public final class FBImpParamBuilder {
     }
 }
 
-public extension FBImpParamBuilder {
+public extension LogParamBuilder {
     @discardableResult
-    func addIf(_ condition: Bool, _ key: FBImpParamKey, value: Any?) -> Self {
+    func addIf(_ condition: Bool, _ key: LogParamKey, value: Any?) -> Self {
         if condition {
             self.add(key, value: value)
         }

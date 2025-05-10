@@ -74,7 +74,7 @@ public struct BookmarkCardView: View {
                     }
                     .foregroundColor(.Grayscale._400)
 
-                    ForEach(tags.filter { $0 != "AI 예상 문제" }, id: \.self) { tag in
+                    ForEach(tags.filter { $0 != "AI 예상 문제" && $0 != "기출 문제" }, id: \.self) { tag in
                         TagBadgeView(text: tag)
                     }
 
@@ -120,7 +120,7 @@ struct TagBadgeView: View {
 
     private func tagColor(for text: String) -> Color {
         switch text {
-        case "필기시험":
+        case "필기시험", "실기시험":
             return .Grayscale._300
 
         case "틀린 문제":

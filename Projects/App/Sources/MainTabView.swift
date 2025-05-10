@@ -143,10 +143,7 @@ public struct MainTabView: View {
                     )
 
                 mixpanelLogger.log(
-                    "Gnb_Click",
-                    parameters: [
-                        "clickTarget": newValue
-                    ]
+                    "click_\(newValue)"
                 )
                 print("탭이 변경되었어: \(newValue)")
             }

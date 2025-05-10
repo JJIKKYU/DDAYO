@@ -188,7 +188,7 @@ public struct FeatureQuizPlayView: View {
                         viewStore.send(.confirmAnswer)
                     },
                     onSelectBookmark: {
-                        viewStore.send(.toggleBookmarkTapped(isWrong: false))
+                        viewStore.send(.toggleBookmarkTapped(isWrong: false, isForced: true))
                     }
                 )
 
