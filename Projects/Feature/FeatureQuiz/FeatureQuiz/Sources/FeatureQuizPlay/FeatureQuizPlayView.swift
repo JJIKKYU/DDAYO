@@ -98,7 +98,8 @@ public struct FeatureQuizPlayView: View {
                                         Text(question.desc.text)
                                     }
 
-                                    if let imageName = question.desc.images.first?.filename {
+                                    if let imageName = question.desc.images.first?.filename,
+                                       imageName.isEmpty == false {
                                         Image(uiImage: UIImage(resource: .init(name: "QuestionImages/\(imageName)", bundle: .main)))
                                             .resizable()
                                             .scaledToFit()

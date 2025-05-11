@@ -132,37 +132,56 @@ public struct AnswerSheetView: View {
             case .confirmAnswers, .solvedQuestion:
                 ScrollView {
                     if let question, let selectedIndex {
-                        if isCorrect == true {
-                            AnswerBtnView(
-                                title: question.choices[selectedIndex],
-                                isChecked: .constant(true),
-                                btnType: .correct
-                            )
-                        } else {
-                            AnswerBtnView(
-                                title: question.choices[selectedIndex],
-                                isChecked: .constant(false),
-                                btnType: .incorrectWrongAnswer
-                            )
-                            AnswerBtnView(
-                                title: question.choices[question.answer - 1],
-                                isChecked: .constant(false),
-                                btnType: .incorrectCorrectAnswer
-                            )
+                        // 필기 문제
+                        if question.subject.isWrittenCase {
+                            if isCorrect == true {
+                                AnswerBtnView(
+                                    title: question.choices[selectedIndex],
+                                    isChecked: .constant(true),
+                                    btnType: .correct
+                                )
+                            } else {
+                                AnswerBtnView(
+                                    title: question.choices[selectedIndex],
+                                    isChecked: .constant(false),
+                                    btnType: .incorrectWrongAnswer
+                                )
+                                AnswerBtnView(
+                                    title: question.choices[question.answer - 1],
+                                    isChecked: .constant(false),
+                                    btnType: .incorrectCorrectAnswer
+                                )
+                            }
+
+                            Text(isCorrect == true ? "정답이에요" : "오답이에요")
+                                .font(.system(size: 24, weight: .bold))
+                                .foregroundStyle(Color.Grayscale._900)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.top, 20)
+
+                            MarkdownTextView(text: question.explanation.text)
+                                .padding(.top, 10)
+                                .font(.system(size: 15, weight: .regular))
+                                .foregroundStyle(Color.Grayscale._700)
+                                .lineSpacing(5.0)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                         }
+                        // 실기 문제
+                        else {
+                            Text("정답은 \(question.choices[question.answer - 1])입니다")
+                                .font(.system(size: 24, weight: .bold))
+                                .foregroundStyle(Color.Grayscale._900)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .lineSpacing(4.5)
+                                // .padding(.top, 20)
 
-                        Text(isCorrect == true ? "정답이에요" : "오답이에요")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundStyle(Color.Grayscale._900)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.top, 20)
-
-                        MarkdownTextView(text: question.explanation.text)
-                            .padding(.top, 10)
-                            .font(.system(size: 15, weight: .regular))
-                            .foregroundStyle(Color.Grayscale._700)
-                            .lineSpacing(5.0)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                            MarkdownTextView(text: question.explanation.text)
+                                .padding(.top, 10)
+                                .font(.system(size: 15, weight: .regular))
+                                .foregroundStyle(Color.Grayscale._700)
+                                .lineSpacing(5.0)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
                     }
                 }
                 .padding(.init(top: 0, leading: 0, bottom: 0, trailing: 0))

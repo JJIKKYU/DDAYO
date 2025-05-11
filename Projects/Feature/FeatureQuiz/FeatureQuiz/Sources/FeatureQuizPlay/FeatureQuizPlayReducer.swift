@@ -138,12 +138,14 @@ public struct FeatureQuizPlayReducer {
             case .onAppear:
                 switch state.sourceType {
                 case .subject(let selectedSubject, let questionType):
+                    let questionTypeRawValue: String = questionType?.rawValue ?? ""
                     return .run { send in
                         let questions: [QuestionItem] = try await MainActor.run {
                             var descriptor = FetchDescriptor<QuestionItem>()
                             if let subject = selectedSubject {
                                 descriptor.predicate = #Predicate<QuestionItem> {
-                                    $0.subjectRawValue == subject.rawValue
+                                    $0.subjectRawValue == subject.rawValue &&
+                                    $0.questionTypeRawValue == questionTypeRawValue
                                 }
                             }
                             return try modelContext.fetch(descriptor)
@@ -346,6 +348,13 @@ public struct FeatureQuizPlayReducer {
 
                 case .confirmAnswers:
                     guard let question: QuestionItem = state.currentQuestion else { return .none }
+
+                    // 실기 문제의 경우 답안 선택이 없으므로
+                    // 맞춘 문제 +1
+                    if question.subject.isPracticalLanguageCase || question.subject.isPracticalCase {
+                        state.correctCount += 1
+                        state.solvedCount += 1
+                    }
 
                     // Log
                     mixpanelLogger.log(
