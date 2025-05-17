@@ -13,6 +13,8 @@ public enum LogParamKey: String {
     case sessionID = "session_id"
     case quesID = "ques_id"
     case quesIndex = "ques_index"
+    case quesName = "ques_name"
+    case quesViewCount = "ques_view_count"
     case ai
     case subjectDetail = "subject_detail"
     case languageDetail = "language_detail"
@@ -24,6 +26,10 @@ public enum LogParamKey: String {
     case conceptViewCount = "concept_view_count"
     case answer
     case bookmark = "bookmark"
+    case recentKeywordCount = "recent_keyword_count"
+    case listOrder = "list_order"
+    case searchKeyword = "search_keyword"
+    case searchResultIndex = "search_result_index"
 }
 
 public final class LogParamBuilder {

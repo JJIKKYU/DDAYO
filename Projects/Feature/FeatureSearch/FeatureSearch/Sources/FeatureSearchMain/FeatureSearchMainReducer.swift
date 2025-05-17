@@ -20,6 +20,7 @@ public enum SearchMode: Equatable, Hashable {
 @Reducer
 public struct FeatureSearchMainReducer {
     @Dependency(\.modelContext) var modelContext
+    @Dependency(\.mixpanelLogger) var mixpanelLogger
 
     public init() {}
 
@@ -87,16 +88,17 @@ public struct FeatureSearchMainReducer {
         case keywordChanged(String)
         case clear
         case search
-        case selectResult(String)
+        case selectResult(keyword: String, index: Int?)
+        case touchDone(String)
         case loadAllItems
         case loadRecentSearchItems
         case updateRecentSearchItems([RecentSearchItem])
 
         // 최근 검색어
         case addRecentKeyword(String)
-        case removeRecentKeyword(RecentSearchItem)
+        case removeRecentKeyword(item: RecentSearchItem, index: Int)
         case removeAllRecentKeywords
-        case selectRecentKeyword(RecentSearchItem)
+        case selectRecentKeyword(item: RecentSearchItem, index: Int)
 
         // Bookmark
         case toggleBookmark(index: Int)
@@ -112,9 +114,7 @@ public struct FeatureSearchMainReducer {
     }
 
     public var body: some ReducerOf<Self> {
-        Reduce {
-            state,
-            action in
+        Reduce { state, action in
             switch action {
             case let .keywordChanged(text):
                 guard state.keyword != text else { return .none }
@@ -181,8 +181,14 @@ public struct FeatureSearchMainReducer {
                     }
                 }
 
-            case .removeRecentKeyword(let keyword):
+            case .removeRecentKeyword(let keyword, let index):
                 print("FeatureSearchMainReducer :: removeRecentKeyword \(keyword.keyword)")
+
+                mixpanelLogger.log(
+                    "click_search_keyword_delete",
+                    parameters: LogParamBuilder()
+                        .build()
+                )
 
                 return .run { @Sendable send in
                     try await MainActor.run {
@@ -194,6 +200,9 @@ public struct FeatureSearchMainReducer {
 
             case .removeAllRecentKeywords:
                 guard let searchCategory = state.source?.searchCategory else { return .none }
+
+                mixpanelLogger.log("click_search_delete_all")
+
                 return .run { @Sendable send in
                     try await MainActor.run {
                         let predicate: Predicate<RecentSearchItem> = #Predicate {
@@ -208,7 +217,17 @@ public struct FeatureSearchMainReducer {
                     await send(.loadRecentSearchItems)
                 }
 
-            case .selectResult(let result):
+            case .selectResult(let result, let index):
+                if let index {
+                    mixpanelLogger.log(
+                        "click_search_auto_keyword",
+                        parameters: LogParamBuilder()
+                            .add(.searchKeyword, value: result)
+                            .add(.listOrder, value: index)
+                            .build()
+                    )
+                }
+
                 // keyword 선택시 그 keyword 기준으로 띄운다
                 guard let source = state.source else { return .none }
                 switch source {
@@ -230,6 +249,19 @@ public struct FeatureSearchMainReducer {
                 state.keyword = result
                 state.mode = .done
 
+//                mixpanelLogger.log(
+//                    "imp_search_result_card",
+//                    parameters: LogParamBuilder()
+//                        .add(.conceptID, value: <#T##Any?#>)
+//                )
+
+//                event : imp_search_result_card
+//                concept_id : {}
+//                search_result_index : 3
+//                concept_name : “name”
+//                concept_view_count : 0
+//                session_id : {}
+
                 return .run { send in
                     await send(.addRecentKeyword(result))
                 }
@@ -241,6 +273,17 @@ public struct FeatureSearchMainReducer {
                     let matchedConceptItems: [ConceptItem] = state.matchedConceptItems
                     let selectedIndex: Int = index
                     guard let conceptItem: ConceptItem = matchedConceptItems[safe: selectedIndex] else { return .none }
+
+                    mixpanelLogger.log(
+                        "click_search_result_card",
+                        parameters: LogParamBuilder()
+                            .add(.searchKeyword, value: state.selectedKeyword)
+                            .add(.conceptID, value: conceptItem.id)
+                            .add(.searchResultIndex, value: index)
+                            .add(.conceptName, value: conceptItem.title)
+                            .add(.conceptViewCount, value: conceptItem.views)
+                            .build()
+                    )
 
                     return .run { send in
                         try await MainActor.run {
@@ -255,6 +298,17 @@ public struct FeatureSearchMainReducer {
                     let matchedQuestionItems: [QuestionItem] = state.matchedQuestionItems
                     let selectedIndex: Int = index
                     guard let questionItem: QuestionItem = matchedQuestionItems[safe: selectedIndex] else { return .none }
+
+                    mixpanelLogger.log(
+                        "click_search_result_card",
+                        parameters: LogParamBuilder()
+                            .add(.searchKeyword, value: state.selectedKeyword)
+                            .add(.quesID, value: questionItem.id)
+                            .add(.searchResultIndex, value: index)
+                            .add(.quesName, value: questionItem.title)
+                            .add(.quesViewCount, value: questionItem.viewCount)
+                            .build()
+                    )
 
                     return .run { send in
                         try await MainActor.run {
@@ -311,6 +365,13 @@ public struct FeatureSearchMainReducer {
                 } catch {
                     print("FeatureSearchMainReducer :: Failed to load RecentSearchItems: \(error)")
                 }
+
+                mixpanelLogger.log(
+                    "imp_search_recent",
+                    parameters: LogParamBuilder()
+                        .add(.recentKeywordCount, value: state.recentKeywords.count)
+                        .build()
+                )
 
                 return .none
 
@@ -411,8 +472,23 @@ public struct FeatureSearchMainReducer {
 
                 return .none
 
-            case .selectRecentKeyword(let item):
-                return .send(.selectResult(item.keyword))
+            case .selectRecentKeyword(let item, let index):
+                mixpanelLogger.log(
+                    "click_search_recent_keyword",
+                    parameters: LogParamBuilder()
+                        .add(.listOrder, value: index)
+                        .build()
+                )
+                return .send(.selectResult(keyword: item.keyword, index: nil))
+
+            case .touchDone(let keyword):
+                mixpanelLogger.log(
+                    "click_search_btn",
+                    parameters: LogParamBuilder()
+                        .add(.searchKeyword, value: keyword)
+                        .build()
+                )
+                return .send(.selectResult(keyword: keyword, index: nil))
 
             case .navigateToQuizPlay,
                     .navigateToStudyDetail,

@@ -173,6 +173,8 @@ public struct FeatureQuizPlayReducer {
                         $0.isCorrect = nil
                         $0.selectedIndex = nil
                     }
+                    // 검색 결과는 전체 내용을 오갈 수 있도록 카운트 제공
+                    state.visibleQuestionCount = items.count
                     return .run { send in
                         await send(.setCurrentQuestion(items[index], all: items))
                     }

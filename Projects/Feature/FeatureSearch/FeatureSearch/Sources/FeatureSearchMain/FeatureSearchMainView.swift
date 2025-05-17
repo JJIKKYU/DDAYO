@@ -37,6 +37,9 @@ public struct FeatureSearchMainView: View {
                                 prompt: Text(placeholderText)
                                     .foregroundColor(Color.Grayscale._300)
                             )
+                            .onSubmit {
+                                viewStore.send(.touchDone(viewStore.state.keyword))
+                            }
                             .font(.system(size: 16))
                             .padding(.vertical, 12)
                             .padding(.leading, 16)
@@ -98,15 +101,15 @@ public struct FeatureSearchMainView: View {
                             .padding(.bottom, 8)
 
                             List {
-                                ForEach(viewStore.recentKeywords, id: \.self) { keyword in
+                                ForEach(Array(zip(viewStore.recentKeywords.indices, viewStore.recentKeywords)), id: \.1) { index, keyword in
                                     RecentSearchCellView(
                                         keyword: keyword.keyword,
                                         searchedAt: keyword.searchedAt,
                                         onClose: {
-                                            viewStore.send(.removeRecentKeyword(keyword))
+                                            viewStore.send(.removeRecentKeyword(item: keyword, index: index))
                                         },
                                         onSelect: {
-                                            viewStore.send(.selectRecentKeyword(keyword))
+                                            viewStore.send(.selectRecentKeyword(item: keyword, index: index))
                                         })
                                     .listRowBackground(Color.Background._2)
                                     .padding(.vertical, 8)
@@ -121,12 +124,12 @@ public struct FeatureSearchMainView: View {
                     }
 
                 case .searching:
-                    List(viewStore.results, id: \.self) { result in
+                    List(Array(viewStore.results.enumerated()), id: \.element) { index, result in
                         SearchResultCellView(
                             keyword: viewStore.keyword,
                             result: result,
                             onTap: {
-                                viewStore.send(.selectResult(result))
+                                viewStore.send(.selectResult(keyword: result, index: index))
                             }
                         )
                         .listRowBackground(Color.Background._2)
