@@ -11,27 +11,6 @@ import Model
 import SwiftUIIntrospect
 import HighlightSwift
 
-let someCode: String = """
-#include <stdio.h>
-    
-void align(int a[]){
-  int temp;
-  for(int i=0;i<4;i++)
-    for(int j=0;j<4-i;j++)
-      if(a[j]>a[j+1]){
-        temp=a[j];
-        a[j]=a[j+1];
-        a[j+1]=temp;
-      }
-}
- main() {
-   int a[]={85, 75, 50, 100, 95};
-   align(a);
-   for(int i=0;i<5;i++)
-     printf("%d",a[i]);
-}
-"""
-
 public struct FeatureQuizPlayView: View {
     @State private var isFloatingButtonVisible = false
     @State var result: HighlightResult?
@@ -96,6 +75,11 @@ public struct FeatureQuizPlayView: View {
 
                                     if question.desc.text.isEmpty == false {
                                         Text(question.desc.text)
+                                            .font(.system(size: 15, weight: .regular))
+                                            .foregroundStyle(Color.Grayscale._700)
+                                            .lineSpacing(6.5)
+                                            .multilineTextAlignment(.leading)
+                                            .padding(.all, 0)
                                     }
 
                                     if let imageName = question.desc.images.first?.filename,
@@ -104,7 +88,6 @@ public struct FeatureQuizPlayView: View {
                                             .resizable()
                                             .scaledToFit()
                                             .frame(maxWidth: .infinity)
-                                            .padding(.horizontal, 20)
                                             .onTapGesture {
                                                 print("onTapGesture!")
                                                 viewStore.send(.presentImageDetail(imageName: "QuestionImages/\(imageName)"))
@@ -118,6 +101,7 @@ public struct FeatureQuizPlayView: View {
                                                     ZoomableImageView(image: UIImage(named: "QuestionImages/\(imageName)") ?? UIImage())
                                                 }
                                             )
+                                            .background(.red)
                                     }
 
                                     if question.code.isEmpty == false {

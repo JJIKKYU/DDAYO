@@ -15,6 +15,7 @@ import SwiftData
 @Reducer
 public struct FeatureStudyMainReducer {
     @Dependency(\.modelContext) var modelContext
+    @Dependency(\.mixpanelLogger) var mixpanelLogger
 
     public init() {}
 
@@ -107,6 +108,8 @@ public struct FeatureStudyMainReducer {
 
             case .showSheet(let isPresented):
                 state.isSheetPresented = isPresented
+                mixpanelLogger
+                    .log("click_study_sort")
 
                 // bottomSheet가 닫히는 시점에만 반영
                 if !isPresented,
@@ -146,6 +149,11 @@ public struct FeatureStudyMainReducer {
 
             case let .selectSortOption(option):
                 state.tempSortOption = option
+
+                if let option {
+                    mixpanelLogger.log(option.eventName)
+                }
+
                 return .send(.showSheet(false))
 
             case .selectItem(let index):
@@ -168,6 +176,17 @@ public struct FeatureStudyMainReducer {
                 items[index] = selected
                 state.conceptFeedItems = items
 
+                mixpanelLogger.log(
+                    "click_study_concept",
+                    parameters: LogParamBuilder()
+                        .add(.conceptCardIndex, value: index)
+                        .add(.conceptID, value: selected.id)
+                        .add(.conceptName, value: selected.title)
+                        .add(.bookmark, value: selected.isBookmarked)
+                        .add(.conceptViewCount, value: selected.views)
+                        .build()
+                )
+
                 return .run { [items] send in
                     try await MainActor.run {
                         guard let origin else { return }
@@ -189,6 +208,9 @@ public struct FeatureStudyMainReducer {
                 else { return .none }
 
                 let originItems: [ConceptItem] = state.conceptFeedItems.compactMap ({ $0.originConceptItem })
+
+                mixpanelLogger
+                    .log("click_study_recently_concept")
 
                 return .run { send in
                     await send(.navigateToStudyDetail(items: originItems, index: index))
@@ -279,6 +301,21 @@ public struct FeatureStudyMainReducer {
 
                 state.conceptFeedItems[index] = item
 
+                var eventName: String = "click_bookmark_btn"
+                if isBookmarked == false {
+                    eventName = "click_unbookmark_btn"
+                }
+                mixpanelLogger.log(
+                    eventName,
+                    parameters: LogParamBuilder()
+                        .add(.conceptCardIndex, value: index)
+                        .add(.page, value: "study")
+                        .add(.conceptID, value: item.id)
+                        .add(.conceptName, value: item.title)
+                        .add(.conceptViewCount, value: item.views)
+                        .build()
+                )
+
                 // 공부중인 아이템과 동일한 UUID면 같이 반영
                 if let recentId = state.recentFeedItem?.originConceptItem?.id,
                    recentId == item.originConceptItem?.id {
@@ -291,8 +328,11 @@ public struct FeatureStudyMainReducer {
                 state.visibleCount += 20
                 return .none
 
-            case .navigateToSearch,
-                    .navigateToStudyDetail:
+            case .navigateToSearch:
+                mixpanelLogger.log("click_study_header_search")
+                return .none
+
+            case .navigateToStudyDetail:
                 return .none
             }
         }

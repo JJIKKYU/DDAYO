@@ -148,6 +148,7 @@ public struct FeatureQuizPlayReducer {
                                     $0.questionTypeRawValue == questionTypeRawValue
                                 }
                             }
+                            descriptor.sortBy = [SortDescriptor(\QuestionItem.id)]
                             return try modelContext.fetch(descriptor)
                         }
 

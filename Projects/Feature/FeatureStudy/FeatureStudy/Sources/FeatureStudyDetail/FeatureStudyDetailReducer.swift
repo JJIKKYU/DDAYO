@@ -14,6 +14,7 @@ import Foundation
 @Reducer
 public struct FeatureStudyDetailReducer {
     @Dependency(\.modelContext) var modelContext
+    @Dependency(\.mixpanelLogger) var mixpanelLogger
 
     public init() {}
 
@@ -75,6 +76,16 @@ public struct FeatureStudyDetailReducer {
                 guard let currentItem = state.currentItem else { return .none }
                 let currentItemId = currentItem.id
 
+                mixpanelLogger.log(
+                    "imp_concept",
+                    parameters: LogParamBuilder()
+                        .add(.conceptID, value: currentItemId)
+                        .add(.conceptIndex, value: state.currentIndex)
+                        .add(.conceptName, value: currentItem.title)
+                        .add(.conceptViewCount, value: currentItem.views)
+                        .build()
+                )
+
                 return .run { send in
                     await MainActor.run {
                         // 최근 본 개념 초기화 후 저장
@@ -101,9 +112,33 @@ public struct FeatureStudyDetailReducer {
                 return .none
 
             case .goPrevious:
+                if let currentItem: ConceptItem = state.currentItem {
+                    mixpanelLogger.log(
+                        "click_prev_concept_btn",
+                        parameters: LogParamBuilder()
+                            .add(.conceptID, value: currentItem.id)
+                            .add(.conceptIndex, value: state.currentIndex)
+                            .add(.conceptName, value: currentItem.title)
+                            .add(.conceptViewCount, value: currentItem.views)
+                            .build()
+                    )
+                }
+
                 return handlePageMove(&state, direction: -1)
 
             case .goNext:
+                if let currentItem: ConceptItem = state.currentItem {
+                    mixpanelLogger.log(
+                        "click_next_concept_btn",
+                        parameters: LogParamBuilder()
+                            .add(.conceptID, value: currentItem.id)
+                            .add(.conceptIndex, value: state.currentIndex)
+                            .add(.conceptName, value: currentItem.title)
+                            .add(.conceptViewCount, value: currentItem.views)
+                            .build()
+                    )
+                }
+
                 return handlePageMove(&state, direction: 1)
 
             case .toggleBookmarkTapped:
@@ -138,6 +173,31 @@ public struct FeatureStudyDetailReducer {
                 }
 
             case .updateBookmarkStatus(let bookmarked):
+//                event : click_bookmark_btn
+//                page : concept
+//                concept_id : {}
+//                concept_index : 3
+//                concept_name : “name”
+//                concept_view_count : 0
+//                session_id : {}
+
+                if let currentConcept: ConceptItem = state.currentItem {
+                    var eventName: String = "click_bookmark_btn"
+                    if bookmarked == false {
+                        eventName = "click_unbookmark_btn"
+                    }
+                    mixpanelLogger.log(
+                        eventName,
+                        parameters: LogParamBuilder()
+                            .add(.page, value: "concept")
+                            .add(.conceptID, value: currentConcept.id)
+                            .add(.conceptIndex, value: state.currentIndex)
+                            .add(.conceptName, value: currentConcept.title)
+                            .add(.conceptViewCount, value: currentConcept.views)
+                            .build()
+                    )
+                }
+
                 state.isBookmarked = bookmarked
                 return .none
 

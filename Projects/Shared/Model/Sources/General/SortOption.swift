@@ -23,4 +23,14 @@ public enum SortOption: String, Equatable, CaseIterable {
         case .default: return "기본순"
         }
     }
+
+    public var eventName: String {
+        switch self {
+        case .az: return "click_study_sort_az"
+        case .za: return "click_study_sort_za"
+        case .leastViewed: return "click_study_sort_read-alot"
+        case .mostViewed: return "click_study_sort_read-little"
+        case .default: return "click_study_sort_default"
+        }
+    }
 }

@@ -12,6 +12,7 @@ import Model
 
 public struct FeatureStudyMainView: View {
     public let store: StoreOf<FeatureStudyMainReducer>
+    @Dependency(\.mixpanelLogger) var mixpanelLogger
 
     public init(store: StoreOf<FeatureStudyMainReducer>) {
         self.store = store

@@ -108,7 +108,7 @@ public struct FeatureQuizMainReducer {
                 )
 
                 mixpanelLogger.log(
-                    "Tab_Click",
+                    "tab_click",
                     parameters: [
                         "clickTarget": tab.clickTargetName()
                     ]
@@ -127,10 +127,7 @@ public struct FeatureQuizMainReducer {
                     ).parameters
                 )
                 mixpanelLogger.log(
-                    "Tab_Click",
-                    parameters: [
-                        "clickTarget": tab.clickTargetName()
-                    ]
+                    tab.clickTargetName()
                 )
                 return .none
 
@@ -152,18 +149,6 @@ public struct FeatureQuizMainReducer {
                     }
                 }()
 
-                // ai 문제를 터치했는지 여부
-                /*
-                firebaseLogger.logEvent(
-                    .click,
-                    parameters: FBClickParam(
-                        clickTarget: clickTarget,
-                        customParameters: [
-                            "ai": questionType == .ai
-                        ]
-                    ).parameters
-                )
-                */
                 mixpanelLogger.log(
                     eventName,
                     parameters: LogParamBuilder()

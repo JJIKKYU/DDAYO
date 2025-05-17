@@ -20,6 +20,7 @@ public struct FeatureProfileMainReducer: Reducer {
         public var userEmail: String = ""
         public var appVersion: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
         public var isUpdateNeeded: Bool = true
+        public var isLoggingOut: Bool = false
 
         public init() {}
     }
@@ -34,6 +35,7 @@ public struct FeatureProfileMainReducer: Reducer {
 
         case setUserName(String)
         case navigateToAuthView
+        case setLoggingOut(Bool)
     }
 
     public var body: some ReducerOf<Self> {
@@ -66,13 +68,21 @@ public struct FeatureProfileMainReducer: Reducer {
                 return .none
 
             case .logoutTapped:
-                do {
-                    try firebaseAuth.signOut()
-                    return .send(.navigateToAuthView)
-                } catch {
-                    print("❌ 로그아웃 실패: \(error)")
-                    return .none
+                state.isLoggingOut = true
+                return .run { send in
+                    do {
+                        try firebaseAuth.signOut()
+                        await send(.setLoggingOut(false))
+                        await send(.navigateToAuthView)
+                    } catch {
+                        print("❌ 로그아웃 실패: \(error)")
+                        await send(.setLoggingOut(false))
+                    }
                 }
+
+            case .setLoggingOut(let value):
+                state.isLoggingOut = value
+                return .none
 
             case .termsTapped:
                 // 약관 링크 오픈

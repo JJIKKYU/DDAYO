@@ -19,9 +19,11 @@ public enum LogParamKey: String {
     case duration
     case conceptID = "concept_id"
     case conceptCardIndex = "concept_card_index"
+    case conceptIndex = "concept_index"
     case conceptName = "concept_name"
     case conceptViewCount = "concept_view_count"
     case answer
+    case bookmark = "bookmark"
 }
 
 public final class LogParamBuilder {

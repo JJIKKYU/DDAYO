@@ -40,16 +40,24 @@ public struct FeatureProfileMainView: View {
                             .foregroundStyle(Color.Grayscale._600)
                             .padding(.bottom, 12)
 
-                        Button("로그아웃") {
-                            viewStore.send(.logoutTapped)
+                        ZStack {
+                            Button("로그아웃") {
+                                viewStore.send(.logoutTapped)
+                            }
+                            .buttonStyle(.plain)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 4)
+                            .background(Color.Grayscale._100)
+                            .cornerRadius(4)
+                            .font(.system(size: 11))
+                            .foregroundStyle(Color.Grayscale._900)
+                            .opacity(viewStore.isLoggingOut ? 0.3 : 1)
+
+                            if viewStore.isLoggingOut {
+                                ProgressView()
+                                    .scaleEffect(0.7)
+                            }
                         }
-                        .buttonStyle(.plain)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 4)
-                        .background(Color.Grayscale._100)
-                        .cornerRadius(4)
-                        .font(.system(size: 11))
-                        .foregroundStyle(Color.Grayscale._900)
                         .padding(.bottom, 16)
                     }
                     .padding(.top, 24)
