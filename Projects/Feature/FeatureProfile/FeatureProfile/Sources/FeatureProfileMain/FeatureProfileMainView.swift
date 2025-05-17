@@ -10,6 +10,8 @@ import ComposableArchitecture
 import UIComponents
 
 public struct FeatureProfileMainView: View {
+    @Environment(\.openURL) private var openURL
+
     let store: StoreOf<FeatureProfileMainReducer>
 
     public init(store: StoreOf<FeatureProfileMainReducer>) {
@@ -55,33 +57,46 @@ public struct FeatureProfileMainView: View {
 
                     // 약관 및 버전 정보
                     VStack(spacing: 30) {
-                        HStack {
-                            Text("서비스 이용약관")
-                                .font(.system(size: 16, weight: .medium))
-                                .foregroundStyle(Color.Grayscale._800)
+                        Button {
+                            if let url = URL(string: "https://kakao.com") {
+                                openURL(url)
+                            }
+                            viewStore.send(.termsTapped)
+                        } label: {
+                            HStack {
+                                Text("서비스 이용약관")
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundStyle(Color.Grayscale._800)
 
-                            Spacer()
+                                Spacer()
 
-                            Image(systemName: "chevron.right")
-                                .renderingMode(.template)
-                                .foregroundStyle(Color.Grayscale._800)
+                                Image(systemName: "chevron.right")
+                                    .renderingMode(.template)
+                                    .foregroundStyle(Color.Grayscale._800)
+                            }
+                            .contentShape(Rectangle())
                         }
-                        .contentShape(Rectangle())
-                        .onTapGesture { viewStore.send(.termsTapped) }
 
-                        HStack {
-                            Text("개인정보 처리방침")
-                                .font(.system(size: 15, weight: .medium))
-                                .foregroundStyle(Color.Grayscale._800)
+                        Button {
+                            if let url = URL(string: "https://naver.com") {
+                                openURL(url)
+                            }
+                            viewStore.send(.privacyTapped)
+                        } label: {
+                            HStack {
+                                Text("개인정보 처리방침")
+                                    .font(.system(size: 15, weight: .medium))
+                                    .foregroundStyle(Color.Grayscale._800)
 
-                            Spacer()
+                                Spacer()
 
-                            Image(systemName: "chevron.right")
-                                .renderingMode(.template)
-                                .foregroundStyle(Color.Grayscale._800)
+                                Image(systemName: "chevron.right")
+                                    .renderingMode(.template)
+                                    .foregroundStyle(Color.Grayscale._800)
+                            }
+                            .contentShape(Rectangle())
                         }
-                        .contentShape(Rectangle())
-                        .onTapGesture { viewStore.send(.privacyTapped) }
+                        .buttonStyle(.plain)
 
                         HStack {
                             Text("앱 버전")
@@ -89,7 +104,7 @@ public struct FeatureProfileMainView: View {
                                 .foregroundStyle(Color.Grayscale._800)
 
                             Spacer()
-                            Text(viewStore.appVersion)
+                            Text("v\(viewStore.appVersion)")
                                 .font(.system(size: 15, weight: .medium))
                                 .foregroundStyle(Color.Grayscale._600)
 

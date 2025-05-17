@@ -13,6 +13,8 @@ import Mixpanel
 public protocol MixpanelLoggerProtocol {
     func log(_ message: String)
     func log(_ message: String, parameters: [String: Any])
+
+    func identify(id: String)
 }
 
 // MARK: - MixpanelLogger
@@ -27,6 +29,10 @@ public struct MixpanelLogger: MixpanelLoggerProtocol {
         )
         Mixpanel.mainInstance().flushInterval = 1
         self.instance = instance
+    }
+
+    public func identify(id: String) {
+        instance.identify(distinctId: id)
     }
 
     func peopleSet() {

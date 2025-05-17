@@ -1,5 +1,5 @@
 {
-  "version": 12,
+  "version": 15,
   "items": [
     {
       "id": "ques_1",
@@ -10695,7 +10695,7 @@
         ]
       },
       "choice4": {
-        "text": "\\\n",
+        "text": "\\n",
         "images": [
           {
             "data": "",
@@ -10724,7 +10724,7 @@
         ]
       },
       "viewCount": 0,
-      "version": 1
+      "version": 3
     },
     {
       "id": "ques_166",
@@ -15396,6 +15396,1501 @@
       "answer": 3,
       "explanation": {
         "text": "프로젝트 범위 관리는 작업 내용과 산출물을 명확히 하고 변경을 통제하는 데 목적이 있습니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_464",
+      "title": "프로세스의 정의로 거리가 먼 것은?",
+      "subject": "소프트웨어 설계",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "PCB를 갖는 프로그램",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "동기적 행위를 일으키는 주체",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "실행 중인 프로그램",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 3,
+      "explanation": {
+        "text": "비동기적 행위를 일으키는 주체여야 합니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_465",
+      "title": "SJF(Shortest Job First) 스케줄링에서 다음과 같은 작업들이 준비상태 큐에 있을 때 평균 반환시간과 평균 대기시간은? ",
+      "subject": "소프트웨어 설계",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "평균 반환시간 : 13, 평균 대기시간 : 7",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "평균 반환시간 : 13, 평균 대기시간 : 9",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "평균 반환시간 : 15, 평균 대기시간 : 7",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "평균 반환시간 : 15, 평균 대기시간 : 9",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": "ques_465(1)"
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "• 실행시간: P-2(3), P-1(6), P-4(7), P-3(8) → 평균 실행시간 = 24/4 = 6\n\n• 대기시간: P-2(0), P-1(3), P-4(9), P-3(16) → 평균 대기시간 = 28/4 = 7\n\n• 평균 반환시간 = 평균 실행시간 + 평균 대기시간 = 52/4 = 13",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_466",
+      "title": "파일 시스템에서 중앙에 마스터 파일 디렉토리가 있고, 그 아래 사용자 파일 디렉토리가 있는 구조이며, 다른 사용자와의 파일 공유가 대체적으로 어렵고 파일 이름이 보통 사용자이름, 파일 이름의 형태를 취하므로 파일 이름의 길이가 길어지는 디렉토리 구조는? ",
+      "subject": "소프트웨어 설계",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "단일 디렉토리 구조 ",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "2단계 디렉토리 구조 ",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "트리형태 디렉토리 구조",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "비순환 그래프 디렉토리 구조 ",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 2,
+      "explanation": {
+        "text": "마스터, 사용자 → 2단계 디렉토리 구조",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_467",
+      "title": "자기 정정 부호 방식이라고도 불리며, 수신 측에서 오류가 발생한 비트를 검출한 후 직접 수정하는 전진 오류 수정 방식은?",
+      "subject": "소프트웨어 설계",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "Parity Code ",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "Hamming Code ",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "ASCII Code",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "EBCDIC Code",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 2,
+      "explanation": {
+        "text": "Hamming Code : 검출 O, 1bit 정정 O",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_468",
+      "title": "라우팅 프로토콜 중 Distance vector 방식이 아닌 것은?",
+      "subject": "소프트웨어 설계",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "RIP",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "BGP",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "EIGRP",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "OSPF",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 4,
+      "explanation": {
+        "text": "* 거리 벡터 알고리즘(Distance Vector Algorithm)\n\n- 프로토콜 종류: RIP, IGRP, BGP\n\n\n\n* 링크 상태 알고리즘(Link State Algorithm)\n\n- 프로토콜 종류: OSPF",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_469",
+      "title": "파일조직 기법 중 순차파일에 대한 설명으로 옳지 않은 것은?",
+      "subject": "소프트웨어 개발",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "파일 탐색 시 효율이 우수하며, 대화형 처리에 적합하다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "레코드가 키 순서대로 편성되어 취급이 용이하다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "연속적인 레코드의 저장에 의해 레코드 사이에 빈 공간이 존재하지 않으므로 기억장치의 효율적인 이용이 가능하다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "필요한 레코드를 삽입, 삭제, 수정하는 경우 파일을 재구성해야 하므로 파일 전체를 복사해야 한다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "파일 탐색 시 검색 효율이 낮아 대화형 처리보다 일괄 처리에 적합합니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_470",
+      "title": "레코드에 특정 기준으로 키가 할당되며, 해싱함수를 이용하여 이 키에 대한 보조기억장치의 물리적 상대주소를 계산한 후 해당하는 주소에 레코드를 저장하는 파일 구조는?",
+      "subject": "소프트웨어 설계",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "순차 파일",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "색인 순차 파일",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "VSAM",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "직접 파일",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 4,
+      "explanation": {
+        "text": "해싱 함수 계산",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_471",
+      "title": "자원 보호 기법 중 접근 제어 행렬에서 수평으로 있는 각 행들만을 따온 것으로서 각 영역에 대한 권한은 객체와 그 객체에 허용된 연산자로 구성되는 것은?",
+      "subject": "프로그래밍 언어 활용",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "Global Table",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "Access Control List",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "Capability List",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "Lock/Key",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 3,
+      "explanation": {
+        "text": "1번 전역 테이블(Global Table)은 3개의 순서쌍인 영역, 객체, 접근 권한의 집합을 목적 형태로 구성한 기법입니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_472",
+      "title": "다음 OSI 7계층 중 네트워크 연결 관리 기능과 데이터의 교환 중계 기능을 하는 계층은?",
+      "subject": "소프트웨어 설계",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "네트워크 계층",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "응용 계층",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "데이터링크 계층\t",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "표현 계층",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "네트워크 연결, 중계, 경로 설정 → 네트워크 계층",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_473",
+      "title": "다음 중 소프트웨어 아키텍처 4+1 뷰(VIEW)의 구성요소가 아닌 것은?",
+      "subject": "소프트웨어 설계",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "구현 뷰",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "배치 뷰",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "물리 뷰",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "논리 뷰",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 3,
+      "explanation": {
+        "text": "소프트웨어 아키텍처 4+1 VIEW 구성요소는 1. 논리 뷰 2. 구현 뷰 3. 유스케이스 뷰 4. 프로세스 뷰 5. 배치 뷰입니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_474",
+      "title": "디자인 패턴에 대한 설명으로 옳지 않은 것은?",
+      "subject": "소프트웨어 설계",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "Observer 패턴: 어떤 객체의 상태가 변할 때 그 객체에 의존성을 가진 다른 객체들이 그 변화를 통지받고 자동으로 갱신될 수 있게 만든다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "Mediator 패턴: 객체의 상호작용을 캡슐화하는 객체를 정의한다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "Composite 패턴: 객체의 구조와 처리 기능을 분리시킨다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "Bridge 패턴: 구현에서 추상을 분리하여, 이들이 독립적으로 다양성을 가질 수 있도록 한다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 3,
+      "explanation": {
+        "text": "보기는 Visitor(비지터)에 대한 설명입니다. *Composite 패턴: 부분-전체 계층을 표현하며 개별 객체와 복합 객체를 동일하게 다루도록 하는 패턴.\n\n",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_475",
+      "title": "모듈이나 컴포넌트 간의 호환성을 검사하며, 단위 테스트가 끝난 모듈을 통합하는 과정인 것은?",
+      "subject": "소프트웨어 개발",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "통합 테스트(Integration Test)",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "단위 테스트(Unit Test)",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "시스템 테스트(System Test)",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "인수 테스트(Acceptance Test)",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "단위 테스트가 끝난 모듈을 통합합니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_476",
+      "title": "사용자 인터페이스(User Interface)에 대한 설명으로 틀린 것은?",
+      "subject": "소프트웨어 설계",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "사용자와 시스템이 정보를 주고받는 상호작용이 잘 이루어지도록 하는 장치나 소프트웨어를 의미한다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "편리한 유지보수를 위해 개발자 중심으로 설계되어야 한다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "배우기가 용이하고 쉽게 사용할 수 있도록 만들어져야 한다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "사용자 요구사항이 UI에 반영될 수 있도록 구성해야 한다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 2,
+      "explanation": {
+        "text": "개발자가 아닌 사용자 중심으로 설계하여 사용자가 이해하기 편하고 쉽게 사용할 수 있는 환경을 제공하며 실사용자에 대한 이해가 바탕이 되어야 합니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_477",
+      "title": "개발 환경 구성을 위한 빌드(Bulid) 도구에 해당하지 않는 것은?",
+      "subject": "소프트웨어 개발",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "Ant",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "Fedora",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "Maven",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "Gradle",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 2,
+      "explanation": {
+        "text": "Fedora(페도라)는 리눅스 기반의 운영체제 중 하나입니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_478",
+      "title": "다음 중 switch~case문에서 모든 case에 해당하지 않을 시, 실행되는 문장은?",
+      "subject": "프로그래밍 언어 활용",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "case 0",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "case 1",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "default",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "실행 안됨",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "#include <stdio.h>\n\nint main() {\n\tint a = 0, b = 1;\n\n\tswitch (a) {\n\t\tcase 0:\n\t\t\tprintf(\"%d\\n\", b++);\n\t\t\tbreak;\n\t\tcase 1:\n\t\t\tprintf(\"%d\\n\", ++b);\n\t\t\tbreak;\n\t\tdefault:\n\t\t\tprintf(\"%d\\n\", b);\n\t\t\tbreak;\n\t}\n\n\treturn 0;\n}",
+      "answer": 3,
+      "explanation": {
+        "text": "변수 a의 값은 0입니다.\n\n• switch(a)에서 a의 값(0)을 검사합니다.\n\n• case 0:이 존재하므로, case 0 블록이 실행됩니다.\n\n• 즉, \"모든 case에 해당하지 않을 경우\" 가 아니라 case 0이 매칭되므로, default는 실행되지 않습니다.\n\n\n\n하지만 문제는 \"모든 case에 해당하지 않을 시\"를 묻고 있으므로, a가 case 0이나 case 1에도 해당하지 않는다면, default:가 실행됩니다.\n \n\n\n(※ 현재 코드에서는 case 0이 실행되지만, 문제는 '해당 case가 없을 때' 어떤 문장이 실행되는지를 물어본 것입니다.)\n\n",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_479",
+      "title": "다음 중 객체지향 프로그래밍 언어는?",
+      "subject": "소프트웨어 설계",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "Fortran",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "C",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "COBOL ",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "C++",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 4,
+      "explanation": {
+        "text": "1,2,3번은 절차적 프로그래밍 언어입니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_480",
+      "title": "다음 중 가장 약한 결합도(Coupling)는?",
+      "subject": "소프트웨어 설계",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "Common Coupling",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "Control Coupling",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "External Coupling",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "Data Coupling",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 4,
+      "explanation": {
+        "text": "결합도 종류: 자료(데이터) < 스탬프 < 제어 < 외부 < 공통 < 내용",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_481",
+      "title": "효과적인 모듈화 설계 방법으로 가장 거리가 먼 것은?",
+      "subject": "소프트웨어 설계",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "Coupling은 강하게 Cohesion은 약하게 설계한다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "Complexity와 Redundancy를 최대한 줄일 수 있도록 설계한다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "Maintenance가 용이하도록 설계한다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "Module 크기는 시스템의 전반적인 기능과 구조를 이해하기 쉬운 크기로 설계한다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "결합도(Coupling)는 약하게 응집도(Cohesion)는 강하게 설계해야 합니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_482",
+      "title": "다음 자료를 버블 정렬을 이용하여 오름차순으로 정렬할 경우 PASS 1의 결과는? - 다음 - 9, 6, 7, 3, 5",
+      "subject": "소프트웨어 개발",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "6, 3, 5, 7, 9",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "3, 5, 6, 7, 9",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "6, 7, 3, 5, 9",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "3, 5, 9, 6, 7",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 3,
+      "explanation": {
+        "text": "버블 정렬은 2개의 인접한 데이터를 크기에 따라 서로 교환하는 작업을 반복하며 정렬하는 방법입니다.\n\n\n\n- 1회전: 9, 6, 7, 3, 5 → 6, 9, 7, 3, 5 \n\n         → 6, 7, 9, 3, 5  → 6, 7, 3, 9, 5\n\n         → 6, 7, 3, 5, 9\n \n\n\n- 2회전: 6, 7, 3, 5, 9 → 6, 7, 3, 5, 9\n\n         → 6, 3, 7, 5, 9 → 6, 3, 5, 7, 9\n\n         → 6, 3, 5, 7, 9\n\n\n\n- 3회전: 6, 3, 5, 7, 9 → 3, 6, 5, 7, 9\n\n         → 3, 5, 6, 7, 9 → 3, 5, 6, 7, 9\n\n\n\n- 4회전 : 3, 5, 6, 7, 9\n\n\n",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_483",
+      "title": "개체-관계 모델의 E-R 다이어그램에서 사용되는 기호와 그 의미의 연결이 틀린 것은?",
+      "subject": "소프트웨어 설계",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "△ : 개체(Entity)",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "◯ : 속성(Arttribute)",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "─ : 개체와 관계를 연결하는 선",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "◇ : 개체 간의 연결성",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "개체(Entity)는 ▭ (사각형)으로 표현합니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_484",
+      "title": "시스템 카탈로그에 대한 설명으로 옳지 않은 것은?",
+      "subject": "소프트웨어 설계",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "시스템 카탈로그는 DBMS가 스스로 생성하고 유지하는 데이터베이스 내의 특별한 테이블들의 집합체이다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "일반 사용자도 시스템 카탈로그의 내용을 검색할 수 있다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "시스템 카탈로그 내의 각 테이블은 DBMS에서 지원하는 개체들에 관한 정보를 포함한다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "시스템 카탈로그에 대한 갱신은 데이터베이스의 무결성 유지를 위하여 사용자가 직접 갱신해야 한다.\n",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 4,
+      "explanation": {
+        "text": "시스템 카탈로그에 대한 갱신은 데이터베이스의 무결성 유지를 위하여 사용자가 직접 갱신할 수 없습니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_485",
+      "title": "뷰(View)에 대한 설명으로 틀린 것은?",
+      "subject": "소프트웨어 설계",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "뷰 위에 또 다른 뷰를 정의할 수 있다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "뷰에 대한 조작에서 삽입, 갱신, 삭제 연산은 제약이 따른다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "뷰의 정의는 기본 테이블과 같이 ALTER 문을 이용하여 변경한다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "뷰가 정의된 기본 테이블이 제거되면 뷰도 자동적으로 제거된다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 3,
+      "explanation": {
+        "text": "뷰의 정의는 기본 테이블과 달리 ALTER 문을 이용하여 변경이 불가능하다. ",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_486",
+      "title": "트랜잭션의 특성(ACID)에 해당하지 않는 것은?",
+      "subject": "데이터베이스 구축",
+      "questionType": "기출",
+      "date": "2025",
+      "choice1": {
+        "text": "Isolation\t",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "Consistency",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "Atomicity",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "Distribution",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 4,
+      "explanation": {
+        "text": "트랜잭션의 특성(ACID)은 원자성(Atomicity), 일관성(Consistency), 독립성,격리성(Isolation), 영속성,지속성(Durability)입니다.",
         "images": [
           {
             "data": "",
@@ -25483,7 +26978,7 @@
     },
     {
       "id": "ques_394",
-      "title": "다음 코드는 선택정렬 구현에 관한 문제이다.  오름차순으로 정렬할 경우 빈칸에 알맞는 연산자를 보기에서 골라 작성하시오.\n\n ",
+      "title": "다음 코드는 선택정렬 구현에 관한 문제이다.  오름차순으로 정렬할 경우 빈칸에 알맞는 연산자를 보기에서 골라 작성하시오.",
       "subject": "프로그래밍 언어 활용_실기_C",
       "questionType": "기출",
       "date": "",
@@ -25544,7 +27039,7 @@
         ]
       },
       "viewCount": 0,
-      "version": 6
+      "version": 7
     },
     {
       "id": "ques_395",
@@ -25922,7 +27417,7 @@
           }
         ]
       },
-      "code": "#include <stdio.h>\n\nint main() {\n\tchar* p = \"KOREA\";\n\tprintf(\"%s\\n\", p);\n\tprintf(\"%s\\n\", p + 1);\n\tprintf(\"%c\\n\", *p);\n\tprintf(\"%c\\n\", *(p + 3));\n\tprintf(\"%c\\n\", *p + 4);\n}",
+      "code": "#include <stdio.h>\n\nint main() {\n        char* p = \"KOREA\";\n        printf(\"%s\\n\", p);\n        printf(\"%s\\n\", p + 1);\n        printf(\"%c\\n\", *p);\n        printf(\"%c\\n\", *(p + 3));\n        printf(\"%c\\n\", *p + 4);\n}",
       "answer": 1,
       "explanation": {
         "text": "이 코드는 C언어로 작성된 포인터와 문자열 출력 문제입니다.\n먼저 char* p = \"KOREA\";는 문자열 상수를 가리키는 포인터 p를 선언합니다.\n각 출력문을 분석하면:\nprintf(\"%s\n\", p);\n포인터 p가 가리키는 문자열 전체 \"KOREA\"를 출력합니다.\nprintf(\"%s\n\", p+1);\np+1은 p가 가리키는 주소에서 한 글자 뒤를 가리킵니다.\n따라서 \"OREA\"가 출력됩니다.\nprintf(\"%c\n\", *p);\n*p는 p가 가리키는 첫 번째 문자, 즉 'K'를 출력합니다.\nprintf(\"%c\n\", *(p+3));\np+3은 p에서 3칸 뒤를 가리킵니다.\n즉, 'E'를 출력합니다.\nprintf(\"%c\n\", *p+4);\n*p는 'K'인데, 여기에 정수 4를 더합니다.\n'K'의 아스키코드값은 75\n75 + 4 = 79\n아스키코드 79는 'O'입니다.\n따라서 'O'가 출력됩니다.",
@@ -25934,7 +27429,7 @@
         ]
       },
       "viewCount": 0,
-      "version": 9
+      "version": 10
     },
     {
       "id": "ques_401",
@@ -26584,7 +28079,7 @@
         ]
       },
       "viewCount": 0,
-      "version": 2
+      "version": 4
     },
     {
       "id": "ques_411",
@@ -29956,6 +31451,2281 @@
       "answer": 1,
       "explanation": {
         "text": "추상 팩토리 패턴(Abstract Factory)은 생성(Creational) 디자인 패턴에 속하며, 서로 관련 있는 객체들을 일관된 방식으로 생성할 수 있는 인터페이스를 제공하는 것이 주요 목적입니다. 이 패턴은 구체 클래스에 대한 의존성을 줄이고, 제품군 단위로 객체들을 생성할 수 있도록 설계되었습니다. 이러한 특징 덕분에 관련된 객체들을 한 세트로 묶어서 사용할 수 있으며, *키트(Kit) 패턴\"이라는 별칭으로도 불립니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_487",
+      "title": "다음은 네트워크 보안에 관련된 문제이다. 괄호안에 알맞은 용어를 작성하시오.",
+      "subject": "소프트웨어 개발 보안 구축",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "세션 하이재킹",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": "ques_487(1)"
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "1. **세션 하이재킹(Session Hijacking)**이란?\n• '세션을 가로채다'는 의미로, 다른 사용자의 세션 정보를 탈취하여 인증 없이 시스템에 접근하는 **해킹 기법**입니다.\n• 사용자가 로그인한 후 생성된 세션 ID를 공격자가 가로채면, 마치 사용자인 것처럼 행위할 수 있습니다.\n\n2. **TCP 세션 하이재킹**의 동작 원리\n• TCP의 **3-way 핸드셰이크**가 완료된 뒤 공격자가 **시퀀스 번호(SEQ 번호)**를 조작하거나 예측합니다.\n• 이를 통해 클라이언트나 서버를 속이고 **정상적인 세션을 탈취**해 통신을 이어갑니다.\n• 추가적인 인증 절차 없이 **권한을 획득**할 수 있는 위험한 공격 방식입니다.\n\n3. 요약\n• '세션을 가로채는 행위' = **세션 하이재킹(Session Hijacking)**\n• 'TCP 연결 후 SEQ 번호 조작' = **TCP 세션 하이재킹**",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_488",
+      "title": "다음은 제약조건과 관련된 문제이다. 괄호 안에 알맞는 용어를 작성하시오.",
+      "subject": "소프트웨어 개발 보안 구축",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "ㄱ. 도메인,  ㄴ. 개체, ㄷ. 참조",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": "ques_488(1)"
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "1. **도메인 무결성 제약조건(Domain Integrity Constraint)**이란?\n• 속성 값이 정의된 도메인(값의 범위, 데이터 타입 등) 내에 존재해야 한다는 제약조건입니다.\n• NULL 여부는 특별히 제시되지 않으며, 송상(릴레이션)의 속성 개수와 동일하게 적용됩니다.\n\n2. **개체 무결성 제약조건(Entity Integrity Constraint)**이란?\n• 릴레이션의 각 튜플을 고유하게 식별하기 위해 기본키에 대해 설정하는 제약조건입니다.\n• 기본키는 반드시 NULL이 될 수 없으며, 테이블당 하나의 기본키만 존재합니다.\n\n3. **참조 무결성 제약조건(Referential Integrity Constraint)**이란?\n• 외래키(Foreign Key)를 이용해 다른 릴레이션의 기본키를 참조할 때, 참조 무결성을 유지하도록 하는 제약조건입니다.\n• 외래키는 NULL이 될 수 있으며, 부모 릴레이션의 튜플 수정/삭제 시에도 제약사항을 우선 확인해야 합니다.\n\n4. 요약\n• (ㄱ) = **도메인 무결성 제약조건**\n• (ㄴ) = **개체 무결성 제약조건**\n• (ㄷ) = **참조 무결성 제약조건**",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_489",
+      "title": "빈칸에 들어갈 용어를 영문 약자로 작성하시오.",
+      "subject": "소프트웨어 개발 보안 구축",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "CRC",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": "ques_489(1)"
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "1. **CRC(Cyclic Redundancy Check)**란?\n• 3글자의 영어 약자로 구성된 오류 검출 코드입니다.\n• 데이터를 전송하거나 저장할 때 발생할 수 있는 오류를 감지하는 데 사용됩니다.\n• 전송한 데이터에 추가 정보를 붙여 수신 측에서 다시 계산해 비교함으로써 오류 여부를 확인할 수 있습니다.\n\n2. **CRC**의 동작 원리\n• 데이터를 전송하거나 저장할 때, 데이터에 체크섬을 추가합니다.\n• 수신 측 또는 읽기 작업 시 다시 체크섬을 계산하여 원본 데이터가 변경되었는지 확인합니다.\n• 데이터의 안정성과 신뢰성을 높이는 데 중요한 역할을 합니다.\n• CRC 계산은 이진수 형태로 이루어지며, 주어진 다항식(예: x³ + x + 1)을 기준으로 데이터를 2진수 나눗셈하고 나머지를 **CRC 값**으로 사용합니다.\n\n3. 요약\n• (빈칸) = **CRC**",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_490",
+      "title": "다음 내용과 일치하는 용어를 아래 보기에서 고르시오.",
+      "subject": "소프트웨어 개발 보안 구축",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "ㄹ. 스캐어 웨어",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": "ques_490(1)"
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "1. **스케어 웨어(Scareware)**란?\n• 'Scare(겁주다)'라는 영어 단어에서 유래한 악성 소프트웨어의 한 종류입니다.\n• 사용자에게 충격, 공포, 불안 등을 조장하여 가짜 문제를 해결하기 위해 소프트웨어 구매를 유도합니다.\n• 대표적으로 가짜 바이러스 경고, 시스템 문제 경고를 보여주며 사용자가 불필요한 결제를 하거나 특정 소프트웨어를 설치하도록 속입니다.\n\n2. **스케어 웨어**의 주요 특징\n• 사회공학적 기법을 사용해 사용자 심리를 조작합니다.\n• 직접적인 데이터 파괴보다는 경제적 이득을 목표로 합니다.\n• 일반적인 악성코드와 달리 사용자가 스스로 악성 소프트웨어를 설치하게 만드는 데 초점을 둡니다.\n\n3. 요약\n• 사용자 불안 조성 및 소프트웨어 구매 유도 = **스케어 웨어(Scareware)**\n• 겁을 주어 대가를 지불하게 하는 랜섬웨어 유형 = **스케어 웨어(Scareware)**\n• 가짜 바이러스 경고로 유도하는 악성 행위 = **스케어 웨어(Scareware)**",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_491",
+      "title": "다음은 Java 코드에 대한 문제이다. 아래 코드를 확인하여 알맞는 출력값을 작성하시오.",
+      "subject": "프로그래밍 언어 활용",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "출력1출력5",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "public class Main {\n\n\tpublic static void main(String[] args) {\n\n\t\tint a = 5, b = 0;\n\n\t\ttry {\n\t\t\tSystem.out.print(a / b);\n\t\t} catch (ArithmeticException e) {\n\t\t\tSystem.out.print(\"출력1\");\n\t\t} catch (ArrayIndexOutOfBoundsException e) {\n\t\t\tSystem.out.print(\"출력2\");\n\t\t} catch (NumberFormatException e) {\n\t\t\tSystem.out.print(\"출력3\");\n\t\t} catch (Exception e) {\n\t\t\tSystem.out.print(\"출력4\");\n\t\t} finally {\n\t\t\tSystem.out.print(\"출력5\");\n\t\t}\n\t}\n}",
+      "answer": 1,
+      "explanation": {
+        "text": "1. **문제 상황 분석**\n• 변수 a는 5, b는 0으로 초기화되어 있습니다.\n• try 블록에서 a를 b로 나누는 a/b 연산이 실행됩니다.\n• 0으로 나누는 연산은 자바에서 **ArithmeticException**을 발생시킵니다.\n\n2. **예외 처리 흐름**\n• ArithmeticException이 발생하였으므로 catch(ArithmeticException e) 블록으로 이동합니다.\n• catch 블록에서는 \"출력1\"을 출력합니다.\n• finally 블록은 예외 발생 여부와 관계없이 무조건 실행되므로, \"출력5\"를 추가로 출력합니다.\n\n3. 요약\n• a/b 연산 시 ArithmeticException 발생 → **\"출력1\"** 출력\n• finally 블록 실행 → **\"출력5\"** 출력\n• 최종 출력 결과: **출력1출력5**",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_492",
+      "title": "괄호안에 알맞은 용어를 작성하시오.",
+      "subject": "소프트웨어 개발 보안 구축",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "1. ARP, 2. RARP",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": "ques_492(1)"
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "1. **ARP(Address Resolution Protocol)**란?\n• 네트워크상에서 **IP 주소를 MAC 주소로 변환**하는 프로토콜입니다.\n• IP 패킷을 전송하기 위해 필요한 MAC 주소를 얻기 위해 사용됩니다.\n• 송신자가 ARP 요청을 보내면, 해당 IP 주소를 가진 장치가 자신의 MAC 주소를 응답합니다.\n\n2. **RARP(Reverse Address Resolution Protocol)**란?\n• **MAC 주소를 IP 주소로 변환**하는 프로토콜입니다.\n• 디스크 없는 단말기(Diskless Workstation)처럼 스스로 IP 주소를 모르는 경우 사용합니다.\n• 장비가 자신의 MAC 주소를 RARP 서버에 보내면, 서버가 해당 MAC에 대응하는 IP 주소를 알려줍니다.\n\n3. 요약\n• ➀ IP → MAC 변환 = **ARP**\n• ➁ MAC → IP 변환 = **RARP**",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_493",
+      "title": "다음 두 테이블을 참고하여 아래 쿼리를 실행한 결과를 작성하시오.",
+      "subject": "SQL 응용",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "name  |  incentive  \n이순신  | 1000      ",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": "ques_493(1)"
+          }
+        ]
+      },
+      "code": "SELECT\n\tname,\n\tincentive\nFROM\n\temp,\n\tsal\nWHERE\n\temp.id = sal.id\n\tAND incentive >= 500;",
+      "answer": 1,
+      "explanation": {
+        "text": "1. **문제 조건 분석**\n• emp 테이블과 sal 테이블을 조인하여 id가 같은 행끼리 연결합니다.\n• 연결된 결과 중 incentives(인센티브) 값이 500 이상인 행만 선택합니다.\n\n2. **조인 결과 확인**\n• emp.id = sal.id인 경우를 찾으면 다음과 같습니다.\n  - 1002: 홍길동 - 300 (조건 불만족)\n  - 1004: 강감찬 - 300 (조건 불만족)\n  - 1008: 이순신 - 1000 (조건 만족)\n• 1009번(id=1009)은 emp 테이블에 존재하지 않기 때문에 조인되지 않습니다.\n\n3. **최종 결과**\n• 조건(incentives >= 500)을 만족하는 행은 이순신(1008번)만 해당합니다.\n• 따라서 출력 결과는 이순신, 1000입니다.\n\n4. 요약\n• name = **이순신**, incentive = **1000**",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_494",
+      "title": "다음은 데이터베이스에 관련된 설명이다. 빈칸에 들어갈 알맞은 용어를 보기에서 골라 작성하시오.",
+      "subject": "소프트웨어 개발 보안 구축",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "1. ㄷ,  2. ㅁ,  3. ㅅ,  4. ㄱ\n\n ",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": "ques_494(1)"
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "1. **degree(차수)**란?\n• 릴레이션(테이블)에서 속성(열, column)의 개수를 의미합니다.\n• 하나의 릴레이션이 가질 수 있는 속성 수를 나타냅니다.\n\n2. **cardinality(기수)**란?\n• 릴레이션에 포함된 튜플(행, row)의 개수를 의미합니다.\n• 테이블에 저장된 데이터의 수를 나타내는 지표입니다.\n\n3. **foreign(외래키 속성)**란?\n• 한 릴레이션의 속성이 다른 릴레이션의 기본키를 참조할 때 사용되는 속성입니다.\n• 외래키를 통해 두 릴레이션 간의 관계를 표현할 수 있습니다.\n\n4. **domain(도메인)**이란?\n• 특정 속성에 대해 입력될 수 있는 값의 유형이나 범위를 의미합니다.\n• 도메인은 무결성을 보장하는 기준 역할을 하며, 데이터 타입과 값의 범위를 정의합니다.\n\n5. 요약\n• ➀ = **degree**\n• ➁ = **cardinality**\n• ➂ = **foreign**\n• ➃ = **domain**",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_495",
+      "title": "IP 주소가 192.168.35.10, 서브넷 255.255.252.0인 PC에서 브로드캐스팅으로 다른 IP로 정보를 전달한다고 할 때, 수신할 수 있는 IP를 보기에서 골라 모두 작성하시오.",
+      "subject": "응용SW기초 기술 활용",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "ㄱ,ㄴ,ㄷ,ㄹ,ㅁ",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": "ques_495(1)"
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "1. **서브넷 정보 분석**\n• 서브넷 마스크 255.255.252.0은 /22로 표현됩니다.\n• /22는 3번째 옥텟에서 22비트(8+8+6)까지 네트워크 주소를 사용한다는 의미입니다.\n• 즉, 3번째 옥텟이 32~35 범위(32, 33, 34, 35)까지 모두 **같은 네트워크**에 포함됩니다.\n\n2. **네트워크 범위 계산**\n• 네트워크 주소: 192.168.32.0\n• 브로드캐스트 주소: 192.168.35.255\n• 따라서 192.168.32.1 ~ 192.168.35.254까지 모든 호스트는 **같은 네트워크 안**에 있습니다.\n\n3. **보기에 대한 판단**\n• ㄱ. 192.168.34.1 → 192.168.32.0 ~ 192.168.35.255 사이 → **수신 가능**\n• ㄴ. 192.168.32.19 → 192.168.32.0 ~ 192.168.35.255 사이 → **수신 가능**\n• ㄷ. 192.168.35.200 → 192.168.32.0 ~ 192.168.35.255 사이 → **수신 가능**\n• ㄹ. 192.168.33.138 → 192.168.32.0 ~ 192.168.35.255 사이 → **수신 가능**\n• ㅁ. 192.168.35.50 → 192.168.32.0 ~ 192.168.35.255 사이 → **수신 가능**\n\n4. **최종 정리**\n• 보기의 모든 IP 주소가 같은 서브넷 범위 안에 있습니다.\n• 따라서 수신 가능한 IP는 **ㄱ, ㄴ, ㄷ, ㄹ, ㅁ 모두**입니다.\n\n5. 요약\n• 정답: **ㄱ, ㄴ, ㄷ, ㄹ, ㅁ**",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_496",
+      "title": "다음 C언어 코드의 출력값을 작성하시오.",
+      "subject": "프로그래밍 언어 활용",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "4 \nBACDE",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "#include <stdio.h>\n\nchar Data[5] = { 'B', 'A', 'D', 'E' };\nchar c;\n\nint main() {\n\tint i, temp, temp2;\n\n\tc = 'C';\n\tprintf(\"%d\\n\", Data[3] - Data[1]);\n\n\tfor (i = 0; i < 5; ++i) {\n\t\tif (Data[i] > c)\n\t\t\tbreak;\n\t}\n\n\ttemp = Data[i];\n\tData[i] = c;\n\ti++;\n\n\tfor (; i < 5; ++i) {\n\t\ttemp2 = Data[i];\n\t\tData[i] = temp;\n\t\ttemp = temp2;\n\t}\n\n\tfor (i = 0; i < 5; i++) {\n\t\tprintf(\"%c\", Data[i]);\n\t}\n\n\treturn 0;\n}",
+      "answer": 1,
+      "explanation": {
+        "text": "1. **초기 상태 분석**\n• Data = {'B', 'A', 'D', 'E', '\\\\0'}\n• c = 'C'\n\n2. **첫 번째 printf (Data[3] - Data[1])**\n• 'E'(ASCII 69) - 'A'(ASCII 65) = 4\n• 따라서 첫 출력 결과는 **4**\n\n3. **for문을 통한 삽입 위치 찾기**\n• i=0: 'B'(66) <= 'C'(67) → continue\n• i=1: 'A'(65) <= 'C'(67) → continue\n• i=2: 'D'(68) > 'C'(67) → break (i=2)\n\n4. **삽입 및 배열 재정렬**\n• temp = 'D'\n• Data[2] = 'C'\n• temp와 남은 요소들 교환\n• 최종 Data = {'B', 'A', 'C', 'D', 'E'}\n\n5. **두 번째 출력 (Data 배열 출력)**\n• 출력 결과 = BACDE\n\n6. 요약\n• 첫 번째 출력 = **4**\n• 두 번째 출력 = **BACDE**",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_497",
+      "title": "다음 C언어 코드의 출력값을 작성하시오.",
+      "subject": "프로그래밍 언어 활용",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "13",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "#include <stdio.h>\n#include <stdlib.h>\n\nvoid set(int** arr, int* data, int rows, int cols) {\n\tfor (int i = 0; i < rows * cols; ++i) {\n\t\tarr[((i + 1) / rows) % rows][(i + 1) % cols] = data[i];\n\t}\n}\n\nint main() {\n\tint rows = 3, cols = 3, sum = 0;\n\tint data[] = { 5, 2, 7, 4, 1, 8, 3, 6, 9 };\n\tint** arr;\n\n\tarr = (int**)malloc(sizeof(int*) * rows);\n\tfor (int i = 0; i < rows; i++) {\n\t\tarr[i] = (int*)malloc(sizeof(int) * cols);\n\t}\n\n\tset(arr, data, rows, cols);\n\n\tfor (int i = 0; i < rows * cols; i++) {\n\t\tsum += arr[i / rows][i % cols] * (i % 2 == 0 ? 1 : -1);\n\t}\n\n\tfor (int i = 0; i < rows; i++) {\n\t\tfree(arr[i]);\n\t}\n\tfree(arr);\n\n\tprintf(\"%d\", sum);\n\n\treturn 0;\n}",
+      "answer": 1,
+      "explanation": {
+        "text": "1. **초기 상태 분석**\n• rows = 3, cols = 3\n• data 배열 = {5, 2, 7, 4, 1, 8, 3, 6, 9}\n\n2. **set 함수 동작 분석**\n• 데이터 저장 규칙: arr[((i + 1) / rows) % rows][(i + 1) % cols] = data[i]\n• 각 i에 대한 대입 결과:\n  - i=0: arr[(1/3)%3][1%3] → arr[0][1] = 5\n  - i=1: arr[(2/3)%3][2%3] → arr[0][2] = 2\n  - i=2: arr[(3/3)%3][3%3] → arr[1][0] = 7\n  - i=3: arr[(4/3)%3][4%3] → arr[1][1] = 4\n  - i=4: arr[(5/3)%3][5%3] → arr[1][2] = 1\n  - i=5: arr[(6/3)%3][6%3] → arr[2][0] = 8\n  - i=6: arr[(7/3)%3][7%3] → arr[2][1] = 3\n  - i=7: arr[(8/3)%3][8%3] → arr[2][2] = 6\n  - i=8: arr[(9/3)%3][9%3] → arr[0][0] = 9\n• 최종 arr 배열 상태:\n| 0열 | 1열 | 2열 |\n|----|----|----|\n| 9  | 5  | 2  |\n| 7  | 4  | 1  |\n| 8  | 3  | 6  |\n\n3. **sum 계산 과정**\n• sum += arr[i/rows][i%cols] * (i%2==0 ? 1 : -1)\n• i=0: arr[0][0] = 9 → +9 → sum=9\n• i=1: arr[0][1] = 5 → -5 → sum=4\n• i=2: arr[0][2] = 2 → +2 → sum=6\n• i=3: arr[1][0] = 7 → -7 → sum=-1\n• i=4: arr[1][1] = 4 → +4 → sum=3\n• i=5: arr[1][2] = 1 → -1 → sum=2\n• i=6: arr[2][0] = 8 → +8 → sum=10\n• i=7: arr[2][1] = 3 → -3 → sum=7\n• i=8: arr[2][2] = 6 → +6 → sum=13\n\n4. **최종 sum 결과**\n• sum = **13**\n\n5. 요약\n• 최종 출력값 = **13**",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_498",
+      "title": "다음은 결합도와 관련된 내용이다. 보기에서 알맞은 답을 고르시오.",
+      "subject": "소프트웨어 개발 보안 구축",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "(1) ㅁ (2) ㄴ (3) ㄹ",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": "ques_498(1)"
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "1. **내용 결합도(Content Coupling)**란?\n• 다른 모듈 내부에 있는 변수나 기능을 다른 모듈에서 직접 사용하거나 수정하는 경우 발생하는 결합입니다.\n• 모듈 간 의존성이 매우 강하며, 유지보수성이 떨어지는 나쁜 결합도입니다.\n\n2. **스탬프 결합도(Stamp Coupling)**란?\n• 모듈 간의 인터페이스로 배열, 구조체, 오브젝트 등 복합 자료형 전체를 전달하는 경우 발생합니다.\n• 필요한 데이터만 전달하지 않고 전체 구조를 넘기기 때문에 불필요한 의존이 발생할 수 있습니다.\n\n3. **공통 결합도(Common Coupling)**란?\n• 모듈 외부에 선언된 전역 변수(global variable)를 여러 모듈이 공유하여 사용하는 경우 발생합니다.\n• 전역 데이터에 대한 의존성이 높아지므로 권장되지 않는 결합 방식입니다.\n\n4. 요약\n• ➀ = **내용 결합도(내용 결합도, ㅁ)**\n• ➁ = **스탬프 결합도(스탬프 결합도, ㄴ)**\n• ➂ = **공통 결합도(공통 결합도, ㄹ)**",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_499",
+      "title": "다음 JAVA 코드의 출력값을 작성하시오.",
+      "subject": "프로그래밍 언어 활용",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "54",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "public class Main {\n\tpublic static void main(String[] args) {\n\t\tnew Child();\n\t\tSystem.out.println(Parent.total);\n\t}\n}\n\nclass Parent {\n\tstatic int total = 0;\n\tint v = 1;\n\n\tpublic Parent() {\n\t\ttotal += (++v);\n\t\tshow();\n\t}\n\n\tpublic void show() {\n\t\ttotal += total;\n\t}\n}\n\nclass Child extends Parent {\n\tint v = 10;\n\n\tpublic Child() {\n\t\tv += 2;\n\t\ttotal += v++;\n\t\tshow();\n\t}\n\n\t@Override\n\tpublic void show() {\n\t\ttotal += total * 2;\n\t}\n}",
+      "answer": 1,
+      "explanation": {
+        "text": "1. **초기 상태 분석**\n• Parent 클래스\n  - static int total = 0 (공유 변수)\n  - int v = 1 (인스턴스 변수)\n• Child 클래스\n  - int v = 10 (Child의 인스턴스 변수)\n\n2. **new Child() 호출 시 생성자 순서**\n• Child 생성자 호출 시 Parent 생성자가 먼저 호출됩니다.\n\n3. **Parent 생성자 동작**\n• total += (++v);\n  - v: 1 → 2 증가 후, total += 2 → total = 2\n• show() 호출 → 오버라이딩된 Child의 show() 실행\n  - total += total * 2 → 2 + (2 × 2) = 6\n\n4. **Child 생성자 동작**\n• v += 2 → Child의 v: 10 + 2 = 12\n• total += v++\n  - total += 12 → total = 6 + 12 = 18\n  - v는 12 → 13으로 증가\n• show() 호출 → Child의 show() 실행\n  - total += total * 2 → 18 + (18 × 2) = 54\n\n5. **최종 결과 출력**\n• System.out.println(Parent.total);\n• 최종 출력값: **54**",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_500",
+      "title": "다음은 디자인 패턴에 대한 설명이다. 설명과 일치하는 답을 보기에서 골라 작성하시오.",
+      "subject": "소프트웨어 개발 보안 구축",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "Adapter",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": "ques_500(1)"
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "1. **문제 설명 요약**\n• 서로 다른 인터페이스를 가진 클래스들을 연결해 사용 가능하게 한다.\n• 기존 클래스를 원하는 인터페이스에 맞게 변환한다.\n• 기존 클래스를 감싸서(wrapper) 변환해주는 역할을 한다.\n\n2. **Adapter 패턴(구조 패턴) 정의**\n• **Adapter 패턴**은 서로 다른 인터페이스를 가진 클래스들을 연결해 동작할 수 있도록 중간 다리 역할을 합니다.\n• 기존 클래스를 수정하지 않고도 다른 인터페이스에 맞출 수 있도록 변환합니다.\n• 외부 시스템과 기존 시스템 사이를 매끄럽게 연결할 때 주로 사용합니다.\n\n3. **보기 매칭**\n• 보기의 구조패턴 열에 **Adapter**가 존재합니다.\n• 따라서 문제의 설명과 일치하는 답은 **Adapter**입니다.\n\n4. 요약\n• 정답 = **Adapter**",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_501",
+      "title": "문장(Statement) 커버리지 테스트를 수행하려고 한다. 아래의 제어 흐름도의 빈칸에 연결되도록 흐름도의 1~6번에 들어갈 코드와 7번 괄호에 들어갈 문장 커버리지 순서를 작성하시오.",
+      "subject": "프로그래밍 언어 활용",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "1. int a = 0\n2. while (a < m || b[a] < x)\n3. if (b[a] < 0)\n4. b[a] = -b[a];\n5. a++;\n6. return 1;\n7. ③ → ④ → ⑤ → ② → ⑥",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": "ques_501(1)"
+          }
+        ]
+      },
+      "code": "int Main(int b[], int m, int x) {\n\tint a = 0;\n\n\twhile (a < m || b[a] < x) {\n\t\tif (b[a] < 0) {\n\t\t\tb[a] = -b[a];\n\t\t}\n\t\ta++;\n\t}\n\n\treturn 1;\n}",
+      "answer": 1,
+      "explanation": {
+        "text": "1. **2번(②)에 들어갈 문장**\n• 조건 판단을 수행하는 반복 제어문입니다.\n• OR 조건이 사용된 반복 조건이므로 전체 문장으로 작성되어야 합니다.\n• 정답: **while (a < m || b[a] < x)**\n\n2. **3번(③)에 들어갈 문장**\n• 조건 분기 제어문 전체가 필요합니다.\n• 비교식만이 아니라 if 키워드를 포함해야 문장으로 완성됩니다.\n• 정답: **if (b[a] < 0)**\n\n3. **4번(④)에 들어갈 문장**\n• if 조건이 참일 때 실행되는 구문입니다.\n• 배열 요소를 부호 반전하는 대입문입니다.\n• 정답: **b[a] = -b[a];**\n\n4. **5번(⑤)에 들어갈 문장**\n• 반복문의 다음 회차로 넘어가기 위해 인덱스를 증가시키는 문장입니다.\n• 정답: **a++;**\n\n5. **6번(⑥)에 들어갈 문장**\n• 반복문 탈출 후 함수가 반환하는 종료 구문입니다.\n• 정답: **return 1;**\n\n6. **7번(⑦)에 들어갈 문장 커버리지 순서**\n• 문장 커버리지란 모든 문장을 한 번 이상 실행하는 흐름을 의미합니다.\n• if 조건이 참일 경우를 기준으로 순서를 구성하면:\n• 정답: **③ → ④ → ⑤ → ② → ⑥**\n\n7. **최종 요약**\n• ② = **while (a < m || b[a] < x)**\n• ③ = **if (b[a] < 0)**\n• ④ = **b[a] = -b[a];**\n• ⑤ = **a++;**\n• ⑥ = **return 1;**\n• ⑦ = **③ → ④ → ⑤ → ② → ⑥**",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_502",
+      "title": "다음 JAVA 코드의 출력값을 작성하시오.",
+      "subject": "프로그래밍 언어 활용",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "20",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "public class Main {\n\n\tpublic static void main(String[] args) {\n\t\tint[] data = { 3, 5, 8, 12, 17 };\n\t\tSystem.out.println(func(data, 0, data.length - 1));\n\t}\n\n\tstatic int func(int[] a, int st, int end) {\n\t\tif (st >= end) {\n\t\t\treturn 0;\n\t\t}\n\t\tint mid = (st + end) / 2;\n\t\treturn a[mid] + Math.max(func(a, st, mid), func(a, mid + 1, end));\n\t}\n}",
+      "answer": 1,
+      "explanation": {
+        "text": "1. **초기 상태 분석**\n• 배열 data = {3, 5, 8, 12, 17}\n• 호출: func(data, 0, 4)\n• 함수 구조:\n  - 종료 조건: st >= end → return 0\n  - 중간 인덱스: mid = (st + end) / 2\n• 결과 = a[mid] + max(func(st, mid), func(mid+1, end))\n\n2. **재귀 계산 흐름**\n• func(0,4): mid=2, a[2]=8\n  • left = func(0,2)\n    • func(0,2): mid=1, a[1]=5\n      • left = func(0,1)\n        • func(0,1): mid=0, a[0]=3\n          → func(0,0)=0, func(1,1)=0 → result = 3 + max(0,0) = **3**\n      • right = func(2,2) = 0\n      • result = 5 + max(3,0) = **8**\n  • right = func(3,4)\n    • func(3,4): mid=3, a[3]=12\n      • func(3,3)=0, func(4,4)=0 → result = 12 + max(0,0) = **12**\n  • result = 8 + max(8,12) = **20**\n\n3. **최종 결과 정리**\n• func(0,1) = **3**\n• func(0,2) = **8**\n• func(3,4) = **12**\n• func(0,4) = **20**\n\n4. **출력 결과**\n• System.out.println(func(data, 0, data.length - 1))\n• 출력값 = **20**",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_503",
+      "title": "다음 Python 코드의 출력값을 작성하시오.",
+      "subject": "프로그래밍 언어 활용",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "13",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "class Node:\n\tdef __init__(self, value):\n\t\tself.value = value\n\t\tself.children = []\n\ndef tree(li):\n\tnodes = [Node(i) for i in li]\n\tfor i in range(1, len(li)):\n\t\tnodes[(i - 1) // 2].children.append(nodes[i])\n\treturn nodes[0]\n\ndef calc(node, level=0):\n\tif node is None:\n\t\treturn 0\n\treturn (node.value if level % 2 == 1 else 0) + sum(calc(n, level + 1) for n in node.children)\n\nli = [3, 5, 8, 12, 15, 18, 21]\n\nroot = tree(li)\n\nprint(calc(root))",
+      "answer": 1,
+      "explanation": {
+        "text": "1. **초기 상태 분석**\n• 입력 리스트: li = [3, 5, 8, 12, 15, 18, 21]\n• tree(li): 완전 이진 트리 형태로 리스트 값을 트리 노드로 변환\n• 루트 노드: 3\n• 자식 연결 규칙: i번 노드의 부모는 (i - 1) // 2번 노드\n\n2. **트리 구조**\n• 레벨 0: 3\n• 레벨 1: 5, 8\n• 레벨 2: 12, 15, 18, 21\n\n트리 시각화:\n        3\n      /   \\\\\n     5     8\n    / \\\\   / \\\\\n  12 15 18 21\n\n3. **calc 함수 동작 원리**\n• 함수 정의: calc(node, level)\n• 동작:\n  - 홀수 레벨이면 해당 노드 값을 합산: (level % 2 == 1)\n - 자식 노드에 대해 재귀적으로 calc 수행 후 결과 합산\n\n4. **재귀 계산 흐름**\n• calc(3, level=0)\n  → level % 2 == 0 → 0\n  → children: [5, 8]\n• calc(5, level=1)\n  → level % 2 == 1 → +5\n  → children: [12, 15]\n    → calc(12, level=2) → 0\n    → calc(15, level=2) → 0\n  → 총합 = 5 + 0 + 0 = **5**\n• calc(8, level=1)\n  → level % 2 == 1 → +8\n  → children: [18, 21]\n    → calc(18, level=2) → 0\n    → calc(21, level=2) → 0\n  → 총합 = 8 + 0 + 0 = **8**\n• 전체 결과: 0 (root) + 5 + 8 = **13**\n\n5. **출력 결과**\n• calc(root) 호출 결과 = **13**\n• 출력: **13**",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_504",
+      "title": "다음 C언어 코드의 출력값을 작성하시오.",
+      "subject": "프로그래밍 언어 활용",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "908",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "#include <stdio.h>\n\ntypedef struct student {\n\tchar* name;\n\tint score[3];\n} Student;\n\nint dec(int enc) {\n\treturn enc & 0xA5;\n}\n\nint sum(Student* p) {\n\treturn dec(p->score[0]) + dec(p->score[1]) + dec(p->score[2]);\n}\n\nint main() {\n\tStudent s[2] = {\n\t\t{ \"Kim\", { 0xA0, 0xA5, 0xDB } },\n\t\t{ \"Lee\", { 0xA0, 0xED, 0x81 } }\n\t};\n\n\tint result = 0;\n\n\tfor (int i = 0; i < 2; i++) {\n\t\tresult += sum(&s[i]);\n\t}\n\n\tprintf(\"%d\", result);\n\treturn 0;\n}",
+      "answer": 1,
+      "explanation": {
+        "text": "1. **초기 구조 분석**\n• 구조체 Student는 이름과 정수 배열 score[3]을 멤버로 갖습니다.\n• 배열 s[2]는 두 명의 학생 정보를 담고 있습니다:\n  - s[0] = {\"Kim\", {0xA0, 0xA5, 0xDB}}\n  - s[1] = {\"Lee\", {0xA0, 0xED, 0x81}}\n\n2. **dec 함수 동작 원리**\n• int dec(int enc) {\n    return enc & 0xA5;\n  }\n• 주어진 정수와 0xA5를 비트 AND 연산하여 디코딩합니다.\n• 0xA5 = 0b10100101 (2진수 기준)\n\n3. **s[0]의 점수 디코딩 결과**\n• 0xA0 & 0xA5 = 0b10100000 & 0b10100101 = 0b10100000 = **160**\n• 0xA5 & 0xA5 = 0b10100101 = **165**\n• 0xDB & 0xA5 = 0b11011011 & 0b10100101 = 0b10000001 = **129**\n• 합계: 160 + 165 + 129 = **454**\n\n4. **s[1]의 점수 디코딩 결과**\n• 0xA0 & 0xA5 = **160** (같음)\n• 0xED = 0b11101101 → & 0b10100101 = 0b10100101 = **165**\n• 0x81 = 0b10000001 → & 0b10100101 = 0b10000001 = **129**\n• 합계: 160 + 165 + 129 = **454**\n\n5. **최종 결과 계산**\n• sum(s[0]) = 454\n• sum(s[1]) = 454\n• result = 454 + 454 = **908**\n\n6. **출력 결과**\n• printf(\"%d\", result);\n• 출력값 = **908**",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_505",
+      "title": "다음 JAVA 코드의 출력값을 작성하시오.",
+      "subject": "프로그래밍 언어 활용",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "4",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "public class Main {\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println(calc(\"5\"));\n\t}\n\n\tstatic int calc(int value) {\n\t\tif (value <= 1) return value;\n\t\treturn calc(value - 1) + calc(value - 2);\n\t}\n\n\tstatic int calc(String str) {\n\t\tint value = Integer.valueOf(str);\n\t\tif (value <= 1) return value;\n\t\treturn calc(value - 1) + calc(value - 3);\n\t}\n}",
+      "answer": 1,
+      "explanation": {
+        "text": "1. **main 함수 실행 흐름**\n• 호출: `calc(\"5\")`\n• 문자열을 인자로 받는 오버로딩된 메서드인 `calc(String str)`이 호출됩니다.\n\n2. **calc(String str) 메서드 해석**\n• 문자열 `\"5\"`는 `Integer.valueOf(\"5\")`를 통해 정수 5로 변환됩니다.\n• 조건 `value <= 1`을 만족하지 않으므로 재귀 호출이 진행됩니다:\n  - return calc(4) + calc(2);\n  - 여기서 두 호출은 모두 `calc(int value)` 메서드를 호출하게 됩니다.\n\n3. **calc(int value) 메서드 구조**\n• if (value <= 1) return value;\n• else return calc(value - 1) + calc(value - 2);\n• 이는 **피보나치 수열**을 계산하는 구조입니다.\n\n4. **재귀 호출 결과 계산**\n• calc(4) = calc(3) + calc(2)\n  - calc(3) = calc(2) + calc(1) = 1 + 1 = 2\n  - calc(2) = calc(1) + calc(0) = 1 + 0 = 1\n→ calc(4) = 2 + 1 = **3**\n• calc(2) = calc(1) + calc(0) = 1 + 0 = **1**\n\n5. **최종 결과 계산**\n• calc(\"5\") = calc(4) + calc(2) = 3 + 1 = **4**\n• 출력: **4**",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "id-160948130",
+      "title": "어떤 모듈이 다른 모듈 내부의 논리적인 흐름을 제어하기 위해 제어 신호를 이용하여 통신하거나 제어 요소(Function Code, Switch, Tag, Flag)를 전달하는 결합도로, 하위 모듈에서 상위 모듈로 제어 신호가 이동하여 하위 모듈이 상위 모듈에게 처리 명령을 내리는 권리 전도 현상이 발생하는 것은 무엇인지 쓰시오.",
+      "subject": "서버프로그램 구현",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "제어 결합도",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "제어 결합도는 다른 모듈의 내부 처리 흐름을 통제하기 위한 제어 정보를 전달할 때 나타납니다. 하위 모듈에서 상위 모듈의 처리를 결정하는 권리 전도 현상(하위가 상위를 제어하는 역전된 구조)을 나타내는 결합도입니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "id-612645456",
+      "title": "소프트웨어의 성능을 향상시키거나 시스템의 수정 및 재사용, 유지 관리를 용이하게 하여 프로그램을 효율적으로 관리할 수 있도록 시스템을 분해하고 추상화하는 기법은 무엇인지 쓰시오.",
+      "subject": "서버프로그램 구현",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "모듈화",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "모듈화는 소프트웨어를 기능 단위로 나누어 관리와 재사용을 용이하게 하고, 시스템의 유지보수성과 성능을 높이는 설계 기법입니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "id-316729890",
+      "title": "자바 바이트 코드를 실행할 수 주체로 CPU나 운영체제 종류와 무관하게 동작하는 것을 보장하는 가상머신을 무엇이라 하는지 쓰시오.",
+      "subject": "서버프로그램 구현",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "JVM(Java Virtual Machine)",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "JVM(Java Virtual Machine)은 Java 프로그램의 바이트 코드를 실행할 수 있는 가상 머신으로, 특정 CPU나 운영 체제에 종속되지 않고 Java 프로그램이 어느 환경에서든 동일하게 동작할 수 있게 합니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "id-901412507",
+      "title": "소프트웨어 패키징이란 모듈별로 생성한 실행 파일들을 묶어 배포용 설치 파일을 만드는 것을 말한다. 소스 코드는 향후 관리를 고려하여 모듈화하여 패키징한다. 모듈화는 모듈 간 ( 1 )의 최소화와 모듈 내 요소들의 ( 2 )를 최대화 하는 것이 목표이다. 1, 2에 들어갈 알맞은 단어를 순서대로 쓰시오.",
+      "subject": "서버프로그램 구현",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "결합도, 응집도",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "모듈화는 '결합도'를 최소화하고 '응집도'를 최대화하는 것을 목표로 합니다. 결합도는 모듈 간의 상호 의존도를 의미하고, 응집도는 하나의 모듈 내에서 구성 요소 간의 밀접도를 의미합니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "id-350929013",
+      "title": "한 객체의 상태가 바뀌면 그 객체에 의존하는 다른 객체들의 내용이 갱신되는 방식으로, 일대다의 의존성을 정의하는 패턴이다. 상호 작용을 하는 객체 사이에서는 가능한 한 느슨하게 결합하는 이 패턴은 무엇인지 쓰시오",
+      "subject": "서버프로그램 구현",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "옵저버 패턴(Observer Pattern)",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "옵저버 패턴은 한 객체(Subject)의 상태 변화가 발생할 경우 이 객체에 의존하는 여러 객체(Observer)들에게 자동으로 통지하여 객체들의 상태를 갱신하는 디자인 패턴입니다. 객체 간의 결합을 느슨하게 만들어 관리 효율을 높입니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "id-142418218",
+      "title": "5번 결합도의 종류 중 단순 처리 대상인 데이터만 전달되는 것이 아니라 어떻게 처리해야 하는지를 결정하는 제어 요소가 전달되는 경우의 결합도를 영문으로 쓰시오",
+      "subject": "서버프로그램 구현",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "Control Coupling",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "Control Coupling은 데이터를 단순 전달하는 것이 아니라, 제어 로직(처리 방법 결정)을 전달할 때 나타나는 결합도 유형으로, 결합도가 강할수록 소프트웨어 유지보수가 어렵습니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "id-159946958",
+      "title": "서버 프로그램 구현 시 클라이언트의 요청을 받아 처리하는 주요 함수는 무엇인가?",
+      "subject": "서버프로그램 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "accept()",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "서버 프로그램 구현 시 클라이언트의 요청을 받아 연결을 생성하는 주요 함수는 accept()입니다. listen() 함수는 요청을 대기하는 함수이며, 실제 연결 생성은 accept() 함수가 수행합니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "id-30424480",
+      "title": "웹 서버에서 클라이언트 요청을 받아 처리한 결과를 HTML로 변환하여 반환하는 대표적인 서버 스크립트 언어는 무엇인가?",
+      "subject": "서버프로그램 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "PHP",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "PHP는 클라이언트 요청을 받아 처리한 후 결과를 동적으로 HTML 형태로 변환하여 반환하는 데 자주 사용됩니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "id-444140001",
+      "title": "서버 프로그램에서 다수의 클라이언트 요청을 동시에 처리하기 위한 대표적인 기술은 무엇인가?",
+      "subject": "서버프로그램 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "멀티스레딩",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "멀티스레딩 기술을 이용하면 서버가 여러 클라이언트 요청을 동시에 병렬 처리할 수 있습니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "id-267983341",
+      "title": "서버 프로그램의 부하를 효율적으로 관리하기 위해 요청을 여러 서버로 분산 처리하는 기술을 무엇이라 하는가?",
+      "subject": "서버프로그램 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "로드 밸런싱(Load Balancing)",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "로드 밸런싱은 서버의 부하를 효율적으로 관리하기 위해 클라이언트의 요청을 여러 대의 서버로 나누어 처리하는 기술입니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "id-382439652",
+      "title": "TCP/IP 기반의 네트워크 환경에서 서버와 클라이언트 간의 지속적인 연결을 유지하며 데이터를 주고받는 프로토콜은 무엇인가?",
+      "subject": "서버프로그램 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "TCP",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "TCP 프로토콜은 연결 지향적인 통신 프로토콜로, 서버와 클라이언트 간 지속적인 연결을 유지하며 안정적으로 데이터를 주고받습니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "id-762419927",
+      "title": "HTTP 상태 코드를 통해 서버가 요청을 성공적으로 처리했음을 의미하는 대표적인 상태 코드는 무엇인가?",
+      "subject": "서버프로그램 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "200",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "HTTP 상태 코드 중 200은 서버가 클라이언트 요청을 성공적으로 처리했음을 나타내는 코드입니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "id-198552317",
+      "title": "서버 프로그램에서 파일 및 디렉터리에 접근 권한을 설정할 때 사용하는 대표적인 명령어는 무엇인가?",
+      "subject": "서버프로그램 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "chmod",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "chmod는 리눅스/유닉스 계열의 서버에서 파일과 디렉터리 접근 권한을 설정하는 데 사용됩니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "id-56458234",
+      "title": "RESTful API 설계 시 자원을 삭제하는 데 사용하는 HTTP 메소드는 무엇인가?",
+      "subject": "서버프로그램 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "DELETE",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "RESTful API 설계에서 DELETE 메소드는 특정 자원을 서버에서 삭제할 때 사용됩니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "id-186509498",
+      "title": "서버 측 애플리케이션에서 데이터베이스 연결을 관리하기 위한 인터페이스 또는 기술 중, 연결 비용을 줄이기 위해 DB 연결을 재사용하는 기술은 무엇인가?",
+      "subject": "서버프로그램 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "커넥션 풀(Connection Pool)",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "커넥션 풀(Connection Pool)은 서버 측 애플리케이션에서 데이터베이스 연결을 관리하는 효율적이고 자원을 절약하는 기술로, 미리 설정된 데이터베이스 연결을 유지 및 재사용합니다.",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "id-582914436",
+      "title": "서버의 보안을 강화하기 위해 요청한 사용자가 실제 사용자인지 확인하는 절차를 무엇이라 하는가?",
+      "subject": "서버프로그램 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "인증(Authentication)",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice2": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice3": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "choice4": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": ""
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "인증(Authentication)은 사용자의 신원을 확인하여 서버의 보안을 강화하기 위한 절차입니다.",
         "images": [
           {
             "data": "",

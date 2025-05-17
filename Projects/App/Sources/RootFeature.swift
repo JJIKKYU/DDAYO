@@ -30,6 +30,7 @@ public struct RootFeature {
     @Dependency(\.modelContext) var modelContext
     @Dependency(\.conceptService) var conceptService
     @Dependency(\.firebaseAuth) var firebaseAuth
+    @Dependency(\.mixpanelLogger) var mixpanelLogger
 
     @ObservableState
     public struct State {
@@ -108,6 +109,7 @@ public struct RootFeature {
                     print("RootFeature :: user = \(user)")
                     if let user {
                         // 로그인이 되어 있을 경우에 데이터 초기화
+                        mixpanelLogger.identify(id: user.uid)
                         state.appState = .main
                         return .send(.syncInitialData)
                     } else {

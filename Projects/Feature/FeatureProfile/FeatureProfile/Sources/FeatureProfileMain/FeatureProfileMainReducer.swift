@@ -18,7 +18,7 @@ public struct FeatureProfileMainReducer: Reducer {
     public struct State: Equatable {
         public var userName: String = ""
         public var userEmail: String = ""
-        public var appVersion: String = "v1.0.0"
+        public var appVersion: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
         public var isUpdateNeeded: Bool = true
 
         public init() {}

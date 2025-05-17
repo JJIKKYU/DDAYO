@@ -176,7 +176,7 @@ extension QuizPopupView {
             return nil
         }
 
-        return next.rawValue
+        return next.displayName
     }
 
     private var messageContext: QuizPopupMessageContext {

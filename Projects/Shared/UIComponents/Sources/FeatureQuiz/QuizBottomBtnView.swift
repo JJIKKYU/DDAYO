@@ -133,27 +133,13 @@ extension QuizBottomBtnView {
         let clamped = min(max(ratio, 0.3), 0.95)
 
         print("▶️ height: \(height), total: \(totalNeededHeight), clamped: \(clamped)")
-        return [.fraction(clamped)]
-    }
 
-    private func dynamicDetents(for question: QuestionItem?) -> Set<PresentationDetent> {
-        guard let question = question else {
-            return [.fraction(0.45), .medium, .large]
+        // 정답 확인할 때는 동적 크기가 아닌 정적 크기로 변환
+        if step == .confirmAnswers {
+            return [.fraction(clamped), .medium, .large]
         }
 
-        let texts = [
-            question.choice1.text,
-            question.choice2.text,
-            question.choice3.text,
-            question.choice4.text
-        ]
-
-        let totalLines = texts.map { estimatedLines(for: $0) }.reduce(0, +)
-        print("QuizBottomBtnView :: totalLines = \(totalLines)")
-        let fraction = fractionDetent(for: totalLines)
-        print("QuizBottomBtnView :: fraction = \(fraction)")
-
-        return [.fraction(fraction), .medium, .large]
+        return [.fraction(clamped)]
     }
 
     private func fractionDetent(for totalLines: Int) -> CGFloat {

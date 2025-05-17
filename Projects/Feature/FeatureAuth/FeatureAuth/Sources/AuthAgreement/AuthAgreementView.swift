@@ -11,6 +11,7 @@ import UIComponents
 
 public struct FeatureAuthAgreementView: View {
     @Bindable var store: StoreOf<FeatureAuthAgreementReducer>
+    @Environment(\.openURL) private var openURL
 
     public init(store: StoreOf<FeatureAuthAgreementReducer>) {
         self.store = store
@@ -38,12 +39,18 @@ public struct FeatureAuthAgreementView: View {
                 agreementRow(title: "[필수] 서비스 이용약관", isChecked: store.agreeTerms, showArrow: true) {
                     store.send(.toggleAgreeTerms)
                 } onArrowTap: {
+                    if let url = URL(string: "https://kakao.com") {
+                        openURL(url)
+                    }
                     store.send(.pressedDetailTerms)
                 }
 
                 agreementRow(title: "[필수] 개인정보 수집 및 이용", isChecked: store.agreePrivacy, showArrow: true) {
                     store.send(.toggleAgreePrivacy)
                 } onArrowTap: {
+                    if let url = URL(string: "https://naver.com") {
+                        openURL(url)
+                    }
                     store.send(.pressedDetailPrivacy)
                 }
             }

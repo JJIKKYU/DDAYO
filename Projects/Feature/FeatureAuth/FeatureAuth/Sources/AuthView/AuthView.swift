@@ -10,6 +10,8 @@ import ComposableArchitecture
 import _AuthenticationServices_SwiftUI
 
 public struct AuthView: View {
+    @Environment(\.openURL) private var openURL
+
     public let store: StoreOf<AuthFeatureReducer>
 
     public init(store: StoreOf<AuthFeatureReducer>) {
@@ -45,10 +47,14 @@ public struct AuthView: View {
 
                 TermsAgreementText(
                     onTermsTapped: {
-                        // ex. Safari 열기 또는 시트로 약관 띄우기
+                        if let url = URL(string: "https://kakao.com") {
+                            openURL(url)
+                        }
                     },
                     onPrivacyTapped: {
-                        // ex. Safari 열기 또는 시트로 처리방침 띄우기
+                        if let url = URL(string: "https://naver.com") {
+                            openURL(url)
+                        }
                     }
                 )
                 .multilineTextAlignment(.center)

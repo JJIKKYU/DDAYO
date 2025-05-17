@@ -29,7 +29,7 @@ public enum QuizSubject: String, CaseIterable, Codable {
 
     // 실기 언어 과목
     case c = "프로그래밍 언어 활용_실기_C"
-    case cpp = "프로그래밍 언어 활용_실기_Cpp"
+    // case cpp = "프로그래밍 언어 활용_실기_Cpp"
     case java = "프로그래밍 언어 활용_실기_JAVA"
     case python = "프로그래밍 언어 활용_실기_Python"
 }
@@ -41,8 +41,10 @@ public extension QuizSubject {
         case .c:
             return "C"
 
+        /*
         case .cpp:
             return "C++"
+        */
 
         case .java:
             return "Java"
@@ -95,7 +97,7 @@ public extension QuizSubject {
     static var practicalLanguageCases: [QuizSubject] {
         return [
             .c,
-            .cpp,
+            // .cpp,
             .java,
             .python
         ]
