@@ -55,6 +55,21 @@ struct FirebaseAuthImp: FirebaseAuthProtocol {
         )
     }
 
+    public func userHasName() async throws -> Bool {
+        guard let user = Auth.auth().currentUser else {
+            throw FirebaseAuthError.signInFailed("No current user")
+        }
+
+        let db = Firestore.firestore()
+        let document = try await db.collection("users").document(user.uid).getDocument()
+
+        if let data = document.data(), let name = data["name"] as? String {
+            return !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        } else {
+            return false
+        }
+    }
+
     func signOut() throws {
         guard let user = Auth.auth().currentUser else {
             throw FirebaseAuthError.signInFailed("No current user")
@@ -80,6 +95,14 @@ struct FirebaseAuthImp: FirebaseAuthProtocol {
             try Auth.auth().signOut()
         } catch {
             throw FirebaseAuthError.signInFailed(error.localizedDescription)
+        }
+    }
+
+    func logout() throws {
+        do {
+            try Auth.auth().signOut()
+        } catch {
+            throw FirebaseAuthError.signInFailed("Logout failed: \(error.localizedDescription)")
         }
     }
 

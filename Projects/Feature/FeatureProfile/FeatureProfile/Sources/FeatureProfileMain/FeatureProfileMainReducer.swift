@@ -36,6 +36,7 @@ public struct FeatureProfileMainReducer: Reducer {
         case setUserName(String)
         case navigateToAuthView
         case setLoggingOut(Bool)
+        case deleteAccountTapped
     }
 
     public var body: some ReducerOf<Self> {
@@ -71,7 +72,7 @@ public struct FeatureProfileMainReducer: Reducer {
                 state.isLoggingOut = true
                 return .run { send in
                     do {
-                        try firebaseAuth.signOut()
+                        try firebaseAuth.logout()
                         await send(.setLoggingOut(false))
                         await send(.navigateToAuthView)
                     } catch {
@@ -83,6 +84,19 @@ public struct FeatureProfileMainReducer: Reducer {
             case .setLoggingOut(let value):
                 state.isLoggingOut = value
                 return .none
+
+            case .deleteAccountTapped:
+                state.isLoggingOut = true
+                return .run { send in
+                    do {
+                        try firebaseAuth.signOut()
+                        await send(.setLoggingOut(false))
+                        await send(.navigateToAuthView)
+                    } catch {
+                        print("❌ 회원 탈퇴 실패: \(error)")
+                        await send(.setLoggingOut(false))
+                    }
+                }
 
             case .termsTapped:
                 // 약관 링크 오픈

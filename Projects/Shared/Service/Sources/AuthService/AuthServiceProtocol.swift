@@ -40,8 +40,12 @@ public protocol FirebaseAuthProtocol {
     func signIn(with credential: FirebaseAuthCredential) async -> Result<FirebaseUser, FirebaseAuthError>
     func getCurrentUser() -> FirebaseUser?
     func signOut() throws
+    func logout() throws
 
-    // firebase token 기준으로 userName 저자
+    // 한번 로그인하고 로그아웃 했던 유저라면 name을 가지고 있다
+    func userHasName() async throws -> Bool
+
+    // firebase token 기준으로 userName
     func saveUserName(userId: String, name: String) async throws
 
     // firebase store에서 userName fetch

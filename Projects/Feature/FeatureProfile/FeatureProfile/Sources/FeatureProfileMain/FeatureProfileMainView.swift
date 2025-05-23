@@ -128,6 +128,24 @@ public struct FeatureProfileMainView: View {
                              }
                              */
                         }
+
+                        Button {
+                            viewStore.send(.deleteAccountTapped)
+                        } label: {
+                            HStack {
+                                Text("회원 탈퇴")
+                                    .font(.system(size: 15, weight: .medium))
+                                    .foregroundStyle(Color.Red._600)
+
+                                Spacer()
+
+                                Image(systemName: "chevron.right")
+                                    .renderingMode(.template)
+                                    .foregroundStyle(Color.Red._600)
+                            }
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
                     }
                     .padding(.horizontal, 20)
                 }

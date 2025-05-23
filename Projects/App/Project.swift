@@ -14,12 +14,12 @@ let project = Project(
                         "UIImageName": "",
                     ],
                     "UIUserInterfaceStyle": "Light",
-                    "ITSAppUsesNonExemptEncryption": "NO",
-                    "UIAppFonts": [
-                      "Pretendard-Regular.otf",
-                      "Pretendard-Bold.otf",
-                      "Pretendard-Medium.otf",
-                    ]
+                    "ITSAppUsesNonExemptEncryption": "NO"
+//                    "UIAppFonts": [
+//                      "Pretendard-Regular.otf",
+//                      "Pretendard-Bold.otf",
+//                      "Pretendard-Medium.otf",
+//                    ]
                 ]
             ),
             sources: ["./Sources/**"],
@@ -30,6 +30,7 @@ let project = Project(
                 .external(name: "FirebaseAnalytics", condition: nil),
                 .external(name: "FirebaseFirestore", condition: nil),
                 .external(name: "FirebaseAuth", condition: nil),
+                .external(name: "FirebaseRemoteConfig", condition: nil),
 
                 // Feature
                 .project(target: "FeatureQuiz", path: "../Feature/FeatureQuiz", status: .required, condition: nil),

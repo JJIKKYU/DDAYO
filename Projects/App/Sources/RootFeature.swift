@@ -31,6 +31,7 @@ public struct RootFeature {
     @Dependency(\.conceptService) var conceptService
     @Dependency(\.firebaseAuth) var firebaseAuth
     @Dependency(\.mixpanelLogger) var mixpanelLogger
+    @Dependency(\.remoteConfig) var remoteConfig
 
     @ObservableState
     public struct State {
@@ -103,7 +104,13 @@ public struct RootFeature {
                 case .task:
                     // 앱 시작시 로그인 여부 확인
                     let user = firebaseAuth.getCurrentUser()
-                    return .send(.checkAuthResult(user))
+                    return .run { send in
+                        async let mixpanelFlag: Bool = remoteConfig.fetchMixpanelEnabled()
+                        async let _ = send(.checkAuthResult(user))
+
+                        let isEnabled = await mixpanelFlag
+                        mixpanelLogger.setIsEnabled(isEnabled)
+                    }
 
                 case .checkAuthResult(let user):
                     print("RootFeature :: user = \(user)")

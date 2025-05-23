@@ -54,8 +54,19 @@ public struct AuthFeatureReducer {
             return .run { send in
                 let result = await firebaseAuth.signIn(with: credential)
                 if case let .success(user) = result {
-                    // await send(.signInCompleted(user))
-                    await send(.navigateToAuthNameView)
+                    do {
+                        let hasName = try await firebaseAuth.userHasName()
+                        print("AuthFeatureReducer :: hasName = \(hasName)")
+                        if hasName {
+                            await send(.signInCompleted(user))
+                        } else {
+                            await send(.navigateToAuthNameView)
+                        }
+                    } catch {
+                        print("❌ Error checking user name: \(error)")
+                        // fallback: treat as if no name exists
+                        await send(.navigateToAuthNameView)
+                    }
                 } else {
                     // TODO: 실패 처리 액션 필요시 여기에 추가
                 }

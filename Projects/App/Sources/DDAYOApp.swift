@@ -58,6 +58,7 @@ struct DDAYOApp: App {
                     await AppleSignInManager.shared.signIn()
                 })
                 $0.firebaseAuth = FirebaseAuthImp()
+                $0.remoteConfig = FirebaseRemoteConfigServiceImp()
             } operation: {
 //                AuthView(store: .init(initialState: AuthFeatureReducer.State(), reducer: {
 //                    AuthFeatureReducer()

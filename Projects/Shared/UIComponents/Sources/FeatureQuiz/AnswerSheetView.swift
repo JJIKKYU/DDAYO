@@ -154,7 +154,7 @@ public struct AnswerSheetView: View {
                             }
 
                             Text(isCorrect == true ? "정답이에요" : "오답이에요")
-                                .font(.system(size: 24, weight: .bold))
+                                .font(.system(size: 18, weight: .bold))
                                 .foregroundStyle(Color.Grayscale._900)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.top, 20)
@@ -168,12 +168,17 @@ public struct AnswerSheetView: View {
                         }
                         // 실기 문제
                         else {
-                            Text("정답은 \(question.choices[question.answer - 1])입니다")
-                                .font(.system(size: 24, weight: .bold))
-                                .foregroundStyle(Color.Grayscale._900)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .lineSpacing(4.5)
-                                // .padding(.top, 20)
+                            VStack(alignment: .leading, spacing: 16) {
+                                Text("정답")
+                                    .font(.system(size: 18, weight: .medium))
+                                    .foregroundStyle(Color.Grayscale._900)
+
+                                Text("\(question.choices[question.answer - 1])")
+                                    .font(.system(size: 24, weight: .bold))
+                                    .foregroundStyle(Color.Grayscale._900)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .lineSpacing(4.5)
+                            }
 
                             MarkdownTextView(text: question.explanation.text)
                                 .padding(.top, 10)
