@@ -1,5 +1,5 @@
 {
-  "version": 18,
+  "version": 24,
   "items": [
     {
       "id": "ques_1",
@@ -4665,7 +4665,7 @@
       "code": "",
       "answer": 2,
       "explanation": {
-        "text": "TCP/IP 네트워크에서 논리 주소를 물리 주소로 변환하는 프로토콜은 ASP(Address Resolution Protocol)입니다.\n• TCP(Transmission Control Protocol) : 신뢰성 있는 연결형 서비스를 제공하고, 패킷의 다중화, 순서 제어, 오류 제어, 흐름 제어 기능을 제공함\n• FTP(File Transfer Protocol) : 컴퓨터와 컴퓨터 또는 컴퓨터와 인터넷 사이에서 파일을 주고받을 수 있도록 하는 원격 파일 전송 프로토콜\n• IP(Internet Protocol) : 데이터그램을 기반으로 하는 비연결형 서비스와 패킷의 분해/조립, 주소 지정, 경로 선택 기능을 제공\n"
+        "text": "TCP/IP 네트워크에서 논리 주소를 물리 주소로 변환하는 프로토콜은 ASP(Address Resolution Protocol)입니다.\n• TCP(Transmission Control Protocol) : 신뢰성 있는 연결형 서비스를 제공하고, 패킷의 다중화, 순서 제어, 오류 제어, 흐름 제어 기능을 제공함\n• FTP(File Transfer Protocol) : 컴퓨터와 컴퓨터 또는 컴퓨터와 인터넷 사이에서 파일을 주고받을 수 있도록 하는 원격 파일 전송 프로토콜\n• IP(Internet Protocol) : 데이터그램을 기반으로 하는 비연결형 서비스와 패킷의 분해/조립, 주소 지정, 경로 선택 기능을 제공"
       },
       "viewCount": 0,
       "version": 1
@@ -7194,7 +7194,7 @@
       "code": "",
       "answer": 3,
       "explanation": {
-        "text": "보기는 Visitor(비지터)에 대한 설명입니다. *Composite 패턴: 부분-전체 계층을 표현하며 개별 객체와 복합 객체를 동일하게 다루도록 하는 패턴.\n\n"
+        "text": "보기는 Visitor(비지터)에 대한 설명입니다. *Composite 패턴: 부분-전체 계층을 표현하며 개별 객체와 복합 객체를 동일하게 다루도록 하는 패턴."
       },
       "viewCount": 0,
       "version": 1
@@ -7310,7 +7310,7 @@
       "code": "#include <stdio.h>\n\nint main() {\n    int a = 0, b = 1;\n\n    switch (a) {\n        case 0:\n            printf(\"%d\\n\", b++);\n            break;\n        case 1:\n            printf(\"%d\\n\", ++b);\n            break;\n        default:\n            printf(\"%d\\n\", b);\n            break;\n    }\n\n    return 0;\n}",
       "answer": 3,
       "explanation": {
-        "text": "변수 a의 값은 0입니다.\n\n• switch(a)에서 a의 값(0)을 검사합니다.\n\n• case 0:이 존재하므로, case 0 블록이 실행됩니다.\n\n• 즉, \"모든 case에 해당하지 않을 경우\" 가 아니라 case 0이 매칭되므로, default는 실행되지 않습니다.\n\n\n\n하지만 문제는 \"모든 case에 해당하지 않을 시\"를 묻고 있으므로, a가 case 0이나 case 1에도 해당하지 않는다면, default:가 실행됩니다.\n \n\n\n(※ 현재 코드에서는 case 0이 실행되지만, 문제는 '해당 case가 없을 때' 어떤 문장이 실행되는지를 물어본 것입니다.)\n\n"
+        "text": "변수 a의 값은 0입니다.\n\n• switch(a)에서 a의 값(0)을 검사합니다.\n\n• case 0:이 존재하므로, case 0 블록이 실행됩니다.\n\n• 즉, \"모든 case에 해당하지 않을 경우\" 가 아니라 case 0이 매칭되므로, default는 실행되지 않습니다.\n\n하지만 문제는 \"모든 case에 해당하지 않을 시\"를 묻고 있으므로, a가 case 0이나 case 1에도 해당하지 않는다면, default:가 실행됩니다.\n \n(※ 현재 코드에서는 case 0이 실행되지만, 문제는 '해당 case가 없을 때' 어떤 문장이 실행되는지를 물어본 것입니다.)"
       },
       "viewCount": 0,
       "version": 1
@@ -7426,7 +7426,7 @@
       "code": "",
       "answer": 3,
       "explanation": {
-        "text": "버블 정렬은 2개의 인접한 데이터를 크기에 따라 서로 교환하는 작업을 반복하며 정렬하는 방법입니다.\n\n\n\n- 1회전: 9, 6, 7, 3, 5 → 6, 9, 7, 3, 5 \n\n         → 6, 7, 9, 3, 5  → 6, 7, 3, 9, 5\n\n         → 6, 7, 3, 5, 9\n \n\n\n- 2회전: 6, 7, 3, 5, 9 → 6, 7, 3, 5, 9\n\n         → 6, 3, 7, 5, 9 → 6, 3, 5, 7, 9\n\n         → 6, 3, 5, 7, 9\n\n\n\n- 3회전: 6, 3, 5, 7, 9 → 3, 6, 5, 7, 9\n\n         → 3, 5, 6, 7, 9 → 3, 5, 6, 7, 9\n\n\n\n- 4회전 : 3, 5, 6, 7, 9\n\n\n"
+        "text": "버블 정렬은 2개의 인접한 데이터를 크기에 따라 서로 교환하는 작업을 반복하며 정렬하는 방법입니다.\n\n- 1회전: 9, 6, 7, 3, 5 → 6, 9, 7, 3, 5 \n         → 6, 7, 9, 3, 5  → 6, 7, 3, 9, 5\n         → 6, 7, 3, 5, 9\n\n\n- 2회전: 6, 7, 3, 5, 9 → 6, 7, 3, 5, 9\n         → 6, 3, 7, 5, 9 → 6, 3, 5, 7, 9\n         → 6, 3, 5, 7, 9\n\n\n- 3회전: 6, 3, 5, 7, 9 → 3, 6, 5, 7, 9\n         → 3, 5, 6, 7, 9 → 3, 5, 6, 7, 9\n\n- 4회전 : 3, 5, 6, 7, 9"
       },
       "viewCount": 0,
       "version": 1
@@ -11170,13 +11170,13 @@
       "desc": {
         "text": ""
       },
-      "code": "#include <stdio.h>\n\nint func(int a) {\n    if (a <= 1) return 1;\n    return a * func(a - 1);\n}\n\nint main() {\n    int a;\n    scanf(\"%d\", &a);\n    printf(\"%d\", func(a));\n    return 0;\n}",
+      "code": "#include <stdio.h>\n\nint func(int a) {\n        if (a <= 1) return 1;\n        return a * func(a - 1);\n}\n\nint main() {\n        int a;\n        scanf(\"%d\", &a);\n        printf(\"%d\", func(a));\n        return 0;\n}",
       "answer": 1,
       "explanation": {
-        "text": "이 문제는 재귀 함수의 동작에 관한 문제입니다.\n먼저 func 함수는 입력값 a가 1 이하일 경우 1을 반환하며, 그렇지 않으면 a와 func(a - 1)을 곱한 값을 반환합니다.\n즉, 이 함수는 입력값이 주어지면 그 값에 대한 팩토리얼(factorial)을 계산하는 함수입니다.\n입력값으로 5가 들어오면, func(5)는 5 * func(4)를 호출하고, func(4)는 4 * func(3)을 호출하는 방식으로 진행됩니다.\n계속해서 func(3)은 3 * func(2)를 호출하고, func(2)는 2 * func(1)을 호출합니다.\nfunc(1)은 1을 반환하므로, 최종적으로 5 * 4 * 3 * 2 * 1 = 120이 됩니다.\n따라서 출력값은 120입니다.\n\n"
+        "text": "이 문제는 재귀 함수의 동작에 관한 문제입니다.\n먼저 func 함수는 입력값 a가 1 이하일 경우 1을 반환하며, 그렇지 않으면 a와 func(a - 1)을 곱한 값을 반환합니다.\n즉, 이 함수는 입력값이 주어지면 그 값에 대한 팩토리얼(factorial)을 계산하는 함수입니다.\n입력값으로 5가 들어오면, func(5)는 5 * func(4)를 호출하고, func(4)는 4 * func(3)을 호출하는 방식으로 진행됩니다.\n계속해서 func(3)은 3 * func(2)를 호출하고, func(2)는 2 * func(1)을 호출합니다.\nfunc(1)은 1을 반환하므로, 최종적으로 5 * 4 * 3 * 2 * 1 = 120이 됩니다.\n따라서 출력값은 120입니다."
       },
       "viewCount": 0,
-      "version": 7
+      "version": 12
     },
     {
       "id": "ques_364",
@@ -11202,10 +11202,10 @@
       "code": "#include <stdio.h>\n\nint main() {\n    int number = 1234;\n    int div = 10;\n    int result = 0;\n\n    while (number > 0) {\n        result = result * div;\n        result = result + number % div;\n        number = number / div;\n    }\n\n    printf(\"%d\", result);\n    return 0;\n}",
       "answer": 1,
       "explanation": {
-        "text": "이 문제는 정수를 역순으로 출력하는 코드입니다.\n코드에서 number는 1234로 초기화되어 있으며, div는 10입니다. result는 0으로 초기화됩니다.\n이 코드는 while 반복문을 사용하여 number를 각 자리수별로 나누고, result에 역순으로 자릿수를 더하는 방식으로 동작합니다.\n\n첫 번째 연산자 (1)는 >입니다. 반복문은 number가 0보다 클 때까지 실행되므로 number > 0이 되어야 합니다.\n두 번째 연산자 (2)는 %입니다. % 연산자는 number를 10으로 나눈 나머지, 즉 각 자릿수를 추출하는 데 사용됩니다.\n세 번째 연산자 (3)는 /입니다. / 연산자는 number를 10으로 나누어 각 자리수를 하나씩 없애는 역할을 합니다.\n따라서 결과적으로 1234가 역순으로 출력됩니다.\n\n"
+        "text": "이 문제는 정수를 역순으로 출력하는 코드입니다.\n코드에서 number는 1234로 초기화되어 있으며, div는 10입니다. result는 0으로 초기화됩니다.\n이 코드는 while 반복문을 사용하여 number를 각 자리수별로 나누고, result에 역순으로 자릿수를 더하는 방식으로 동작합니다.\n\n첫 번째 연산자 (1)는 >입니다. 반복문은 number가 0보다 클 때까지 실행되므로 number > 0이 되어야 합니다.\n두 번째 연산자 (2)는 %입니다. % 연산자는 number를 10으로 나눈 나머지, 즉 각 자릿수를 추출하는 데 사용됩니다.\n세 번째 연산자 (3)는 /입니다. / 연산자는 number를 10으로 나누어 각 자리수를 하나씩 없애는 역할을 합니다.\n따라서 결과적으로 1234가 역순으로 출력됩니다."
       },
       "viewCount": 0,
-      "version": 15
+      "version": 16
     },
     {
       "id": "ques_365",
@@ -11231,10 +11231,10 @@
       "code": "#include <stdio.h>\n\nint isPrime(int number) {\n    int i;\n    for (i = 2; i < number; i++) {\n        if (number % i == 0) return 0;\n    }\n    return 1;\n}\n\nint main(void) {\n    int number = 13195, max_div = 0, i;\n\n    for (i = 2; i < number; i++) {\n        if (isPrime(i) == 1 && number % i == 0) {\n            max_div = i;\n        }\n    }\n\n    printf(\"%d\", max_div);\n    return 0;\n}",
       "answer": 1,
       "explanation": {
-        "text": "이 문제는 주어진 number(13195)에 대해 가장 큰 소인수를 찾는 코드입니다.\nisPrime 함수는 주어진 number가 소수인지 판별합니다. for 루프는 2부터 number - 1까지 모든 수에 대해 나누어떨어지는지 확인합니다. 만약 나누어떨어지면 소수가 아니므로 0을 반환하고, 그 외에는 소수이므로 1을 반환합니다.\nmain 함수에서는 number(13195)에 대해 2부터 number - 1까지 반복하면서 isPrime(i) == 1 즉, 소수인 숫자 중에서 number를 나누어 떨어지게 만드는 가장 큰 소인수를 찾습니다.\n이 과정에서 13195의 소인수는 5, 7, 13, 29가 있으며, 그 중 가장 큰 소인수는 29입니다.\n따라서 출력값은 29입니다.\n"
+        "text": "이 문제는 주어진 number(13195)에 대해 가장 큰 소인수를 찾는 코드입니다.\nisPrime 함수는 주어진 number가 소수인지 판별합니다. for 루프는 2부터 number - 1까지 모든 수에 대해 나누어떨어지는지 확인합니다. 만약 나누어떨어지면 소수가 아니므로 0을 반환하고, 그 외에는 소수이므로 1을 반환합니다.\nmain 함수에서는 number(13195)에 대해 2부터 number - 1까지 반복하면서 isPrime(i) == 1 즉, 소수인 숫자 중에서 number를 나누어 떨어지게 만드는 가장 큰 소인수를 찾습니다.\n이 과정에서 13195의 소인수는 5, 7, 13, 29가 있으며, 그 중 가장 큰 소인수는 29입니다.\n따라서 출력값은 29입니다."
       },
       "viewCount": 0,
-      "version": 8
+      "version": 9
     },
     {
       "id": "ques_366",
@@ -11524,13 +11524,13 @@
       "desc": {
         "text": ""
       },
-      "code": "(1) SELECT DERP\n        FROM STUDENT;\n\n(2) SELECT DISTINCT DEPT\n        FROM STUDENT;\n\n(3) SELECT COUNT(DISTINCT DEPT)\n        FROM STUDENT\n        WHERE DEPT = '인터넷과';",
+      "code": "\"(1) SELECT DERP\n        FROM STUDENT;\n\n(2) SELECT DISTINCT DEPT\n        FROM STUDENT;\n\n(3) SELECT COUNT(DISTINCT DEPT)\n        FROM STUDENT\n        WHERE DEPT = '인터넷과';\"",
       "answer": 1,
       "explanation": {
-        "text": "이 문제는 SQL 언어에 대한 문제입니다.\nSTUDENT 테이블에는 컴퓨터과 50명, 전기과 100명, 인터넷과 50명, 총 200명의 학생 데이터가 저장되어 있습니다.\n(1)SELECT DEPT FROM STUDENT;\n 모든 학생의 DEPT 값을 선택합니다. 중복 제거가 없기 때문에 200명 모두 조회됩니다.\n → 결과: 200개\n\n(2)SELECT DISTINCT DEPT FROM STUDENT;\n DEPT 컬럼에서 중복을 제거하고 학과명만 조회합니다. 현재 학과는 컴퓨터과, 전기과, 인터넷과 총 3개입니다.\n → 결과: 3개\n\n(3)SELECT COUNT(DISTINCT DEPT) FROM STUDENT WHERE DEPT = '인터넷과';\n WHERE 조건에 의해 DEPT가 '인터넷과'인 데이터만 대상으로 합니다. 이 조건에 맞는 DEPT 값은 모두 '인터넷과' 하나뿐입니다.\n DISTINCT를 적용해도 결국 '인터넷과' 하나만 남기 때문에 COUNT 결과는 1입니다.\n → 결과: 1개\n\n\n"
+        "text": "이 문제는 SQL 언어에 대한 문제입니다.\nSTUDENT 테이블에는 컴퓨터과 50명, 전기과 100명, 인터넷과 50명, 총 200명의 학생 데이터가 저장되어 있습니다.\n(1)SELECT DEPT FROM STUDENT;\n 모든 학생의 DEPT 값을 선택합니다. 중복 제거가 없기 때문에 200명 모두 조회됩니다.\n → 결과: 200개\n\n(2)SELECT DISTINCT DEPT FROM STUDENT;\n DEPT 컬럼에서 중복을 제거하고 학과명만 조회합니다. 현재 학과는 컴퓨터과, 전기과, 인터넷과 총 3개입니다.\n → 결과: 3개\n\n(3)SELECT COUNT(DISTINCT DEPT) FROM STUDENT WHERE DEPT = '인터넷과';\n WHERE 조건에 의해 DEPT가 '인터넷과'인 데이터만 대상으로 합니다. 이 조건에 맞는 DEPT 값은 모두 '인터넷과' 하나뿐입니다.\n DISTINCT를 적용해도 결국 '인터넷과' 하나만 남기 때문에 COUNT 결과는 1입니다.\n → 결과: 1개"
       },
       "viewCount": 0,
-      "version": 14
+      "version": 17
     },
     {
       "id": "ques_376",
@@ -11556,10 +11556,10 @@
       "code": "int n;\nint k;\nint s;\nint el = 0;\n\nfor (n = 6; n <= 30; n++) {\n    s = 0;\n    k = n / 2;\n    for (int j = 1; j <= k; j++) {\n        if (n % j == 0) {\n            s = s + j;\n        }\n    }\n    if (s == n) {\n        el++;\n    }\n}\n\nprintf(\"%d\", el);",
       "answer": 1,
       "explanation": {
-        "text": "이 코드는 C언어로 작성되었습니다.\n변수 n은 6부터 30까지 1씩 증가하며 반복합니다.\n각 n에 대해 1부터 n/2까지 약수를 모두 찾아 합한 값을 s에 저장합니다.\n만약 약수의 합 s가 자기 자신 n과 같으면 완전수(perfect number)로 판단해 el을 1 증가시킵니다.\n6부터 30까지 완전수를 찾으면,\n6: 약수 1,2,3 → 합 6 (완전수)\n28: 약수 1,2,4,7,14 → 합 28 (완전수)\n이외의 숫자는 완전수가 아닙니다.\n따라서 6과 28, 총 2개가 완전수입니다.\n마지막에 printf(\"%d\", el);을 통해 2를 출력합니다.\n"
+        "text": "이 코드는 C언어로 작성되었습니다.\n변수 n은 6부터 30까지 1씩 증가하며 반복합니다.\n각 n에 대해 1부터 n/2까지 약수를 모두 찾아 합한 값을 s에 저장합니다.\n만약 약수의 합 s가 자기 자신 n과 같으면 완전수(perfect number)로 판단해 el을 1 증가시킵니다.\n6부터 30까지 완전수를 찾으면,\n6: 약수 1,2,3 → 합 6 (완전수)\n28: 약수 1,2,4,7,14 → 합 28 (완전수)\n이외의 숫자는 완전수가 아닙니다.\n따라서 6과 28, 총 2개가 완전수입니다.\n마지막에 printf(\"%d\", el);을 통해 2를 출력합니다."
       },
       "viewCount": 0,
-      "version": 9
+      "version": 10
     },
     {
       "id": "ques_377",
@@ -11614,10 +11614,10 @@
       "code": "public class Exam {\n    public static void main(String[] args) {\n        int a = 0;\n        for (int i = 1; i < 999; i++) {\n            if (i % 3 == 0 && i % 2 != 0) a = i;\n        }\n        System.out.print(a);\n    }\n}",
       "answer": 1,
       "explanation": {
-        "text": "코드는 i=1부터 i<999까지 반복하며,\n3의 배수이면서 짝수가 아닌 수를 찾습니다.\n찾을 때마다 변수 a를 갱신합니다.\n반복문은 i=998까지 실행되기 때문에 999는 포함되지 않습니다.\n따라서 마지막으로 조건을 만족하는 수는 993입니다.\n결국 출력값은 993이 됩니다.\n"
+        "text": "코드는 i=1부터 i<999까지 반복하며,\n3의 배수이면서 짝수가 아닌 수를 찾습니다.\n찾을 때마다 변수 a를 갱신합니다.\n반복문은 i=998까지 실행되기 때문에 999는 포함되지 않습니다.\n따라서 마지막으로 조건을 만족하는 수는 993입니다.\n결국 출력값은 993이 됩니다."
       },
       "viewCount": 0,
-      "version": 10
+      "version": 11
     },
     {
       "id": "ques_379",
@@ -11672,10 +11672,10 @@
       "code": "#include <stdio.h>\n\nint main() {\n    char a[] = \"Art\";\n    char* p = NULL;\n    p = a;\n\n    printf(\"%s\\n\", a);\n    printf(\"%c\\n\", *p);\n    printf(\"%c\\n\", *a);\n    printf(\"%s\\n\", p);\n\n    for (int i = 0; a[i] != '\\0'; i++) printf(\"%c\", a[i]);\n}",
       "answer": 1,
       "explanation": {
-        "text": "문자 배열 a는 \"Art\"로 초기화되고,\n포인터 p는 a를 가리키게 됩니다.\n첫 번째 printf(\"%s\", a);는 배열 a를 문자열로 출력하므로 Art가 출력됩니다.\n두 번째 printf(\"%c\", *p);는 포인터 p가 가리키는 첫 번째 문자, 즉 'A'를 출력합니다.\n세 번째 printf(\"%c\", *a);는 배열 a의 첫 번째 원소, 역시 'A'를 출력합니다.\n네 번째 printf(\"%s\", p);는 포인터 p가 가리키는 문자열 전체, 즉 Art를 출력합니다.\n마지막 for문에서는 배열 a의 각 문자를 '\\0'이 나올 때까지 하나씩 출력합니다.\n따라서 'A', 'r', 't'가 연속해서 출력되며, 줄바꿈 없이 Art가 한 번 더 출력됩니다.\n\n\n"
+        "text": "문자 배열 a는 \"Art\"로 초기화되고,\n포인터 p는 a를 가리키게 됩니다.\n첫 번째 printf(\"%s\", a);는 배열 a를 문자열로 출력하므로 Art가 출력됩니다.\n두 번째 printf(\"%c\", *p);는 포인터 p가 가리키는 첫 번째 문자, 즉 'A'를 출력합니다.\n세 번째 printf(\"%c\", *a);는 배열 a의 첫 번째 원소, 역시 'A'를 출력합니다.\n네 번째 printf(\"%s\", p);는 포인터 p가 가리키는 문자열 전체, 즉 Art를 출력합니다.\n마지막 for문에서는 배열 a의 각 문자를 '\\0'이 나올 때까지 하나씩 출력합니다.\n따라서 'A', 'r', 't'가 연속해서 출력되며, 줄바꿈 없이 Art가 한 번 더 출력됩니다."
       },
       "viewCount": 0,
-      "version": 10
+      "version": 11
     },
     {
       "id": "ques_381",
@@ -11788,10 +11788,10 @@
       "code": "a = {'한국', '중국', '일본'}\na.add('베트남')\na.add('중국')\na.remove('일본')\na.update({'홍콩', '한국', '태국'})\nprint(a)",
       "answer": 1,
       "explanation": {
-        "text": "초기에 a = {'한국', '중국', '일본'}으로 세트가 만들어집니다.\na.add('베트남')을 통해 '베트남'이 추가됩니다.\na.add('중국')을 다시 호출하지만, 세트(set)는 중복을 허용하지 않으므로 변화가 없습니다.\na.remove('일본')을 통해 '일본'이 삭제됩니다.\na.update({'홍콩', '한국', '태국'})을 통해 여러 항목을 추가합니다. 이미 있는 '한국'은 중복되어 추가되지 않습니다.\n최종적으로 남는 항목은 '한국', '중국', '베트남', '홍콩', '태국'입니다.\nset은 출력 시 순서가 정해져 있지 않지만,\n포함된 항목만 맞으면 정답입니다.\n"
+        "text": "초기에 a = {'한국', '중국', '일본'}으로 세트가 만들어집니다.\na.add('베트남')을 통해 '베트남'이 추가됩니다.\na.add('중국')을 다시 호출하지만, 세트(set)는 중복을 허용하지 않으므로 변화가 없습니다.\na.remove('일본')을 통해 '일본'이 삭제됩니다.\na.update({'홍콩', '한국', '태국'})을 통해 여러 항목을 추가합니다. 이미 있는 '한국'은 중복되어 추가되지 않습니다.\n최종적으로 남는 항목은 '한국', '중국', '베트남', '홍콩', '태국'입니다.\nset은 출력 시 순서가 정해져 있지 않지만,\n포함된 항목만 맞으면 정답입니다."
       },
       "viewCount": 0,
-      "version": 6
+      "version": 7
     },
     {
       "id": "ques_385",
@@ -11904,10 +11904,10 @@
       "code": "public class Problem {\n    public static void main(String[] args) {\n        m = 4620;\n\n        a = ();\n        b = ();\n        c = ();\n        d = ();\n\n        System.out.println(a);  // 천원짜리 4장\n        System.out.println(b);  // 오백원짜리 1개\n        System.out.println(c);  // 백원짜리 1개\n        System.out.println(d);  // 십원짜리 2개\n    }\n}",
       "answer": 1,
       "explanation": {
-        "text": "총 4620원을 1000원, 500원, 100원, 10원 단위로 최대한 적게 나누어야 합니다.\n\n먼저 1000원권 개수는 m / 1000으로 계산합니다.\n그 다음 1000원으로 나눈 나머지 금액에 대해 500원 개수를 계산합니다: (m % 1000) / 500\n500원까지 제외한 나머지 금액으로 100원 개수를 계산합니다: (m % 1000 % 500) / 100\n100원까지 제외한 나머지 금액으로 10원 개수를 계산합니다: (m % 1000 % 500 % 100) / 10\n\n실제 계산 흐름은 다음과 같습니다:\n4620 ÷ 1000 → 4장 (잔액 620)\n620 ÷ 500 → 1개 (잔액 120)\n120 ÷ 100 → 1개 (잔액 20)\n20 ÷ 10 → 2개\n따라서 출력은 4, 1, 1, 2가 됩니다.\n"
+        "text": "총 4620원을 1000원, 500원, 100원, 10원 단위로 최대한 적게 나누어야 합니다.\n\n먼저 1000원권 개수는 m / 1000으로 계산합니다.\n그 다음 1000원으로 나눈 나머지 금액에 대해 500원 개수를 계산합니다: (m % 1000) / 500\n500원까지 제외한 나머지 금액으로 100원 개수를 계산합니다: (m % 1000 % 500) / 100\n100원까지 제외한 나머지 금액으로 10원 개수를 계산합니다: (m % 1000 % 500 % 100) / 10\n\n실제 계산 흐름은 다음과 같습니다:\n4620 ÷ 1000 → 4장 (잔액 620)\n620 ÷ 500 → 1개 (잔액 120)\n120 ÷ 100 → 1개 (잔액 20)\n20 ÷ 10 → 2개\n따라서 출력은 4, 1, 1, 2가 됩니다."
       },
       "viewCount": 0,
-      "version": 11
+      "version": 12
     },
     {
       "id": "ques_389",
@@ -11991,10 +11991,10 @@
       "code": "#include <stdio.h>\n\nint main() {\n    int c = 0;\n    for (int i = 1; i <= 2023; i++) {\n        if (i % 4 == 0) c++;\n    }\n    printf(\"%d\", c);\n}",
       "answer": 1,
       "explanation": {
-        "text": "for문을 통해 1부터 2023까지 모든 수를 검사하면서, 4의 배수일 때마다 카운트(c)를 1씩 증가시킵니다. 4의 배수는 4, 8, 12, ..., 2020 이렇게 나오게 됩니다.\n1부터 2023까지 4의 배수 개수는 : 2023 ÷ 4 = 505.75 → 몫은 505\n즉, 1부터 2023까지 4의 배수는 505개입니다.\n\n"
+        "text": "for문을 통해 1부터 2023까지 모든 수를 검사하면서, 4의 배수일 때마다 카운트(c)를 1씩 증가시킵니다. 4의 배수는 4, 8, 12, ..., 2020 이렇게 나오게 됩니다.\n1부터 2023까지 4의 배수 개수는 : 2023 ÷ 4 = 505.75 → 몫은 505\n즉, 1부터 2023까지 4의 배수는 505개입니다."
       },
       "viewCount": 0,
-      "version": 11
+      "version": 12
     },
     {
       "id": "ques_392",
@@ -12049,10 +12049,10 @@
       "code": "public class Main {\n    public static void main(String[] args) {\n        String str1 = \"Programming\";\n        String str2 = \"Programming\";\n        String str3 = new String(\"Programming\");\n\n        println(str1 == str2);\n        println(str1 == str3);\n        println(str1.equals(str3));\n        print(str2.equals(str3));\n    }\n}",
       "answer": 1,
       "explanation": {
-        "text": "문자열 str1, str2는 둘 다 \"Programming\"이라는 리터럴을 직접 할당했습니다.\nJava에서는 문자열 리터럴이 같으면 같은 객체를 참조합니다.\n따라서 str1 == str2는 true가 됩니다.\n하지만 str3은 new String(\"Programming\")으로 생성했기 때문에, Heap 메모리에 새로운 객체를 생성합니다.\n그래서 str1 == str3는 false입니다. (참조가 다름)\n반면 equals() 메서드는 문자열의 내용을 비교합니다.\nstr1.equals(str3)와 str2.equals(str3)는 둘 다 문자열이 \"Programming\"으로 같기 때문에 true입니다.\n"
+        "text": "문자열 str1, str2는 둘 다 \"Programming\"이라는 리터럴을 직접 할당했습니다.\nJava에서는 문자열 리터럴이 같으면 같은 객체를 참조합니다.\n따라서 str1 == str2는 true가 됩니다.\n하지만 str3은 new String(\"Programming\")으로 생성했기 때문에, Heap 메모리에 새로운 객체를 생성합니다.\n그래서 str1 == str3는 false입니다. (참조가 다름)\n반면 equals() 메서드는 문자열의 내용을 비교합니다.\nstr1.equals(str3)와 str2.equals(str3)는 둘 다 문자열이 \"Programming\"으로 같기 때문에 true입니다."
       },
       "viewCount": 0,
-      "version": 11
+      "version": 12
     },
     {
       "id": "ques_394",
@@ -12078,10 +12078,10 @@
       "code": "#include <stdio.h>\n\nint main() {\n    int E[] = {64, 25, 12, 22, 11};\n    int n = sizeof(E) / sizeof(E[0]);\n    int i = 0;\n    do {\n        int j = i + 1;\n        do {\n            if (E[i]() E[j]) {\n                int tmp = E[i];\n                E[i] = E[j];\n                E[j] = tmp;\n            }\n            j++;\n        } while (j < n);\n        i++;\n    } while (i < n - 1);\n\n    for (int i = 0; i <= 4; i++) printf(\"%d \", E[i]);\n}",
       "answer": 1,
       "explanation": {
-        "text": "이 코드는 C언어로 작성된 선택 정렬(Selection Sort) 구현입니다.\n선택 정렬은 현재 위치에서 가장 작은 값을 선택해 앞으로 가져오는 방식입니다.\n오름차순으로 정렬하려면, 현재 비교하는 두 값 중 앞쪽 값이 크면 둘을 교환해야 합니다.\n즉, if (E[i] > E[j])가 되어야 합니다.\nE[i]가 E[j]보다 크다면, 더 작은 값인 E[j]를 앞으로 가져와야 합니다.\n보기에 있는 선택지 중에서 <, <=, =>, ==, /, %는 오름차순 비교 조건에 적합하지 않습니다.\n> 만이 \"앞의 값이 클 때 교환\"하는 오름차순 조건에 맞습니다.\n따라서 빈칸에는 **>**를 작성해야 합니다.\n"
+        "text": "이 코드는 C언어로 작성된 선택 정렬(Selection Sort) 구현입니다.\n선택 정렬은 현재 위치에서 가장 작은 값을 선택해 앞으로 가져오는 방식입니다.\n오름차순으로 정렬하려면, 현재 비교하는 두 값 중 앞쪽 값이 크면 둘을 교환해야 합니다.\n즉, if (E[i] > E[j])가 되어야 합니다.\nE[i]가 E[j]보다 크다면, 더 작은 값인 E[j]를 앞으로 가져와야 합니다.\n보기에 있는 선택지 중에서 <, <=, =>, ==, /, %는 오름차순 비교 조건에 적합하지 않습니다.\n> 만이 \"앞의 값이 클 때 교환\"하는 오름차순 조건에 맞습니다.\n따라서 빈칸에는 **>**를 작성해야 합니다."
       },
       "viewCount": 0,
-      "version": 9
+      "version": 10
     },
     {
       "id": "ques_395",
@@ -12107,10 +12107,10 @@
       "code": "a = \"engineer information processing\"\nb = a[:3]\nc = a[4:6]\nd = a[28:]\ne = b + c + d\nprint(e)",
       "answer": 1,
       "explanation": {
-        "text": "먼저 a는 \"engineer information processing\"이라는 문자열입니다.\nb = a[:3]은 인덱스 0부터 2까지 잘라서 \"eng\"를 가져옵니다.\nc = a[4:6]은 인덱스 4부터 5까지 잘라서 \"ne\"를 가져옵니다.\nd = a[28:]은 인덱스 28부터 끝까지 가져오는데,\n28번째 문자부터는 \"ing\"가 됩니다.\n따라서 e는 \"eng\" + \"ne\" + \"ing\"이 되어 \"engneing\"이 됩니다.\n최종적으로 출력 결과는 engneing입니다.\n\n"
+        "text": "먼저 a는 \"engineer information processing\"이라는 문자열입니다.\nb = a[:3]은 인덱스 0부터 2까지 잘라서 \"eng\"를 가져옵니다.\nc = a[4:6]은 인덱스 4부터 5까지 잘라서 \"ne\"를 가져옵니다.\nd = a[28:]은 인덱스 28부터 끝까지 가져오는데,\n28번째 문자부터는 \"ing\"가 됩니다.\n따라서 e는 \"eng\" + \"ne\" + \"ing\"이 되어 \"engneing\"이 됩니다.\n최종적으로 출력 결과는 engneing입니다."
       },
       "viewCount": 0,
-      "version": 10
+      "version": 11
     },
     {
       "id": "ques_396",
@@ -12194,10 +12194,10 @@
       "code": "#include <stdio.h>\n#include <stdlib.h>\n\ntypedef struct Data {\n    char c;\n    int *numPtr;\n} Data;\n\nint main() {\n    int num = 10;\n    Data d1;\n    Data *d2 = malloc(sizeof(struct Data));\n\n    d1.numPtr = &num;\n    d2->numPtr = &num;\n\n    printf(\"%d\\n\", *d1.numPtr);\n    printf(\"%d\\n\", *d2->numPtr);\n\n    free(d2);\n    return 0;\n}",
       "answer": 1,
       "explanation": {
-        "text": "구조체 Data에는 char c와 int* numPtr 두 개의 멤버가 있습니다.\nd1은 구조체 자체이고, d2는 구조체 포인터입니다.\n구조체 변수(d1)의 멤버에 접근할 때는 마침표 .을 사용합니다.\n구조체 포인터(d2)의 멤버에 접근할 때는 화살표 ->를 사용합니다.\n문제 코드에서는:\nd1.numPtr = &num; → d1은 변수이므로 . 사용\nd2 ( ) numPtr = &num; → d2는 포인터이므로 ( )에 들어갈 것은 ->\n또한 printf 부분에서도\n\\*d1.numPtr은 OK\n*d2 ( ) numPtr에서도 ( )에 ->가 들어가야 합니다.\n따라서 괄호 안에는 모두 **->**가 들어가야 합니다.\n"
+        "text": "구조체 Data에는 char c와 int* numPtr 두 개의 멤버가 있습니다.\nd1은 구조체 자체이고, d2는 구조체 포인터입니다.\n구조체 변수(d1)의 멤버에 접근할 때는 마침표 .을 사용합니다.\n구조체 포인터(d2)의 멤버에 접근할 때는 화살표 ->를 사용합니다.\n문제 코드에서는:\nd1.numPtr = &num; → d1은 변수이므로 . 사용\nd2 ( ) numPtr = &num; → d2는 포인터이므로 ( )에 들어갈 것은 ->\n또한 printf 부분에서도\n\\*d1.numPtr은 OK\n*d2 ( ) numPtr에서도 ( )에 ->가 들어가야 합니다.\n따라서 괄호 안에는 모두 **->**가 들어가야 합니다."
       },
       "viewCount": 0,
-      "version": 9
+      "version": 10
     },
     {
       "id": "ques_399",
@@ -12223,10 +12223,10 @@
       "code": "#include <stdio.h>\n\nint f(int n) {\n    if (n <= 1)\n        return 1;\n    else\n        return n * f(n - 1);\n}\n\nint main() {\n    printf(\"%d\", f(7));\n}",
       "answer": 1,
       "explanation": {
-        "text": "이 코드는 C언어로 작성된 팩토리얼(factorial) 함수입니다.\n함수 f(n)은 n이 1 이하일 경우 1을 반환하고,\n그 외에는 n * f(n-1)을 재귀 호출합니다.\n즉, 이 함수는 **n! (n팩토리얼)**을 계산하는 함수입니다.\nf(7)을 계산하면 : 7 × 6 × 5 × 4 × 3 × 2 × 1 = 5040\n따라서 printf(\"%d\", f(7));은 5040을 출력합니다.\n\n"
+        "text": "이 코드는 C언어로 작성된 팩토리얼(factorial) 함수입니다.\n함수 f(n)은 n이 1 이하일 경우 1을 반환하고,\n그 외에는 n * f(n-1)을 재귀 호출합니다.\n즉, 이 함수는 **n! (n팩토리얼)**을 계산하는 함수입니다.\nf(7)을 계산하면 : 7 × 6 × 5 × 4 × 3 × 2 × 1 = 5040\n따라서 printf(\"%d\", f(7));은 5040을 출력합니다."
       },
       "viewCount": 0,
-      "version": 11
+      "version": 12
     },
     {
       "id": "ques_400",
@@ -12967,6 +12967,41 @@
       "version": 5
     },
     {
+      "id": "ques_424",
+      "title": "다음은 네트워크에 대한 문제이다. 아래 내용을 보고 알맞는 용어를 작성하시오.",
+      "subject": "소프트웨어 개발 보안 구축",
+      "questionType": "기출",
+      "date": "",
+      "choice1": {
+        "text": "ㄹ. (Ad-hoc Network)"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": "ques_424(1)"
+          }
+        ]
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "주어진 설명은 다음과 같습니다:\n\n• **중앙 관리나 고정된 인프라 없이 임시로 구성되는 네트워크이다.**\n- **일반적으로 무선 통신을 통해 노드들이 직접 연결되어 데이터를 주고받는다.**\n- **긴급 구조, 긴급 회의, 군사적인 상황 등에서 유용하게 활용될 수 있다.**\n\n• 이러한 특징을 가진 네트워크는 **Ad-hoc Network(애드혹 네트워크)** 입니다.\n\n• Ad-hoc Network의 주요 특징:\n- **중앙 집중식 관리 장치(라우터나 액세스 포인트)가 필요하지 않음**\n- **각 노드가 직접 다른 노드들과 통신하며 네트워크를 형성**\n- **임시적(temporary)으로 빠르게 구성 가능**\n- **고정된 인프라가 필요 없어 재난 지역, 군사 작전, 긴급 회의 등 인프라가 없거나 손상된 상황에서 유용**\n- **노드들이 자유롭게 네트워크에 참여하거나 떠날 수 있음**\n\n따라서 정답은 **\"ㄹ. Ad-hoc Network\"**입니다."
+      },
+      "viewCount": 0,
+      "version": 4
+    },
+    {
       "id": "ques_425",
       "title": "시스템의 성능을 향상시키고 개발 및 운영의 편의성 등을 높이기 위해 정규화된 데이터 모델을 의도적으로 통합, 중복, 분리하여 정규화 원칙을 위배하는 행위는?",
       "subject": "SQL 응용",
@@ -13252,10 +13287,10 @@
       "code": "",
       "answer": 1,
       "explanation": {
-        "text": "**생성 패턴:**\n1.Singleton:\n• 키워드: 단일 인스턴스, 전역 접근점\n• 설명: 클래스의 인스턴스가 하나만 생성되도록 보장\n\n2. Factory Method:\n• 키워드: 객체 생성 위임, 서브클래스\n• 설명: 객체 생성을 서브클래스에 위임하여 유연성 제공\n\n3. Abstract Factory:\n• 키워드: 관련 객체군, 인터페이스\n• 설명: 관련된 객체들의 family를 생성하기 위한 인터페이스 제공\n\n**구조 패턴:**\n1. Adapter:\n• 키워드: 인터페이스 변환, 호환성\n• 설명: 호환되지 않는 인터페이스들을 함께 동작하도록 변환\n\n2.Bridge:\n• 키워드: 구현-추상화 분리, 독립적 변화\n• 설명: 추상화와 구현을 분리하여 독립적으로 변화 가능하게 함\n\n3. Composite:\n• 키워드: 트리 구조, 부분-전체 계층\n• 설명: 객체들의 트리 구조를 구성하여 부분-전체 계층을 표현\n\n**행위 패턴:**\n1. Iterator:\n• 키워드: 순차적 접근, 내부 구조 은닉\n• 설명: 컬렉션의 내부 구조를 노출하지 않고 순차적 접근 제공\n\n2. Visitor:\n• 키워드: 동작 분리, 새로운 연산 추가\n• 설명: 객체 구조와 동작을 분리하여 새로운 동작 쉽게 추가\n\n3.  Observer:\n• 키워드: 상태 변화 통지, 일대다 의존성\n• 설명: 객체 상태 변화를 다른 객체들에게 자동으로 통지\n"
+        "text": "**생성 패턴:**\n1.Singleton:\n• 키워드: 단일 인스턴스, 전역 접근점\n• 설명: 클래스의 인스턴스가 하나만 생성되도록 보장\n\n2. Factory Method:\n• 키워드: 객체 생성 위임, 서브클래스\n• 설명: 객체 생성을 서브클래스에 위임하여 유연성 제공\n\n3. Abstract Factory:\n• 키워드: 관련 객체군, 인터페이스\n• 설명: 관련된 객체들의 family를 생성하기 위한 인터페이스 제공\n\n**구조 패턴:**\n1. Adapter:\n• 키워드: 인터페이스 변환, 호환성\n• 설명: 호환되지 않는 인터페이스들을 함께 동작하도록 변환\n\n2.Bridge:\n• 키워드: 구현-추상화 분리, 독립적 변화\n• 설명: 추상화와 구현을 분리하여 독립적으로 변화 가능하게 함\n\n3. Composite:\n• 키워드: 트리 구조, 부분-전체 계층\n• 설명: 객체들의 트리 구조를 구성하여 부분-전체 계층을 표현\n\n**행위 패턴:**\n1. Iterator:\n• 키워드: 순차적 접근, 내부 구조 은닉\n• 설명: 컬렉션의 내부 구조를 노출하지 않고 순차적 접근 제공\n\n2. Visitor:\n• 키워드: 동작 분리, 새로운 연산 추가\n• 설명: 객체 구조와 동작을 분리하여 새로운 동작 쉽게 추가\n\n3.  Observer:\n• 키워드: 상태 변화 통지, 일대다 의존성\n• 설명: 객체 상태 변화를 다른 객체들에게 자동으로 통지"
       },
       "viewCount": 0,
-      "version": 1
+      "version": 2
     },
     {
       "id": "ques_434",
@@ -15299,7 +15334,7 @@
       "version": 1
     },
     {
-      "id": "ques_640",
+      "id": "ques_640_2",
       "title": "시제품을 끊임없이 제작하며 사이클을 반복하는 개발 방법론으로, 워터폴과 대조적이며, 소프트웨어 개발을 넘어 기업 경영 전반에서 사용되기 있다. 고객의 변화하는 요구사항과 환경 변화에 능동적인 이 소프트웨어 개발 방법론을 쓰시오.",
       "subject": "요구사항 확인",
       "questionType": "기출",
@@ -15325,7 +15360,7 @@
         "text": "애자일 모형은 반복적인 프로토타입 제작을 통해 빠르게 요구사항의 변화를 수용하며 개발하는 방법론입니다."
       },
       "viewCount": 0,
-      "version": 12
+      "version": 13
     },
     {
       "id": "ques_641",
@@ -16198,6 +16233,180 @@
       "version": 1
     },
     {
+      "id": "ques_671",
+      "title": "인터페이스 통신 과정에서 데이터 송수신 양측 간의 처리 속도 차이로 인해 발생할 수 있는 문제를 방지하는 기법을 무엇이라 하는가?",
+      "subject": "인터페이스 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "버퍼링(Buffering)"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "버퍼링은 시스템 간 데이터 전송 시 처리 속도의 차이를 완화하여 데이터 손실이나 처리 지연을 방지하는 기술입니다."
+      },
+      "viewCount": 0,
+      "version": 8
+    },
+    {
+      "id": "ques_672",
+      "title": "서로 다른 플랫폼이나 이기종 시스템 간 데이터 교환을 위해 사용되는 표준화된 형식 중 메타데이터를 저장하고 교환하기 위해 널리 사용되는 마크업 언어는 무엇인가?",
+      "subject": "인터페이스 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "XML"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "XML은 이기종 시스템 간 데이터 교환을 위한 표준 형식의 마크업 언어로, 데이터의 구조와 의미를 쉽게 파악하고 처리할 수 있게 합니다."
+      },
+      "viewCount": 0,
+      "version": 5
+    },
+    {
+      "id": "ques_673",
+      "title": "시스템 간 인터페이스에서 데이터 송수신 오류를 검출하고 수정하기 위해 사용하는 기술적 기법은 무엇인가?",
+      "subject": "인터페이스 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "오류 제어(Error Control)"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "오류 제어는 인터페이스 통신 과정에서 발생한 데이터 오류를 검출하고 수정하여 정확한 데이터 교환을 지원하는 기법입니다."
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_674",
+      "title": "응용 프로그램 간 메시지를 교환하기 위해 메시지 큐를 사용하는 비동기 메시지 전송 방식의 미들웨어는 무엇인가?",
+      "subject": "인터페이스 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "메시지 지향 미들웨어(Message Oriented Middleware)"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "메시지 지향 미들웨어는 메시지 큐를 이용해 비동기적으로 메시지를 전달하는 미들웨어로, 시스템 간 안정적인 데이터 전송을 지원합니다."
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_675",
+      "title": "서로 다른 소프트웨어 모듈이 기능 수행을 위해 상호 작용할 때 사용하는 정의된 규약이나 규칙은 무엇인가?",
+      "subject": "인터페이스 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "프로토콜(Protocol)"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "프로토콜은 시스템 간 상호작용 시 데이터 전송 규칙과 포맷 등을 정의하여 원활한 통신을 가능하게 하는 규칙입니다."
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_676",
+      "title": "데이터를 주고받는 두 시스템 간의 메시지 통신 내용을 기록하여 문제 발생 시 원인 분석에 활용할 수 있도록 하는 작업을 무엇이라고 하는가?",
+      "subject": "인터페이스 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "인터페이스 로깅(Interface Logging)"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "인터페이스 로깅은 시스템 간의 메시지 통신 내용을 기록하여 장애 발생 시 원인을 빠르게 분석할 수 있도록 지원하는 방법입니다."
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
       "id": "ques_677",
       "title": "요구사항 확인 과정에서 이해 관계자 간의 요구사항 충돌을 해결하기 위한 활동을 무엇이라고 하는가?",
       "subject": "요구사항 확인",
@@ -16488,7 +16697,413 @@
       "version": 1
     },
     {
-      "id": "ques_686",
+      "id": "ques_784",
+      "title": "응용 프로그램의 기능이나 서비스가 외부에 노출될 때, 이 기능을 다른 응용 프로그램이나 사용자가 호출하여 사용할 수 있도록 정의된 규격은 무엇인가?",
+      "subject": "인터페이스 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "API(Application Programming Interface)"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "API는 응용 프로그램의 기능을 외부에서 사용할 수 있도록 공개한 인터페이스로, 시스템 간 연계를 쉽게 해주는 표준 규격입니다."
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_785",
+      "title": "인터페이스 구현 시 각 시스템 간 데이터의 일관성을 유지하고 동기화를 위해 자주 사용되는 인터페이스 기법은 무엇인가?",
+      "subject": "인터페이스 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "실시간 인터페이스(Real-time Interface)"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "실시간 인터페이스는 데이터의 즉각적인 동기화와 일관성을 유지하기 위해 자주 사용되며, 실시간 데이터 처리 요구사항을 충족합니다."
+      },
+      "viewCount": 0,
+      "version": 2
+    },
+    {
+      "id": "ques_786",
+      "title": "인터페이스 구현 시 특정 데이터 변경 사항이 발생할 때, 이를 다른 시스템에 즉시 전달하는 방식은 무엇인가?",
+      "subject": "인터페이스 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "이벤트 기반 인터페이스(Event-driven Interface)"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "이벤트 기반 인터페이스는 데이터의 변경이나 특정 이벤트 발생 시 이를 즉시 관련 시스템에 알려주는 방식으로 높은 효율성을 제공합니다."
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_787",
+      "title": "시스템의 내부 구조를 외부에 노출시키지 않고 외부의 요청을 처리하는 형태의 인터페이스 구현 방식을 무엇이라고 하는가?",
+      "subject": "인터페이스 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "캡슐화(Encapsulation)"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "캡슐화는 시스템의 내부 구조나 기능을 숨기고 외부 인터페이스만을 통해 데이터를 주고받아 시스템의 독립성과 보안을 높이는 방식입니다."
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_788",
+      "title": "소프트웨어 테스트를 수행하는 목적 중 하나로, 발견된 결함을 통해 소프트웨어 품질을 향상시키는 것을 무엇이라고 하는가?",
+      "subject": "애플리케이션테스트 관리",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "결함 예방"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "소프트웨어 테스팅의 목적은 단순히 오류를 찾는 것이 아니라, 소프트웨어가 명세된 요구사항을 얼마나 충족시키는지를 확인하는 데 있습니다. 이를 통해 품질을 보증하고 사용자 만족도를 높입니다."
+      },
+      "viewCount": 0,
+      "version": 9
+    },
+    {
+      "id": "ques_789",
+      "title": "테스트 과정에서 동일한 테스트 케이스를 반복적으로 수행했을 때 새로운 결함이 발견되지 않는 현상을 무엇이라 하는가?",
+      "subject": "애플리케이션테스트 관리",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "살충제 패러독스"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "결함 추적(Defect Tracking)은 발견된 결함이 해결될 때까지의 전 과정을 추적하고 문서화하는 활동입니다. 이 과정은 개발자와 테스터 간의 원활한 커뮤니케이션을 돕고, 결함이 재발하지 않도록 방지합니다."
+      },
+      "viewCount": 0,
+      "version": 2
+    },
+    {
+      "id": "ques_790",
+      "title": "테스트 케이스 설계 기법 중 입력 데이터의 경계값을 테스트하는 방법을 무엇이라고 하는가?",
+      "subject": "애플리케이션테스트 관리",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "경계값 분석"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "테스트 오라클은 테스트 결과가 올바른지를 판단하는 기준입니다. 예측 가능한 결과값을 제공하여 테스트 자동화에 활용되며, 다양한 종류가 존재합니다. (예: 휴리스틱, 샘플링)"
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_791",
+      "title": "소프트웨어 개발 초기 단계부터 수행되는 테스트로, 요구사항 명세서와 설계 명세서를 기반으로 테스트 케이스를 설계하는 기법을 무엇이라 하는가?",
+      "subject": "애플리케이션테스트 관리",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "블랙박스 테스트"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "단위 테스트(Unit Test)는 개별 모듈의 기능이 요구사항을 만족하는지를 검증하는 테스트입니다. 주로 개발자에 의해 작성되며, 화이트박스 테스트 방식을 많이 사용합니다."
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_792",
+      "title": "소프트웨어 모듈 간의 통합 시 모듈 간 인터페이스의 오류나 결함을 확인하는 테스트는 무엇인가?",
+      "subject": "애플리케이션테스트 관리",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "통합 테스트"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "통합 테스트는 여러 모듈이 함께 올바르게 동작하는지를 확인합니다. 모듈 간 인터페이스와 데이터 흐름을 중점적으로 검증하며, 하향식/상향식 방식이 있습니다."
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_793",
+      "title": "사용자의 실제 운영 환경과 유사한 환경에서 시스템의 성능과 안정성을 테스트하는 방식을 무엇이라 하는가?",
+      "subject": "애플리케이션테스트 관리",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "성능 테스트"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "시스템 테스트는 전체 시스템이 통합된 후 요구사항에 따라 잘 작동하는지를 확인하는 단계입니다. 기능적 요구사항뿐만 아니라 비기능적 요구사항(성능, 보안 등)도 검증합니다."
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_794",
+      "title": "테스트 수행 후 기대한 결과와 실제 결과를 비교하여 테스트가 성공했는지 실패했는지 판단하는 기준을 무엇이라고 하는가?",
+      "subject": "애플리케이션테스트 관리",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "테스트 오라클"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "회귀 테스트는 기존 기능이 새로운 코드 변경 후에도 문제 없이 작동하는지를 확인하는 테스트입니. 버그 수정이나 리팩토링 후 필수적으로 수행됩니다."
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_795",
+      "title": "소프트웨어 품질 특성 중 소프트웨어가 요구사항에 맞게 기능을 정확히 수행하는지를 나타내는 특성은 무엇인가?",
+      "subject": "애플리케이션테스트 관리",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "기능성"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "알파 테스트는 내부 사용자나 개발자가 수행하며, 제품의 초기 버전을 사용해 결함을 찾아냅니다. 외부 고객과 수행하는 베타 테스트와 구분됩니다."
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_796",
+      "title": "소프트웨어 테스트 계획 단계에서 테스트의 목표, 범위, 전략 등을 기술한 공식 문서는 무엇인가?",
+      "subject": "애플리케이션테스트 관리",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "테스트 계획서"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "테스트 계획(Test Plan)은 테스트의 범위, 접근 방식, 일정, 자원, 책임 등을 정의하는 문서입니다. 명확한 계획은 테스트 활동의 효율성과 효과를 높입니다."
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_797",
+      "title": "프로그램의 내부 구조와 로직을 분석하여 테스트 케이스를 설계하는 방식으로, 모든 코드 경로를 테스트하는 기법을 무엇이라고 하는가?",
+      "subject": "애플리케이션테스트 관리",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "화이트박스 테스트"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "정적 테스트는 프로그램을 실행하지 않고 코드, 요구사항, 설계 문서를 검토하는 방식입니다. 문서 리뷰나 워크스루, 인스펙션 등이 이에 속합니다."
+      },
+      "viewCount": 0,
+      "version": 1
+    },
+    {
+      "id": "ques_686_2",
       "title": "다형성을 지원하기 위한 객체지향 언어의 특징 중, 동일한 이름의 메서드가 다양한 형태로 동작할 수 있도록 하는 기능은?",
       "subject": "프로그래밍 언어 활용_실기",
       "questionType": "AI 예상",
@@ -17790,7 +18405,7 @@
         "text": "**단어 길이 기준으로 그룹화**한 결과입니다."
       },
       "viewCount": 0,
-      "version": 1
+      "version": 2
     },
     {
       "id": "ques_731",
@@ -17819,7 +18434,7 @@
         "text": "e', 'o', 'A', 'I', 'o' → **총 5개의 모음**이 포함되어 있습니다."
       },
       "viewCount": 0,
-      "version": 1
+      "version": 2
     },
     {
       "id": "ques_732",
@@ -17848,7 +18463,7 @@
         "text": "딕셔너리 `a` 키가 덮어쓰기 되어 **최종값은 3**, `b`는 추가됩니다."
       },
       "viewCount": 0,
-      "version": 1
+      "version": 2
     },
     {
       "id": "ques_733",
@@ -17877,7 +18492,7 @@
         "text": "**짝수의 합은 2+4=6**, **홀수의 합은 1+3+5=9**입니다."
       },
       "viewCount": 0,
-      "version": 1
+      "version": 2
     },
     {
       "id": "ques_734",
@@ -17906,7 +18521,7 @@
         "text": "공백과 대소문자를 제거하면 회문(`amanaplanacanalpanama`)이 되어 **True**가 출력됩니다."
       },
       "viewCount": 0,
-      "version": 1
+      "version": 2
     },
     {
       "id": "ques_735",
@@ -17935,7 +18550,7 @@
         "text": "중첩 리스트를 **1차원 리스트로 평탄화(flatten)** 합니다."
       },
       "viewCount": 0,
-      "version": 1
+      "version": 2
     },
     {
       "id": "ques_736",
@@ -17964,7 +18579,7 @@
         "text": "각 문자별 **빈도를 세는 함수**입니다."
       },
       "viewCount": 0,
-      "version": 1
+      "version": 2
     },
     {
       "id": "ques_737",
@@ -17993,7 +18608,7 @@
         "text": "`map()` 함수로 **각 요소의 제곱**을 계산합니다."
       },
       "viewCount": 0,
-      "version": 1
+      "version": 2
     },
     {
       "id": "ques_738",
@@ -18022,7 +18637,7 @@
         "text": "중첩 반복문을 이용한 **삼각형 출력 결과**입니다."
       },
       "viewCount": 0,
-      "version": 1
+      "version": 2
     },
     {
       "id": "ques_739",
@@ -18051,7 +18666,7 @@
         "text": "**피보나치 수열의 6번째 수**는 **8**입니다."
       },
       "viewCount": 0,
-      "version": 1
+      "version": 2
     },
     {
       "id": "ques_740",
@@ -18080,7 +18695,7 @@
         "text": "`zip()` 함수는 리스트들을 **순서대로 튜플로 묶어줍니다.**"
       },
       "viewCount": 0,
-      "version": 1
+      "version": 2
     },
     {
       "id": "ques_741",
@@ -18109,7 +18724,7 @@
         "text": "문자열을 ','로 분리하여 **정수형으로 변환 후 합계**를 반환합니다."
       },
       "viewCount": 0,
-      "version": 1
+      "version": 2
     },
     {
       "id": "ques_742",
@@ -18138,7 +18753,7 @@
         "text": "`isinstance()`로 객체의 **타입을 확인**합니다."
       },
       "viewCount": 0,
-      "version": 1
+      "version": 2
     },
     {
       "id": "ques_743",
@@ -18167,7 +18782,7 @@
         "text": "`filter()` 함수로 **양수만 추출**합니다."
       },
       "viewCount": 0,
-      "version": 1
+      "version": 2
     },
     {
       "id": "ques_744",
@@ -18196,7 +18811,1144 @@
         "text": "**평균값 계산**: (80 + 90 + 100) / 3 = 90.0입니다."
       },
       "viewCount": 0,
-      "version": 1
+      "version": 4
+    },
+    {
+      "id": "ques_745",
+      "title": "EMP 테이블에서 급여(SAL)가 3000 이상인 사원의 이름(ENAME)을 조회하는 SQL 문의 WHERE 절 조건은?",
+      "subject": "SQL 응용",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "SAL >= 3000"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "SQL에서 특정 조건을 만족하는 데이터를 조회할 때 WHERE 절을 사용합니다. 급여가 3000 이상인 조건은 SAL >= 3000으로 표현하며, 여기서 >= 연산자는 \"크거나 같다\"를 의미합니다. 따라서 이 조건은 급여가 3000 이상인 모든 사원을 정확하게 필터링합니다."
+      },
+      "viewCount": 0,
+      "version": 8
+    },
+    {
+      "id": "ques_746",
+      "title": "STUDENT 테이블에서 학년이 3학년이 아닌 학생을 조회하기 위한 WHERE 절 조건은?",
+      "subject": "SQL 응용",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "GRADE != 3 또는 GRADE <> 3"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "SQL에서는 같지 않음을 나타내는 연산자가 두 가지(!=와 <>) 있습니다. 두 연산자 모두 같은 기능을 하며, GRADE != 3 또는 GRADE <> 3은 3학년이 아닌 모든 학년의 학생을 조회할 때 사용됩니다. ANSI SQL 표준에서는 <>가 권장되지만, 대부분의 DBMS에서 !=도 지원합니다."
+      },
+      "viewCount": 0,
+      "version": 6
+    },
+    {
+      "id": "ques_747",
+      "title": "이 SQL 문은 어떤 값을 반환하는가?",
+      "subject": "SQL 응용",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "부서번호가 10번인 사원의 수"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "SELECT COUNT(*) FROM EMP WHERE DEPTNO = 10;",
+      "answer": 1,
+      "explanation": {
+        "text": "COUNT(*) 함수는 조건에 맞는 행의 개수를 반환하는 집계 함수입니다. WHERE DEPTNO = 10 조건이 있으므로, DEPTNO가 10인 사원만 필터링되고, 그 결과로 나온 행의 개수가 반환됩니다. 이는 해당 부서에 소속된 사원 수를 구하는 쿼리입니다."
+      },
+      "viewCount": 0,
+      "version": 6
+    },
+    {
+      "id": "ques_748",
+      "title": "다음 SQL의 의미를 설명하시오.",
+      "subject": "SQL 응용",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "부서 D02에 속한 사원의 평균 급여를 계산한다."
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "SELECT AVG(SALARY) FROM EMPLOYEE WHERE DEPT_ID = 'D02';",
+      "answer": 1,
+      "explanation": {
+        "text": "AVG() 함수는 평균값을 계산하는 집계 함수입니다. WHERE DEPT_ID = 'D02' 조건이 있으므로, 부서 ID가 'D02'인 사원만 대상으로 평균 급여를 계산합니다. 결과는 숫자 하나이며, 해당 부서의 평균 급여를 나타냅니다."
+      },
+      "viewCount": 0,
+      "version": 6
+    },
+    {
+      "id": "ques_749",
+      "title": "트랜잭션의 특성 중 하나로, 트랜잭션이 수행된 결과는 실패하거나 성공하거나 둘 중 하나여야 한다는 성질은?",
+      "subject": "SQL 응용",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "원자성 (Atomicity)"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "원자성은 트랜잭션 내 작업이 모두 성공하거나 모두 실패해야 함을 의미합니다. 작업 도중 오류가 발생하면 전체 작업은 롤백되어 이전 상태로 복구됩니다. 이로 인해 데이터베이스는 중간 상태 없이 안정된 상태를 유지할 수 있습니다."
+      },
+      "viewCount": 0,
+      "version": 4
+    },
+    {
+      "id": "ques_750",
+      "title": "트랜잭션 A가 데이터를 변경한 뒤 COMMIT하지 않은 상태에서 트랜잭션 B가 해당 데이터를 읽고, 이후 트랜잭션 A가 ROLLBACK되었다. 이와 같은 상황을 무엇이라 하는가?",
+      "subject": "SQL 응용",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "더티 리드 (Dirty Read)"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "더티 리드는 아직 커밋되지 않은 데이터를 다른 트랜잭션이 읽는 현상을 말합니다. 만약 해당 데이터가 ROLLBACK되면, 잘못된 데이터를 읽은 트랜잭션은 오류를 초래할 수 있습니다. 이는 **고립성(Isolation)**이 약한 트랜잭션 격리 수준에서 발생합니다."
+      },
+      "viewCount": 0,
+      "version": 4
+    },
+    {
+      "id": "ques_751",
+      "title": "다음 조건에 맞게 인덱스를 생성하는 SQL문을 작성하시오.",
+      "subject": "SQL 응용",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "CREATE INDEX IDX_DATE ON ORDERS(ORDER_DATE);"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": "테이블명: ORDERS\n컬럼명: ORDER_DATE\n인덱스명: IDX_DATE"
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "CREATE INDEX 문을 사용하면 특정 컬럼에 인덱스를 만들 수 있습니다. 형식은 CREATE INDEX 인덱스명 ON 테이블명(컬럼명)입니다. 이 문제에서는 ORDERS 테이블의 ORDER_DATE 컬럼에 IDX_DATE라는 이름의 인덱스를 생성하는 것이므로, 정답은 CREATE INDEX IDX_DATE ON ORDERS(ORDER_DATE);가 됩니다."
+      },
+      "viewCount": 0,
+      "version": 6
+    },
+    {
+      "id": "ques_752",
+      "title": "다음 SQL의 실행 결과로 가장 알맞은 설명을 고르시오.",
+      "subject": "SQL 응용",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "D01, 2"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": "",
+        "images": [
+          {
+            "data": "",
+            "filename": "ques_752(1)"
+          }
+        ]
+      },
+      "code": "SELECT DEPT_ID, COUNT(*)  \nFROM EMPLOYEE  \nGROUP BY DEPT_ID  \nHAVING COUNT(*) >= 2;",
+      "answer": 1,
+      "explanation": {
+        "text": "이 쿼리는 DEPT_ID를 기준으로 그룹화하여 각 부서별 사원 수를 세고, 그 수가 2 이상인 그룹만 필터링합니다. D01 부서는 사원이 2명이므로 조건을 만족합니다. D02와 D03은 각각 사원이 1명이므로 제외됩니다. 따라서 출력 결과는 D01, 2가 됩니다."
+      },
+      "viewCount": 0,
+      "version": 9
+    },
+    {
+      "id": "ques_753",
+      "title": "PRODUCT 테이블에서 PNAME 컬럼으로 자주 검색이 이루어진다면, 성능을 향상시키기 위해 어떤 조치를 취해야 하는가?",
+      "subject": "SQL 응용",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "PNAME 컬럼에 인덱스를 생성한다."
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "데이터 검색 시 특정 컬럼을 기준으로 WHERE 절이 자주 사용된다면, 해당 컬럼에 인덱스를 생성하면 검색 속도를 높일 수 있습니다. 인덱스는 데이터베이스가 검색 시 전체 테이블을 스캔하지 않고, 특정 값을 빠르게 찾을 수 있게 도와주는 자료구조입니다."
+      },
+      "viewCount": 0,
+      "version": 4
+    },
+    {
+      "id": "ques_754",
+      "title": "테이블을 생성하거나 수정하고 삭제할 때 사용하는 SQL 언어의 종류는 무엇인가?",
+      "subject": "데이터 입출력 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "DDL"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "DDL(Data Definition Language)은 데이터베이스의 구조를 정의하고 조작하는 언어로, CREATE, ALTER, DROP과 같은 명령어를 포함합니다. 테이블이나 인덱스, 뷰 등을 생성하거나 수정하거나 삭제할 때 사용됩니다."
+      },
+      "viewCount": 0,
+      "version": 11
+    },
+    {
+      "id": "ques_755",
+      "title": "기본키가 설정된 속성에는 반드시 값이 존재해야 하며 중복이 허용되지 않는다. 이와 같은 무결성 제약 조건은 무엇인가?",
+      "subject": "데이터 입출력 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "엔터티 무결성"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "엔터티 무결성(Entity Integrity)은 테이블의 기본키에 대해 정의되는 제약 조건으로, 기본키 필드는 NULL 값을 가질 수 없으며, 중복된 값도 허용되지 않습니다. 이를 통해 각 튜플(행)을 유일하게 식별할 수 있습니다."
+      },
+      "viewCount": 0,
+      "version": 7
+    },
+    {
+      "id": "ques_756",
+      "title": "Oracle에서 문자 데이터를 저장할 때 고정 길이로 저장되는 데이터 타입은 무엇인가?",
+      "subject": "데이터 입출력 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "CHAR"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "CHAR 타입은 고정 길이 문자형이며, 지정된 길이보다 짧은 문자열을 저장해도 나머지 공간은 공백으로 채워집니다. 반면, VARCHAR2는 가변 길이로 데이터를 저장하여 공간 효율이 높습니다."
+      },
+      "viewCount": 0,
+      "version": 3
+    },
+    {
+      "id": "ques_757",
+      "title": "관계형 데이터베이스에서 '알 수 없음' 또는 '해당 없음'을 의미하는 특별한 값은 무엇인가?",
+      "subject": "데이터 입출력 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "NULL"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "NULL은 어떤 값이 아직 입력되지 않았거나 존재하지 않는 경우를 나타냅니다. 이는 0이나 공백과는 다르며, 연산 시 특수한 처리가 필요합니다. 예를 들어, NULL + 1은 결과가 NULL이 됩니다."
+      },
+      "viewCount": 0,
+      "version": 3
+    },
+    {
+      "id": "ques_758",
+      "title": "사용자의 권한에 따라 데이터에 대한 접근을 제한하는 기능은 무엇인가?",
+      "subject": "데이터 입출력 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "접근 제어"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "접근 제어(Access Control)는 데이터베이스에서 사용자가 수행할 수 있는 작업을 제어하는 기능입니다. 이를 통해 데이터 유출, 변경, 삭제 등의 보안 문제를 예방할 수 있으며, 권한은 GRANT와 REVOKE 명령어를 통해 부여하거나 회수합니다."
+      },
+      "viewCount": 0,
+      "version": 3
+    },
+    {
+      "id": "ques_759",
+      "title": "외래키(FK)가 참조하는 기본키(PK)가 삭제되었을 때, 참조 무결성을 유지하기 위해 참조하는 쪽의 값을 NULL로 바꾸는 제약 조건은?",
+      "subject": "데이터 입출력 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "ON DELETE SET NULL"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "외래키는 다른 테이블의 기본키를 참조하는 관계를 형성합니다. 참조된 기본키가 삭제될 경우, 해당 외래키 값을 어떻게 처리할지 정하는 옵션 중 하나가 ON DELETE SET NULL입니다. 이 옵션을 사용하면, 참조된 기본키가 삭제되었을 때 외래키 컬럼이 자동으로 NULL로 변경되어 참조 무결성을 유지할 수 있습니다."
+      },
+      "viewCount": 0,
+      "version": 5
+    },
+    {
+      "id": "ques_760",
+      "title": "인덱스를 사용하면 데이터 검색 시 어떤 성능상의 장점이 있는가?",
+      "subject": "데이터 입출력 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "검색 속도가 빨라진다."
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "인덱스(Index)는 책의 목차처럼 특정 데이터를 빠르게 찾을 수 있도록 도와주는 구조입니다. 데이터베이스에서 WHERE 조건절이나 JOIN, ORDER BY 등을 수행할 때 전체 데이터를 일일이 검색하지 않고, 인덱스를 활용하여 검색 범위를 빠르게 좁힐 수 있습니다. 하지만 INSERT, UPDATE, DELETE 시에는 인덱스를 유지해야 하므로 성능 저하가 발생할 수 있습니다."
+      },
+      "viewCount": 0,
+      "version": 4
+    },
+    {
+      "id": "ques_761",
+      "title": "기존 데이터에 새로운 행을 추가하는 SQL 명령어는 무엇인가?",
+      "subject": "데이터 입출력 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "INSERT"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "INSERT는 데이터 조작어(DML, Data Manipulation Language)의 하나로, 테이블에 새로운 데이터를 삽입할 때 사용합니다. 기본 문법은 INSERT INTO 테이블명 (컬럼명1, 컬럼명2, ...) VALUES (값1, 값2, ...);입니다. 삽입 대상 컬럼을 생략하면 테이블의 모든 컬럼 순서에 맞게 값을 입력해야 하며, 일부 컬럼만 지정할 수도 있습니다."
+      },
+      "viewCount": 0,
+      "version": 4
+    },
+    {
+      "id": "ques_762",
+      "title": "대용량 데이터를 데이터베이스에 빠르게 삽입하기 위해 사용하는 명령 또는 기법은 무엇인가?",
+      "subject": "데이터 입출력 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "Bulk Insert"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "Bulk Insert는 대량의 데이터를 한꺼번에 데이터베이스에 삽입할 때 사용하는 효율적인 방법입니다. 일반적인 INSERT 문을 반복 실행하는 방식보다 훨씬 빠르며, 로그 기록이나 트랜잭션 처리도 최소화하여 성능을 높일 수 있습니다. 주로 외부 파일(CSV, TXT 등)에 저장된 데이터를 테이블로 불러올 때 사용됩니다. 이는 대규모 배치 처리를 위한 데이터 입출력 구현에서 핵심적인 역할을 합니다."
+      },
+      "viewCount": 0,
+      "version": 4
+    },
+    {
+      "id": "ques_763",
+      "title": "데이터베이스에서 실제 테이블이 아닌, 쿼리의 결과를 가상 테이블 형태로 저장하여 제공하는 객체는 무엇인가?",
+      "subject": "데이터 입출력 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "뷰(View)"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "뷰(View)는 하나 이상의 테이블에 대한 SELECT 쿼리 결과를 저장한 가상의 테이블입니다. 실제 데이터를 저장하지 않으며, 기본 테이블이 변경되면 뷰의 결과도 함께 변경됩니다. 뷰는 보안성과 재사용성 측면에서 유용하며, 복잡한 쿼리를 단순화하거나 사용자에게 필요한 데이터만 제한적으로 제공할 수 있습니다. 데이터 입출력 구현 관점에서는 사용자 정의 데이터 접근 방식을 설계하는 데 중요한 수단입니다."
+      },
+      "viewCount": 0,
+      "version": 4
+    },
+    {
+      "id": "ques_764",
+      "title": "소프트웨어의 개발이 완료된 후, 사용자가 설치하고 사용할 수 있도록 압축, 설치 파일 구성 등을 수행하는 일련의 과정을 무엇이라고 하는가?",
+      "subject": "제품소프트웨어 패키징",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "패키징"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "패키징(Packaging)은 개발된 제품 소프트웨어를 최종 사용자에게 전달할 수 있는 형태로 구성하는 과정입니다. 보통 실행 파일, 라이브러리, 설명서, 설치 프로그램 등을 하나의 형태로 압축하고 버전 및 설치 경로를 지정하여 배포 준비를 마칩니다. 제품 소프트웨어 패키징은 설치와 유지보수를 고려한 구조로 설계되어야 하며, 품질 검토와 문서화도 포함됩니다."
+      },
+      "viewCount": 0,
+      "version": 4
+    },
+    {
+      "id": "ques_765",
+      "title": "소프트웨어 소스 코드 및 산출물의 버전 관리를 위해 사용하는 형상 관리 도구의 대표적인 예시를 한 가지 쓰시오.",
+      "subject": "제품소프트웨어 패키징",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "Git"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "Git은 분산 버전 관리 시스템으로, 소스 코드의 변경 이력을 관리하고, 여러 개발자가 협업할 수 있게 돕는 형상 관리 도구입니다. 이 외에도 Subversion(SVN), CVS 등이 있으며, 제품 소프트웨어의 패키징 시점에서는 버전이 일관되게 적용되었는지 확인하고 추적하는 데에 형상 관리 도구가 필수적으로 사용됩니다."
+      },
+      "viewCount": 0,
+      "version": 6
+    },
+    {
+      "id": "ques_766",
+      "title": "릴리즈 노트에 포함되어야 할 항목 중, 소프트웨어 버전, 개발 완료 날짜, 변경된 기능, 오류 수정 내역 등을 요약한 부분은 무엇인가?",
+      "subject": "제품소프트웨어 패키징",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "개요"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "릴리즈 노트의 개요는 해당 릴리즈에서 어떤 점이 변경되었는지를 요약해서 기술하는 부분입니다. 보통 릴리즈 노트는 제목, 개요, 변경 이력, 파일명 및 버전 정보, 테스트 결과, 작성자 등을 포함하며, 사용자 또는 운영자가 변경 사항을 빠르게 파악할 수 있도록 작성됩니다."
+      },
+      "viewCount": 0,
+      "version": 3
+    },
+    {
+      "id": "ques_767",
+      "title": "패키징한 제품 소프트웨어를 설치한 후, 기능이 정상적으로 수행되는지 확인하는 활동은 무엇인가?",
+      "subject": "제품소프트웨어 패키징",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "설치 테스트"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "설치 테스트는 소프트웨어를 설치한 후 실제 환경에서 작동 여부, 구성 요소의 정상 동작 여부 등을 확인하는 절차입니다. 이 과정은 패키징 완료 이후 사용자 환경에서 문제가 발생하지 않도록 사전에 예방하는 중요한 단계입니다. 설치 테스트는 설치 오류, 실행 오류, 의존성 누락 등을 중심으로 검증합니다."
+      },
+      "viewCount": 0,
+      "version": 6
+    },
+    {
+      "id": "ques_768",
+      "title": "CI/CD 환경에서 제품 소프트웨어의 배포를 자동화하기 위해 사용하는 대표적인 도구는 무엇인가?",
+      "subject": "제품소프트웨어 패키징",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "Jenkins"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "Jenkins는 지속적인 통합과 지속적인 배포(CI/CD)를 위한 오픈소스 자동화 서버입니다. 빌드, 테스트, 배포 과정을 자동화할 수 있어 소프트웨어 품질과 효율성을 동시에 확보할 수 있습니다. 제품 소프트웨어 패키징 과정에서는 Jenkins를 활용하여 정기적으로 자동 빌드를 수행하고, 오류 여부를 확인한 뒤, 패키징과 릴리즈를 자동화할 수 있습니다."
+      },
+      "viewCount": 0,
+      "version": 3
+    },
+    {
+      "id": "ques_769",
+      "title": "제품 소프트웨어를 설치하고 설정하는 방법을 설명하기 위해 함께 제공되는 문서는 무엇인가?",
+      "subject": "제품소프트웨어 패키징",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "설치 매뉴얼"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "설치 매뉴얼(Installation Manual)은 사용자 또는 시스템 관리자에게 제품을 설치하고 설정하는 방법을 안내하는 문서입니다. 환경 요구 사항, 설치 순서, 설정 파일 정보, 오류 발생 시 대처 방법 등을 포함해야 하며, 릴리즈 노트와 함께 제공되어야 전체 설치 패키지의 완성도를 높일 수 있습니다."
+      },
+      "viewCount": 0,
+      "version": 4
+    },
+    {
+      "id": "ques_770",
+      "title": "패키징된 제품 소프트웨어의 파일을 운영 환경으로 이관할 때, 파일의 무결성을 검증하기 위해 사용하는 값은 무엇인가?",
+      "subject": "제품소프트웨어 패키징",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "해시값"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "파일 해시값(SHA-256, MD5 등)은 파일의 무결성을 검증하는 데 사용됩니다. 배포 시 해시값을 함께 제공하면, 수신자가 동일한 해시 알고리즘으로 생성된 값을 비교해 파일이 변경되지 않았음을 확인할 수 있습니다. 이는 제품 소프트웨어 배포 시 무결성 보장을 위한 필수 절차입니다."
+      },
+      "viewCount": 0,
+      "version": 3
+    },
+    {
+      "id": "ques_771",
+      "title": "소프트웨어 버전에서 2.1.5와 같이 점(.)으로 구분되는 숫자는 보통 어떤 형식을 따르는가?\n",
+      "subject": "제품소프트웨어 패키징",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "시맨틱 버전"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "시맨틱 버전(Semantic Versioning)은 버전을 주버전.부버전.수정버전 형식으로 나타내는 표준입니다. 예를 들어, 2.1.5라면 주버전은 2, 부버전은 1, 수정버전은 5를 의미하며, 변경사항의 크기나 의미에 따라 증가시킵니다. 제품 소프트웨어 패키징에서 명확한 버전관리는 설치와 유지보수 효율성을 높이는 핵심요소입니다."
+      },
+      "viewCount": 0,
+      "version": 3
+    },
+    {
+      "id": "ques_772",
+      "title": "상용 소프트웨어를 배포할 때 사용자가 지켜야 할 조건, 사용 범위 등을 규정한 문서는 무엇인가?",
+      "subject": "제품소프트웨어 패키징",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "라이센스"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "라이센스(License)는 소프트웨어의 사용 조건, 복제 및 배포 권한, 책임 한계 등을 규정한 문서로, 패키징 시 반드시 포함되어야 합니다. 특히 상용 소프트웨어나 오픈소스 통합 제품의 경우, 라이선스를 명확히 명시하지 않으면 법적 분쟁의 소지가 될 수 있습니다."
+      },
+      "viewCount": 0,
+      "version": 7
+    },
+    {
+      "id": "ques_773",
+      "title": "테스트가 완료되고, 제품 소프트웨어가 실제 배포될 준비가 완료된 버전을 지칭하는 용어는 무엇인가?",
+      "subject": "제품소프트웨어 패키징",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "Release version"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "릴리즈 버전은 소프트웨어 개발 및 테스트가 완료되어 실제 운영 환경에 배포할 수 있는 상태의 최종 버전을 의미합니다. 개발 중간의 알파/베타 버전과 달리, 릴리즈 버전은 패키징, 문서화, 테스트가 모두 완료된 안정된 버전입니다. 패키징 시 릴리즈 버전 명확화는 유지보수와 문제 추적에 있어 매우 중요합니다."
+      },
+      "viewCount": 0,
+      "version": 3
+    },
+    {
+      "id": "ques_774",
+      "title": "UML에서 시스템의 정적 구조를 표현하는 다이어그램은?",
+      "subject": "통합 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "클래스 다이어그램"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "UML(통합 모델링 언어)은 시스템을 시각적으로 표현하는 표준 언어입니다. 그중 클래스 다이어그램은 시스템의 객체들, 그 속성, 메서드 및 객체 간의 관계를 나타내는 정적 구조 다이어그램입니다. 통합 구현 단계에서 클래스 다이어그램을 통해 설계한 시스템의 구조를 명확히 파악하고 개발에 활용합니다."
+      },
+      "viewCount": 0,
+      "version": 5
+    },
+    {
+      "id": "ques_775",
+      "title": "소프트웨어 개발 생명주기 중, 여러 모듈을 하나로 결합하고 오류를 찾아 수정하는 단계는?",
+      "subject": "통합 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "통합 테스트"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "통합 테스트는 개별 모듈들이 올바르게 상호작용하는지 확인하는 과정입니다. 단위 테스트를 통과한 모듈들을 하나로 결합하여 데이터 흐름이나 인터페이스 문제를 점검합니다. 통합 구현 과목에서는 이 과정의 중요성과 방법을 이해하는 것이 핵심입니다."
+      },
+      "viewCount": 0,
+      "version": 6
+    },
+    {
+      "id": "ques_776",
+      "title": "소프트웨어 변경 시, 이전 상태로 복원하기 위해 사용하는 기법은?",
+      "subject": "통합 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "버전 관리"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "버전 관리는 소스 코드, 문서, 설정 파일 등의 변경 이력을 기록하여 필요 시 과거 상태로 되돌릴 수 있게 해주는 기법입니다. 통합 구현 과정에서는 팀원 간 협업과 코드 품질 유지를 위해 필수적인 도구입니다."
+      },
+      "viewCount": 0,
+      "version": 4
+    },
+    {
+      "id": "ques_777",
+      "title": "개발자가 작성한 소스 코드를 자동으로 검사하여 코딩 표준과 버그를 찾아내는 도구는?",
+      "subject": "통합 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "정적 분석 도구"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "정적 분석 도구는 실행하지 않고 소스 코드를 분석하여 잠재적 버그, 보안 취약점, 스타일 위반 등을 찾아내는 도구입니다. 통합 구현 단계에서 코드 품질 향상과 유지보수를 위해 널리 사용됩니다."
+      },
+      "viewCount": 0,
+      "version": 5
+    },
+    {
+      "id": "ques_778",
+      "title": "테스트 자동화를 위해 많이 사용하는 스크립트 기반 도구 중 하나로, 웹 애플리케이션 테스트에 주로 사용되는 도구는?",
+      "subject": "통합 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "Selenium"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "Selenium은 웹 애플리케이션 자동화 테스트 도구로, 사용자의 브라우저 동작을 자동으로 수행하고 결과를 검증할 수 있습니다. 통합 구현 단계에서 반복적인 테스트를 자동화해 효율성을 높입니다."
+      },
+      "viewCount": 0,
+      "version": 4
+    },
+    {
+      "id": "ques_779",
+      "title": "버그를 추적, 관리하기 위한 소프트웨어 도구는?",
+      "subject": "통합 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "이슈 트래커"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "이슈 트래커는 프로젝트에서 발생하는 버그, 요청, 작업 항목 등을 체계적으로 기록하고 관리하는 도구입니다. Jira, Redmine 등이 대표적이며, 통합 구현 단계에서 문제 해결 과정과 일정 관리에 필수적입니다."
+      },
+      "viewCount": 0,
+      "version": 3
+    },
+    {
+      "id": "ques_780",
+      "title": "서로 다른 시스템이나 모듈 간에 메시지를 주고받으며 동기 또는 비동기 방식으로 작동하는 소프트웨어 통신 방식은?",
+      "subject": "통합 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "인터페이스"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "인터페이스는 모듈이나 시스템 간 상호작용을 위한 규약으로, 메시지 교환 방식과 데이터 형식을 정의합니다. 통합 구현에서는 인터페이스 설계를 통해 시스템 간 통신을 원활히 하여 통합성을 보장합니다."
+      },
+      "viewCount": 0,
+      "version": 6
+    },
+    {
+      "id": "ques_781",
+      "title": "통합 구현 단계에서 성능 문제를 발견하기 위해 사용하는 도구는?",
+      "subject": "통합 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "프로파일러"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "프로파일러는 프로그램 실행 시 CPU 사용량, 메모리 사용량, 함수 호출 횟수 등을 측정하여 성능 병목을 분석하는 도구입니다. 성능 최적화와 디버깅에 필수적이며, 통합 구현 단계의 품질 보증에 중요합니다."
+      },
+      "viewCount": 0,
+      "version": 3
+    },
+    {
+      "id": "ques_782",
+      "title": "애자일 개발 프로세스에서 작업 단위를 작고 반복적으로 수행하는 개발 단위를 무엇이라 하는가?",
+      "subject": "통합 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "스프린트"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "스프린트는 애자일 개발에서 정해진 기간(보통 1~4주) 동안 완료해야 할 작업 단위입니다. 통합 구현 단계에서 계획, 개발, 테스트를 반복하여 신속하게 제품을 개선하는 데 활용합니다."
+      },
+      "viewCount": 0,
+      "version": 3
+    },
+    {
+      "id": "ques_783",
+      "title": "통합 구현 과정에서 소프트웨어의 기능이 명세대로 작동하는지 확인하는 테스트 유형은?",
+      "subject": "통합 구현",
+      "questionType": "AI 예상",
+      "date": "",
+      "choice1": {
+        "text": "기능 테스트"
+      },
+      "choice2": {
+        "text": ""
+      },
+      "choice3": {
+        "text": ""
+      },
+      "choice4": {
+        "text": ""
+      },
+      "desc": {
+        "text": ""
+      },
+      "code": "",
+      "answer": 1,
+      "explanation": {
+        "text": "기능 테스트는 소프트웨어가 요구사항에 맞게 작동하는지 검증하는 테스트입니다. 각 기능이 정상적으로 수행되는지 사용자 관점에서 점검하며, 통합 구현 단계에서 개발 완료 후 반드시 수행해야 하는 절차입니다."
+      },
+      "viewCount": 0,
+      "version": 3
     }
   ]
 }

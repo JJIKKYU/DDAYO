@@ -25,14 +25,15 @@ public struct FirebaseQuestionService: QuestionServiceProtocol {
             uniqueKeysWithValues: existingItems.map { ($0.id, $0) }
         )
 
+        print("📦 번들 버전 비교를 위해서 questions.json을 로딩합니다...")
+        guard let url = Bundle.main.url(forResource: "questions", withExtension: "json") else {
+            throw NSError(domain: "QuestionService", code: 1, userInfo: [NSLocalizedDescriptionKey: "questions.json not found in bundle"])
+        }
+
+        let bundleData = try JSONDecoder().decode(QuestionBundleDataDTO.self, from: Data(contentsOf: url))
+
         // 한 번도 다운로드 받은 적이 없을 경우
         if existingItems.isEmpty {
-            print("📦 기존 문제가 없으므로 번들에서 questions.json을 로딩합니다...")
-            guard let url = Bundle.main.url(forResource: "questions", withExtension: "json") else {
-                throw NSError(domain: "QuestionService", code: 1, userInfo: [NSLocalizedDescriptionKey: "questions.json not found in bundle"])
-            }
-
-            let bundleData = try JSONDecoder().decode(QuestionBundleDataDTO.self, from: Data(contentsOf: url))
             let newItems = bundleData.items.compactMap { $0.toModel() }
             for item in newItems {
                 context.insert(item)
@@ -48,6 +49,45 @@ public struct FirebaseQuestionService: QuestionServiceProtocol {
             print("✅ 번들에서 초기 문제 데이터를 로딩했습니다. 항목 수: \(newItems.count)")
             return newItems
         }
+
+        // 번들 버전과 비교
+        if localVersion < bundleData.version {
+            print("📦 localVersion과 비교했을때 번들의 버전이 더 높으므로, 번들 데이터로 업데이트를 진행합니다.")
+            var updatedItems: [QuestionItem] = []
+            for dto in bundleData.items {
+                guard let model = dto.toModel() else { continue }
+                var newModel = model
+                let id: String = model.id
+                if let existing = existingItemsMap[id] {
+                    if model.version > existing.version {
+                        print("🔄 업데이트: \(id) (v\(existing.version) → v\(model.version))")
+                        newModel.viewCount = existing.viewCount
+                        context.delete(existing)
+                        context.insert(newModel)
+                        updatedItems.append(newModel)
+                    } else {
+                        updatedItems.append(existing)
+                    }
+                } else {
+                    print("🆕 추가: \(id) (v\(model.version))")
+                    context.insert(newModel)
+                    updatedItems.append(newModel)
+                }
+            }
+
+            if let existingVersion = localVersions.first {
+                existingVersion.version = version
+            } else {
+                context.insert(QuestionVersion(version: version))
+            }
+
+            try context.save()
+            print("✅ 최종 업데이트된 문제 수: \(updatedItems.count)")
+
+            return updatedItems
+        }
+
+        print("☁️ 번들 버전과 비교했을때, 번들 버전이 더 낮으므로 서버 조회를 시작합니다.")
 
         if version <= localVersion {
             print("⏸️ 서버 버전이 최신이 아니므로 업데이트를 건너뜁니다.")
