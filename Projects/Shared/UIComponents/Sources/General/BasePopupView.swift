@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct BasePopupView: View {
-    public let isVisible: Bool
+    @Binding public var isVisible: Bool
     public let title: String
     public let desc: String
     public let leadingTitle: String
@@ -18,7 +18,7 @@ public struct BasePopupView: View {
     public let onTrailingAction: () -> Void
 
     public init(
-        isVisible: Bool,
+        isVisible: Binding<Bool>,
         title: String,
         desc: String,
         leadingTitle: String,
@@ -27,7 +27,7 @@ public struct BasePopupView: View {
         onLeadingAction: @escaping () -> Void,
         onTrailingAction: @escaping () -> Void
     ) {
-        self.isVisible = isVisible
+        self._isVisible = isVisible
         self.title = title
         self.desc = desc
         self.leadingTitle = leadingTitle

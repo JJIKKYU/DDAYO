@@ -249,18 +249,13 @@ public struct FeatureSearchMainReducer {
                 state.keyword = result
                 state.mode = .done
 
-//                mixpanelLogger.log(
-//                    "imp_search_result_card",
-//                    parameters: LogParamBuilder()
-//                        .add(.conceptID, value: <#T##Any?#>)
-//                )
-
-//                event : imp_search_result_card
-//                concept_id : {}
-//                search_result_index : 3
-//                concept_name : “name”
-//                concept_view_count : 0
-//                session_id : {}
+                mixpanelLogger.log(
+                    "imp_search_result_card",
+                    parameters: LogParamBuilder()
+                        .add(.searchResultIndex, value: state.results.count)
+                        .add(.conceptName, value: result)
+                        .build()
+                )
 
                 return .run { send in
                     await send(.addRecentKeyword(result))

@@ -31,6 +31,7 @@ let project = Project(
                 .external(name: "FirebaseFirestore", condition: nil),
                 .external(name: "FirebaseAuth", condition: nil),
                 .external(name: "FirebaseRemoteConfig", condition: nil),
+                .external(name: "FirebaseStorage", condition: nil),
 
                 // Feature
                 .project(target: "FeatureQuiz", path: "../Feature/FeatureQuiz", status: .required, condition: nil),

@@ -22,4 +22,14 @@ public enum BookmarkTabType: Int, Equatable, CaseIterable, Codable {
             return "개념"
         }
     }
+
+    public func getLogName() -> String {
+        switch self {
+        case .문제:
+            return "ques"
+
+        case .개념:
+            return "concept"
+        }
+    }
 }

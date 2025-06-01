@@ -30,6 +30,11 @@ public enum LogParamKey: String {
     case listOrder = "list_order"
     case searchKeyword = "search_keyword"
     case searchResultIndex = "search_result_index"
+    case quesCardIndex = "ques_card_index"
+    case wrongQues = "wrong_ques"
+    case wrongQuesFilter = "wrong_ques_filter"
+    case testTypeFilter = "test_type_filter"
+    case quesTypeFilter = "ques_type_filter"
 }
 
 public final class LogParamBuilder {

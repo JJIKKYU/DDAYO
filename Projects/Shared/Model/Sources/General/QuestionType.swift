@@ -19,4 +19,17 @@ public enum QuestionType: String, Equatable, CaseIterable, Codable {
         case .ai: return "AI 예상 문제"
         }
     }
+
+    public func getLogName() -> String {
+        switch self {
+        case .all:
+            return "all"
+
+        case .past:
+            return "noraml"
+
+        case .ai:
+            return "ai"
+        }
+    }
 }

@@ -10,6 +10,5 @@ import Model
 import SwiftData
 
 public protocol QuestionServiceProtocol {
-    func fetchQuestionsFromFirebase() async throws -> [QuestionItemDTO]
-    func loadQuestionsAndSyncWithLocal(context: ModelContext) throws -> [QuestionItem]
+    func loadQuestions(context: ModelContext, version: Int) async throws -> [QuestionItem]
 }

@@ -59,6 +59,7 @@ struct DDAYOApp: App {
                 })
                 $0.firebaseAuth = FirebaseAuthImp()
                 $0.remoteConfig = FirebaseRemoteConfigServiceImp()
+                $0.dataVersionService = FirebaseDataVersionServiceImp()
             } operation: {
 //                AuthView(store: .init(initialState: AuthFeatureReducer.State(), reducer: {
 //                    AuthFeatureReducer()

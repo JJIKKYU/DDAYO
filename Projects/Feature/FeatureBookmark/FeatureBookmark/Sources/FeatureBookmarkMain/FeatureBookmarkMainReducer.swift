@@ -14,6 +14,7 @@ import Foundation
 @Reducer
 public struct FeatureBookmarkMainReducer {
     @Dependency(\.modelContext) var modelContext
+    @Dependency(\.mixpanelLogger) var mixpanelLogger
 
     public init() {}
 
@@ -180,7 +181,7 @@ public struct FeatureBookmarkMainReducer {
         case conceptSort(ConceptSortingReducer.Action)
         case filter(PresentationAction<QuestionFilterReducer.Action>)
         case sort(PresentationAction<ConceptSortingReducer.Action>)
-        case openFilter
+        case openFilter(BookmarkFilterType)
         case openSort
         case toggleWrongOnly
         case onAppear
@@ -251,8 +252,12 @@ public struct FeatureBookmarkMainReducer {
                 state.bookmarkItems = bookmarks
                 return .none
 
-            case .openFilter:
+            case .openFilter(let type):
                 state.filter = state.questionFilter // ✅ 기존 값으로 초기화
+
+                mixpanelLogger.log(
+                    "click_\(type.getLogName())_filter"
+                )
                 return .none
 
             case .filter(.presented(.dismiss)):
@@ -276,6 +281,10 @@ public struct FeatureBookmarkMainReducer {
             case .selectTab(let tab):
                 print("FeatureBookmarkMainReducer :: selectedTab = \(tab)")
                 state.selectedTab = tab
+
+                mixpanelLogger.log(
+                    "click_bookmark_navi_\(tab.getLogName())"
+                )
                 return .none
 
             case .swipeTab(let tab):
@@ -288,6 +297,9 @@ public struct FeatureBookmarkMainReducer {
 
             case .openSort:
                 state.conceptSortSheet = state.conceptSort
+
+                mixpanelLogger.log("click_concept_sort")
+
                 return .none
 
             case .sort(.dismiss):
@@ -328,13 +340,29 @@ public struct FeatureBookmarkMainReducer {
 
             case .toggleWrongOnly:
                 state.showOnlyWrongAnswers.toggle()
+
+                mixpanelLogger.log(
+                    "click_wrong_ques_filter"
+                )
                 return .none
 
-            case .toggleBookmark(let index): // New case handling
+            case .toggleBookmark(let index):
                 switch state.selectedTab {
                 case .문제:
                     guard let item: QuestionItem = state.filteredQuestions[safe: index] else { return .none }
                     let questionID: String = item.id
+
+                    mixpanelLogger.log(
+                        "click_unbookmark_btn",
+                        parameters: LogParamBuilder()
+                            .add(.page, value: "bookmark_ques")
+                            .add(.quesID, value: item.id)
+                            .add(.quesCardIndex, value: index)
+                            .add(.quesViewCount, value: item.viewCount)
+                            .add(.ai, value: item.questionType == .ai)
+                            .build()
+                    )
+
                     return .run { send in
                         let isBookmarked: Bool = try await MainActor.run {
                             let predicate = #Predicate<BookmarkItem> {
@@ -358,6 +386,17 @@ public struct FeatureBookmarkMainReducer {
                 case .개념:
                     guard let item: ConceptItem = state.filteredConceptItems[safe: index] else { return .none }
                     let conceptID: String = item.id
+
+                    mixpanelLogger.log(
+                        "click_unbookmark_btn",
+                        parameters: LogParamBuilder()
+                            .add(.page, value: "bookmark_concept")
+                            .add(.conceptID, value: item.id)
+                            .add(.conceptCardIndex, value: index)
+                            .add(.conceptViewCount, value: item.views)
+                            .build()
+                    )
+
                     return .run { send in
                         let isBookmarked: Bool = try await MainActor.run {
                             let predicate = #Predicate<BookmarkItem> {
@@ -403,12 +442,35 @@ public struct FeatureBookmarkMainReducer {
 
             case .selectItem(let index):
                 print("Selected item at index: \(index)")
+
                 switch state.selectedTab {
                 case .문제:
                     let filteredQuestions: [QuestionItem] = state.filteredQuestions
+                    guard let selectedQuestion: QuestionItem = filteredQuestions[safe: index] else { return .none }
+
+                    let isWrongCaseBookmarked: Bool = state.bookmarkItems.contains {
+                        $0.questionID == selectedQuestion.id && $0.type == .문제 && $0.reason == .wrong
+                    }
+
+                    mixpanelLogger.log(
+                        "click_ques_card",
+                        parameters: LogParamBuilder()
+                            .add(.page, value: "bookmark")
+                            .add(.quesID, value: selectedQuestion.id)
+                            .add(.quesCardIndex, value: index)
+                            .add(.quesViewCount, value: selectedQuestion.viewCount)
+                            .add(.ai, value: selectedQuestion.questionType == .ai)
+                            .addIf(selectedQuestion.subject.isWrittenCase || selectedQuestion.subject.isPracticalCase, .subjectDetail, value: selectedQuestion.subject.logSubjectDetail)
+                            .addIf(selectedQuestion.subject.isPracticalLanguageCase, .languageDetail, value: selectedQuestion.subject.logSubjectDetail)
+                            .add(.wrongQues, value: isWrongCaseBookmarked)
+                            .add(.wrongQuesFilter, value: state.filter != nil)
+                            .add(.testTypeFilter, value: state.questionFilter.examType.getLogName())
+                            .add(.quesTypeFilter, value: state.questionFilter.questionType.getLogName())
+                            .build()
+                    )
+
                     return .run { send in
                         try await MainActor.run {
-                            guard let selectedQuestion: QuestionItem = filteredQuestions[safe: index] else { return }
                             selectedQuestion.viewCount += 1
                             modelContext.insert(selectedQuestion)
                             try modelContext.save()
@@ -420,14 +482,22 @@ public struct FeatureBookmarkMainReducer {
                 case .개념:
                     let filteredConcepts: [ConceptItem] = state.filteredConceptItems
                     guard let selectedConcept: ConceptItem =  filteredConcepts[safe: index] else { return .none }
+
+                    mixpanelLogger.log(
+                        "click_concept_card",
+                        parameters: LogParamBuilder()
+                            .add(.page, value: "bookmark")
+                            .add(.conceptID, value: selectedConcept.id)
+                            .add(.conceptCardIndex, value: index)
+                            .add(.conceptViewCount, value: selectedConcept.views)
+                            .build()
+                    )
+
                     return .run { send in
                         try await MainActor.run {
-
-                            if let selectedConcept: ConceptItem = filteredConcepts[safe: index] {
-                                selectedConcept.views += 1
-                                modelContext.insert(selectedConcept)
-                                try modelContext.save()
-                            }
+                            selectedConcept.views += 1
+                            modelContext.insert(selectedConcept)
+                            try modelContext.save()
                         }
                         await send(.navigateToStudyDetail(items: filteredConcepts, idnex: index))
                     }

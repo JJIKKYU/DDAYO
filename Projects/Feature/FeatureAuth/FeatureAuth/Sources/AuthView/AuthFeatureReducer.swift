@@ -32,7 +32,7 @@ public struct AuthFeatureReducer {
         case signInTapped
         case appleSignInCompleted(ASAuthorization)
         case signInCompleted(FirebaseUser)
-        case navigateToAuthNameView
+        case navigateToAuthNameView(userName: String?)
     }
 
     public func reduce(into state: inout State, action: Action) -> Effect<Action> {
@@ -50,6 +50,7 @@ public struct AuthFeatureReducer {
             print("AuthFeatureReducer :: \(appleCredential)")
             let idToken = appleCredential.identityToken.flatMap { String(data: $0, encoding: .utf8) } ?? ""
             let credential = FirebaseAuthCredential(idToken: idToken)
+            let userName: String? = appleCredential.fullName?.givenName
 
             return .run { send in
                 let result = await firebaseAuth.signIn(with: credential)
@@ -60,12 +61,12 @@ public struct AuthFeatureReducer {
                         if hasName {
                             await send(.signInCompleted(user))
                         } else {
-                            await send(.navigateToAuthNameView)
+                            await send(.navigateToAuthNameView(userName: userName))
                         }
                     } catch {
                         print("❌ Error checking user name: \(error)")
                         // fallback: treat as if no name exists
-                        await send(.navigateToAuthNameView)
+                        await send(.navigateToAuthNameView(userName: userName))
                     }
                 } else {
                     // TODO: 실패 처리 액션 필요시 여기에 추가

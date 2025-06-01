@@ -134,6 +134,12 @@ public struct AnswerSheetView: View {
                     if let question, let selectedIndex {
                         // 필기 문제
                         if question.subject.isWrittenCase {
+                            Text(isCorrect == true ? "정답이에요" : "오답이에요")
+                                .font(.system(size: 18, weight: .bold))
+                                .foregroundStyle(Color.Grayscale._900)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.bottom, 15)
+
                             if isCorrect == true {
                                 AnswerBtnView(
                                     title: question.choices[selectedIndex],
@@ -152,12 +158,6 @@ public struct AnswerSheetView: View {
                                     btnType: .incorrectCorrectAnswer
                                 )
                             }
-
-                            Text(isCorrect == true ? "정답이에요" : "오답이에요")
-                                .font(.system(size: 18, weight: .bold))
-                                .foregroundStyle(Color.Grayscale._900)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.top, 20)
 
                             MarkdownTextView(text: question.explanation.text)
                                 .padding(.top, 10)

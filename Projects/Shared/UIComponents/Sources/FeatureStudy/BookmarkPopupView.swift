@@ -22,7 +22,7 @@ public struct StudyPopupView: View {
 
     public var body: some View {
         BasePopupView(
-            isVisible: isVisible,
+            isVisible: $isVisible,
             title: title,
             desc: desc,
             leadingTitle: leadingTitle,

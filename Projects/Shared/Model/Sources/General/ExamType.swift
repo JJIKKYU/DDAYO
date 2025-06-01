@@ -19,4 +19,17 @@ public enum ExamType: String, Equatable, CaseIterable {
         case .practical: return "실기 시험"
         }
     }
+
+    public func getLogName() -> String {
+        switch self {
+        case .all:
+            return "all"
+
+        case .written:
+            return "theory"
+
+        case .practical:
+            return "practical"
+        }
+    }
 }

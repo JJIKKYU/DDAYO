@@ -8,9 +8,11 @@
 import SwiftUI
 import ComposableArchitecture
 import _AuthenticationServices_SwiftUI
+import DI
 
 public struct AuthView: View {
     @Environment(\.openURL) private var openURL
+    @Dependency(\.appConfig) private var appConfig
 
     public let store: StoreOf<AuthFeatureReducer>
 
@@ -47,12 +49,12 @@ public struct AuthView: View {
 
                 TermsAgreementText(
                     onTermsTapped: {
-                        if let url = URL(string: "https://kakao.com") {
+                        if let url = appConfig.termsOfService {
                             openURL(url)
                         }
                     },
                     onPrivacyTapped: {
-                        if let url = URL(string: "https://naver.com") {
+                        if let url = appConfig.privacyPolicy {
                             openURL(url)
                         }
                     }

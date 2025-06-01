@@ -41,12 +41,12 @@ public struct FeatureBookmarkMainView: View {
                             HStack(alignment: .center, spacing: 8) {
                                 BookmarkFilterBtnView(examType: viewStore.questionFilter.examType) {
                                     print("tap filter btn!")
-                                    viewStore.send(.openFilter)
+                                    viewStore.send(.openFilter(.test))
                                 }
 
                                 BookmarkFilterBtnView(questionType: viewStore.questionFilter.questionType) {
                                     print("tap filter btn!")
-                                    viewStore.send(.openFilter)
+                                    viewStore.send(.openFilter(.type))
                                 }
 
                                 Spacer()

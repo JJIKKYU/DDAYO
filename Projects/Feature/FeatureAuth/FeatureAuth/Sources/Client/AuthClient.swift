@@ -26,6 +26,10 @@ public struct AuthClient {
         // 테스트나 미구현 상태일 때 사용할 기본 반환값
         return .failure(.appleSignInFailed)
     }
+
+    public init(signInWithApple: @Sendable @escaping () -> Result<User, AuthError>) {
+        self.signInWithApple = signInWithApple
+    }
 }
 
 public extension DependencyValues {

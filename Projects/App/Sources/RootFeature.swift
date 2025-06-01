@@ -32,6 +32,7 @@ public struct RootFeature {
     @Dependency(\.firebaseAuth) var firebaseAuth
     @Dependency(\.mixpanelLogger) var mixpanelLogger
     @Dependency(\.remoteConfig) var remoteConfig
+    @Dependency(\.dataVersionService) var dataVersionService
 
     @ObservableState
     public struct State {
@@ -126,14 +127,14 @@ public struct RootFeature {
 
                 case .syncInitialData:
                     return .run { send in
-                        // 1. 개념 데이터를 먼저 처리
-                        await MainActor.run {
-                            do {
-                                _ = try conceptService.loadConceptsAndSyncWithLocal(context: modelContext)
-                                _ = try questionService.loadQuestionsAndSyncWithLocal(context: modelContext)
-                            } catch {
-                                print("❌ 데이터 싱크가 실패했습니다.")
-                            }
+                        let version = try await dataVersionService.fetchRemoteVersionInfo()
+                        print("RootFeature :: version = \(version)")
+
+                        do {
+                            let concepts = try await conceptService.loadConcepts(context: modelContext, version: version.conceptsVersion)
+                            let questions = try await questionService.loadQuestions(context: modelContext, version: version.questionVersion)
+                        } catch {
+                            print("RootFeature :: syncInitialData Error = \(error)")
                         }
                     }
 
@@ -306,8 +307,8 @@ public struct RootFeature {
                         state.appState = .main
                         return .none
 
-                    case .navigateToAuthNameView:
-                        return .send(.routing(.push(.featureAuthName(.init()))))
+                    case .navigateToAuthNameView(let userName):
+                        return .send(.routing(.push(.featureAuthName(.init(userName: userName)))))
 
                     default:
                         break

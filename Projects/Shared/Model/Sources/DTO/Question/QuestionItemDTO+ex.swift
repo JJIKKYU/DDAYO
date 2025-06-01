@@ -10,7 +10,7 @@ import Foundation
 extension QuestionItemDTO {
     public func toModel() -> QuestionItem? {
         func convertRich(_ dto: RichContentDTO) -> RichContent {
-            let images = dto.images.map { ImageItem(data: $0.data, filename: $0.filename) }
+            let images = dto.images?.compactMap { ImageItem(data: $0.data, filename: $0.filename) }
             return RichContent(text: dto.text, images: images)
         }
 

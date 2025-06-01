@@ -28,7 +28,13 @@ public struct FeatureAuthNameReducer {
         // 최종적으로 저장할때
         public var isLoading: Bool = false
 
-        public init() {}
+        public init(
+            userName: String? = nil
+        ) {
+            self.name = userName ?? ""
+            self.isValid = !self.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            self.helperText = self.isValid ? "멋진 이름이네요 :)" : nil
+        }
     }
 
     public enum Action: BindableAction {

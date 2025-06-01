@@ -42,6 +42,7 @@ public final class AppleSignInManager: NSObject, ASAuthorizationControllerDelega
 
     public func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            print("AppleSignInManager :: credential = \(credential)")
             let user = User(
                 id: credential.user,
                 name: credential.fullName?.givenName,
