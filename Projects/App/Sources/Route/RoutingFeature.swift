@@ -64,6 +64,7 @@ public struct RootRoutingReducer: Reducer {
     public enum Path {
         /// FeatureAuth
         case featureAuthName(FeatureAuthNameReducer)
+        case featureAuthAgreement(FeatureAuthAgreementReducer)
 
         /// FeatureQuiz
         case featureQuizMain(FeatureQuizMainReducer)

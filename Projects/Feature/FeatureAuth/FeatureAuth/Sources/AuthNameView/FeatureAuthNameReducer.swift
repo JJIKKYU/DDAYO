@@ -22,7 +22,7 @@ public struct FeatureAuthNameReducer {
         @Presents var agreement: FeatureAuthAgreementReducer.State? = nil
         public var isAgreementSheetPresented: Bool {
             get { agreement != nil }
-            set { agreement = newValue ? FeatureAuthAgreementReducer.State() : nil }
+            set { agreement = newValue ? FeatureAuthAgreementReducer.State(userName: "") : nil }
         }
 
         // 최종적으로 저장할때

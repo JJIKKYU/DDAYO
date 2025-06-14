@@ -44,6 +44,7 @@ public struct RootFeature {
         /// FeatureAuth
         var featureAuth = AuthFeatureReducer.State()
         var featureAuthName = FeatureAuthNameReducer.State()
+        var featureAuthAgreement = FeatureAuthAgreementReducer.State(userName: "")
 
         /// FeatureQuiz
         var featureQuizMain = FeatureQuizMainReducer.State()
@@ -78,6 +79,7 @@ public struct RootFeature {
         /// FeatureAuth
         case featureAuth(AuthFeatureReducer.Action)
         case featureAuthName(FeatureAuthNameReducer.Action)
+        case featureAuthAgreement(FeatureAuthAgreementReducer.Action)
 
         /// FeatureQuiz
         case featureQuizMain(FeatureQuizMainReducer.Action)
@@ -310,6 +312,9 @@ public struct RootFeature {
                     case .navigateToAuthNameView(let userName):
                         return .send(.routing(.push(.featureAuthName(.init(userName: userName)))))
 
+                    case .navigateToAuthAgreementView(let userName):
+                        return .send(.routing(.push(.featureAuthAgreement(.init(userName: userName)))))
+
                     default:
                         break
                     }
@@ -328,6 +333,7 @@ public struct RootFeature {
             /// FeatureAuth
             Scope(state: \.featureAuth, action: \.featureAuth) { AuthFeatureReducer() }
             Scope(state: \.featureAuthName, action: \.featureAuthName) { FeatureAuthNameReducer() }
+            Scope(state: \.featureAuthAgreement, action: \.featureAuthAgreement) { FeatureAuthAgreementReducer() }
 
             /// FeatureQuiz
             Scope(state: \.featureQuizMain, action: \.featureQuizMain) { FeatureQuizMainReducer() }

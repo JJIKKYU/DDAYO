@@ -108,6 +108,9 @@ public struct MainTabView: View {
                 case .featureAuthName(let store):
                     FeatureAuthNameView(store: store)
 
+                case .featureAuthAgreement(let store):
+                    FeatureAuthAgreementView(store: store)
+
                 case .featureQuizMain(let store):
                     FeatureQuizMainView(store: store)
 

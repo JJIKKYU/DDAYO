@@ -14,13 +14,18 @@ public struct FeatureAuthAgreementReducer {
 
     @ObservableState
     public struct State: Equatable {
-        public var agreeAll: Bool = false
-        public var agreeAge: Bool = false
-        public var agreeTerms: Bool = false
-        public var agreePrivacy: Bool = false
+        public var userName: String
+        public var agreeAll: Bool = true
+        public var agreeAge: Bool = true
+        public var agreeTerms: Bool = true
+        public var agreePrivacy: Bool = true
 
         public var canStart: Bool {
             agreeAge && agreeTerms && agreePrivacy
+        }
+
+        public init(userName: String) {
+            self.userName = userName
         }
     }
 
@@ -34,6 +39,7 @@ public struct FeatureAuthAgreementReducer {
         case pressedDetailTerms
         case pressedDetailPrivacy
         case dismiss
+        case pressedBackBtn
     }
 
     public var body: some Reducer<State, Action> {
@@ -67,6 +73,9 @@ public struct FeatureAuthAgreementReducer {
                 return .send(.dismiss)
 
             case .pressedDetailTerms, .pressedDetailPrivacy:
+                return .none
+
+            case .pressedBackBtn:
                 return .none
 
             case .binding:
