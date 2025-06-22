@@ -7,6 +7,7 @@
 
 
 import Foundation
+import SwiftData
 
 public struct FirebaseUser: Equatable {
     public let uid: String
@@ -37,6 +38,8 @@ public struct FirebaseAuthCredential: Equatable {
 }
 
 public protocol FirebaseAuthProtocol {
+    var modelContext: ModelContext { get set }
+
     func signIn(with credential: FirebaseAuthCredential) async -> Result<FirebaseUser, FirebaseAuthError>
     func getCurrentUser() -> FirebaseUser?
     func signOut() throws

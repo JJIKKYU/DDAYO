@@ -10,8 +10,12 @@ import FirebaseAuth
 import FirebaseFirestore
 import Service
 import DI
+import SwiftData
+import Model
 
 struct FirebaseAuthImp: FirebaseAuthProtocol {
+    var modelContext: ModelContext
+
     func signIn(with credential: FirebaseAuthCredential) async -> Result<FirebaseUser, FirebaseAuthError> {
         do {
             let firebaseCredential = OAuthProvider.credential(providerID: .apple, idToken: credential.idToken)
@@ -36,22 +40,11 @@ struct FirebaseAuthImp: FirebaseAuthProtocol {
             return nil
         }
 
-        /*
-        Task {
-            do {
-                let idToken = try await user.getIDToken(forcingRefresh: true)
-                print("JJIKKYU :: idToken = \(idToken)")
-            } catch {
-                print("🚫 Token invalid or Apple ID unlinked: \(error.localizedDescription)")
-            }
-        }
-        */
-
         return FirebaseUser(
             uid: user.uid,
             email: user.email,
             displayName: user.displayName,
-            idToken: nil // For real use, you can update this with a fresh token if needed
+            idToken: nil
         )
     }
 
@@ -91,7 +84,14 @@ struct FirebaseAuthImp: FirebaseAuthProtocol {
             throw FirebaseAuthError.signInFailed("Firestore delete failed: \(error.localizedDescription)")
         }
 
+        // userItem DB 삭제
         do {
+            let userItems = try modelContext.fetch(FetchDescriptor<UserItem>())
+            for item in userItems {
+                modelContext.delete(item)
+            }
+            try modelContext.save()
+
             try Auth.auth().signOut()
         } catch {
             throw FirebaseAuthError.signInFailed(error.localizedDescription)
@@ -100,6 +100,13 @@ struct FirebaseAuthImp: FirebaseAuthProtocol {
 
     func logout() throws {
         do {
+            // userItem DB 삭제
+            let userItems = try modelContext.fetch(FetchDescriptor<UserItem>())
+            for item in userItems {
+                modelContext.delete(item)
+            }
+            try modelContext.save()
+
             try Auth.auth().signOut()
         } catch {
             throw FirebaseAuthError.signInFailed("Logout failed: \(error.localizedDescription)")
@@ -110,7 +117,8 @@ struct FirebaseAuthImp: FirebaseAuthProtocol {
         let db = Firestore.firestore()
         try await db.collection("users").document(userId).setData([
             "name": name,
-            "createdAt": FieldValue.serverTimestamp()
+            "createdAt": FieldValue.serverTimestamp(),
+            "didAgreeToTerms": true
         ], merge: true)
     }
 

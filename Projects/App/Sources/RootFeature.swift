@@ -119,12 +119,19 @@ public struct RootFeature {
                     print("RootFeature :: user = \(user)")
                     if let user {
                         // 로그인이 되어 있을 경우에 데이터 초기화
+                        let userItem = try? modelContext.fetch(FetchDescriptor<UserItem>()).first
+                        print("RootFeature :: userItem = \(userItem)")
+                        guard let userItem, userItem.hasAgreedToTerms else {
+                            state.appState = .login
+                            return .send(.syncInitialData)
+                        }
                         mixpanelLogger.identify(id: user.uid)
                         state.appState = .main
                         return .send(.syncInitialData)
                     } else {
                         // 로그인 필요
                         state.appState = .login
+                        return .send(.syncInitialData)
                     }
 
                 case .syncInitialData:
@@ -208,6 +215,19 @@ public struct RootFeature {
 
                         case .navigateToMain:
                             state.appState = .main
+                            return .send(.routing(.pop))
+
+                        default:
+                            break
+                        }
+
+                    case .featureAuthAgreement(let authAgreementAction):
+                        switch authAgreementAction {
+                        case .navigateToMain:
+                            state.appState = .main
+                            return .send(.routing(.pop))
+
+                        case .pressedBackBtn:
                             return .send(.routing(.pop))
 
                         default:

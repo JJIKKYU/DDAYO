@@ -27,7 +27,7 @@ public struct FeatureAuthAgreementView: View {
                 NaviBar(type: .authName, title: "", leading1: {
                     viewStore.send(.pressedBackBtn)
                 })
-                
+
                 Text("만나서 반가워요!\n따요와 함께 합격할 준비 되셨나요?")
                     .font(.system(size: 18, weight: .bold))
                     .foregroundStyle(Color.Grayscale._900)
@@ -35,16 +35,16 @@ public struct FeatureAuthAgreementView: View {
                     .padding(.bottom, 25)
                     .padding(.horizontal, 20)
                     .padding(.top, 25)
-                
+
                 VStack(alignment: .leading, spacing: 30) {
                     agreementRow(title: "필수 항목 전체 동의", isChecked: store.agreeAll, isAgreeAll: true) {
                         store.send(.toggleAgreeAll)
                     }
-                    
+
                     agreementRow(title: "[필수] 만 14세 이상입니다.", isChecked: store.agreeAge) {
                         store.send(.toggleAgreeAge)
                     }
-                    
+
                     agreementRow(title: "[필수] 서비스 이용약관", isChecked: store.agreeTerms, showArrow: true) {
                         store.send(.toggleAgreeTerms)
                     } onArrowTap: {
@@ -53,7 +53,7 @@ public struct FeatureAuthAgreementView: View {
                         }
                         store.send(.pressedDetailTerms)
                     }
-                    
+
                     agreementRow(title: "[필수] 개인정보 수집 및 이용", isChecked: store.agreePrivacy, showArrow: true) {
                         store.send(.toggleAgreePrivacy)
                     } onArrowTap: {
@@ -63,9 +63,9 @@ public struct FeatureAuthAgreementView: View {
                         store.send(.pressedDetailPrivacy)
                     }
                 }
-                
+
                 Spacer()
-                
+
                 Button {
                     store.send(.didTapStart)
                 } label: {
@@ -81,6 +81,18 @@ public struct FeatureAuthAgreementView: View {
                 .padding(.horizontal, 20)
             }
             .toolbar(.hidden, for: .navigationBar)
+            .overlay(
+                Group {
+                    if viewStore.isLoading {
+                        ZStack {
+                            Color.black.opacity(0.3)
+                                .ignoresSafeArea()
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle())
+                        }
+                    }
+                }
+            )
         }
     }
 

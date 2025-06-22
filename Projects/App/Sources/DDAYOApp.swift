@@ -40,7 +40,8 @@ struct DDAYOApp: App {
             QuestionVersion.self,
             RecentConceptItem.self,
             ConceptVersion.self,
-            RecentSearchItem.self
+            RecentSearchItem.self,
+            UserItem.self
         )
     }()
 
@@ -57,7 +58,9 @@ struct DDAYOApp: App {
                 $0.authClient = AuthClient(signInWithApple: {
                     await AppleSignInManager.shared.signIn()
                 })
-                $0.firebaseAuth = FirebaseAuthImp()
+                $0.firebaseAuth = FirebaseAuthImp(
+                    modelContext: modelContainer.mainContext
+                )
                 $0.remoteConfig = FirebaseRemoteConfigServiceImp()
                 $0.dataVersionService = FirebaseDataVersionServiceImp()
             } operation: {

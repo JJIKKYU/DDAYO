@@ -7,9 +7,14 @@
 
 import ComposableArchitecture
 import Foundation
+import Service
+import Model
 
 @Reducer
 public struct FeatureAuthAgreementReducer {
+    @Dependency(\.firebaseAuth) var firebaseAuth
+    @Dependency(\.modelContext) var modelContext
+
     public init() {}
 
     @ObservableState
@@ -19,6 +24,8 @@ public struct FeatureAuthAgreementReducer {
         public var agreeAge: Bool = true
         public var agreeTerms: Bool = true
         public var agreePrivacy: Bool = true
+
+        public var isLoading: Bool = false
 
         public var canStart: Bool {
             agreeAge && agreeTerms && agreePrivacy
@@ -40,6 +47,8 @@ public struct FeatureAuthAgreementReducer {
         case pressedDetailPrivacy
         case dismiss
         case pressedBackBtn
+        case navigateToMain
+        case complete
     }
 
     public var body: some Reducer<State, Action> {
@@ -70,7 +79,35 @@ public struct FeatureAuthAgreementReducer {
                 return .none
 
             case .didTapStart:
-                return .send(.dismiss)
+                guard let user = firebaseAuth.getCurrentUser() else { return .none }
+                let userUid: String = user.uid
+                let name: String = state.userName
+                state.isLoading = true
+
+                return .run { send in
+                    do {
+                        // fireBase Document에 유저 이름 저장
+                        try await firebaseAuth.saveUserName(userId: userUid, name: name)
+
+                        // useritemDB를 생성하여 저장
+                        let userItem = UserItem(
+                            name: name,
+                            email: user.email ?? "",
+                            hasAgreedToTerms: true,
+                            createdAt: .now,
+                            lastLogin: .now
+                        )
+                        modelContext.insert(userItem)
+                        try? modelContext.save()
+                    } catch {
+                        print("❌ Firebase 저장 실패: \(error)")
+                    }
+
+                    await send(.complete)
+               }
+
+            case .complete:
+                return .send(.navigateToMain)
 
             case .pressedDetailTerms, .pressedDetailPrivacy:
                 return .none
@@ -82,6 +119,9 @@ public struct FeatureAuthAgreementReducer {
                 return .none
 
             case .dismiss:
+                return .none
+
+            case .navigateToMain:
                 return .none
             }
         }
