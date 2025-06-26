@@ -106,16 +106,30 @@ public struct RootFeature {
                 switch action {
                 case .task:
                     // 앱 시작시 로그인 여부 확인
-                    let user = firebaseAuth.getCurrentUser()
+                    // let user = firebaseAuth.getCurrentUser()
+
+                    // userItem이 있고, 한 번이라도 약관동의를 진행했다면 메인으로
+                    let userItem = try? modelContext.fetch(FetchDescriptor<UserItem>()).first
+                    if let userItem,
+                       userItem.hasAgreedToTerms {
+                        state.appState = .main
+                    } else {
+                        state.appState = .login
+                    }
+
                     return .run { send in
                         async let mixpanelFlag: Bool = remoteConfig.fetchMixpanelEnabled()
-                        async let _ = send(.checkAuthResult(user))
+//                        async let _ = send(.checkAuthResult(user))
 
                         let isEnabled = await mixpanelFlag
                         mixpanelLogger.setIsEnabled(isEnabled)
+
+                        await send(.syncInitialData)
                     }
 
+                // 초도에는 실행하지 않음
                 case .checkAuthResult(let user):
+                    /*
                     print("RootFeature :: user = \(user)")
                     if let user {
                         // 로그인이 되어 있을 경우에 데이터 초기화
@@ -133,6 +147,11 @@ public struct RootFeature {
                         state.appState = .login
                         return .send(.syncInitialData)
                     }
+                     */
+
+                    // login 이지만 사실상 메인 화면
+                    state.appState = .login
+                    return .send(.syncInitialData)
 
                 case .syncInitialData:
                     return .run { send in

@@ -28,6 +28,7 @@ public struct AuthView: View {
 
                 Spacer()
 
+                /*
                 SignInWithAppleButton(
                     onRequest: { request in
                         request.requestedScopes = [.fullName, .email]
@@ -46,6 +47,20 @@ public struct AuthView: View {
                 .signInWithAppleButtonStyle(.black)
                 .frame(height: 50)
                 .padding()
+                */
+
+                Button(action: {
+                    viewStore.send(.navigateToAuthAgreementView(userName: ""))
+                }) {
+                    Text("시작하기")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(Color.Grayscale.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16.5)
+                        .background(Color.Green._500)
+                        .cornerRadius(12)
+                }
+                .padding(.horizontal, 20)
 
                 TermsAgreementText(
                     onTermsTapped: {

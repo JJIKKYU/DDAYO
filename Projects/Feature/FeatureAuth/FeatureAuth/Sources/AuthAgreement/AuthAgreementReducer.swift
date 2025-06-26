@@ -79,20 +79,20 @@ public struct FeatureAuthAgreementReducer {
                 return .none
 
             case .didTapStart:
-                guard let user = firebaseAuth.getCurrentUser() else { return .none }
-                let userUid: String = user.uid
-                let name: String = state.userName
+                // guard let user = firebaseAuth.getCurrentUser() else { return .none }
+                // let userUid: String = user.uid
+                // let name: String = state.userName
                 state.isLoading = true
 
                 return .run { send in
                     do {
                         // fireBase Document에 유저 이름 저장
-                        try await firebaseAuth.saveUserName(userId: userUid, name: name)
+                        // try await firebaseAuth.saveUserName(userId: userUid, name: name)
 
                         // useritemDB를 생성하여 저장
                         let userItem = UserItem(
-                            name: name,
-                            email: user.email ?? "",
+                            name: "",
+                            email: "",
                             hasAgreedToTerms: true,
                             createdAt: .now,
                             lastLogin: .now

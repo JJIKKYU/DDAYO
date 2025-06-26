@@ -88,7 +88,7 @@ public struct FeatureProfileMainReducer: Reducer {
                 state.isLoggingOut = true
                 return .run { send in
                     do {
-                        try firebaseAuth.logout()
+                        // try firebaseAuth.logout()
                         await send(.setLoggingOut(false))
                         await send(.navigateToAuthView)
                     } catch {
@@ -106,7 +106,7 @@ public struct FeatureProfileMainReducer: Reducer {
                 state.isLoggingOut = true
                 return .run { send in
                     do {
-                        try firebaseAuth.signOut()
+                        // try firebaseAuth.signOut()
                         await send(.setLoggingOut(false))
                         await send(.navigateToAuthView)
                     } catch {
